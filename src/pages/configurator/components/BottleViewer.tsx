@@ -14,7 +14,7 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [lastX, setLastX] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
   const [prevModelId, setPrevModelId] = useState(model.id);
   const [transitioning, setTransitioning] = useState(false);
   const [showZoomHint, setShowZoomHint] = useState(false);
@@ -38,7 +38,6 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
   useEffect(() => {
     if (model.id !== prevModelId) {
       setTransitioning(true);
-      setIsLoaded(false);
       const t = setTimeout(() => {
         setPrevModelId(model.id);
         setTransitioning(false);

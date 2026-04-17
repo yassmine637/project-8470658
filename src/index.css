@@ -15,7 +15,7 @@ html {
 }
 
 .page-transition {
-  animation: pageFadeIn 0.35s ease forwards;
+  animation: pageFadeIn 0.15s ease forwards;
 }
 
 /* ─── Hero sequential fade-in ───────────────────────────────── */
