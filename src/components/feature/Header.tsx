@@ -3,6 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '@/hooks/useCart';
 import { useTranslation } from 'react-i18next';
 
+const LANGS = [
+  { code: 'fr', label: 'FR', dir: 'ltr' },
+  { code: 'en', label: 'EN', dir: 'ltr' },
+  { code: 'ar', label: 'ع',  dir: 'rtl' },
+] as const;
+
+type LangCode = (typeof LANGS)[number]['code'];
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,11 +19,19 @@ export default function Header() {
   const { totalCount, openCart } = useCart();
   const { t, i18n } = useTranslation();
 
-  const currentLang = i18n.language === 'fr' ? 'fr' : 'en';
+  const currentLang: LangCode =
+    (LANGS.find((l) => l.code === i18n.language)?.code) ?? 'fr';
 
-  const toggleLang = () => {
-    const next = currentLang === 'fr' ? 'en' : 'fr';
-    i18n.changeLanguage(next);
+  const switchLang = (code: LangCode) => {
+    i18n.changeLanguage(code);
+    const lang = LANGS.find((l) => l.code === code)!;
+    document.documentElement.dir = lang.dir;
+    document.documentElement.lang = code;
+    if (code === 'ar') {
+      document.body.style.fontFamily = "'Cairo', sans-serif";
+    } else {
+      document.body.style.fontFamily = '';
+    }
   };
 
   useEffect(() => {
@@ -33,6 +49,50 @@ export default function Header() {
     { href: isHome ? '#awards' : '/#awards', label: t('nav_recompenses') },
     { href: isHome ? '#contact' : '/#contact', label: t('nav_contact') },
   ];
+
+  const LangSwitcher = ({ mobile = false }: { mobile?: boolean }) => (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 2,
+        background: 'rgba(255,255,255,0.08)',
+        borderRadius: 20,
+        padding: '3px 4px',
+        ...(mobile ? { margin: '8px 40px' } : {}),
+      }}
+    >
+      {LANGS.map(({ code, label }) => {
+        const active = currentLang === code;
+        return (
+          <button
+            key={code}
+            onClick={() => { switchLang(code); if (mobile) setMenuOpen(false); }}
+            style={{
+              background: active ? '#c9a84c' : 'transparent',
+              color: active ? '#1a2617' : 'rgba(255,255,255,0.6)',
+              border: 'none',
+              borderRadius: 16,
+              padding: code === 'ar' ? '3px 9px 3px 9px' : '3px 8px',
+              fontSize: code === 'ar' ? 15 : 11,
+              fontWeight: active ? 700 : 500,
+              fontFamily: code === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+              letterSpacing: code === 'ar' ? 0 : '0.06em',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              lineHeight: 1.5,
+              minWidth: 28,
+              textAlign: 'center',
+            }}
+            aria-label={code === 'fr' ? 'Français' : code === 'en' ? 'English' : 'العربية'}
+            aria-pressed={active}
+          >
+            {label}
+          </button>
+        );
+      })}
+    </div>
+  );
 
   return (
     <header
@@ -67,8 +127,8 @@ export default function Header() {
                       to={link.href}
                       className="relative text-sm font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
                       style={{
-                        fontFamily: "'Outfit', sans-serif",
-                        letterSpacing: '0.13em',
+                        fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+                        letterSpacing: currentLang === 'ar' ? '0' : '0.13em',
                         color: isActive ? '#c9a84c' : 'rgba(255,255,255,0.75)',
                         textDecoration: 'none',
                       }}
@@ -84,8 +144,8 @@ export default function Header() {
                       href={link.href}
                       className="relative text-sm font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
                       style={{
-                        fontFamily: "'Outfit', sans-serif",
-                        letterSpacing: '0.13em',
+                        fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+                        letterSpacing: currentLang === 'ar' ? '0' : '0.13em',
                         color: 'rgba(255,255,255,0.75)',
                         textDecoration: 'none',
                       }}
@@ -107,7 +167,10 @@ export default function Header() {
 
         {/* Right side: Lang switcher + Cart + Mobile menu */}
         <div className="flex items-center gap-3">
-
+          {/* Language switcher — desktop */}
+          <div className="hidden md:flex">
+            <LangSwitcher />
+          </div>
 
           {/* Cart icon */}
           <button
@@ -152,7 +215,7 @@ export default function Header() {
       <div
         className="md:hidden overflow-hidden transition-all duration-300"
         style={{
-          maxHeight: menuOpen ? '320px' : '0',
+          maxHeight: menuOpen ? '380px' : '0',
           background: 'rgba(20,32,18,0.98)',
           backdropFilter: 'blur(20px)',
         }}
@@ -165,7 +228,8 @@ export default function Header() {
                   to={link.href}
                   className="block px-10 py-3 text-sm font-medium uppercase tracking-widest transition-colors duration-200"
                   style={{
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+                    letterSpacing: currentLang === 'ar' ? 0 : '0.13em',
                     color: 'rgba(255,255,255,0.7)',
                     borderBottom: i < navLinks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                     textDecoration: 'none',
@@ -179,7 +243,8 @@ export default function Header() {
                   href={link.href}
                   className="block px-10 py-3 text-sm font-medium uppercase tracking-widest transition-colors duration-200"
                   style={{
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+                    letterSpacing: currentLang === 'ar' ? 0 : '0.13em',
                     color: 'rgba(255,255,255,0.7)',
                     borderBottom: i < navLinks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                     textDecoration: 'none',
@@ -191,16 +256,9 @@ export default function Header() {
               )}
             </li>
           ))}
-          {/* Lang switcher in mobile menu */}
-          <li>
-            <button
-              onClick={() => { toggleLang(); setMenuOpen(false); }}
-              className="block w-full text-left px-10 py-3 text-sm font-medium uppercase tracking-widest cursor-pointer border-none bg-transparent whitespace-nowrap"
-              style={{ fontFamily: "'Outfit', sans-serif", color: '#c9a84c' }}
-            >
-              <i className="ri-translate-2 mr-2" />
-              {currentLang === 'fr' ? 'Switch to English' : 'Passer en Français'}
-            </button>
+          {/* Language switcher — mobile */}
+          <li style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 8, paddingBottom: 4 }}>
+            <LangSwitcher mobile />
           </li>
         </ul>
       </div>
