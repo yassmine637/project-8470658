@@ -66,7 +66,7 @@ export default function Contact() {
 
   const INFO_ITEMS = [
     { icon: 'ri-map-pin-2-line', label: t('contact_info_location'), value: 'Meknessi, Sfax, Tunisia' },
-    { icon: 'ri-phone-line', label: t('contact_info_phone'), value: '+216 00 000 000' },
+    { icon: 'ri-phone-line', label: t('contact_info_phone'), value: '+216 22 044 105' },
     { icon: 'ri-mail-line', label: t('contact_info_email'), value: 'contact@domainfendri.tn' },
     { icon: 'ri-time-line', label: t('contact_info_availability'), value: t('contact_info_availability_val') },
   ];
