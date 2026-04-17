@@ -32,18 +32,32 @@ export default function ProductsPage() {
   useEffect(() => { window.scrollTo({ top: 0 }); }, []);
 
   useEffect(() => {
+    const imageUrls = Array.from(new Set(products.map((product) => product.image).filter(Boolean))) as string[];
     const videoUrls = Array.from(new Set(products.map((product) => product.videoUrl).filter(Boolean))) as string[];
-    const preloadVideos = videoUrls.map((url) => {
-      const video = document.createElement('video');
-      video.preload = 'auto';
-      video.muted = true;
-      video.playsInline = true;
-      video.src = url;
-      video.load();
-      return video;
+    const preloadImages = imageUrls.map((url) => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = url;
+      return image;
     });
+    const preloadVideos: HTMLVideoElement[] = [];
+    const videoPreloadTimer = window.setTimeout(() => {
+      videoUrls.forEach((url) => {
+        const video = document.createElement('video');
+        video.preload = 'auto';
+        video.muted = true;
+        video.playsInline = true;
+        video.src = url;
+        video.load();
+        preloadVideos.push(video);
+      });
+    }, 1200);
 
     return () => {
+      window.clearTimeout(videoPreloadTimer);
+      preloadImages.forEach((image) => {
+        image.removeAttribute('src');
+      });
       preloadVideos.forEach((video) => {
         video.removeAttribute('src');
         video.load();
@@ -185,6 +199,9 @@ export default function ProductsPage() {
                     <img
                       src={product.image}
                       alt={product.volume}
+                      loading="eager"
+                      decoding="async"
+                      fetchPriority="high"
                       className="transition-all duration-500"
                       style={{
                         width: '100%',
