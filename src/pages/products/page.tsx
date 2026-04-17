@@ -31,6 +31,26 @@ export default function ProductsPage() {
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, []);
 
+  useEffect(() => {
+    const videoUrls = Array.from(new Set(products.map((product) => product.videoUrl).filter(Boolean))) as string[];
+    const preloadVideos = videoUrls.map((url) => {
+      const video = document.createElement('video');
+      video.preload = 'auto';
+      video.muted = true;
+      video.playsInline = true;
+      video.src = url;
+      video.load();
+      return video;
+    });
+
+    return () => {
+      preloadVideos.forEach((video) => {
+        video.removeAttribute('src');
+        video.load();
+      });
+    };
+  }, []);
+
   const handleSelect = (product: Product) => {
     if (selected && product.id === selected.id) return;
 
@@ -260,6 +280,7 @@ export default function ProductsPage() {
                   muted
                   loop
                   playsInline
+                  preload="auto"
                   className="w-full h-full object-contain"
                   style={{ display: 'block', maxHeight: '520px' }}
                 />

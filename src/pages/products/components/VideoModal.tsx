@@ -62,6 +62,7 @@ export default function VideoModal({ product, onClose }: VideoModalProps) {
               src={product.videoUrl}
               controls
               autoPlay
+              preload="auto"
               className="w-full h-full object-contain"
               style={{ display: 'block' }}
             />
