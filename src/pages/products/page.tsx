@@ -18,21 +18,21 @@ const BADGE_STYLES: Record<string, { bg: string; color: string }> = {
 export default function ProductsPage() {
   const { t } = useTranslation();
   const { addToCart, openCart } = useCart();
-  const [selected, setSelected] = useState<Product>(products[0]);
+  const [selected, setSelected] = useState<Product | null>(null);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
 
   // Animation states
-  const [infoVisible, setInfoVisible] = useState(true);
-  const [videoVisible, setVideoVisible] = useState(true);
-  const [currentVideoSrc, setCurrentVideoSrc] = useState(products[0].videoUrl ?? '');
+  const [infoVisible, setInfoVisible] = useState(false);
+  const [videoVisible, setVideoVisible] = useState(false);
+  const [currentVideoSrc, setCurrentVideoSrc] = useState('');
   const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, []);
 
   const handleSelect = (product: Product) => {
-    if (product.id === selected.id) return;
+    if (selected && product.id === selected.id) return;
 
     // Fade out info + video
     setInfoVisible(false);
@@ -53,12 +53,13 @@ export default function ProductsPage() {
   };
 
   const handleAddToCart = () => {
+    if (!selected) return;
     for (let i = 0; i < quantity; i++) addToCart(selected);
     openCart();
   };
 
-  const accent = selected.accentColor ?? '#c9a84c';
-  const badgeStyle = selected.badge ? BADGE_STYLES[selected.badge] ?? BADGE_STYLES['Premium'] : null;
+  const accent = selected?.accentColor ?? '#c9a84c';
+  const badgeStyle = selected?.badge ? BADGE_STYLES[selected.badge] ?? BADGE_STYLES['Premium'] : null;
 
   return (
     <>
@@ -117,7 +118,7 @@ export default function ProductsPage() {
 
           <div className="flex items-end justify-center gap-4 md:gap-8 flex-wrap">
             {products.map((product) => {
-              const isActive = product.id === selected.id;
+              const isActive = selected?.id === product.id;
               const pAccent = product.accentColor ?? '#c9a84c';
               const pBadge = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
 
@@ -218,7 +219,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ── Cinematic Stage — Video + Info ──────────────────── */}
-      <section
+      {selected && <section
         ref={stageRef}
         className="px-4 md:px-10 pb-24"
         style={{ background: '#f0ede6' }}
@@ -451,7 +452,7 @@ export default function ProductsPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* Video Modal — full screen with audio */}
       {videoProduct && (
