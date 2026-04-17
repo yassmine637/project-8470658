@@ -113,7 +113,7 @@ export default function ProductsPage() {
             className="text-center mb-10 text-sm uppercase tracking-widest"
             style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}
           >
-            Sélectionnez une bouteille pour découvrir son animation
+            Choisissez une référence pour en explorer le caractère
           </p>
 
           <div className="flex items-end justify-center gap-6 md:gap-10 flex-wrap">
