@@ -116,9 +116,10 @@ export default function ProductsPage() {
             Sélectionnez une bouteille pour découvrir son animation
           </p>
 
-          <div className="flex items-end justify-center gap-4 md:gap-8 flex-wrap">
+          <div className="flex items-end justify-center gap-6 md:gap-10 flex-wrap">
             {products.map((product) => {
               const isActive = selected?.id === product.id;
+              const hasSelection = selected !== null;
               const pAccent = product.accentColor ?? '#c9a84c';
               const pBadge = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
 
@@ -127,42 +128,39 @@ export default function ProductsPage() {
                   key={product.id}
                   onClick={() => handleSelect(product)}
                   className="flex flex-col items-center relative cursor-pointer border-none bg-transparent p-0"
-                  style={{ outline: 'none' }}
+                  style={{ outline: 'none', width: '150px' }}
                 >
-                  {/* Badge */}
-                  {pBadge && product.badge && (
-                    <span
-                      className="mb-2 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider transition-opacity duration-300"
-                      style={{
-                        background: pBadge.bg,
-                        color: pBadge.color,
-                        fontFamily: "'Outfit', sans-serif",
-                        opacity: isActive ? 1 : 0.45,
-                        fontSize: '0.6rem',
-                      }}
-                    >
-                      {product.badge}
-                    </span>
-                  )}
+                  {/* Badge — always visible, full color */}
+                  <div className="h-7 flex items-center justify-center mb-3">
+                    {pBadge && product.badge && (
+                      <span
+                        className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300"
+                        style={{
+                          background: pBadge.bg,
+                          color: pBadge.color,
+                          fontFamily: "'Outfit', sans-serif",
+                          fontSize: '0.58rem',
+                          opacity: hasSelection && !isActive ? 0.5 : 1,
+                        }}
+                      >
+                        {product.badge}
+                      </span>
+                    )}
+                  </div>
 
-                  {/* Bottle image container */}
+                  {/* Bottle image container — fixed size, active slightly taller */}
                   <div
                     className="relative flex items-end justify-center transition-all duration-500"
-                    style={{
-                      width: isActive ? '160px' : '110px',
-                      height: isActive ? '340px' : '240px',
-                    }}
+                    style={{ width: '150px', height: isActive ? '300px' : '260px' }}
                   >
-                    {/* Active glow ring */}
-                    {isActive && (
-                      <div
-                        className="absolute inset-0 rounded-2xl"
-                        style={{
-                          background: `radial-gradient(ellipse at center bottom, ${pAccent}25 0%, transparent 70%)`,
-                          transition: 'opacity 0.4s ease',
-                        }}
-                      />
-                    )}
+                    {/* Active glow */}
+                    <div
+                      className="absolute inset-0 rounded-2xl transition-opacity duration-500"
+                      style={{
+                        background: `radial-gradient(ellipse at center bottom, ${pAccent}30 0%, transparent 70%)`,
+                        opacity: isActive ? 1 : 0,
+                      }}
+                    />
 
                     <img
                       src={product.image}
@@ -173,36 +171,41 @@ export default function ProductsPage() {
                         height: '100%',
                         objectFit: 'contain',
                         filter: isActive
-                          ? `drop-shadow(0 18px 36px ${pAccent}50)`
-                          : 'drop-shadow(0 8px 18px rgba(0,0,0,0.12)) grayscale(0.1)',
-                        opacity: isActive ? 1 : 0.6,
-                        transform: `scale(${isActive ? (product.imageScale ?? 1) * 1.05 : product.imageScale ?? 1})`,
+                          ? `drop-shadow(0 18px 36px ${pAccent}60)`
+                          : hasSelection
+                            ? 'drop-shadow(0 6px 14px rgba(0,0,0,0.10)) opacity(0.55)'
+                            : 'drop-shadow(0 10px 22px rgba(0,0,0,0.13))',
+                        opacity: hasSelection && !isActive ? 0.55 : 1,
+                        transform: `scale(${isActive ? (product.imageScale ?? 1) * 1.06 : product.imageScale ?? 1}) translateY(${isActive ? '-6px' : '0px'})`,
                         transformOrigin: 'bottom center',
                       }}
                     />
                   </div>
 
-                  {/* Volume label */}
+                  {/* Volume + Price — always colored */}
                   <div className="mt-4 text-center transition-all duration-300">
                     <p
-                      className="text-xs font-semibold uppercase tracking-wider leading-snug"
+                      className="font-semibold uppercase tracking-wider leading-snug"
                       style={{
-                        color: isActive ? pAccent : '#c0bdb4',
+                        color: isActive ? pAccent : hasSelection ? '#b0ada6' : '#6b7c68',
                         fontFamily: "'Outfit', sans-serif",
-                        fontSize: '0.6rem',
-                        maxWidth: '130px',
+                        fontSize: '0.58rem',
                       }}
                     >
                       {product.volume}
                     </p>
                     <p
-                      className="text-lg font-bold mt-1 transition-all duration-300"
+                      className="font-bold mt-1.5 transition-all duration-300"
                       style={{
                         fontFamily: "'Cormorant Garant', serif",
-                        color: isActive ? '#1a2617' : '#c0bdb4',
+                        fontSize: '1.25rem',
+                        color: isActive ? '#1a2617' : hasSelection ? '#b0ada6' : '#1a2617',
                       }}
                     >
-                      {product.price} <span className="text-sm" style={{ color: isActive ? pAccent : '#d0cdc6' }}>{product.currency}</span>
+                      {product.price}{' '}
+                      <span style={{ fontSize: '0.85rem', color: isActive ? pAccent : hasSelection ? '#c0bdb4' : pAccent }}>
+                        {product.currency}
+                      </span>
                     </p>
                   </div>
 
