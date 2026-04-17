@@ -21,6 +21,7 @@ export default function ProductsPage() {
   const [selected, setSelected] = useState<Product | null>(null);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
+  const [galleryView, setGalleryView] = useState<'image' | 'video'>('image');
   const [quantity, setQuantity] = useState(1);
 
   // Animation states
@@ -83,6 +84,21 @@ export default function ProductsPage() {
       document.body.style.overflow = '';
     };
   }, [galleryIndex]);
+
+  const openGallery = (index: number) => {
+    setGalleryIndex(index);
+    setGalleryView('image');
+  };
+
+  const showPreviousGalleryItem = () => {
+    setGalleryIndex((current) => current === null ? current : (current - 1 + products.length) % products.length);
+    setGalleryView('image');
+  };
+
+  const showNextGalleryItem = () => {
+    setGalleryIndex((current) => current === null ? current : (current + 1) % products.length);
+    setGalleryView('image');
+  };
 
   const handleSelect = (product: Product) => {
     if (selected && product.id === selected.id) return;
@@ -225,7 +241,7 @@ export default function ProductsPage() {
                       fetchPriority="high"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setGalleryIndex(index);
+                        openGallery(index);
                       }}
                       className="transition-all duration-500"
                       style={{
@@ -542,7 +558,7 @@ export default function ProductsPage() {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setGalleryIndex((current) => current === null ? current : (current - 1 + products.length) % products.length);
+              showPreviousGalleryItem();
             }}
             className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer"
             style={{ background: 'rgba(255,255,255,0.08)', color: galleryAccent, border: `1px solid ${galleryAccent}45` }}
@@ -564,18 +580,36 @@ export default function ProductsPage() {
                 boxShadow: `0 35px 100px rgba(0,0,0,0.38), 0 0 70px ${galleryAccent}20`,
               }}
             >
-              <img
-                key={galleryProduct.id}
-                src={galleryProduct.image}
-                alt={galleryProduct.volume}
-                className="transition-all duration-300"
-                style={{
-                  maxWidth: '86%',
-                  maxHeight: '68vh',
-                  objectFit: 'contain',
-                  filter: `drop-shadow(0 28px 48px ${galleryAccent}55)`,
-                }}
-              />
+              {galleryView === 'video' && galleryProduct.videoUrl ? (
+                <video
+                  key={`${galleryProduct.id}-video`}
+                  src={galleryProduct.videoUrl}
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="auto"
+                  className="w-full h-full"
+                  style={{
+                    maxWidth: '92%',
+                    maxHeight: '68vh',
+                    objectFit: 'contain',
+                    borderRadius: '22px',
+                  }}
+                />
+              ) : (
+                <img
+                  key={galleryProduct.id}
+                  src={galleryProduct.image}
+                  alt={galleryProduct.volume}
+                  className="transition-all duration-300"
+                  style={{
+                    maxWidth: '86%',
+                    maxHeight: '68vh',
+                    objectFit: 'contain',
+                    filter: `drop-shadow(0 28px 48px ${galleryAccent}55)`,
+                  }}
+                />
+              )}
             </div>
 
             <div className="mt-5 text-center">
@@ -591,13 +625,25 @@ export default function ProductsPage() {
               >
                 {galleryProduct.name}
               </h3>
+              <button
+                onClick={() => setGalleryView(galleryView === 'image' ? 'video' : 'image')}
+                className="mt-5 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer"
+                style={{
+                  background: galleryView === 'image' ? galleryAccent : 'rgba(255,255,255,0.08)',
+                  color: galleryView === 'image' ? '#1a2617' : galleryAccent,
+                  border: `1px solid ${galleryAccent}55`,
+                  fontFamily: "'Outfit', sans-serif",
+                }}
+              >
+                {galleryView === 'image' ? 'Voir les détails' : "Retour à l'image"}
+              </button>
             </div>
           </div>
 
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setGalleryIndex((current) => current === null ? current : (current + 1) % products.length);
+              showNextGalleryItem();
             }}
             className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer"
             style={{ background: 'rgba(255,255,255,0.08)', color: galleryAccent, border: `1px solid ${galleryAccent}45` }}

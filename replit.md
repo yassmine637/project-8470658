@@ -58,4 +58,4 @@ eslint-rules/     Custom ESLint rules
 - AI assistant integration (ReaddyAgent component)
 - Product videos are displayed on the products page; the 1L bidon uses `attached_assets/1L_1776459416660.mp4`, the 500ml bottle uses `attached_assets/500ml_1776458561147.mp4`, the 750ml bottle uses `attached_assets/750ml_1776459284079.mp4`, and the 3L bidon uses `attached_assets/3L_1776459633650.mp4`.
 - The products page preloads product images first, then delays background video preloading so bottle thumbnails appear faster on initial load.
-- Product thumbnails on the Collection page open a fullscreen image gallery with previous/next arrows and keyboard navigation.
+- Product thumbnails on the Collection page open a fullscreen image gallery with previous/next arrows, keyboard navigation, and a "Voir les détails" button that switches the enlarged view to the product video.
