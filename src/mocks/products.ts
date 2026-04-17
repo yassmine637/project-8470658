@@ -2,6 +2,7 @@ import { PRODUCT_IMAGES } from '@/assets/images';
 
 const bouteille500mlVideo = new URL('../../attached_assets/500ml_1776458561147.mp4', import.meta.url).href;
 const bouteille750mlVideo = new URL('../../attached_assets/750ml_1776459284079.mp4', import.meta.url).href;
+const bidon1LVideo = new URL('../../attached_assets/1L_1776459416660.mp4', import.meta.url).href;
 
 export interface Product {
   id: string;
@@ -40,7 +41,7 @@ export const products: Product[] = [
     image: PRODUCT_IMAGES.bidonVert1L,
     imageScale: 1,
     badge: 'Bio & Naturel',
-    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    videoUrl: bidon1LVideo,
     accentColor: '#3a6040',
   },
   {
