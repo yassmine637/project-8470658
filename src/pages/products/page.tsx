@@ -72,8 +72,8 @@ export default function ProductsPage() {
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setGalleryIndex(null);
-      if (e.key === 'ArrowLeft') setGalleryIndex((current) => current === null ? current : (current - 1 + products.length) % products.length);
-      if (e.key === 'ArrowRight') setGalleryIndex((current) => current === null ? current : (current + 1) % products.length);
+      if (e.key === 'ArrowLeft') showPreviousGalleryItem();
+      if (e.key === 'ArrowRight') showNextGalleryItem();
     };
 
     document.addEventListener('keydown', handleKey);
@@ -124,6 +124,13 @@ export default function ProductsPage() {
   const handleAddToCart = () => {
     if (!selected) return;
     for (let i = 0; i < quantity; i++) addToCart(selected);
+    openCart();
+  };
+
+  const handleGalleryOrder = () => {
+    if (!galleryProduct) return;
+    addToCart(galleryProduct);
+    setGalleryIndex(null);
     openCart();
   };
 
@@ -568,34 +575,111 @@ export default function ProductsPage() {
           </button>
 
           <div
-            className="relative flex flex-col items-center justify-center w-full max-w-4xl"
+            className="relative flex flex-col items-center justify-center w-full max-w-6xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="relative w-full rounded-3xl overflow-hidden flex items-center justify-center"
+              className={`relative w-full rounded-3xl overflow-hidden flex ${galleryView === 'video' ? 'flex-col lg:flex-row' : 'items-center justify-center'}`}
               style={{
-                minHeight: 'min(72vh, 680px)',
+                minHeight: galleryView === 'video' ? 'min(74vh, 720px)' : 'min(72vh, 680px)',
                 background: `radial-gradient(ellipse at center, ${galleryAccent}20 0%, rgba(248,246,241,0.08) 55%, rgba(255,255,255,0.03) 100%)`,
                 border: `1px solid ${galleryAccent}35`,
                 boxShadow: `0 35px 100px rgba(0,0,0,0.38), 0 0 70px ${galleryAccent}20`,
               }}
             >
               {galleryView === 'video' && galleryProduct.videoUrl ? (
-                <video
-                  key={`${galleryProduct.id}-video`}
-                  src={galleryProduct.videoUrl}
-                  controls
-                  autoPlay
-                  playsInline
-                  preload="auto"
-                  className="w-full h-full"
-                  style={{
-                    maxWidth: '92%',
-                    maxHeight: '68vh',
-                    objectFit: 'contain',
-                    borderRadius: '22px',
-                  }}
-                />
+                <>
+                  <div className="w-full lg:w-[58%] flex items-center justify-center p-4 md:p-6">
+                    <video
+                      key={`${galleryProduct.id}-video`}
+                      src={galleryProduct.videoUrl}
+                      controls
+                      autoPlay
+                      playsInline
+                      preload="auto"
+                      className="w-full h-full"
+                      style={{
+                        maxHeight: '62vh',
+                        objectFit: 'contain',
+                        borderRadius: '22px',
+                        background: '#050705',
+                      }}
+                    />
+                  </div>
+                  <div
+                    className="w-full lg:w-[42%] p-6 md:p-8 flex flex-col justify-center"
+                    style={{ background: 'rgba(248,246,241,0.96)', alignSelf: 'stretch' }}
+                  >
+                    {galleryProduct.badge && (
+                      <span
+                        className="self-start mb-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                        style={{
+                          background: galleryAccent,
+                          color: '#1a2617',
+                          fontFamily: "'Outfit', sans-serif",
+                          fontSize: '0.65rem',
+                        }}
+                      >
+                        {galleryProduct.badge}
+                      </span>
+                    )}
+                    <p
+                      className="text-xs uppercase tracking-widest mb-2"
+                      style={{ color: galleryAccent, fontFamily: "'Outfit', sans-serif" }}
+                    >
+                      {galleryProduct.volume}
+                    </p>
+                    <h3
+                      className="font-bold leading-tight mb-3"
+                      style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.7rem, 3vw, 2.4rem)' }}
+                    >
+                      {galleryProduct.name}
+                    </h3>
+                    <p
+                      className="italic mb-4"
+                      style={{ color: galleryAccent, fontFamily: "'Cormorant Garant', serif", fontSize: '1.05rem' }}
+                    >
+                      &ldquo;{galleryProduct.tagline}&rdquo;
+                    </p>
+                    <p
+                      className="text-sm leading-loose mb-5"
+                      style={{ color: '#5f705c', fontFamily: "'Outfit', sans-serif" }}
+                    >
+                      {galleryProduct.description}
+                    </p>
+                    <div className="flex flex-col gap-2.5 mb-6">
+                      {galleryProduct.details.slice(0, 4).map((detail) => (
+                        <div key={detail} className="flex items-start gap-2.5">
+                          <i className="ri-checkbox-circle-fill text-sm flex-shrink-0 mt-0.5" style={{ color: galleryAccent }} />
+                          <span className="text-xs leading-relaxed" style={{ color: '#5f705c', fontFamily: "'Outfit', sans-serif" }}>
+                            {detail}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between gap-4 flex-wrap">
+                      <div>
+                        <p className="text-xs uppercase tracking-widest" style={{ color: '#8a9586', fontFamily: "'Outfit', sans-serif" }}>
+                          Prix
+                        </p>
+                        <p className="font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', lineHeight: 1 }}>
+                          {galleryProduct.price} <span style={{ color: galleryAccent, fontSize: '1rem' }}>{galleryProduct.currency}</span>
+                        </p>
+                      </div>
+                      <button
+                        onClick={handleGalleryOrder}
+                        className="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer border-none"
+                        style={{
+                          background: '#1a2617',
+                          color: galleryAccent,
+                          fontFamily: "'Outfit', sans-serif",
+                        }}
+                      >
+                        Commander
+                      </button>
+                    </div>
+                  </div>
+                </>
               ) : (
                 <img
                   key={galleryProduct.id}
