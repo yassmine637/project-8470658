@@ -148,10 +148,10 @@ export default function ProductsPage() {
                     )}
                   </div>
 
-                  {/* Bottle image container — fixed size, active slightly taller */}
+                  {/* Bottle image container — same size for all */}
                   <div
                     className="relative flex items-end justify-center transition-all duration-500"
-                    style={{ width: '150px', height: isActive ? '300px' : '260px' }}
+                    style={{ width: '150px', height: '280px' }}
                   >
                     {/* Active glow */}
                     <div
@@ -172,11 +172,9 @@ export default function ProductsPage() {
                         objectFit: 'contain',
                         filter: isActive
                           ? `drop-shadow(0 18px 36px ${pAccent}60)`
-                          : hasSelection
-                            ? 'drop-shadow(0 6px 14px rgba(0,0,0,0.10)) opacity(0.55)'
-                            : 'drop-shadow(0 10px 22px rgba(0,0,0,0.13))',
+                          : 'drop-shadow(0 10px 22px rgba(0,0,0,0.13))',
                         opacity: hasSelection && !isActive ? 0.55 : 1,
-                        transform: `scale(${isActive ? (product.imageScale ?? 1) * 1.06 : product.imageScale ?? 1}) translateY(${isActive ? '-6px' : '0px'})`,
+                        transform: isActive ? 'scale(1.08) translateY(-8px)' : 'scale(1)',
                         transformOrigin: 'bottom center',
                       }}
                     />
