@@ -7,6 +7,16 @@ interface Message {
   text: string;
 }
 
+interface SpeechRecognitionInstance {
+  lang: string;
+  interimResults: boolean;
+  onresult: ((event: { results: { [index: number]: { [index: number]: { transcript: string } } } }) => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+
 const WELCOME =
   "Bonjour 👋 Je suis l'assistant virtuel du Domaine Fendri. Comment puis-je vous aider aujourd'hui ? Vous pouvez me poser des questions sur nos huiles d'olive premium, nos bouteilles personnalisées ou passer une commande.";
 
@@ -49,7 +59,7 @@ export default function ReaddyAgent() {
   const [typing, setTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -82,9 +92,11 @@ export default function ReaddyAgent() {
   };
 
   const toggleVoice = () => {
+    type SpeechRecognitionCtor = new () => SpeechRecognitionInstance;
+    const w = window as Record<string, unknown>;
     const SpeechRecognitionAPI =
-      (window as unknown as { SpeechRecognition?: typeof SpeechRecognition; webkitSpeechRecognition?: typeof SpeechRecognition }).SpeechRecognition ||
-      (window as unknown as { SpeechRecognition?: typeof SpeechRecognition; webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition;
+      (w['SpeechRecognition'] as SpeechRecognitionCtor | undefined) ||
+      (w['webkitSpeechRecognition'] as SpeechRecognitionCtor | undefined);
 
     if (!SpeechRecognitionAPI) {
       setMessages((prev) => [
@@ -103,7 +115,7 @@ export default function ReaddyAgent() {
     const recognition = new SpeechRecognitionAPI();
     recognition.lang = 'fr-FR';
     recognition.interimResults = false;
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
+    recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       sendMessage(transcript);
     };
