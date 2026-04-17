@@ -4,93 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Domaine Fendri</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
-    /* Animations du bouton agent */
-    @keyframes agentBounceIn {
-      0%   { transform: scale(0) rotate(-10deg); opacity: 0; }
-      60%  { transform: scale(1.15) rotate(3deg); opacity: 1; }
-      80%  { transform: scale(0.95) rotate(-2deg); }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-    @keyframes agentIdleAttention {
-      0%, 85%, 100% { transform: scale(1) rotate(0deg); }
-      87%            { transform: scale(1.08) rotate(-6deg); }
-      90%            { transform: scale(1.08) rotate(6deg); }
-      93%            { transform: scale(1.05) rotate(-4deg); }
-      96%            { transform: scale(1.05) rotate(4deg); }
-      99%            { transform: scale(1.02) rotate(-1deg); }
-    }
-    @keyframes agentPulseRing {
-      0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-      70%  { transform: translate(-50%, -50%) scale(1.7); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1.7); opacity: 0; }
-    }
-
-    /* Animation bounce + wiggle sur le bouton — sans toucher au contenu interne */
-    #vapi-widget-floating-button {
-      animation:
-        agentBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s both,
-        agentIdleAttention 6s ease-in-out 4s infinite;
-      position: relative !important;
-      overflow: visible !important;
-    }
-
-    /* Anneau pulsant via un pseudo-élément sur le wrapper parent */
-    .agent-pulse-ring {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      width: 56px;
-      height: 56px;
-      pointer-events: none;
-      z-index: 9998;
-    }
-    .agent-pulse-ring::before,
-    .agent-pulse-ring::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: #d4af37;
-      animation: agentPulseRing 2.5s ease-out 2.2s infinite;
-    }
-    .agent-pulse-ring::after {
-      animation-delay: 3.5s;
-    }
-  </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.min.css">
   </head>
   <body>
     <div id="root"></div>
-    <div class="agent-pulse-ring"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      src="https://readdy.ai/api/public/assistant/widget?projectId=87cc5f02-5407-43de-a578-ad5a1f36c09a"
-      mode="hybrid"
-      voice-show-transcript="true"
-      theme="light"
-      size="compact"
-      position="bottom-right"
-      accent-color="#d4af37"
-      button-base-color="#1a1a0e"
-      button-accent-color="#d4af37"
-      main-label="Assistant Domaine Fendri"
-      start-button-text="Démarrer"
-      end-button-text="Terminer"
-      empty-chat-message="Bonjour 👋 Je suis l'assistant virtuel du Domaine Fendri. Comment puis-je vous aider aujourd'hui ? Vous pouvez me poser des questions sur nos huiles d'olive premium, nos bouteilles personnalisées ou passer une commande."
-      empty-voice-message="Bonjour ! Je suis l'assistant du Domaine Fendri. Cliquez sur Démarrer pour me parler de nos huiles d'olive, vos commandes ou la configuration de bouteilles personnalisées."
-      defer
-    ></script>
   </body>
 </html>
