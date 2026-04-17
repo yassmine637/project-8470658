@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '@/hooks/useCart';
 import { useTranslation } from 'react-i18next';
 
@@ -11,10 +11,15 @@ const LANGS = [
 
 type LangCode = (typeof LANGS)[number]['code'];
 
+type NavLink =
+  | { type: 'anchor'; sectionId: string; label: string }
+  | { type: 'route';  href: string;      label: string };
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isHome = location.pathname === '/';
   const { totalCount, openCart } = useCart();
   const { t, i18n } = useTranslation();
@@ -40,14 +45,24 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { href: isHome ? '#about' : '/#about', label: t('nav_histoire') },
-    { href: isHome ? '#product' : '/#product', label: t('nav_huiles') },
-    { href: '/products', label: t('nav_collection'), isRoute: true },
-    { href: isHome ? '#factory' : '/#factory', label: t('nav_usine') },
-    { href: isHome ? '#values' : '/#values', label: t('nav_engagements') },
-    { href: isHome ? '#awards' : '/#awards', label: t('nav_recompenses') },
-    { href: isHome ? '#contact' : '/#contact', label: t('nav_contact') },
+  // Smooth anchor navigation — works from any page
+  const handleAnchorNav = (sectionId: string) => {
+    if (menuOpen) setMenuOpen(false);
+    if (isHome) {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/', { state: { scrollTo: sectionId } });
+    }
+  };
+
+  const navLinks: NavLink[] = [
+    { type: 'anchor', sectionId: 'about',   label: t('nav_histoire') },
+    { type: 'anchor', sectionId: 'product', label: t('nav_huiles') },
+    { type: 'route',  href: '/products',    label: t('nav_collection') },
+    { type: 'anchor', sectionId: 'factory', label: t('nav_usine') },
+    { type: 'anchor', sectionId: 'values',  label: t('nav_engagements') },
+    { type: 'anchor', sectionId: 'awards',  label: t('nav_recompenses') },
+    { type: 'anchor', sectionId: 'contact', label: t('nav_contact') },
   ];
 
   const LangSwitcher = ({ mobile = false }: { mobile?: boolean }) => (
@@ -94,6 +109,17 @@ export default function Header() {
     </div>
   );
 
+  const linkStyle = {
+    fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+    letterSpacing: currentLang === 'ar' ? '0' : '0.13em',
+    color: 'rgba(255,255,255,0.75)',
+    textDecoration: 'none',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    padding: 0,
+  } as const;
+
   return (
     <header
       className="fixed top-0 left-0 w-full z-50 transition-all duration-500"
@@ -107,30 +133,36 @@ export default function Header() {
         className="flex items-center justify-between px-10 md:px-16"
         style={{ height: scrolled ? '60px' : '72px', transition: 'height 0.4s ease' }}
       >
-        <a href={isHome ? '#home' : '/'} style={{ textDecoration: 'none' }}>
+        {/* Logo — React Router link, no reload */}
+        <Link
+          to="/"
+          style={{ textDecoration: 'none' }}
+          onClick={() => { if (isHome) window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        >
           <span
             className="text-white font-bold tracking-widest uppercase"
             style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.25rem', letterSpacing: '0.2em' }}
           >
             Domaine Fendri
           </span>
-        </a>
+        </Link>
 
+        {/* Desktop nav */}
         <nav className="hidden md:block">
           <ul className="flex gap-10 list-none m-0 p-0">
             {navLinks.map((link) => {
-              const isActive = link.isRoute && location.pathname === link.href;
+              const key = link.type === 'route' ? link.href : link.sectionId;
+              const isActive = link.type === 'route' && location.pathname === link.href;
+
               return (
-                <li key={link.href}>
-                  {link.isRoute ? (
+                <li key={key}>
+                  {link.type === 'route' ? (
                     <Link
                       to={link.href}
                       className="relative text-sm font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
                       style={{
-                        fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
-                        letterSpacing: currentLang === 'ar' ? '0' : '0.13em',
+                        ...linkStyle,
                         color: isActive ? '#c9a84c' : 'rgba(255,255,255,0.75)',
-                        textDecoration: 'none',
                       }}
                     >
                       {link.label}
@@ -140,24 +172,19 @@ export default function Header() {
                       />
                     </Link>
                   ) : (
-                    <a
-                      href={link.href}
+                    <button
+                      onClick={() => handleAnchorNav(link.sectionId)}
                       className="relative text-sm font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
-                      style={{
-                        fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
-                        letterSpacing: currentLang === 'ar' ? '0' : '0.13em',
-                        color: 'rgba(255,255,255,0.75)',
-                        textDecoration: 'none',
-                      }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#ffffff'; }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.75)'; }}
+                      style={linkStyle}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#ffffff'; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.75)'; }}
                     >
                       {link.label}
                       <span
                         className="absolute -bottom-1 left-0 h-px w-0 group-hover:w-full transition-all duration-300"
                         style={{ background: '#c9a84c' }}
                       />
-                    </a>
+                    </button>
                   )}
                 </li>
               );
@@ -167,7 +194,6 @@ export default function Header() {
 
         {/* Right side: Lang switcher + Cart + Mobile menu */}
         <div className="flex items-center gap-3">
-          {/* Language switcher — desktop */}
           <div className="hidden md:flex">
             <LangSwitcher />
           </div>
@@ -221,42 +247,45 @@ export default function Header() {
         }}
       >
         <ul className="flex flex-col list-none m-0 py-2">
-          {navLinks.map((link, i) => (
-            <li key={link.href}>
-              {link.isRoute ? (
-                <Link
-                  to={link.href}
-                  className="block px-10 py-3 text-sm font-medium uppercase tracking-widest transition-colors duration-200"
-                  style={{
-                    fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
-                    letterSpacing: currentLang === 'ar' ? 0 : '0.13em',
-                    color: 'rgba(255,255,255,0.7)',
-                    borderBottom: i < navLinks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-                    textDecoration: 'none',
-                  }}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <a
-                  href={link.href}
-                  className="block px-10 py-3 text-sm font-medium uppercase tracking-widest transition-colors duration-200"
-                  style={{
-                    fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
-                    letterSpacing: currentLang === 'ar' ? 0 : '0.13em',
-                    color: 'rgba(255,255,255,0.7)',
-                    borderBottom: i < navLinks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-                    textDecoration: 'none',
-                  }}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              )}
-            </li>
-          ))}
-          {/* Language switcher — mobile */}
+          {navLinks.map((link, i) => {
+            const key = link.type === 'route' ? link.href : link.sectionId;
+            return (
+              <li key={key}>
+                {link.type === 'route' ? (
+                  <Link
+                    to={link.href}
+                    className="block px-10 py-3 text-sm font-medium uppercase tracking-widest transition-colors duration-200"
+                    style={{
+                      fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+                      letterSpacing: currentLang === 'ar' ? 0 : '0.13em',
+                      color: 'rgba(255,255,255,0.7)',
+                      borderBottom: i < navLinks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                      textDecoration: 'none',
+                    }}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => handleAnchorNav(link.sectionId)}
+                    className="block w-full text-left px-10 py-3 text-sm font-medium uppercase tracking-widest transition-colors duration-200"
+                    style={{
+                      fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+                      letterSpacing: currentLang === 'ar' ? 0 : '0.13em',
+                      color: 'rgba(255,255,255,0.7)',
+                      borderBottom: i < navLinks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {link.label}
+                  </button>
+                )}
+              </li>
+            );
+          })}
           <li style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 8, paddingBottom: 4 }}>
             <LangSwitcher mobile />
           </li>

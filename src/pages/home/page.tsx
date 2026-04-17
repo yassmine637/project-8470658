@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '@/components/feature/Header';
 import Footer from '@/components/feature/Footer';
 import Hero from './components/Hero';
@@ -10,6 +12,20 @@ import Contact from './components/Contact';
 import ReaddyAgent from '@/components/feature/ReaddyAgent';
 
 export default function HomePage() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const scrollTo = (location.state as { scrollTo?: string } | null)?.scrollTo;
+    if (scrollTo) {
+      // Small delay to let the page render before scrolling
+      setTimeout(() => {
+        document.getElementById(scrollTo)?.scrollIntoView({ behavior: 'smooth' });
+      }, 120);
+    } else {
+      window.scrollTo({ top: 0 });
+    }
+  }, []);
+
   return (
     <>
       <Header />
