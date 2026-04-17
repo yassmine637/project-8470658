@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bottleModels, bottleSizes, labelStyles } from '@/mocks/configurator';
@@ -12,7 +12,6 @@ import EstimationModal from './components/EstimationModal';
 export default function ConfiguratorPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [mounted, setMounted] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedModel, setSelectedModel] = useState<BottleModel>(bottleModels[0]);
   const [selectedSize, setSelectedSize] = useState<BottleSize>(bottleSizes[1]);
@@ -29,11 +28,6 @@ export default function ConfiguratorPage() {
     { id: 'summary', label: t('config_step_summary'), icon: 'ri-file-list-3-line', desc: t('config_step_desc_summary') },
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 50);
-    return () => clearTimeout(timer);
-  }, []);
-
   const totalPrice = selectedModel.basePrice + selectedSize.priceAdd + selectedLabel.priceAdd;
   const handleNext = () => { if (currentStep < STEPS.length - 1) setCurrentStep(s => s + 1); };
   const handlePrev = () => { if (currentStep > 0) setCurrentStep(s => s - 1); };
@@ -49,8 +43,6 @@ export default function ConfiguratorPage() {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        opacity: mounted ? 1 : 0,
-        transition: 'opacity 0.7s ease',
         zIndex: 100,
       }}
     >
