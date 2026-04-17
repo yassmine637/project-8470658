@@ -1,5 +1,7 @@
 import { PRODUCT_IMAGES } from '@/assets/images';
 
+const bouteille500mlVideo = new URL('../../attached_assets/500ml_1776458561147.mp4', import.meta.url).href;
+
 export interface Product {
   id: string;
   name: string;
@@ -60,7 +62,7 @@ export const products: Product[] = [
     image: PRODUCT_IMAGES.bouteilleCylindrique500ml,
     imageScale: 1.25,
     badge: 'Best-seller',
-    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    videoUrl: bouteille500mlVideo,
     accentColor: '#c9a84c',
   },
   {

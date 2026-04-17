@@ -56,3 +56,4 @@ eslint-rules/     Custom ESLint rules
 - Cart system with CartProvider context and CartDrawer
 - Multi-language support (EN/FR)
 - AI assistant integration (ReaddyAgent component)
+- Product videos are displayed on the products page; the 500ml bottle uses the local uploaded video at `attached_assets/500ml_1776458561147.mp4`.
