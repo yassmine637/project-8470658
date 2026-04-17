@@ -20,6 +20,7 @@ export default function ProductsPage() {
   const { addToCart, openCart } = useCart();
   const [selected, setSelected] = useState<Product | null>(null);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
+  const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
   const [quantity, setQuantity] = useState(1);
 
   // Animation states
@@ -65,6 +66,24 @@ export default function ProductsPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (galleryIndex === null) return;
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setGalleryIndex(null);
+      if (e.key === 'ArrowLeft') setGalleryIndex((current) => current === null ? current : (current - 1 + products.length) % products.length);
+      if (e.key === 'ArrowRight') setGalleryIndex((current) => current === null ? current : (current + 1) % products.length);
+    };
+
+    document.addEventListener('keydown', handleKey);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
+  }, [galleryIndex]);
+
   const handleSelect = (product: Product) => {
     if (selected && product.id === selected.id) return;
 
@@ -94,6 +113,8 @@ export default function ProductsPage() {
 
   const accent = selected?.accentColor ?? '#c9a84c';
   const badgeStyle = selected?.badge ? BADGE_STYLES[selected.badge] ?? BADGE_STYLES['Premium'] : null;
+  const galleryProduct = galleryIndex !== null ? products[galleryIndex] : null;
+  const galleryAccent = galleryProduct?.accentColor ?? '#c9a84c';
 
   return (
     <>
@@ -151,7 +172,7 @@ export default function ProductsPage() {
           </p>
 
           <div className="flex items-end justify-center gap-6 md:gap-10 flex-wrap">
-            {products.map((product) => {
+            {products.map((product, index) => {
               const isActive = selected?.id === product.id;
               const hasSelection = selected !== null;
               const pAccent = product.accentColor ?? '#c9a84c';
@@ -202,11 +223,16 @@ export default function ProductsPage() {
                       loading="eager"
                       decoding="async"
                       fetchPriority="high"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setGalleryIndex(index);
+                      }}
                       className="transition-all duration-500"
                       style={{
                         width: '100%',
                         height: '100%',
                         objectFit: 'contain',
+                        cursor: 'zoom-in',
                         filter: isActive
                           ? `drop-shadow(0 18px 36px ${pAccent}60)`
                           : 'drop-shadow(0 10px 22px rgba(0,0,0,0.13))',
@@ -496,6 +522,90 @@ export default function ProductsPage() {
       {/* Video Modal — full screen with audio */}
       {videoProduct && (
         <VideoModal product={videoProduct} onClose={() => setVideoProduct(null)} />
+      )}
+
+      {galleryProduct && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10"
+          style={{ background: 'rgba(10,16,10,0.88)', backdropFilter: 'blur(8px)' }}
+          onClick={() => setGalleryIndex(null)}
+        >
+          <button
+            onClick={() => setGalleryIndex(null)}
+            className="absolute top-5 right-5 w-11 h-11 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer"
+            style={{ background: 'rgba(255,255,255,0.08)', color: '#f8f6f1', border: `1px solid ${galleryAccent}45` }}
+            aria-label="Fermer l'image"
+          >
+            <i className="ri-close-line text-xl" />
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setGalleryIndex((current) => current === null ? current : (current - 1 + products.length) % products.length);
+            }}
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer"
+            style={{ background: 'rgba(255,255,255,0.08)', color: galleryAccent, border: `1px solid ${galleryAccent}45` }}
+            aria-label="Image précédente"
+          >
+            <i className="ri-arrow-left-s-line text-3xl" />
+          </button>
+
+          <div
+            className="relative flex flex-col items-center justify-center w-full max-w-4xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              className="relative w-full rounded-3xl overflow-hidden flex items-center justify-center"
+              style={{
+                minHeight: 'min(72vh, 680px)',
+                background: `radial-gradient(ellipse at center, ${galleryAccent}20 0%, rgba(248,246,241,0.08) 55%, rgba(255,255,255,0.03) 100%)`,
+                border: `1px solid ${galleryAccent}35`,
+                boxShadow: `0 35px 100px rgba(0,0,0,0.38), 0 0 70px ${galleryAccent}20`,
+              }}
+            >
+              <img
+                key={galleryProduct.id}
+                src={galleryProduct.image}
+                alt={galleryProduct.volume}
+                className="transition-all duration-300"
+                style={{
+                  maxWidth: '86%',
+                  maxHeight: '68vh',
+                  objectFit: 'contain',
+                  filter: `drop-shadow(0 28px 48px ${galleryAccent}55)`,
+                }}
+              />
+            </div>
+
+            <div className="mt-5 text-center">
+              <p
+                className="text-xs uppercase tracking-widest mb-1"
+                style={{ color: galleryAccent, fontFamily: "'Outfit', sans-serif" }}
+              >
+                {galleryProduct.volume}
+              </p>
+              <h3
+                className="text-2xl font-bold"
+                style={{ color: '#f8f6f1', fontFamily: "'Cormorant Garant', serif" }}
+              >
+                {galleryProduct.name}
+              </h3>
+            </div>
+          </div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setGalleryIndex((current) => current === null ? current : (current + 1) % products.length);
+            }}
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer"
+            style={{ background: 'rgba(255,255,255,0.08)', color: galleryAccent, border: `1px solid ${galleryAccent}45` }}
+            aria-label="Image suivante"
+          >
+            <i className="ri-arrow-right-s-line text-3xl" />
+          </button>
+        </div>
       )}
 
       <Footer />
