@@ -20,34 +20,43 @@ export default function ProductsPage() {
   const { addToCart, openCart } = useCart();
   const [selected, setSelected] = useState<Product>(products[0]);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
-  const [animating, setAnimating] = useState(false);
-  const descRef = useRef<HTMLDivElement>(null);
+  const [quantity, setQuantity] = useState(1);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, []);
+  // Animation states
+  const [infoVisible, setInfoVisible] = useState(true);
+  const [videoVisible, setVideoVisible] = useState(true);
+  const [currentVideoSrc, setCurrentVideoSrc] = useState(products[0].videoUrl ?? '');
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { window.scrollTo({ top: 0 }); }, []);
 
   const handleSelect = (product: Product) => {
     if (product.id === selected.id) return;
-    setAnimating(true);
-    setQuantity(1);
+
+    // Fade out info + video
+    setInfoVisible(false);
+    setVideoVisible(false);
+
     setTimeout(() => {
       setSelected(product);
-      setAnimating(false);
-    }, 220);
+      setCurrentVideoSrc(product.videoUrl ?? '');
+      setQuantity(1);
+    }, 280);
+
     setTimeout(() => {
-      descRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 300);
+      setVideoVisible(true);
+      setInfoVisible(true);
+      // Scroll stage into view smoothly
+      stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 380);
   };
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(selected);
-    }
+    for (let i = 0; i < quantity; i++) addToCart(selected);
     openCart();
   };
 
-  const [quantity, setQuantity] = useState(1);
   const accent = selected.accentColor ?? '#c9a84c';
   const badgeStyle = selected.badge ? BADGE_STYLES[selected.badge] ?? BADGE_STYLES['Premium'] : null;
 
@@ -55,9 +64,9 @@ export default function ProductsPage() {
     <>
       <Header />
 
-      {/* Page Header */}
-      <section className="pt-36 pb-12 px-6 md:px-16" style={{ background: '#f8f6f1' }}>
-        <div className="max-w-6xl mx-auto">
+      {/* ── Page Header ─────────────────────────────────────── */}
+      <section className="pt-36 pb-10 px-6 md:px-16" style={{ background: '#f8f6f1' }}>
+        <div className="max-w-7xl mx-auto">
           <div className="mb-6">
             <BackButton label={t('products_back')} to="/" />
           </div>
@@ -77,223 +86,363 @@ export default function ProductsPage() {
             </span>
           </div>
 
-          <div className="flex flex-col items-center text-center gap-4">
+          <div className="flex flex-col items-center text-center gap-3">
             <h1
               className="font-bold leading-tight"
-              style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.7rem, 3.2vw, 2.4rem)', color: '#1a2617' }}
+              style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: '#1a2617' }}
             >
               {t('products_title')}
             </h1>
             <p
-              className="max-w-md text-base leading-relaxed"
-              style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif", lineHeight: '1.8' }}
+              className="max-w-lg text-sm leading-relaxed"
+              style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif", lineHeight: '1.85' }}
             >
               {t('products_subtitle')}
             </p>
           </div>
 
-          <div className="mt-10 h-px w-full" style={{ background: 'linear-gradient(to right, rgba(201,168,76,0.4), transparent)' }} />
+          <div className="mt-8 h-px w-full" style={{ background: 'linear-gradient(to right, rgba(201,168,76,0.4), transparent)' }} />
         </div>
       </section>
 
-      {/* Bottle Selector — horizontal scroll */}
-      <section className="py-10 px-6 md:px-16" style={{ background: '#f8f6f1' }}>
-        <div className="max-w-6xl mx-auto">
-          <p className="text-xl font-semibold mb-8 text-center" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: '1.5rem' }}>
-            Sélectionnez votre bouteille selon vos besoins
+      {/* ── Bottle Lineup ───────────────────────────────────── */}
+      <section className="py-10 px-4 md:px-10" style={{ background: '#f8f6f1' }}>
+        <div className="max-w-7xl mx-auto">
+          <p
+            className="text-center mb-10 text-sm uppercase tracking-widest"
+            style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}
+          >
+            Sélectionnez une bouteille pour découvrir son animation
           </p>
 
-          {/* Scrollable row */}
-          <div className="flex gap-10 overflow-x-auto pb-2 justify-center" style={{ scrollbarWidth: 'none' }}>
+          <div className="flex items-end justify-center gap-4 md:gap-8 flex-wrap">
             {products.map((product) => {
               const isActive = product.id === selected.id;
               const pAccent = product.accentColor ?? '#c9a84c';
               const pBadge = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
 
               return (
-                <div
+                <button
                   key={product.id}
                   onClick={() => handleSelect(product)}
-                  className="flex-shrink-0 flex flex-col items-center rounded-2xl cursor-pointer transition-all duration-300"
-                  style={{
-                    width: '260px',
-                    padding: '28px 22px 22px',
-                    background: 'transparent',
-                    border: 'none',
-                    transform: isActive ? 'translateY(-10px) scale(1.06)' : 'translateY(0) scale(1)',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px) scale(1.04)';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0) scale(1)';
-                  }}
+                  className="flex flex-col items-center relative cursor-pointer border-none bg-transparent p-0"
+                  style={{ outline: 'none' }}
                 >
+                  {/* Badge */}
+                  {pBadge && product.badge && (
+                    <span
+                      className="mb-2 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider transition-opacity duration-300"
+                      style={{
+                        background: pBadge.bg,
+                        color: pBadge.color,
+                        fontFamily: "'Outfit', sans-serif",
+                        opacity: isActive ? 1 : 0.45,
+                        fontSize: '0.6rem',
+                      }}
+                    >
+                      {product.badge}
+                    </span>
+                  )}
 
-
-                  {/* Image */}
+                  {/* Bottle image container */}
                   <div
-                    className="flex items-center justify-center mb-5"
-                    style={{ width: '200px', height: '380px', background: 'transparent', flexShrink: 0 }}
+                    className="relative flex items-end justify-center transition-all duration-500"
+                    style={{
+                      width: isActive ? '160px' : '110px',
+                      height: isActive ? '340px' : '240px',
+                    }}
                   >
+                    {/* Active glow ring */}
+                    {isActive && (
+                      <div
+                        className="absolute inset-0 rounded-2xl"
+                        style={{
+                          background: `radial-gradient(ellipse at center bottom, ${pAccent}25 0%, transparent 70%)`,
+                          transition: 'opacity 0.4s ease',
+                        }}
+                      />
+                    )}
+
                     <img
                       src={product.image}
                       alt={product.volume}
                       className="transition-all duration-500"
                       style={{
-                        width: '200px',
-                        height: '380px',
+                        width: '100%',
+                        height: '100%',
                         objectFit: 'contain',
-                        filter: `drop-shadow(0 14px 32px rgba(0,0,0,0.15))`,
-                        transform: isActive
-                          ? `scale(${(product.imageScale ?? 1) * 1.1})`
-                          : `scale(${product.imageScale ?? 1})`,
+                        filter: isActive
+                          ? `drop-shadow(0 18px 36px ${pAccent}50)`
+                          : 'drop-shadow(0 8px 18px rgba(0,0,0,0.12)) grayscale(0.1)',
+                        opacity: isActive ? 1 : 0.6,
+                        transform: `scale(${isActive ? (product.imageScale ?? 1) * 1.05 : product.imageScale ?? 1})`,
+                        transformOrigin: 'bottom center',
                       }}
                     />
                   </div>
 
-                  {/* Volume */}
-                  <p
-                    className="text-xs font-semibold uppercase tracking-wider text-center leading-snug mb-1"
-                    style={{ color: isActive ? pAccent : '#9aaa96', fontFamily: "'Outfit', sans-serif" }}
-                  >
-                    {product.volume}
-                  </p>
+                  {/* Volume label */}
+                  <div className="mt-4 text-center transition-all duration-300">
+                    <p
+                      className="text-xs font-semibold uppercase tracking-wider leading-snug"
+                      style={{
+                        color: isActive ? pAccent : '#c0bdb4',
+                        fontFamily: "'Outfit', sans-serif",
+                        fontSize: '0.6rem',
+                        maxWidth: '130px',
+                      }}
+                    >
+                      {product.volume}
+                    </p>
+                    <p
+                      className="text-lg font-bold mt-1 transition-all duration-300"
+                      style={{
+                        fontFamily: "'Cormorant Garant', serif",
+                        color: isActive ? '#1a2617' : '#c0bdb4',
+                      }}
+                    >
+                      {product.price} <span className="text-sm" style={{ color: isActive ? pAccent : '#d0cdc6' }}>{product.currency}</span>
+                    </p>
+                  </div>
 
-                  {/* Price */}
-                  <p
-                    className="text-2xl font-bold mt-1"
-                    style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}
-                  >
-                    {product.price} <span className="text-base" style={{ color: pAccent }}>{product.currency}</span>
-                  </p>
-
-
-                </div>
+                  {/* Active indicator dot */}
+                  <div
+                    className="mt-3 w-1.5 h-1.5 rounded-full transition-all duration-300"
+                    style={{ background: isActive ? pAccent : 'transparent' }}
+                  />
+                </button>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Description panel — appears below on selection */}
+      {/* ── Cinematic Stage — Video + Info ──────────────────── */}
       <section
-        ref={descRef}
-        className="px-6 md:px-16 pb-20 transition-all duration-300"
-        style={{ background: '#f8f6f1', opacity: animating ? 0 : 1, transform: animating ? 'translateY(10px)' : 'translateY(0)' }}
+        ref={stageRef}
+        className="px-4 md:px-10 pb-24"
+        style={{ background: '#f0ede6' }}
       >
-        <div className="max-w-6xl mx-auto">
-          <div className="h-px w-full mb-10" style={{ background: `linear-gradient(to right, ${accent}50, transparent)` }} />
+        <div className="max-w-7xl mx-auto">
+          {/* Separator */}
+          <div
+            className="h-px mb-12"
+            style={{ background: `linear-gradient(to right, transparent, ${accent}60, transparent)` }}
+          />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Left — image large */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden"
+            style={{ boxShadow: `0 32px 80px rgba(0,0,0,0.12), 0 0 0 1px ${accent}20` }}
+          >
+            {/* Left — Video player */}
             <div
-              className="relative flex items-center justify-center"
+              className="relative flex items-center justify-center overflow-hidden"
               style={{
-                minHeight: '480px',
-                background: 'transparent',
+                background: '#0d1a0d',
+                minHeight: '460px',
+                opacity: videoVisible ? 1 : 0,
+                transition: 'opacity 0.3s ease',
               }}
             >
-
-              <img
-                src={selected.image}
-                alt={`${selected.name} ${selected.volume}`}
-                className="object-contain"
-                style={{ height: '400px', maxWidth: '80%', filter: 'drop-shadow(0 12px 28px rgba(0,0,0,0.1))' }}
+              {/* Subtle ambient glow behind video */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{ background: `radial-gradient(ellipse at center, ${accent}18 0%, transparent 70%)` }}
               />
 
-              {/* Voir le produit button — overlay */}
-              <button
-                onClick={() => setVideoProduct(selected)}
-                className="absolute bottom-[-44px] left-1/2 -translate-x-1/2 flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
-                style={{
-                  background: '#1a2617',
-                  color: '#c9a84c',
-                  border: '1px solid rgba(201,168,76,0.4)',
-                  fontFamily: "'Outfit', sans-serif",
-                  transform: 'translateX(-50%)',
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#c9a84c';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#1a2617';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#1a2617';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#c9a84c';
-                }}
-              >
-                <i className="ri-play-circle-line text-base" />
-                Voir le produit
-              </button>
-            </div>
+              {currentVideoSrc ? (
+                <video
+                  key={currentVideoSrc}
+                  ref={videoRef}
+                  src={currentVideoSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                  style={{ display: 'block', maxHeight: '520px' }}
+                />
+              ) : (
+                <div className="flex flex-col items-center gap-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                  <i className="ri-film-line text-5xl" />
+                  <p className="text-sm" style={{ fontFamily: "'Outfit', sans-serif" }}>Vidéo bientôt disponible</p>
+                </div>
+              )}
 
-            {/* Right — details */}
-            <div className="flex flex-col gap-6 pt-4">
-              <div>
+              {/* Video overlay label */}
+              <div
+                className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full"
+                style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}
+              >
                 <span
-                  className="text-xs font-semibold uppercase tracking-widest block mb-2"
-                  style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}
-                >
-                  {selected.volume}
+                  className="w-2 h-2 rounded-full animate-pulse"
+                  style={{ background: accent }}
+                />
+                <span className="text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem' }}>
+                  Animation produit
                 </span>
-                <h2
-                  className="text-3xl font-bold leading-tight mb-3"
-                  style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}
-                >
-                  {selected.name}
-                </h2>
-                <div className="h-px w-10" style={{ background: `${accent}60` }} />
               </div>
 
+              {/* Full video button */}
+              {currentVideoSrc && (
+                <button
+                  onClick={() => setVideoProduct(selected)}
+                  className="absolute bottom-5 right-5 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer"
+                  style={{
+                    background: 'rgba(0,0,0,0.6)',
+                    color: accent,
+                    border: `1px solid ${accent}50`,
+                    fontFamily: "'Outfit', sans-serif",
+                    backdropFilter: 'blur(8px)',
+                    fontSize: '0.6rem',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = accent;
+                    (e.currentTarget as HTMLButtonElement).style.color = '#1a2617';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(0,0,0,0.6)';
+                    (e.currentTarget as HTMLButtonElement).style.color = accent;
+                  }}
+                >
+                  <i className="ri-fullscreen-line text-sm" />
+                  Voir en plein écran
+                </button>
+              )}
+            </div>
+
+            {/* Right — Product info */}
+            <div
+              className="flex flex-col justify-center p-8 md:p-12"
+              style={{
+                background: '#ffffff',
+                opacity: infoVisible ? 1 : 0,
+                transform: infoVisible ? 'translateX(0)' : 'translateX(20px)',
+                transition: 'opacity 0.35s ease, transform 0.35s ease',
+              }}
+            >
+              {/* Badge */}
+              {badgeStyle && selected.badge && (
+                <span
+                  className="self-start mb-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                  style={{ background: badgeStyle.bg, color: badgeStyle.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem' }}
+                >
+                  {selected.badge}
+                </span>
+              )}
+
+              {/* Volume */}
+              <span
+                className="text-xs font-semibold uppercase tracking-widest block mb-2"
+                style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}
+              >
+                {selected.volume}
+              </span>
+
+              {/* Name */}
+              <h2
+                className="font-bold leading-tight mb-3"
+                style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.6rem, 2.5vw, 2.1rem)', color: '#1a2617' }}
+              >
+                {selected.name}
+              </h2>
+
+              <div className="h-px w-10 mb-5" style={{ background: `${accent}70` }} />
+
               {/* Price */}
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
+              <div className="flex items-baseline gap-2 mb-5">
+                <span
+                  className="font-bold"
+                  style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '3rem', color: '#1a2617', lineHeight: 1 }}
+                >
                   {selected.price}
                 </span>
-                <span className="text-lg font-semibold" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
+                <span className="text-base font-semibold" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
                   {selected.currency}
                 </span>
               </div>
 
               {/* Tagline */}
               <p
-                className="text-base italic leading-relaxed"
-                style={{ color: accent, fontFamily: "'Cormorant Garant', serif", fontSize: '1.1rem' }}
+                className="italic leading-relaxed mb-5"
+                style={{ color: accent, fontFamily: "'Cormorant Garant', serif", fontSize: '1.05rem' }}
               >
                 &ldquo;{selected.tagline}&rdquo;
               </p>
 
               {/* Description */}
               <p
-                className="text-sm leading-loose"
+                className="text-sm leading-loose mb-6"
                 style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif", lineHeight: '1.9' }}
               >
                 {selected.description}
               </p>
 
               {/* Details */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5 mb-8">
                 {selected.details.map((d) => (
-                  <div key={d} className="flex items-start gap-2">
-                    <i className="ri-checkbox-circle-fill text-sm flex-shrink-0 mt-0.5" style={{ color: accent }} />
-                    <span className="text-sm" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif" }}>{d}</span>
+                  <div key={d} className="flex items-start gap-2.5">
+                    <i
+                      className="ri-checkbox-circle-fill text-sm flex-shrink-0 mt-0.5"
+                      style={{ color: accent }}
+                    />
+                    <span className="text-xs leading-relaxed" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif" }}>
+                      {d}
+                    </span>
                   </div>
                 ))}
               </div>
 
-              {/* CTA */}
-              <div className="flex items-center justify-center pt-2">
+              {/* Quantity + CTA */}
+              <div className="flex items-center gap-4 flex-wrap">
+                {/* Quantity */}
+                <div
+                  className="flex items-center rounded-full overflow-hidden"
+                  style={{ border: `1px solid ${accent}40`, background: '#f8f6f1' }}
+                >
+                  <button
+                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                    className="w-9 h-9 flex items-center justify-center text-sm font-bold transition-colors duration-200 cursor-pointer border-none"
+                    style={{ color: '#1a2617', background: 'transparent' }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = `${accent}20`; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                  >
+                    −
+                  </button>
+                  <span
+                    className="w-8 text-center text-sm font-semibold"
+                    style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}
+                  >
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity(q => q + 1)}
+                    className="w-9 h-9 flex items-center justify-center text-sm font-bold transition-colors duration-200 cursor-pointer border-none"
+                    style={{ color: '#1a2617', background: 'transparent' }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = `${accent}20`; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                  >
+                    +
+                  </button>
+                </div>
+
+                {/* Add to cart */}
                 <button
                   onClick={handleAddToCart}
-                  className="flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 cursor-pointer border-none whitespace-nowrap"
                   style={{
                     background: '#1a2617',
-                    color: '#c9a84c',
-                    border: 'none',
+                    color: accent,
                     fontFamily: "'Outfit', sans-serif",
+                    minWidth: '170px',
                   }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#c9a84c'; (e.currentTarget as HTMLButtonElement).style.color = '#1a2617'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#1a2617'; (e.currentTarget as HTMLButtonElement).style.color = '#c9a84c'; }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = accent;
+                    (e.currentTarget as HTMLButtonElement).style.color = '#1a2617';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background = '#1a2617';
+                    (e.currentTarget as HTMLButtonElement).style.color = accent;
+                  }}
                 >
                   <i className="ri-shopping-basket-2-line text-base" />
                   Commander
@@ -304,7 +453,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Video Modal */}
+      {/* Video Modal — full screen with audio */}
       {videoProduct && (
         <VideoModal product={videoProduct} onClose={() => setVideoProduct(null)} />
       )}
