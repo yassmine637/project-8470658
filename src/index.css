@@ -9,14 +9,7 @@ html {
 
 /* ─── Page transition (route changes) ───────────────────────── */
 /* NOTE: no transform here — transform on a parent breaks position:fixed children */
-@keyframes pageFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.page-transition {
-  animation: pageFadeIn 0.15s ease forwards;
-}
+.page-transition {}
 
 /* ─── Hero sequential fade-in ───────────────────────────────── */
 @keyframes heroFadeUp {
