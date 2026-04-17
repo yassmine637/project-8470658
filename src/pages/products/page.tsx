@@ -326,7 +326,7 @@ export default function ProductsPage() {
               className="relative flex items-center justify-center overflow-hidden"
               style={{
                 background: '#0d1a0d',
-                minHeight: '460px',
+                minHeight: '620px',
                 opacity: videoVisible ? 1 : 0,
                 transition: 'opacity 0.3s ease',
               }}
@@ -348,7 +348,7 @@ export default function ProductsPage() {
                   playsInline
                   preload="auto"
                   className="w-full h-full object-contain"
-                  style={{ display: 'block', maxHeight: '520px' }}
+                  style={{ display: 'block', maxHeight: '680px' }}
                 />
               ) : (
                 <div className="flex flex-col items-center gap-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
@@ -581,7 +581,7 @@ export default function ProductsPage() {
             <div
               className={`relative w-full rounded-3xl overflow-hidden flex ${galleryView === 'video' ? 'flex-col lg:flex-row' : 'items-center justify-center'}`}
               style={{
-                minHeight: galleryView === 'video' ? 'min(74vh, 720px)' : 'min(72vh, 680px)',
+                minHeight: galleryView === 'video' ? 'min(86vh, 840px)' : 'min(72vh, 680px)',
                 background: `radial-gradient(ellipse at center, ${galleryAccent}20 0%, rgba(248,246,241,0.08) 55%, rgba(255,255,255,0.03) 100%)`,
                 border: `1px solid ${galleryAccent}35`,
                 boxShadow: `0 35px 100px rgba(0,0,0,0.38), 0 0 70px ${galleryAccent}20`,
@@ -599,7 +599,7 @@ export default function ProductsPage() {
                       preload="auto"
                       className="w-full h-full"
                       style={{
-                        maxHeight: '62vh',
+                        maxHeight: '78vh',
                         objectFit: 'contain',
                         borderRadius: '22px',
                         background: '#050705',
