@@ -113,7 +113,7 @@ export default function ProductsPage() {
             className="text-center mb-10 text-sm uppercase tracking-widest"
             style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}
           >
-            Choisissez une référence pour en explorer le caractère
+            Choisissez la bouteille qui correspond à votre art de vivre
           </p>
 
           <div className="flex items-end justify-center gap-6 md:gap-10 flex-wrap">
