@@ -56,4 +56,4 @@ eslint-rules/     Custom ESLint rules
 - Cart system with CartProvider context and CartDrawer
 - Multi-language support (EN/FR)
 - AI assistant integration (ReaddyAgent component)
-- Product videos are displayed on the products page; the 1L bidon uses `attached_assets/1L_1776459416660.mp4`, the 500ml bottle uses `attached_assets/500ml_1776458561147.mp4`, and the 750ml bottle uses `attached_assets/750ml_1776459284079.mp4`.
+- Product videos are displayed on the products page; the 1L bidon uses `attached_assets/1L_1776459416660.mp4`, the 500ml bottle uses `attached_assets/500ml_1776458561147.mp4`, the 750ml bottle uses `attached_assets/750ml_1776459284079.mp4`, and the 3L bidon uses `attached_assets/3L_1776459633650.mp4`.
