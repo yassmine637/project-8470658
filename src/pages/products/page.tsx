@@ -208,11 +208,15 @@ export default function ProductsPage() {
                   className="flex flex-col items-center relative cursor-pointer border-none bg-transparent p-0"
                   style={{ outline: 'none', width: '280px' }}
                 >
-                  {/* Badge — always visible, full color */}
-                  <div className="h-7 flex items-center justify-center mb-3">
+                  {/* Bottle image container — same size for all */}
+                  <div
+                    className="relative flex items-center justify-center transition-all duration-500"
+                    style={{ width: '280px', height: '620px' }}
+                  >
+                    {/* Badge — overlaid on image */}
                     {pBadge && product.badge && (
                       <span
-                        className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300"
+                        className="absolute top-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 z-10 whitespace-nowrap"
                         style={{
                           background: pBadge.bg,
                           color: pBadge.color,
@@ -224,13 +228,7 @@ export default function ProductsPage() {
                         {product.badge}
                       </span>
                     )}
-                  </div>
 
-                  {/* Bottle image container — same size for all */}
-                  <div
-                    className="relative flex items-center justify-center transition-all duration-500"
-                    style={{ width: '280px', height: '620px' }}
-                  >
                     {/* Active glow */}
                     <div
                       className="absolute inset-0 rounded-2xl transition-opacity duration-500"
