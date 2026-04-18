@@ -261,7 +261,7 @@ export default function ProductsPage() {
                           ? `drop-shadow(0 18px 36px ${pAccent}60)`
                           : 'drop-shadow(0 10px 22px rgba(0,0,0,0.13))',
                         opacity: hasSelection && !isActive ? 0.55 : 1,
-                        transform: isActive ? 'scale(1.08) translateY(-8px)' : 'scale(1)',
+                        transform: isActive ? 'scaleY(1.12) scale(1.08) translateY(-8px)' : 'scaleY(1.12)',
                         transformOrigin: 'bottom center',
                       }}
                     />
