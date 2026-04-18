@@ -194,7 +194,7 @@ export default function ProductsPage() {
             Choisissez la bouteille qui correspond à votre art de vivre
           </p>
 
-          <div className="flex items-end justify-center gap-6 md:gap-10 flex-wrap">
+          <div className="flex items-start justify-center gap-6 md:gap-10 flex-wrap">
             {products.map((product, index) => {
               const isActive = selected?.id === product.id;
               const hasSelection = selected !== null;
@@ -210,14 +210,15 @@ export default function ProductsPage() {
                 >
                   {/* Bottle image container — same size for all */}
                   <div
-                    className="relative flex items-center justify-center transition-all duration-500"
+                    className="relative flex items-start justify-center transition-all duration-500"
                     style={{ width: '280px', height: '620px' }}
                   >
                     {/* Badge — overlaid on image */}
                     {pBadge && product.badge && (
                       <span
-                        className="absolute top-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 z-10 whitespace-nowrap"
+                        className="absolute left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 z-10 whitespace-nowrap"
                         style={{
+                          top: '25%',
                           background: pBadge.bg,
                           color: pBadge.color,
                           fontFamily: "'Outfit', sans-serif",
