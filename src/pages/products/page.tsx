@@ -188,7 +188,7 @@ export default function ProductsPage() {
       <section className="py-10 px-4 md:px-10" style={{ background: '#f8f6f1' }}>
         <div className="max-w-7xl mx-auto">
           <p
-            className="text-center -mt-4 mb-10 text-base uppercase tracking-widest"
+            className="text-center -mt-8 mb-16 text-base uppercase tracking-widest"
             style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}
           >
             Choisissez la bouteille qui correspond à votre art de vivre
