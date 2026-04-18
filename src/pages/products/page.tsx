@@ -185,7 +185,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ── Bottle Lineup ───────────────────────────────────── */}
-      <section className="py-10 px-4 md:px-10" style={{ background: '#f8f6f1' }}>
+      <section className="pt-10 pb-32 px-4 md:px-10" style={{ background: '#f8f6f1' }}>
         <div className="max-w-7xl mx-auto">
           <p
             className="text-center -mt-8 mb-32 text-lg uppercase tracking-widest"
