@@ -206,7 +206,7 @@ export default function ProductsPage() {
                   key={product.id}
                   onClick={() => handleSelect(product)}
                   className="flex flex-col items-center relative cursor-pointer border-none bg-transparent p-0"
-                  style={{ outline: 'none', width: '230px' }}
+                  style={{ outline: 'none', width: '280px' }}
                 >
                   {/* Badge — always visible, full color */}
                   <div className="h-7 flex items-center justify-center mb-3">
@@ -229,7 +229,7 @@ export default function ProductsPage() {
                   {/* Bottle image container — same size for all */}
                   <div
                     className="relative flex items-center justify-center transition-all duration-500"
-                    style={{ width: '230px', height: '420px' }}
+                    style={{ width: '280px', height: '500px' }}
                   >
                     {/* Active glow */}
                     <div
