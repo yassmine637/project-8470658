@@ -267,7 +267,7 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Volume + Price — always colored */}
-                  <div className="mt-4 text-center transition-all duration-300">
+                  <div className="mt-4 text-center transition-all duration-300 flex flex-col items-center justify-start" style={{ height: '56px' }}>
                     <p
                       className="font-semibold uppercase tracking-wider leading-snug"
                       style={{
