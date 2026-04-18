@@ -208,17 +208,15 @@ export default function ProductsPage() {
                   className="flex flex-col items-center relative cursor-pointer border-none bg-transparent p-0"
                   style={{ outline: 'none', width: '280px' }}
                 >
-                  {/* Bottle image container — same size for all */}
-                  <div
-                    className="relative flex items-start justify-center transition-all duration-500"
-                    style={{ width: '280px', height: '620px' }}
-                  >
+                  {/* Bottle image + volume wrapper */}
+                  <div className="relative flex flex-col items-center transition-all duration-500" style={{ width: '280px' }}>
+
                     {/* Badge — overlaid on image */}
                     {pBadge && product.badge && (
                       <span
                         className="absolute px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 z-10 whitespace-nowrap"
                         style={{
-                          top: '25%',
+                          top: '12px',
                           left: '-14px',
                           background: pBadge.bg,
                           color: pBadge.color,
@@ -233,7 +231,7 @@ export default function ProductsPage() {
 
                     {/* Active glow */}
                     <div
-                      className="absolute inset-0 rounded-2xl transition-opacity duration-500"
+                      className="absolute inset-0 rounded-2xl transition-opacity duration-500 pointer-events-none"
                       style={{
                         background: `radial-gradient(ellipse at center bottom, ${pAccent}30 0%, transparent 70%)`,
                         opacity: isActive ? 1 : 0,
@@ -252,10 +250,13 @@ export default function ProductsPage() {
                       }}
                       className="transition-all duration-500"
                       style={{
-                        width: '100%',
-                        height: '100%',
+                        width: 'auto',
+                        height: 'auto',
+                        maxWidth: '280px',
+                        maxHeight: '560px',
                         objectFit: 'contain',
                         cursor: 'zoom-in',
+                        display: 'block',
                         filter: isActive
                           ? `drop-shadow(0 18px 36px ${pAccent}60)`
                           : 'drop-shadow(0 10px 22px rgba(0,0,0,0.13))',
@@ -264,19 +265,19 @@ export default function ProductsPage() {
                         transformOrigin: 'bottom center',
                       }}
                     />
-                  </div>
 
-                  {/* Volume */}
-                  <p
-                    className="mt-3 text-center font-semibold uppercase tracking-wider"
-                    style={{
-                      color: isActive ? pAccent : hasSelection ? '#b0ada6' : '#6b7c68',
-                      fontFamily: "'Outfit', sans-serif",
-                      fontSize: '0.65rem',
-                    }}
-                  >
-                    {product.volume}
-                  </p>
+                    {/* Volume — directly below image */}
+                    <p
+                      className="mt-3 text-center font-semibold uppercase tracking-wider w-full"
+                      style={{
+                        color: isActive ? pAccent : hasSelection ? '#b0ada6' : '#6b7c68',
+                        fontFamily: "'Outfit', sans-serif",
+                        fontSize: '0.65rem',
+                      }}
+                    >
+                      {product.volume}
+                    </p>
+                  </div>
 
                   {/* Active indicator dot */}
                   <div
