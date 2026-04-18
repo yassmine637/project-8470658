@@ -266,33 +266,6 @@ export default function ProductsPage() {
                     />
                   </div>
 
-                  {/* Volume + Price — always colored */}
-                  <div className="mt-4 text-center transition-all duration-300 flex flex-col items-center justify-start" style={{ height: '56px' }}>
-                    <p
-                      className="font-semibold uppercase tracking-wider leading-snug"
-                      style={{
-                        color: isActive ? pAccent : hasSelection ? '#b0ada6' : '#6b7c68',
-                        fontFamily: "'Outfit', sans-serif",
-                        fontSize: '0.58rem',
-                      }}
-                    >
-                      {product.volume}
-                    </p>
-                    <p
-                      className="font-bold mt-1.5 transition-all duration-300"
-                      style={{
-                        fontFamily: "'Cormorant Garant', serif",
-                        fontSize: '1.25rem',
-                        color: isActive ? '#1a2617' : hasSelection ? '#b0ada6' : '#1a2617',
-                      }}
-                    >
-                      {product.price}{' '}
-                      <span style={{ fontSize: '0.85rem', color: isActive ? pAccent : hasSelection ? '#c0bdb4' : pAccent }}>
-                        {product.currency}
-                      </span>
-                    </p>
-                  </div>
-
                   {/* Active indicator dot */}
                   <div
                     className="mt-3 w-1.5 h-1.5 rounded-full transition-all duration-300"
