@@ -266,6 +266,18 @@ export default function ProductsPage() {
                     />
                   </div>
 
+                  {/* Volume */}
+                  <p
+                    className="mt-3 text-center font-semibold uppercase tracking-wider"
+                    style={{
+                      color: isActive ? pAccent : hasSelection ? '#b0ada6' : '#6b7c68',
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: '0.65rem',
+                    }}
+                  >
+                    {product.volume}
+                  </p>
+
                   {/* Active indicator dot */}
                   <div
                     className="mt-3 w-1.5 h-1.5 rounded-full transition-all duration-300"
