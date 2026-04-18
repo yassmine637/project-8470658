@@ -268,7 +268,7 @@ export default function ProductsPage() {
 
                     {/* Volume — directly below image */}
                     <p
-                      className="mt-5 text-center font-semibold uppercase tracking-wider w-full"
+                      className="mt-7 text-center font-semibold uppercase tracking-wider w-full"
                       style={{
                         color: isActive ? pAccent : hasSelection ? '#b0ada6' : '#6b7c68',
                         fontFamily: "'Outfit', sans-serif",
