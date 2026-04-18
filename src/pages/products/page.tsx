@@ -206,10 +206,10 @@ export default function ProductsPage() {
                   key={product.id}
                   onClick={() => handleSelect(product)}
                   className="flex flex-col items-center relative cursor-pointer border-none bg-transparent p-0"
-                  style={{ outline: 'none', width: '280px' }}
+                  style={{ outline: 'none', width: '320px' }}
                 >
                   {/* Bottle image + volume wrapper */}
-                  <div className="relative flex flex-col items-center transition-all duration-500" style={{ width: '280px' }}>
+                  <div className="relative flex flex-col items-center transition-all duration-500" style={{ width: '320px' }}>
 
                     {/* Badge — overlaid on image */}
                     {pBadge && product.badge && (
@@ -252,8 +252,8 @@ export default function ProductsPage() {
                       style={{
                         width: 'auto',
                         height: 'auto',
-                        maxWidth: '280px',
-                        maxHeight: '560px',
+                        maxWidth: '320px',
+                        maxHeight: '620px',
                         objectFit: 'contain',
                         cursor: 'zoom-in',
                         display: 'block',
