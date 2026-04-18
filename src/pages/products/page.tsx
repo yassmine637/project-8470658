@@ -229,7 +229,7 @@ export default function ProductsPage() {
                   {/* Bottle image container — same size for all */}
                   <div
                     className="relative flex items-center justify-center transition-all duration-500"
-                    style={{ width: '280px', height: '500px' }}
+                    style={{ width: '280px', height: '620px' }}
                   >
                     {/* Active glow */}
                     <div
