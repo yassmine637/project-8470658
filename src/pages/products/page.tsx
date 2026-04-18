@@ -216,7 +216,7 @@ export default function ProductsPage() {
                     {/* Badge — overlaid on image */}
                     {pBadge && product.badge && (
                       <span
-                        className="absolute left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 z-10 whitespace-nowrap"
+                        className="absolute left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 z-10 whitespace-nowrap"
                         style={{
                           top: '25%',
                           background: pBadge.bg,
