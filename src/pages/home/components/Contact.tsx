@@ -161,7 +161,7 @@ export default function Contact() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
           {/* Left panel */}
           <div className="lg:col-span-2 flex flex-col gap-4">
             <div className="relative rounded-2xl overflow-hidden" style={{ height: '200px' }}>
@@ -198,7 +198,7 @@ export default function Contact() {
               ))}
             </div>
 
-            <div className="rounded-2xl relative overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(26,38,23,0.6) 100%)', border: '1px solid rgba(212,175,55,0.25)' }}>
+            <div className="rounded-2xl relative overflow-hidden flex-1" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(26,38,23,0.6) 100%)', border: '1px solid rgba(212,175,55,0.25)' }}>
               <div style={{ height: '2px', background: 'linear-gradient(to right, transparent, #d4af37, transparent)' }} />
               <div className="p-7 relative">
                 <i className="ri-double-quotes-l absolute -top-1 right-5" style={{ color: 'rgba(212,175,55,0.08)', fontSize: '6rem', lineHeight: 1 }} />
@@ -210,10 +210,10 @@ export default function Contact() {
           </div>
 
           {/* Right: Form */}
-          <div className="lg:col-span-3 rounded-2xl overflow-hidden flex flex-col" style={{ background: '#ffffff' }}>
+          <div className="lg:col-span-3 rounded-2xl overflow-hidden flex flex-col h-full" style={{ background: '#ffffff' }}>
             <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)' }} />
 
-            <div className="px-8 py-6 flex flex-col">
+            <div className="px-8 py-6 flex flex-col flex-1">
               <div className="mb-5">
                 <h3 className="text-xl font-bold mb-1" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
                   {t('contact_form_title')}
