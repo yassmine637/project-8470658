@@ -1,3 +1,5 @@
+import { PRODUCT_IMAGES } from '@/assets/images';
+
 export interface BottleModel {
   id: string;
   name: string;
@@ -29,28 +31,28 @@ export const bottleModels: BottleModel[] = [
     name: 'Cylindrique 500 ml',
     basePrice: 26,
     description: 'Silhouette classique, format idéal pour offrir',
-    image: 'https://readdy.ai/api/search-image?query=cylindrical%20clear%20glass%20olive%20oil%20bottle%20500ml%20premium%20gold%20label%20isolated%20pure%20white%20background%20product%20photography%20studio%20lighting%20elegant%20tall%20packaging%20minimalist&width=340&height=520&seq=cfg-bottle-cyl500-001&orientation=portrait',
+    image: PRODUCT_IMAGES.bouteilleCylindrique500ml,
   },
   {
     id: 'carree-750',
     name: 'Carrée Élancée 750 ml',
     basePrice: 58,
     description: 'Design géométrique moderne, segment prestige',
-    image: 'https://readdy.ai/api/search-image?query=square%20slim%20tall%20elegant%20glass%20olive%20oil%20bottle%20750ml%20luxury%20premium%20gold%20label%20isolated%20white%20background%20product%20photography%20studio%20shot%20high%20end%20packaging%20geometric%20modern&width=340&height=520&seq=cfg-bottle-sq750-001&orientation=portrait',
+    image: PRODUCT_IMAGES.bouteilleCarree750ml,
   },
   {
     id: 'bidon-metal-3l',
     name: 'Bidon Métallique 3 L',
     basePrice: 74,
     description: 'Contenant professionnel, conservation optimale',
-    image: 'https://readdy.ai/api/search-image?query=metallic%20silver%20tin%20can%20olive%20oil%203%20liters%20professional%20premium%20label%20isolated%20white%20background%20product%20photography%20studio%20shot%20industrial%20large%20format%20packaging%20rectangular&width=340&height=520&seq=cfg-bidon-metal-001&orientation=portrait',
+    image: PRODUCT_IMAGES.bidonMetallique3L,
   },
   {
     id: 'bidon-vert-1l',
     name: 'Bidon Vert 1 L Bio',
     basePrice: 42,
     description: 'Éco-responsable, certifié bio, esprit nature',
-    image: 'https://readdy.ai/api/search-image?query=green%20matte%20eco%20friendly%20olive%20oil%20tin%20can%201%20liter%20organic%20bio%20label%20natural%20isolated%20white%20background%20product%20photography%20studio%20shot%20sustainable%20packaging%20forest%20green%20color&width=340&height=520&seq=cfg-bidon-vert-001&orientation=portrait',
+    image: PRODUCT_IMAGES.bidonVert1L,
   },
 ];
 
