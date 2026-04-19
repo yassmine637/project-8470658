@@ -146,13 +146,6 @@ export default function Contact() {
         }}
       >
         <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <div className="h-px w-12" style={{ background: 'linear-gradient(to left, rgba(212,175,55,0.6), transparent)' }} />
-            <span className="text-xs uppercase tracking-[0.3em] font-semibold" style={{ color: 'rgba(212,175,55,0.7)', fontFamily: "'Outfit', sans-serif" }}>
-              {t('contact_since')}
-            </span>
-            <div className="h-px w-12" style={{ background: 'linear-gradient(to right, rgba(212,175,55,0.6), transparent)' }} />
-          </div>
           <h2 className="text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Cormorant Garant', serif", letterSpacing: '-0.01em' }}>
             {t('contact_title')}
           </h2>
