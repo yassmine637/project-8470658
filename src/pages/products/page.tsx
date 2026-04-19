@@ -194,7 +194,7 @@ export default function ProductsPage() {
             Choisissez la bouteille qui correspond à votre art de vivre
           </p>
 
-          <div className="flex items-start justify-center gap-4 md:gap-6 flex-wrap">
+          <div className="flex items-start justify-center gap-16 flex-nowrap">
             {products.map((product, index) => {
               const isActive = selected?.id === product.id;
               const hasSelection = selected !== null;
