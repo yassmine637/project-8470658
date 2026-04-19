@@ -47,7 +47,7 @@ export default function Product() {
             <img
               src={PRODUCT_SECTION_IMAGES.bottles1}
               alt="Huile d'olive Fendri"
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover object-center"
             />
           </div>
           <div
@@ -57,7 +57,7 @@ export default function Product() {
             <img
               src={PRODUCT_SECTION_IMAGES.bottles2}
               alt="Collection Domaine Fendri"
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover object-center"
             />
           </div>
         </div>
