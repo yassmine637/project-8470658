@@ -167,40 +167,6 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
           draggable={false}
         />
 
-        {/* Label overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '28%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '66%',
-            padding: '10px 8px',
-            background: labelStyle.bgColor,
-            border: `1.5px solid ${labelStyle.borderColor}`,
-            borderRadius: '4px',
-            textAlign: 'center',
-            opacity: isLoaded ? 0.93 : 0,
-            transition: 'opacity 0.5s ease, background 0.4s ease, border-color 0.4s ease',
-            pointerEvents: 'none',
-          }}
-        >
-          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.22em', color: labelStyle.accentColor, textTransform: 'uppercase', marginBottom: '2px' }}>
-            Domaine
-          </div>
-          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1rem', fontWeight: 700, color: labelStyle.bgColor === '#1a1a0e' ? '#d4af37' : '#1a2617', letterSpacing: '0.08em', lineHeight: 1.1 }}>
-            FENDRI
-          </div>
-          <div style={{ width: '60%', height: '1px', background: labelStyle.accentColor, margin: '4px auto', opacity: 0.6 }} />
-          <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.4rem', color: labelStyle.bgColor === '#1a1a0e' ? 'rgba(255,255,255,0.65)' : '#5a6c56', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            {size} · Extra Vierge
-          </div>
-          {customText && (
-            <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.46rem', fontStyle: 'italic', color: labelStyle.accentColor, marginTop: '4px', letterSpacing: '0.06em', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {customText}
-            </div>
-          )}
-        </div>
 
         {/* Loading shimmer */}
         {!isLoaded && (
