@@ -147,8 +147,8 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
           transitionProperty: transitioning ? 'opacity' : 'transform',
           transitionDuration: transitioning ? '0.35s' : '0.06s',
           position: 'relative',
-          width: 'min(420px, 60vw)',
-          height: '90vh',
+          width: 'min(700px, 85%)',
+          height: '95vh',
           willChange: 'transform',
         }}
       >
