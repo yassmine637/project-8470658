@@ -173,7 +173,7 @@ export default function ProductsPage() {
               {t('products_title')}
             </h1>
             <p
-              className="max-w-lg text-sm leading-relaxed"
+              className="text-sm leading-relaxed whitespace-nowrap"
               style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif", lineHeight: '1.85' }}
             >
               {t('products_subtitle')}
