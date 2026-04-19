@@ -209,7 +209,7 @@ export default function ProductsPage() {
                   style={{ outline: 'none', width: '300px' }}
                 >
                   {/* Bottle image + volume wrapper */}
-                  <div className="relative flex flex-col items-center transition-all duration-500" style={{ width: '300px' }}>
+                  <div className="group/bottle relative flex flex-col items-center transition-all duration-500" style={{ width: '300px' }}>
 
                     {/* Badge — overlaid on image */}
                     {pBadge && product.badge && (
@@ -265,6 +265,22 @@ export default function ProductsPage() {
                         transformOrigin: 'bottom center',
                       }}
                     />
+
+                    {/* Hover hint */}
+                    <div
+                      className="absolute bottom-8 flex items-center gap-1.5 px-3 py-1.5 rounded-full opacity-0 group-hover/bottle:opacity-100 transition-all duration-300 pointer-events-none"
+                      style={{
+                        background: 'rgba(26,38,23,0.75)',
+                        backdropFilter: 'blur(6px)',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                      }}
+                    >
+                      <i className="ri-hand-coin-line text-xs" style={{ color: '#c9a84c' }} />
+                      <span className="text-xs whitespace-nowrap" style={{ color: 'rgba(255,255,255,0.9)', fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', letterSpacing: '0.1em' }}>
+                        Cliquer pour sélectionner
+                      </span>
+                    </div>
 
                     {/* Volume — directly below image */}
                     <p
