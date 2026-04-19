@@ -216,7 +216,7 @@ export default function ProductsPage() {
                       <span
                         className="absolute px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 z-10 whitespace-nowrap"
                         style={{
-                          top: '-28px',
+                          top: '-44px',
                           left: '-14px',
                           background: pBadge.bg,
                           color: pBadge.color,
