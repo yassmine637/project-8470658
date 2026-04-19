@@ -33,10 +33,6 @@ export const PRODUCT_SECTION_IMAGES = {
   bottles2: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/9f33a4e8adf36d98a8ce054cd273152e.jpeg',
 };
 
-// --- Page Collection (hero) ---
-export const COLLECTION_IMAGES = {
-  hero: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/9f33a4e8adf36d98a8ce054cd273152e.jpeg',
-};
 
 // --- Section Contact ---
 export const CONTACT_IMAGES = {

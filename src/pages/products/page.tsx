@@ -7,7 +7,6 @@ import BackButton from '@/components/base/BackButton';
 import VideoModal from './components/VideoModal';
 import { products, Product } from '@/mocks/products';
 import { useCart } from '@/hooks/useCart';
-import { COLLECTION_IMAGES } from '@/assets/images';
 
 const BADGE_STYLES: Record<string, { bg: string; color: string }> = {
   'Bio & Naturel':   { bg: '#3a6040', color: '#e8f5e9' },
@@ -144,72 +143,44 @@ export default function ProductsPage() {
     <>
       <Header />
 
-      {/* ── Hero Banner ──────────────────────────────────────── */}
-      <section
-        className="relative w-full flex flex-col"
-        style={{ height: '65vh', minHeight: '480px' }}
-      >
-        {/* Background image */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${COLLECTION_IMAGES.hero})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        {/* Dark gradient overlay */}
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, rgba(10,18,10,0.55) 0%, rgba(10,18,10,0.72) 60%, rgba(10,18,10,0.88) 100%)' }}
-        />
-
-        {/* Top nav: back + breadcrumb */}
-        <div className="relative z-10 flex items-center justify-between px-6 md:px-16 pt-32">
-          <BackButton label={t('products_back')} to="/" />
-          <div className="flex items-center gap-2">
+      {/* ── Page Header ─────────────────────────────────────── */}
+      <section className="pt-36 pb-10 px-6 md:px-16" style={{ background: '#f8f6f1' }}>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-6">
+            <BackButton label={t('products_back')} to="/" />
+          </div>
+          <div className="flex items-center gap-2 mb-8">
             <Link
               to="/"
               className="text-xs uppercase tracking-widest transition-colors duration-200"
-              style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Outfit', sans-serif", textDecoration: 'none' }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#c9a84c'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.55)'; }}
+              style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif", textDecoration: 'none' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#1a2617'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#9aaa96'; }}
             >
               {t('products_breadcrumb_home')}
             </Link>
-            <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.7rem' }}>/</span>
-            <span className="text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.85)', fontFamily: "'Outfit', sans-serif" }}>
+            <span style={{ color: '#c9c9c0', fontSize: '0.7rem' }}>/</span>
+            <span className="text-xs uppercase tracking-widest" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
               {t('products_breadcrumb_collection')}
             </span>
           </div>
-        </div>
 
-        {/* Centered title block */}
-        <div className="relative z-10 flex flex-col items-center justify-center flex-1 text-center px-6 gap-5">
-          <span
-            className="block uppercase tracking-widest text-xs font-semibold"
-            style={{ color: '#c9a84c', fontFamily: "'Outfit', sans-serif", letterSpacing: '0.3em' }}
-          >
-            Domaine Fendri
-          </span>
-          <h1
-            className="font-bold leading-tight"
-            style={{
-              fontFamily: "'Cormorant Garant', serif",
-              fontSize: 'clamp(2.6rem, 6vw, 5rem)',
-              color: '#ffffff',
-              textShadow: '0 2px 24px rgba(0,0,0,0.4)',
-            }}
-          >
-            {t('products_title')}
-          </h1>
-          <div style={{ width: '60px', height: '1px', background: 'linear-gradient(to right, transparent, #c9a84c, transparent)' }} />
-          <p
-            className="text-sm leading-relaxed whitespace-nowrap"
-            style={{ color: 'rgba(255,255,255,0.72)', fontFamily: "'Outfit', sans-serif", lineHeight: '1.85' }}
-          >
-            {t('products_subtitle')}
-          </p>
+          <div className="flex flex-col items-center text-center gap-3">
+            <h1
+              className="font-bold leading-tight"
+              style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', color: '#1a2617' }}
+            >
+              {t('products_title')}
+            </h1>
+            <p
+              className="text-sm leading-relaxed whitespace-nowrap"
+              style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif", lineHeight: '1.85' }}
+            >
+              {t('products_subtitle')}
+            </p>
+          </div>
+
+          <div className="mt-8 h-px w-full" style={{ background: 'linear-gradient(to right, rgba(201,168,76,0.4), transparent)' }} />
         </div>
       </section>
 
