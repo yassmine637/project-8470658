@@ -255,7 +255,7 @@ export default function ProductsPage() {
                         maxWidth: '300px',
                         maxHeight: '620px',
                         objectFit: 'contain',
-                        cursor: 'zoom-in',
+                        cursor: 'pointer',
                         display: 'block',
                         filter: isActive
                           ? `drop-shadow(0 18px 36px ${pAccent}60)`
