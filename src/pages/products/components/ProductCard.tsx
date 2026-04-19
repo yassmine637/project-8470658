@@ -24,14 +24,24 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
   return (
     <div
-        className="group flex flex-col rounded-2xl overflow-hidden cursor-pointer transition-all duration-400 hover:-translate-y-1"
+        className="group relative flex flex-col rounded-2xl cursor-pointer transition-all duration-400 hover:-translate-y-1"
         style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.07)' }}
         onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = `${accent}50`; }}
         onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(0,0,0,0.07)'; }}
         onClick={() => { addToCart(product); openCart(); }}
       >
+
+        {product.badge && badgeStyle && (
+          <div
+            className="absolute -top-3 left-4 z-10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+            style={{ background: badgeStyle.bg, color: badgeStyle.color, fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em' }}
+          >
+            {product.badge}
+          </div>
+        )}
+
         <div
-          className="relative flex items-center justify-center"
+          className="relative flex items-center justify-center rounded-t-2xl overflow-hidden"
           style={{ height: '300px', background: `linear-gradient(160deg, #f8f6f1 0%, ${accent}0d 100%)` }}
         >
           <img
@@ -40,19 +50,11 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             className="object-contain transition-transform duration-500 group-hover:scale-105"
             style={{ height: '240px', width: 'auto', maxWidth: '180px', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.09))' }}
           />
-          {product.badge && badgeStyle && (
-            <div
-              className="absolute top-0 left-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-              style={{ background: badgeStyle.bg, color: badgeStyle.color, fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em' }}
-            >
-              {product.badge}
-            </div>
-          )}
         </div>
 
         <div style={{ height: '1px', background: `linear-gradient(to right, ${accent}60, transparent)` }} />
 
-        <div className="flex flex-col gap-3 px-6 pt-8 pb-6 flex-1">
+        <div className="flex flex-col gap-3 px-6 pt-8 pb-6 flex-1 rounded-b-2xl overflow-hidden">
           <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
             {product.volume}
           </span>
@@ -87,7 +89,6 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             </div>
 
             <div className="flex items-center gap-2">
-              {/* Add to cart */}
               <button
                 onClick={(e) => { e.stopPropagation(); addToCart(product); openCart(); }}
                 className="flex items-center justify-center w-9 h-9 rounded-full text-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
