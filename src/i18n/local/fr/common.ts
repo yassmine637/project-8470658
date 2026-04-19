@@ -127,7 +127,7 @@ const translations = {
   products_breadcrumb_home: 'Accueil',
   products_breadcrumb_collection: 'Collection',
   products_title: 'Notre Collection',
-  products_subtitle: "Quatre formats d'exception — des bouteilles en verre ornées de symboles berbères, expression d'un siècle de savoir-faire oléicole.",
+  products_subtitle: "Quatre formats d'exception, habillés de symboles berbères ciselés dans le verre — l'héritage vivant d'un siècle de passion oléicole.",
 
   // Product card
   card_order: 'Commander',
