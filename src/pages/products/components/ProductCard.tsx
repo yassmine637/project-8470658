@@ -42,7 +42,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           />
           {product.badge && badgeStyle && (
             <div
-              className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+              className="absolute top-2 left-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
               style={{ background: badgeStyle.bg, color: badgeStyle.color, fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em' }}
             >
               {product.badge}
