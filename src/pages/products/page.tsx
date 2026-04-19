@@ -187,140 +187,104 @@ export default function ProductsPage() {
       {/* ── Bottle Lineup ───────────────────────────────────── */}
       <section className="pt-10 pb-32 px-4 md:px-10" style={{ background: '#f8f6f1' }}>
         <div className="max-w-7xl mx-auto">
-          {/* ── Cuvées timeline ── */}
           <p
-            className="text-center -mt-4 mb-24 text-xs uppercase tracking-widest"
-            style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif", letterSpacing: '0.22em' }}
+            className="text-center -mt-4 mb-32 text-lg uppercase tracking-widest"
+            style={{ color: '#000000', fontFamily: "'Outfit', sans-serif" }}
           >
             Choisissez la bouteille qui correspond à votre art de vivre
           </p>
 
-          <div className="relative">
-            {/* Central golden line */}
-            <div
-              className="absolute left-1/2 top-0 bottom-0 w-px pointer-events-none"
-              style={{
-                transform: 'translateX(-50%)',
-                background: 'linear-gradient(to bottom, transparent, #c9a84c 4%, #c9a84c 96%, transparent)',
-              }}
-            />
-
+          <div className="flex items-start justify-center gap-4 md:gap-6 flex-wrap">
             {products.map((product, index) => {
               const isActive = selected?.id === product.id;
               const hasSelection = selected !== null;
               const pAccent = product.accentColor ?? '#c9a84c';
               const pBadge = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
-              const isEven = index % 2 === 0;
 
-              const textBlock = (
-                <div
-                  className={`w-1/2 flex flex-col justify-center gap-4 ${isEven ? 'pr-20 items-end text-right' : 'pl-20 items-start text-left'}`}
-                  style={{ opacity: hasSelection && !isActive ? 0.45 : 1, transition: 'opacity 0.4s' }}
-                >
-                  {pBadge && product.badge && (
-                    <span
-                      className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
-                      style={{ background: pBadge.bg, color: pBadge.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem' }}
-                    >
-                      {product.badge}
-                    </span>
-                  )}
-                  <div>
-                    <p className="text-xs uppercase tracking-widest mb-2" style={{ color: pAccent, fontFamily: "'Outfit', sans-serif", letterSpacing: '0.2em' }}>
-                      {product.volume}
-                    </p>
-                    <h2 className="text-3xl font-bold leading-tight mb-3" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
-                      {product.name}
-                    </h2>
-                    <p className="text-sm leading-relaxed mb-5" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif", maxWidth: '320px', lineHeight: '1.85' }}>
-                      {product.tagline}
-                    </p>
-                  </div>
-                  <div className="flex items-baseline gap-2" style={{ justifyContent: isEven ? 'flex-end' : 'flex-start' }}>
-                    <span className="text-4xl font-bold" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
-                      {product.price}
-                    </span>
-                    <span className="text-sm font-semibold" style={{ color: pAccent, fontFamily: "'Outfit', sans-serif" }}>
-                      {product.currency}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => handleSelect(product)}
-                    className="mt-1 px-6 py-2.5 text-xs uppercase tracking-widest font-semibold transition-all duration-300 cursor-pointer"
-                    style={{
-                      background: isActive ? pAccent : 'transparent',
-                      color: isActive ? '#1a2617' : pAccent,
-                      border: `1px solid ${pAccent}`,
-                      fontFamily: "'Outfit', sans-serif",
-                      letterSpacing: '0.15em',
-                    }}
-                    onMouseEnter={(e) => { if (!isActive) { (e.currentTarget as HTMLButtonElement).style.background = `${pAccent}15`; } }}
-                    onMouseLeave={(e) => { if (!isActive) { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; } }}
-                  >
-                    {isActive ? 'Sélectionné' : 'Découvrir'}
-                  </button>
-                </div>
-              );
-
-              const bottleBlock = (
-                <div
-                  className={`w-1/2 flex items-center justify-center py-12 ${isEven ? 'pl-20' : 'pr-20'}`}
+              return (
+                <button
+                  key={product.id}
                   onClick={() => handleSelect(product)}
-                  style={{ cursor: 'pointer' }}
+                  className="flex flex-col items-center relative cursor-pointer border-none bg-transparent p-0"
+                  style={{ outline: 'none', width: '300px' }}
                 >
-                  <div className="relative">
+                  {/* Bottle image + volume wrapper */}
+                  <div className="relative flex flex-col items-center transition-all duration-500" style={{ width: '300px' }}>
+
+                    {/* Badge — overlaid on image */}
+                    {pBadge && product.badge && (
+                      <span
+                        className="absolute px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 z-10 whitespace-nowrap"
+                        style={{
+                          top: '-44px',
+                          left: '-14px',
+                          background: pBadge.bg,
+                          color: pBadge.color,
+                          fontFamily: "'Outfit', sans-serif",
+                          fontSize: '0.58rem',
+                          opacity: hasSelection && !isActive ? 0.5 : 1,
+                        }}
+                      >
+                        {product.badge}
+                      </span>
+                    )}
+
+                    {/* Active glow */}
                     <div
-                      className="absolute inset-0 rounded-full pointer-events-none transition-opacity duration-500"
+                      className="absolute inset-0 rounded-2xl transition-opacity duration-500 pointer-events-none"
                       style={{
-                        background: `radial-gradient(ellipse at center, ${pAccent}22 0%, transparent 70%)`,
+                        background: `radial-gradient(ellipse at center bottom, ${pAccent}30 0%, transparent 70%)`,
                         opacity: isActive ? 1 : 0,
-                        filter: 'blur(24px)',
                       }}
                     />
+
                     <img
                       src={product.image}
                       alt={product.volume}
                       loading="eager"
                       decoding="async"
-                      onClick={(e) => { e.stopPropagation(); openGallery(index); }}
-                      className="transition-all duration-500 relative z-10"
+                      fetchPriority="high"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openGallery(index);
+                      }}
+                      className="transition-all duration-500"
                       style={{
-                        height: '340px',
                         width: 'auto',
-                        maxWidth: '200px',
+                        height: 'auto',
+                        maxWidth: '300px',
+                        maxHeight: '620px',
                         objectFit: 'contain',
                         cursor: 'zoom-in',
+                        display: 'block',
                         filter: isActive
-                          ? `drop-shadow(0 20px 40px ${pAccent}55)`
-                          : 'drop-shadow(0 12px 28px rgba(0,0,0,0.12))',
-                        opacity: hasSelection && !isActive ? 0.45 : 1,
-                        transform: isActive ? 'scale(1.07) translateY(-6px)' : 'scale(1)',
+                          ? `drop-shadow(0 18px 36px ${pAccent}60)`
+                          : 'drop-shadow(0 10px 22px rgba(0,0,0,0.13))',
+                        opacity: hasSelection && !isActive ? 0.55 : 1,
+                        transform: isActive ? 'scaleY(1.12) scale(1.08) translateY(-8px)' : 'scaleY(1.12)',
+                        transformOrigin: 'bottom center',
                       }}
                     />
+
+                    {/* Volume — directly below image */}
+                    <p
+                      className="mt-7 text-center font-semibold uppercase tracking-wider w-full"
+                      style={{
+                        color: isActive ? pAccent : hasSelection ? '#b0ada6' : '#6b7c68',
+                        fontFamily: "'Outfit', sans-serif",
+                        fontSize: '0.78rem',
+                      }}
+                    >
+                      {product.volume}
+                    </p>
                   </div>
-                </div>
-              );
 
-              return (
-                <div key={product.id} className="relative flex items-center" style={{ minHeight: '360px' }}>
-                  {/* Gold dot on the line */}
+                  {/* Active indicator dot */}
                   <div
-                    className="absolute left-1/2 top-1/2 z-10 w-2.5 h-2.5 rounded-full"
-                    style={{
-                      transform: 'translate(-50%, -50%)',
-                      background: isActive ? pAccent : '#f8f6f1',
-                      border: `2px solid ${pAccent}`,
-                      boxShadow: isActive ? `0 0 0 5px ${pAccent}25` : 'none',
-                      transition: 'all 0.4s',
-                    }}
+                    className="mt-3 w-1.5 h-1.5 rounded-full transition-all duration-300"
+                    style={{ background: isActive ? pAccent : 'transparent' }}
                   />
-                  {/* Separator line between rows */}
-                  {index > 0 && (
-                    <div className="absolute top-0 left-8 right-8 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(201,168,76,0.15), transparent)' }} />
-                  )}
-
-                  {isEven ? <>{textBlock}{bottleBlock}</> : <>{bottleBlock}{textBlock}</>}
-                </div>
+                </button>
               );
             })}
           </div>
