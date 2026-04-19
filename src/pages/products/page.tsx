@@ -7,7 +7,7 @@ import BackButton from '@/components/base/BackButton';
 import VideoModal from './components/VideoModal';
 import { products, Product } from '@/mocks/products';
 import { useCart } from '@/hooks/useCart';
-import { HERO_IMAGES } from '@/assets/images';
+import { COLLECTION_IMAGES } from '@/assets/images';
 
 const BADGE_STYLES: Record<string, { bg: string; color: string }> = {
   'Bio & Naturel':   { bg: '#3a6040', color: '#e8f5e9' },
@@ -153,7 +153,7 @@ export default function ProductsPage() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `url(${HERO_IMAGES.background})`,
+            backgroundImage: `url(${COLLECTION_IMAGES.hero})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

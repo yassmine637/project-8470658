@@ -33,6 +33,11 @@ export const PRODUCT_SECTION_IMAGES = {
   bottles2: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/9f33a4e8adf36d98a8ce054cd273152e.jpeg',
 };
 
+// --- Page Collection (hero) ---
+export const COLLECTION_IMAGES = {
+  hero: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/9f33a4e8adf36d98a8ce054cd273152e.jpeg',
+};
+
 // --- Section Contact ---
 export const CONTACT_IMAGES = {
   background: 'https://readdy.ai/api/search-image?query=olive%20grove%20aerial%20view%20Tunisia%20misty%20morning%20light%20green%20trees%20rows%20organic%20farm%20landscape%20cinematic%20muted%20tones%20soft%20fog&width=1600&height=900&seq=contact-bg-001&orientation=landscape',
