@@ -32,27 +32,19 @@ export default function ConfiguratorPage() {
   const handleNext = () => { if (currentStep < STEPS.length - 1) setCurrentStep(s => s + 1); };
   const handlePrev = () => { if (currentStep > 0) setCurrentStep(s => s - 1); };
   const isSummaryStep = currentStep === STEPS.length - 1;
-  const progress = (currentStep / (STEPS.length - 1)) * 100;
 
   return (
     <div
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'linear-gradient(160deg, #060d05 0%, #0a1509 40%, #050c04 100%)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
         zIndex: 100,
+        background: '#111',
       }}
     >
-      {/* Ambient glows */}
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '5%', left: '3%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%)', filter: 'blur(80px)' }} />
-        <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(90,138,74,0.04) 0%, transparent 70%)', filter: 'blur(80px)' }} />
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '700px', height: '700px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(212,175,55,0.025) 0%, transparent 60%)', filter: 'blur(100px)' }} />
-      </div>
-
       {/* ── TOP BAR ── */}
       <div
         style={{
@@ -60,46 +52,43 @@ export default function ConfiguratorPage() {
           zIndex: 20,
           display: 'flex',
           alignItems: 'center',
-          height: '58px',
-          borderBottom: '1px solid rgba(212,175,55,0.1)',
-          background: 'rgba(5,10,4,0.9)',
-          backdropFilter: 'blur(20px)',
+          height: '56px',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          background: '#1a1a1a',
           flexShrink: 0,
-          padding: '0 24px',
+          padding: '0 20px',
           gap: '16px',
         }}
       >
+        {/* Logo / back */}
         <button
           onClick={() => navigate('/')}
           className="cursor-pointer flex items-center gap-2 whitespace-nowrap"
           style={{
             background: 'none', border: 'none',
-            color: 'rgba(255,255,255,0.35)',
+            color: 'rgba(255,255,255,0.4)',
             fontFamily: "'Outfit', sans-serif",
-            fontSize: '0.62rem', letterSpacing: '0.14em',
+            fontSize: '0.6rem', letterSpacing: '0.12em',
             textTransform: 'uppercase',
             transition: 'color 0.2s',
             flexShrink: 0,
             padding: '6px 0',
           }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#d4af37'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.35)'; }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#fff'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.4)'; }}
         >
-          <i className="ri-arrow-left-s-line" style={{ fontSize: '15px' }} />
+          <i className="ri-arrow-left-s-line" style={{ fontSize: '16px' }} />
           <span className="hidden sm:inline">{t('config_back_home')}</span>
         </button>
 
-        <div style={{ width: '1px', height: '28px', background: 'rgba(212,175,55,0.12)', flexShrink: 0 }} />
+        <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />
 
         <div style={{ flexShrink: 0 }}>
-          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1rem', fontWeight: 700, color: '#d4af37', letterSpacing: '0.18em', lineHeight: 1 }}>FENDRI</div>
-          <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.42rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.35em', textTransform: 'uppercase', marginTop: '2px' }}>{t('config_page_title')}</div>
+          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.05rem', fontWeight: 700, color: '#d4af37', letterSpacing: '0.18em', lineHeight: 1 }}>FENDRI</div>
         </div>
 
-        <div style={{ width: '1px', height: '28px', background: 'rgba(212,175,55,0.12)', flexShrink: 0 }} />
-
-        {/* Step nav — desktop */}
-        <div className="hidden md:flex items-center flex-1 gap-1">
+        {/* Step tabs — centered */}
+        <div className="hidden md:flex flex-1 items-center justify-center gap-0">
           {STEPS.map((step, i) => {
             const isActive = i === currentStep;
             const isDone = i < currentStep;
@@ -107,26 +96,27 @@ export default function ConfiguratorPage() {
               <button
                 key={step.id}
                 onClick={() => setCurrentStep(i)}
-                className="cursor-pointer flex items-center gap-2 whitespace-nowrap"
+                className="cursor-pointer flex items-center gap-2 whitespace-nowrap relative"
                 style={{
-                  background: isActive ? 'rgba(212,175,55,0.09)' : 'none',
-                  border: isActive ? '1px solid rgba(212,175,55,0.22)' : '1px solid transparent',
-                  padding: '5px 12px',
-                  borderRadius: '6px',
+                  background: 'none',
+                  border: 'none',
+                  borderBottom: isActive ? '2px solid #d4af37' : '2px solid transparent',
+                  padding: '0 20px',
+                  height: '56px',
                   fontFamily: "'Outfit', sans-serif",
-                  fontSize: '0.6rem',
+                  fontSize: '0.62rem',
                   fontWeight: isActive ? 700 : 400,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
-                  color: isActive ? '#d4af37' : isDone ? 'rgba(212,175,55,0.5)' : 'rgba(255,255,255,0.22)',
-                  transition: 'all 0.2s',
+                  color: isActive ? '#d4af37' : isDone ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.28)',
+                  transition: 'color 0.2s, border-color 0.2s',
                 }}
-                onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.55)'; }}
-                onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = isDone ? 'rgba(212,175,55,0.5)' : 'rgba(255,255,255,0.22)'; }}
+                onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.75)'; }}
+                onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = isDone ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.28)'; }}
               >
                 {isDone
                   ? <i className="ri-check-line" style={{ fontSize: '10px', color: '#d4af37' }} />
-                  : <span style={{ fontSize: '0.52rem', opacity: 0.5 }}>{i + 1}</span>
+                  : <span style={{ fontSize: '0.55rem', opacity: 0.5 }}>{i + 1}.</span>
                 }
                 {step.label}
               </button>
@@ -140,18 +130,14 @@ export default function ConfiguratorPage() {
             {currentStep + 1}/{STEPS.length} — <span style={{ color: '#d4af37' }}>{STEPS[currentStep].label}</span>
           </span>
         </div>
-      </div>
 
-      {/* Progress bar */}
-      <div style={{ height: '2px', background: 'rgba(255,255,255,0.04)', flexShrink: 0, position: 'relative', zIndex: 20 }}>
-        <div
-          style={{
-            height: '100%',
-            width: `${progress}%`,
-            background: 'linear-gradient(to right, rgba(212,175,55,0.4), #d4af37)',
-            transition: 'width 0.5s cubic-bezier(0.4,0,0.2,1)',
-          }}
-        />
+        {/* Price */}
+        <div style={{ flexShrink: 0, textAlign: 'right' }}>
+          <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.48rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{t('config_total') || 'Total'}</div>
+          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.1rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
+            {totalPrice} <span style={{ fontSize: '0.65rem', fontFamily: "'Outfit', sans-serif", fontWeight: 400 }}>TND</span>
+          </div>
+        </div>
       </div>
 
       {/* ── MAIN CONTENT ── */}
@@ -164,9 +150,8 @@ export default function ConfiguratorPage() {
             minWidth: isSummaryStep ? '0' : '260px',
             overflow: 'hidden',
             transition: 'none',
-            borderRight: '1px solid rgba(212,175,55,0.08)',
-            background: 'rgba(4,8,3,0.7)',
-            backdropFilter: 'blur(24px)',
+            borderRight: '1px solid rgba(255,255,255,0.06)',
+            background: '#1a1a1a',
             flexShrink: 0,
             display: 'flex',
             flexDirection: 'column',
@@ -174,65 +159,42 @@ export default function ConfiguratorPage() {
         >
           <div style={{ width: '260px', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
-            {/* Step header */}
+            {/* Section label */}
             <div
               style={{
-                padding: '18px 22px 16px',
-                borderBottom: '1px solid rgba(212,175,55,0.07)',
+                padding: '14px 18px 12px',
+                borderBottom: '1px solid rgba(255,255,255,0.06)',
                 flexShrink: 0,
-                background: 'rgba(212,175,55,0.02)',
               }}
             >
-              <div className="flex items-center gap-3">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div
-                  className="flex items-center justify-center"
                   style={{
-                    width: '34px', height: '34px',
-                    borderRadius: '10px',
-                    background: 'rgba(212,175,55,0.1)',
-                    border: '1px solid rgba(212,175,55,0.18)',
+                    width: '28px', height: '28px',
+                    borderRadius: '7px',
+                    background: 'rgba(212,175,55,0.12)',
+                    border: '1px solid rgba(212,175,55,0.2)',
                     color: '#d4af37',
-                    fontSize: '15px',
+                    fontSize: '13px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}
                 >
                   <i className={STEPS[currentStep]?.icon} />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.25em', color: '#d4af37', textTransform: 'uppercase' }}>
-                    {t('config_step_label_prefix')} {currentStep + 1} · {STEPS[currentStep]?.label}
+                <div>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.22em', color: '#d4af37', textTransform: 'uppercase' }}>
+                    {STEPS[currentStep]?.label}
                   </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: 'rgba(255,255,255,0.25)', marginTop: '2px' }}>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: 'rgba(255,255,255,0.25)', marginTop: '1px' }}>
                     {STEPS[currentStep]?.desc}
                   </div>
                 </div>
-                <div style={{ flexShrink: 0, fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: 'rgba(255,255,255,0.15)', letterSpacing: '0.1em' }}>
-                  {currentStep + 1}<span style={{ opacity: 0.5 }}>/{STEPS.length}</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1.5 mt-3">
-                {STEPS.map((_, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      height: '2px',
-                      flex: 1,
-                      borderRadius: '2px',
-                      background: i < currentStep
-                        ? '#d4af37'
-                        : i === currentStep
-                          ? 'rgba(212,175,55,0.55)'
-                          : 'rgba(255,255,255,0.07)',
-                      transition: 'background 0.3s',
-                    }}
-                  />
-                ))}
               </div>
             </div>
 
             {/* Panel content */}
-            <div style={{ flex: 1, overflow: 'hidden', padding: '18px 20px' }}>
+            <div style={{ flex: 1, overflow: 'hidden', padding: '14px 16px' }}>
               <ConfigPanel
                 step={currentStep}
                 models={bottleModels}
@@ -248,74 +210,10 @@ export default function ConfiguratorPage() {
                 onCustomTextChange={txt => setCustomText(txt)}
               />
             </div>
-
-            {/* Bottom nav inside panel */}
-            <div
-              style={{
-                padding: '14px 20px',
-                borderTop: '1px solid rgba(212,175,55,0.07)',
-                flexShrink: 0,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                background: 'rgba(4,8,3,0.5)',
-              }}
-            >
-              <button
-                onClick={handlePrev}
-                disabled={currentStep === 0}
-                className="cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap"
-                style={{
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  borderRadius: '8px',
-                  padding: '9px 16px',
-                  color: currentStep === 0 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.4)',
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  transition: 'all 0.2s',
-                  cursor: currentStep === 0 ? 'not-allowed' : 'pointer',
-                  flexShrink: 0,
-                }}
-                onMouseEnter={e => { if (currentStep > 0) { (e.currentTarget as HTMLButtonElement).style.color = '#d4af37'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(212,175,55,0.3)'; } }}
-                onMouseLeave={e => { if (currentStep > 0) { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.4)'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.07)'; } }}
-              >
-                <i className="ri-arrow-left-s-line" style={{ fontSize: '14px' }} />
-                {t('config_prev')}
-              </button>
-
-              <button
-                onClick={handleNext}
-                disabled={isSummaryStep}
-                className="cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap"
-                style={{
-                  flex: 1,
-                  background: isSummaryStep ? 'rgba(255,255,255,0.02)' : 'linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.09))',
-                  border: isSummaryStep ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(212,175,55,0.45)',
-                  borderRadius: '8px',
-                  padding: '9px 16px',
-                  color: isSummaryStep ? 'rgba(255,255,255,0.15)' : '#d4af37',
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: '0.6rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  transition: 'all 0.2s',
-                  cursor: isSummaryStep ? 'not-allowed' : 'pointer',
-                }}
-                onMouseEnter={e => { if (!isSummaryStep) { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.24)'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(212,175,55,0.65)'; } }}
-                onMouseLeave={e => { if (!isSummaryStep) { (e.currentTarget as HTMLButtonElement).style.background = 'linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.09))'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(212,175,55,0.45)'; } }}
-              >
-                {currentStep === STEPS.length - 2 ? t('config_see_recap') : t('config_next')}
-                <i className="ri-arrow-right-s-line" style={{ fontSize: '14px' }} />
-              </button>
-            </div>
           </div>
         </div>
 
-        {/* CENTER — Bottle viewer */}
+        {/* CENTER — Bottle viewer (white background) */}
         <div
           style={{
             flex: 1,
@@ -325,25 +223,30 @@ export default function ConfiguratorPage() {
             alignItems: 'center',
             justifyContent: 'center',
             overflow: 'hidden',
+            background: '#f7f6f3',
           }}
         >
+          {/* Product title top */}
           <div
             style={{
               position: 'absolute',
-              top: '20px',
-              left: '50%',
-              transform: 'translateX(-50%)',
+              top: '24px',
+              left: '0',
+              right: '0',
               textAlign: 'center',
               pointerEvents: 'none',
               zIndex: 5,
-              whiteSpace: 'nowrap',
             }}
           >
-            <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.3rem', fontWeight: 300, color: '#000000', letterSpacing: '0.1em' }}>
+            <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 400, color: '#1a1a1a', letterSpacing: '0.08em' }}>
               {selectedModel.name}
+            </div>
+            <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: '#888', letterSpacing: '0.2em', textTransform: 'uppercase', marginTop: '4px' }}>
+              {selectedSize.label} · {selectedLabel.name}
             </div>
           </div>
 
+          {/* Bottle image */}
           <div style={{ width: '100%', height: '100%', maxWidth: isSummaryStep ? '400px' : '100%' }}>
             <BottleViewer
               model={selectedModel}
@@ -353,7 +256,8 @@ export default function ConfiguratorPage() {
             />
           </div>
 
-          <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Model dots */}
+          <div style={{ position: 'absolute', bottom: '72px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '8px' }}>
             {bottleModels.map(m => (
               <button
                 key={m.id}
@@ -364,7 +268,7 @@ export default function ConfiguratorPage() {
                   width: selectedModel.id === m.id ? '28px' : '7px',
                   height: '7px',
                   borderRadius: '4px',
-                  background: selectedModel.id === m.id ? '#d4af37' : 'rgba(255,255,255,0.14)',
+                  background: selectedModel.id === m.id ? '#1a1a1a' : 'rgba(0,0,0,0.18)',
                   border: 'none',
                   transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
                   padding: 0,
@@ -381,9 +285,8 @@ export default function ConfiguratorPage() {
             minWidth: isSummaryStep ? '400px' : '0',
             overflow: 'hidden',
             transition: 'none',
-            borderLeft: '1px solid rgba(212,175,55,0.08)',
-            background: 'rgba(4,8,3,0.7)',
-            backdropFilter: 'blur(24px)',
+            borderLeft: '1px solid rgba(255,255,255,0.06)',
+            background: '#1a1a1a',
             flexShrink: 0,
           }}
         >
@@ -399,6 +302,78 @@ export default function ConfiguratorPage() {
             />
           </div>
         </div>
+      </div>
+
+      {/* ── BOTTOM NAV BAR ── */}
+      <div
+        style={{
+          height: '52px',
+          background: '#1a1a1a',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 0',
+          flexShrink: 0,
+          zIndex: 20,
+        }}
+      >
+        <button
+          onClick={handlePrev}
+          disabled={currentStep === 0}
+          className="cursor-pointer flex items-center gap-2"
+          style={{
+            background: 'none',
+            border: 'none',
+            borderRight: '1px solid rgba(255,255,255,0.06)',
+            height: '100%',
+            padding: '0 32px',
+            color: currentStep === 0 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.55)',
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: '0.62rem',
+            fontWeight: 600,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            cursor: currentStep === 0 ? 'not-allowed' : 'pointer',
+            transition: 'color 0.2s',
+          }}
+          onMouseEnter={e => { if (currentStep > 0) (e.currentTarget as HTMLButtonElement).style.color = '#fff'; }}
+          onMouseLeave={e => { if (currentStep > 0) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.55)'; }}
+        >
+          <i className="ri-arrow-left-s-line" style={{ fontSize: '16px' }} />
+          {t('config_prev')}
+        </button>
+
+        {/* Center info */}
+        <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em', textAlign: 'center' }}>
+          {currentStep + 1} / {STEPS.length}
+        </div>
+
+        <button
+          onClick={handleNext}
+          disabled={isSummaryStep}
+          className="cursor-pointer flex items-center gap-2"
+          style={{
+            background: isSummaryStep ? 'none' : '#d4af37',
+            border: 'none',
+            borderLeft: '1px solid rgba(255,255,255,0.06)',
+            height: '100%',
+            padding: '0 32px',
+            color: isSummaryStep ? 'rgba(255,255,255,0.15)' : '#1a1a0e',
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: '0.62rem',
+            fontWeight: 700,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            cursor: isSummaryStep ? 'not-allowed' : 'pointer',
+            transition: 'background 0.2s, color 0.2s',
+          }}
+          onMouseEnter={e => { if (!isSummaryStep) (e.currentTarget as HTMLButtonElement).style.background = '#c9a52e'; }}
+          onMouseLeave={e => { if (!isSummaryStep) (e.currentTarget as HTMLButtonElement).style.background = '#d4af37'; }}
+        >
+          {currentStep === STEPS.length - 2 ? t('config_see_recap') : t('config_next')}
+          <i className="ri-arrow-right-s-line" style={{ fontSize: '16px' }} />
+        </button>
       </div>
 
       <OrderConfirmModal
