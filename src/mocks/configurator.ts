@@ -46,6 +46,9 @@ export const bottleModels: BottleModel[] = [
     basePrice: 58,
     description: 'Design géométrique moderne, segment prestige',
     image: PRODUCT_IMAGES.bouteilleCarree750ml,
+    sizeImages: {
+      '500 ml': PRODUCT_IMAGES.bouteilleCarree500ml,
+    },
   },
   {
     id: 'bidon-metal-3l',
