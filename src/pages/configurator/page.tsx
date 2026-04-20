@@ -342,11 +342,6 @@ export default function ConfiguratorPage() {
             <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.3rem', fontWeight: 300, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.1em' }}>
               {selectedModel.name}
             </div>
-            <div className="flex items-center justify-center gap-3 mt-1">
-              <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: 'rgba(212,175,55,0.5)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>{selectedSize.label}</span>
-              <div style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(212,175,55,0.35)' }} />
-              <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: 'rgba(212,175,55,0.5)', letterSpacing: '0.22em', textTransform: 'uppercase' }}>{selectedLabel.name}</span>
-            </div>
           </div>
 
           <div style={{ width: '100%', height: '100%', maxWidth: isSummaryStep ? '400px' : '100%' }}>
