@@ -18,21 +18,8 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
   const [prevModelId, setPrevModelId] = useState(model.id);
   const [transitioning, setTransitioning] = useState(false);
   const [showZoomHint, setShowZoomHint] = useState(false);
-  const autoRotateRef = useRef(true);
+  const autoRotateRef = useRef(false);
   const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Auto-rotate when idle
-  useEffect(() => {
-    let frame: number;
-    const animate = () => {
-      if (autoRotateRef.current && !isDragging) {
-        setRotation(r => (r + 0.15) % 360);
-      }
-      frame = requestAnimationFrame(animate);
-    };
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [isDragging]);
 
   // Transition on model change
   useEffect(() => {
@@ -53,7 +40,6 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     setIsDragging(true);
-    autoRotateRef.current = false;
     setLastX(e.clientX);
   }, []);
 
@@ -66,12 +52,10 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-    setTimeout(() => { autoRotateRef.current = true; }, 3000);
   }, []);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setIsDragging(true);
-    autoRotateRef.current = false;
     setLastX(e.touches[0].clientX);
   }, []);
 
@@ -84,7 +68,6 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
 
   const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
-    setTimeout(() => { autoRotateRef.current = true; }, 3000);
   }, []);
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
@@ -100,7 +83,7 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
   // Zoom buttons
   const zoomIn = () => setScale(s => Math.min(1.8, s + 0.15));
   const zoomOut = () => setScale(s => Math.max(0.7, s - 0.15));
-  const resetView = () => { setScale(1); setRotation(0); autoRotateRef.current = true; };
+  const resetView = () => { setScale(1); setRotation(0); };
 
   // Pseudo-3D perspective
   const normalizedRot = ((rotation % 360) + 360) % 360;
