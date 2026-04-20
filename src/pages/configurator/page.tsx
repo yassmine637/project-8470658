@@ -339,7 +339,7 @@ export default function ConfiguratorPage() {
               whiteSpace: 'nowrap',
             }}
           >
-            <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.3rem', fontWeight: 300, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.1em' }}>
+            <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.3rem', fontWeight: 300, color: '#000000', letterSpacing: '0.1em' }}>
               {selectedModel.name}
             </div>
           </div>
