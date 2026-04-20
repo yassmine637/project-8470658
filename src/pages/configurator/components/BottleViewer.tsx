@@ -24,7 +24,7 @@ export default function BottleViewer({ model, labelStyle, size }: BottleViewerPr
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [model.id, size]);
+  }, [bottleImage]);
 
   useEffect(() => {
     if (model.id !== prevModelId) {
