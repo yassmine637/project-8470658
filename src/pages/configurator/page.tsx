@@ -14,7 +14,7 @@ export default function ConfiguratorPage() {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedModel, setSelectedModel] = useState<BottleModel>(bottleModels[0]);
-  const [selectedSize, setSelectedSize] = useState<BottleSize>(bottleSizes[1]);
+  const [selectedSize, setSelectedSize] = useState<BottleSize>(bottleSizes[0]);
   const [selectedLabel, setSelectedLabel] = useState<LabelStyle>(labelStyles[0]);
   const [customText, setCustomText] = useState('');
   const [orderConfirmed, setOrderConfirmed] = useState(false);
