@@ -20,10 +20,11 @@ export default function BottleViewer({ model, labelStyle, size }: BottleViewerPr
   const [prevModelId, setPrevModelId] = useState(model.id);
   const [transitioning, setTransitioning] = useState(false);
   const sizeScale = SIZE_SCALE[size] ?? 0.85;
+  const bottleImage = model.sizeImages?.[size] ?? model.image;
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [model.id]);
+  }, [model.id, size]);
 
   useEffect(() => {
     if (model.id !== prevModelId) {
@@ -66,7 +67,7 @@ export default function BottleViewer({ model, labelStyle, size }: BottleViewerPr
         }}
       >
         <img
-          src={model.image}
+          src={bottleImage}
           alt={model.name}
           onLoad={() => setIsLoaded(true)}
           className="w-full h-full object-contain object-center"

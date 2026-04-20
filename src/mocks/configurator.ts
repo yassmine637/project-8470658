@@ -6,6 +6,7 @@ export interface BottleModel {
   basePrice: number;
   image: string;
   description: string;
+  sizeImages?: Record<string, string>;
 }
 
 export interface BottleSize {
@@ -33,6 +34,9 @@ export const bottleModels: BottleModel[] = [
     basePrice: 26,
     description: 'Silhouette classique, format idéal pour offrir',
     image: PRODUCT_IMAGES.bouteilleCylindrique500ml,
+    sizeImages: {
+      '750 ml': PRODUCT_IMAGES.bouteilleCylindrique750ml,
+    },
   },
   {
     id: 'carree-750',
