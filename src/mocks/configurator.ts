@@ -37,6 +37,7 @@ export const bottleModels: BottleModel[] = [
     sizeImages: {
       '750 ml': PRODUCT_IMAGES.bouteilleCylindrique750ml,
       '1 L': PRODUCT_IMAGES.bouteilleCylindrique1L,
+      '3 L': PRODUCT_IMAGES.bouteilleCylindrique3L,
     },
   },
   {
