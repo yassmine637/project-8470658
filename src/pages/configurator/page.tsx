@@ -163,7 +163,7 @@ export default function ConfiguratorPage() {
             width: isSummaryStep ? '0' : '260px',
             minWidth: isSummaryStep ? '0' : '260px',
             overflow: 'hidden',
-            transition: 'width 0.45s cubic-bezier(0.4,0,0.2,1), min-width 0.45s cubic-bezier(0.4,0,0.2,1)',
+            transition: 'none',
             borderRight: '1px solid rgba(212,175,55,0.08)',
             background: 'rgba(4,8,3,0.7)',
             backdropFilter: 'blur(24px)',
@@ -349,7 +349,7 @@ export default function ConfiguratorPage() {
             </div>
           </div>
 
-          <div style={{ width: '100%', height: '100%', maxWidth: isSummaryStep ? '400px' : '100%', transition: 'max-width 0.45s ease' }}>
+          <div style={{ width: '100%', height: '100%', maxWidth: isSummaryStep ? '400px' : '100%' }}>
             <BottleViewer
               model={selectedModel}
               labelStyle={selectedLabel}
@@ -385,7 +385,7 @@ export default function ConfiguratorPage() {
             width: isSummaryStep ? '400px' : '0',
             minWidth: isSummaryStep ? '400px' : '0',
             overflow: 'hidden',
-            transition: 'width 0.45s cubic-bezier(0.4,0,0.2,1), min-width 0.45s cubic-bezier(0.4,0,0.2,1)',
+            transition: 'none',
             borderLeft: '1px solid rgba(212,175,55,0.08)',
             background: 'rgba(4,8,3,0.7)',
             backdropFilter: 'blur(24px)',
