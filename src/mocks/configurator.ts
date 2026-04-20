@@ -63,7 +63,7 @@ export const bottleModels: BottleModel[] = [
 ];
 
 export const bottleSizes: BottleSize[] = [
-  { id: '250ml', label: '250 ml', volume: '250ml', priceAdd: 0 },
+  { id: '3l', label: '3 L', volume: '3L', priceAdd: 48 },
   { id: '500ml', label: '500 ml', volume: '500ml', priceAdd: 12 },
   { id: '750ml', label: '750 ml', volume: '750ml', priceAdd: 22 },
   { id: '1l', label: '1 L', volume: '1L', priceAdd: 34 },

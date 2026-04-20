@@ -263,7 +263,7 @@ export default function ConfigPanel({
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px', justifyContent: 'center' }}>
               {sizes.map(s => {
-                const heights: Record<string, number> = { '250ml': 24, '500ml': 38, '750ml': 52, '1l': 66 };
+                const heights: Record<string, number> = { '500ml': 24, '750ml': 38, '1l': 52, '3l': 80 };
                 const h = heights[s.id] || 38;
                 const isSel = selectedSize.id === s.id;
                 return (

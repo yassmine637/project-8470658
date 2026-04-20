@@ -9,9 +9,9 @@ interface BottleViewerProps {
 }
 
 const SIZE_SCALE: Record<string, number> = {
-  '250 ml': 0.6,
+  '3 L': 1.0,
   '500 ml': 0.8,
-  '750 ml': 0.72,
+  '750 ml': 0.88,
   '1 L': 0.95,
 };
 
