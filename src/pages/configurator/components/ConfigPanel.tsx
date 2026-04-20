@@ -331,19 +331,24 @@ export default function ConfigPanel({
                     height: '56px',
                     borderRadius: '5px',
                     background: l.bgColor,
-                    border: `1.5px solid ${l.borderColor}`,
+                    border: isSelected ? `1.5px solid ${l.accentColor}` : `1.5px solid ${l.borderColor}55`,
                     flexShrink: 0,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '2px',
-                    padding: '4px',
+                    overflow: 'hidden',
                   }}
                 >
-                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.38rem', fontWeight: 700, color: l.accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>FENDRI</div>
-                  <div style={{ width: '65%', height: '1px', background: l.accentColor, opacity: 0.55 }} />
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.28rem', color: l.bgColor === '#1a1a0e' ? 'rgba(255,255,255,0.4)' : '#5a6c56', letterSpacing: '0.04em' }}>EXTRA VIERGE</div>
+                  {l.image ? (
+                    <img
+                      src={l.image}
+                      alt={l.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                    />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', padding: '4px', boxSizing: 'border-box' }}>
+                      <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.38rem', fontWeight: 700, color: l.accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>FENDRI</div>
+                      <div style={{ width: '65%', height: '1px', background: l.accentColor, opacity: 0.55 }} />
+                      <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.28rem', color: l.bgColor === '#0e0e0e' ? 'rgba(255,255,255,0.4)' : '#5a6c56', letterSpacing: '0.04em' }}>EXTRA VIERGE</div>
+                    </div>
+                  )}
                 </div>
 
                 <div style={{ flex: 1, minWidth: 0 }}>

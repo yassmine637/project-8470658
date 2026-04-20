@@ -23,6 +23,7 @@ export interface LabelStyle {
   accentColor: string;
   bgColor: string;
   borderColor: string;
+  image?: string;
 }
 
 export const bottleModels: BottleModel[] = [
@@ -69,9 +70,10 @@ export const labelStyles: LabelStyle[] = [
     name: 'Classique Ivoire',
     description: 'Luxe artisanal, identité principale Fendri',
     priceAdd: 0,
-    accentColor: '#c8a84b',
-    bgColor: '#fdf8ee',
-    borderColor: '#c8a84b',
+    accentColor: '#3d6b3a',
+    bgColor: '#f7fbf5',
+    borderColor: '#3d6b3a',
+    image: '/labels/label-classique.png',
   },
   {
     id: 'bio-moderne',
@@ -81,6 +83,7 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#3d7a4a',
     bgColor: '#f0f7ee',
     borderColor: '#3d7a4a',
+    image: '/labels/label-bio-moderne.png',
   },
   {
     id: 'luxe-noir-or',
@@ -99,6 +102,7 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#8b5e3c',
     bgColor: '#f5ede0',
     borderColor: '#a67c5b',
+    image: '/labels/label-heritage.png',
   },
   {
     id: 'recolte-limitee',
@@ -108,5 +112,6 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#c17f24',
     bgColor: '#fef6e4',
     borderColor: '#d4943a',
+    image: '/labels/label-recolte.png',
   },
 ];
