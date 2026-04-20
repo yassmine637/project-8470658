@@ -160,8 +160,8 @@ export default function ConfiguratorPage() {
         {/* LEFT PANEL */}
         <div
           style={{
-            width: isSummaryStep ? '0' : '360px',
-            minWidth: isSummaryStep ? '0' : '360px',
+            width: isSummaryStep ? '0' : '300px',
+            minWidth: isSummaryStep ? '0' : '300px',
             overflow: 'hidden',
             transition: 'width 0.45s cubic-bezier(0.4,0,0.2,1), min-width 0.45s cubic-bezier(0.4,0,0.2,1)',
             borderRight: '1px solid rgba(212,175,55,0.08)',
@@ -172,7 +172,7 @@ export default function ConfiguratorPage() {
             flexDirection: 'column',
           }}
         >
-          <div style={{ width: '360px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ width: '300px', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
             {/* Step header */}
             <div
