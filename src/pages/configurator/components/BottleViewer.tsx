@@ -8,10 +8,18 @@ interface BottleViewerProps {
   size: string;
 }
 
+const SIZE_SCALE: Record<string, number> = {
+  '250 ml': 0.6,
+  '500 ml': 0.8,
+  '750 ml': 0.72,
+  '1 L': 0.95,
+};
+
 export default function BottleViewer({ model, labelStyle, customText, size }: BottleViewerProps) {
   const [isLoaded, setIsLoaded] = useState(true);
   const [prevModelId, setPrevModelId] = useState(model.id);
   const [transitioning, setTransitioning] = useState(false);
+  const sizeScale = SIZE_SCALE[size] ?? 0.85;
 
   // Transition on model change
   useEffect(() => {
@@ -50,8 +58,8 @@ export default function BottleViewer({ model, labelStyle, customText, size }: Bo
           opacity: transitioning ? 0 : 1,
           transition: transitioning ? 'opacity 0.35s' : 'none',
           position: 'relative',
-          width: '100%',
-          height: '100%',
+          width: `${sizeScale * 100}%`,
+          height: `${sizeScale * 100}%`,
         }}
       >
         {/* Bottle image */}
