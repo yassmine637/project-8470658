@@ -225,11 +225,11 @@ export default function ConfigPanel({
                       <i className="ri-check-line" style={{ fontSize: '7px', color: '#1a1a0e' }} />
                     </div>
                   )}
-                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.6rem', fontWeight: 700, color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.7)', transition: 'color 0.2s', lineHeight: 1 }}>
-                    {s.label.split(' ')[0]}
-                  </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: 'rgba(255,255,255,0.28)', marginTop: '3px', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                    {s.label.split(' ')[1] || t('config_litre')}
+                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.6rem', fontWeight: 700, color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.7)', transition: 'color 0.2s', lineHeight: 1, display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '4px' }}>
+                    <span>{s.label.split(' ')[0]}</span>
+                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem', fontWeight: 500, color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.55)', letterSpacing: '0.06em', textTransform: 'lowercase' }}>
+                      {s.label.split(' ')[1] || t('config_litre')}
+                    </span>
                   </div>
                   <div
                     style={{
