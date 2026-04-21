@@ -60,6 +60,10 @@ export const bottleModels: BottleModel[] = [
     basePrice: 74,
     description: 'Contenant professionnel, conservation optimale',
     image: PRODUCT_IMAGES.bidonMetallique3L,
+    defaultSizeId: '3l',
+    sizeImages: {
+      '500 ml': PRODUCT_IMAGES.bidonMetallique500ml,
+    },
   },
   {
     id: 'bidon-vert-1l',
