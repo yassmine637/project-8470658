@@ -383,42 +383,6 @@ export default function ConfigPanel({
             );
           })}
 
-          <div
-            style={{
-              padding: '12px 14px',
-              borderRadius: '10px',
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(212,175,55,0.07)',
-            }}
-          >
-            <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.5rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '10px' }}>
-              {t('config_color_palette')}
-            </div>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              {labels.map(l => (
-                <button
-                  key={l.id}
-                  onClick={() => onLabelChange(l)}
-                  className="cursor-pointer"
-                  title={l.name}
-                  style={{
-                    width: '28px',
-                    height: '28px',
-                    borderRadius: '50%',
-                    background: l.bgColor,
-                    border: selectedLabel.id === l.id ? `2px solid ${l.accentColor}` : `2px solid ${l.borderColor}55`,
-                    transition: 'all 0.2s',
-                    flexShrink: 0,
-                    outline: selectedLabel.id === l.id ? `2px solid ${l.accentColor}44` : 'none',
-                    outlineOffset: '2px',
-                  }}
-                />
-              ))}
-              <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: 'rgba(255,255,255,0.25)', marginLeft: '4px' }}>
-                {selectedLabel.name}
-              </span>
-            </div>
-          </div>
         </div>
       )}
 
