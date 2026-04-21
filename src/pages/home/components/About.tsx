@@ -27,6 +27,7 @@ function StatItem({ value, suffix, label, display, isYear, delay }: {
       <span
         className="text-3xl font-bold"
         style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}
+        dir="ltr"
       >
         {formatted}{suffix}
       </span>
