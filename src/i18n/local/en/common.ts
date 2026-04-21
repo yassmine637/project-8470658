@@ -300,6 +300,9 @@ const translations = {
   confirm_custom: 'Personalisation',
   confirm_total: 'Total',
   confirm_close: 'Close',
+
+  // Products page
+  products_lineup_subtitle: 'Choose the bottle that matches your art of living',
 };
 
 export default translations;

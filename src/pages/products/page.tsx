@@ -191,7 +191,7 @@ export default function ProductsPage() {
             className="text-center -mt-4 mb-32 text-lg uppercase tracking-widest"
             style={{ color: '#000000', fontFamily: "'Outfit', sans-serif" }}
           >
-            Choisissez la bouteille qui correspond à votre art de vivre
+            {t('products_lineup_subtitle')}
           </p>
 
           <div className="flex items-start justify-center gap-16 flex-nowrap">

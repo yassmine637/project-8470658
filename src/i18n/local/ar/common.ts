@@ -300,6 +300,9 @@ const translations = {
   confirm_custom: 'التخصيص',
   confirm_total: 'الإجمالي',
   confirm_close: 'إغلاق',
+
+  // Products page
+  products_lineup_subtitle: 'اختر الزجاجة التي تناسب أسلوب حياتك',
 };
 
 export default translations;
