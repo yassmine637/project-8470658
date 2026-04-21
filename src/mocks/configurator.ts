@@ -111,6 +111,7 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#d4af37',
     bgColor: '#0e0e0e',
     borderColor: '#d4af37',
+    image: '/labels/label-luxe-noir-or.png',
   },
   {
     id: 'heritage',
