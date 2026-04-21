@@ -6,7 +6,7 @@
 // --- Produits ---
 export const PRODUCT_IMAGES = {
   bidonVert1L: 'https://storage.readdy-site.link/project_files/87cc5f02-5407-43de-a578-ad5a1f36c09a/ccdd84a2-abed-4334-bc41-826fe8a12450_produit4.png?v=5915238d62d55de0b91b7171cb52cf6c',
-  bouteilleCylindrique500ml: 'https://storage.readdy-site.link/project_files/87cc5f02-5407-43de-a578-ad5a1f36c09a/24817110-823d-4088-be96-999c6ed58ae4_produit1.png?v=0c2e4e056dd5f44a759471c756168858',
+  bouteilleCylindrique500ml: '/bottle-cylindrique-500ml.png',
   bouteilleCylindrique750ml: '/bottle-750ml.png',
   bouteilleCylindrique1L: '/bottle-1l.png',
   bouteilleCylindrique3L: '/bottle-3l.png',
