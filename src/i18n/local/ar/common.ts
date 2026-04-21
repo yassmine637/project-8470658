@@ -103,7 +103,7 @@ const translations = {
   contact_info_availability_val: 'ردّ خلال 24 ساعة عمل',
   contact_quote: 'كل قطرة تحمل إرث تربتنا التونسية وخبرة قرن من الشغف المتوارث جيلاً بعد جيل.',
   contact_form_title: 'أرسل لنا رسالة',
-  contact_form_required: 'إلزامية',
+  contact_form_required: 'جميع الحقول إلزامية',
   contact_form_nom: 'اللقب',
   contact_form_prenom: 'الاسم',
   contact_form_phone: 'الهاتف',

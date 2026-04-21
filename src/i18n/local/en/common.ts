@@ -103,7 +103,7 @@ const translations = {
   contact_info_availability_val: 'Response within 24 business hours',
   contact_quote: "Every drop carries the heritage of our Tunisian terroir and a century of passion passed down from generation to generation.",
   contact_form_title: 'Send us a message',
-  contact_form_required: 'are required',
+  contact_form_required: 'All fields are required',
   contact_form_nom: 'Last name',
   contact_form_prenom: 'First name',
   contact_form_phone: 'Phone',

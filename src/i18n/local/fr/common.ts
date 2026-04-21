@@ -103,7 +103,7 @@ const translations = {
   contact_info_availability_val: 'Réponse sous 24h ouvrées',
   contact_quote: "Chaque goutte porte l'héritage de notre terroir tunisien et le savoir-faire d'un siècle de passion transmis de génération en génération.",
   contact_form_title: 'Envoyez-nous un message',
-  contact_form_required: 'sont obligatoires',
+  contact_form_required: 'Tous les champs sont obligatoires',
   contact_form_nom: 'Nom',
   contact_form_prenom: 'Prénom',
   contact_form_phone: 'Téléphone',
