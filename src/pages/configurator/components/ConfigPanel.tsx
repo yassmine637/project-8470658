@@ -363,14 +363,14 @@ export default function ConfigPanel({
                       marginTop: '8px',
                       fontFamily: "'Outfit', sans-serif",
                       fontSize: '0.72rem',
-                      color: l.priceAdd > 0 ? 'rgba(212,175,55,0.6)' : 'rgba(255,255,255,0.18)',
-                      background: l.priceAdd > 0 ? 'rgba(212,175,55,0.07)' : 'rgba(255,255,255,0.03)',
+                      color: 'rgba(212,175,55,0.7)',
+                      background: 'rgba(212,175,55,0.08)',
                       borderRadius: '4px',
                       padding: '2px 6px',
                       display: 'inline-block',
                     }}
                   >
-                    {l.priceAdd > 0 ? `+${l.priceAdd} TND` : t('config_included_label')}
+                    {`+${l.priceAdd} TND`}
                   </div>
                 </div>
 
