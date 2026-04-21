@@ -291,7 +291,7 @@ export default function ConfigPanel({
 
       {/* ── STEP 2 — Label ── */}
       {step === 2 && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {labels.map(l => {
             const isSelected = selectedLabel.id === l.id;
             return (
@@ -300,7 +300,7 @@ export default function ConfigPanel({
                 onClick={() => onLabelChange(l)}
                 className="cursor-pointer text-left w-full"
                 style={{
-                  padding: '12px 14px',
+                  padding: '18px 20px',
                   borderRadius: '10px',
                   border: isSelected ? `1px solid ${l.accentColor}77` : '1px solid rgba(255,255,255,0.05)',
                   background: isSelected ? `${l.accentColor}0c` : 'rgba(255,255,255,0.02)',
@@ -327,9 +327,9 @@ export default function ConfigPanel({
               >
                 <div
                   style={{
-                    width: '40px',
-                    height: '56px',
-                    borderRadius: '5px',
+                    width: '64px',
+                    height: '90px',
+                    borderRadius: '6px',
                     background: l.bgColor,
                     border: isSelected ? `1.5px solid ${l.accentColor}` : `1.5px solid ${l.borderColor}55`,
                     flexShrink: 0,
@@ -343,26 +343,26 @@ export default function ConfigPanel({
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
                     />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', padding: '4px', boxSizing: 'border-box' }}>
-                      <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.38rem', fontWeight: 700, color: l.accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>FENDRI</div>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px', padding: '6px', boxSizing: 'border-box' }}>
+                      <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.6rem', fontWeight: 700, color: l.accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>FENDRI</div>
                       <div style={{ width: '65%', height: '1px', background: l.accentColor, opacity: 0.55 }} />
-                      <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.28rem', color: l.bgColor === '#0e0e0e' ? 'rgba(255,255,255,0.4)' : '#5a6c56', letterSpacing: '0.04em' }}>EXTRA VIERGE</div>
+                      <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.42rem', color: l.bgColor === '#0e0e0e' ? 'rgba(255,255,255,0.4)' : '#5a6c56', letterSpacing: '0.04em' }}>EXTRA VIERGE</div>
                     </div>
                   )}
                 </div>
 
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', fontWeight: 600, color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.78)', transition: 'color 0.2s', marginBottom: '2px' }}>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '1.05rem', fontWeight: 600, color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.85)', transition: 'color 0.2s', marginBottom: '5px' }}>
                     {l.name}
                   </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.28)', lineHeight: 1.4 }}>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.4 }}>
                     {l.description}
                   </div>
                   <div
                     style={{
-                      marginTop: '5px',
+                      marginTop: '8px',
                       fontFamily: "'Outfit', sans-serif",
-                      fontSize: '0.52rem',
+                      fontSize: '0.72rem',
                       color: l.priceAdd > 0 ? 'rgba(212,175,55,0.6)' : 'rgba(255,255,255,0.18)',
                       background: l.priceAdd > 0 ? 'rgba(212,175,55,0.07)' : 'rgba(255,255,255,0.03)',
                       borderRadius: '4px',
