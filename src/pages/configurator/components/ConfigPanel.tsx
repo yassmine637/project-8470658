@@ -91,10 +91,10 @@ export default function ConfigPanel({
 
                 <div
                   style={{
-                    width: '40px',
-                    height: '58px',
+                    width: '60px',
+                    height: '86px',
                     flexShrink: 0,
-                    borderRadius: '7px',
+                    borderRadius: '8px',
                     overflow: 'hidden',
                     background: 'rgba(255,255,255,0.03)',
                     border: isSelected ? '1px solid rgba(212,175,55,0.3)' : '1px solid rgba(255,255,255,0.05)',
@@ -109,12 +109,12 @@ export default function ConfigPanel({
                     <span
                       style={{
                         fontFamily: "'Outfit', sans-serif",
-                        fontSize: '0.48rem',
+                        fontSize: '0.62rem',
                         fontWeight: 700,
                         color: isSelected ? '#1a1a0e' : 'rgba(255,255,255,0.2)',
                         background: isSelected ? '#d4af37' : 'rgba(255,255,255,0.07)',
-                        borderRadius: '3px',
-                        padding: '1px 5px',
+                        borderRadius: '4px',
+                        padding: '2px 6px',
                         letterSpacing: '0.08em',
                         transition: 'all 0.2s',
                         flexShrink: 0,
@@ -125,9 +125,9 @@ export default function ConfigPanel({
                     <span
                       style={{
                         fontFamily: "'Cormorant Garant', serif",
-                        fontSize: '0.95rem',
+                        fontSize: '1.25rem',
                         fontWeight: 600,
-                        color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.78)',
+                        color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.85)',
                         transition: 'color 0.2s',
                         lineHeight: 1.1,
                         overflow: 'hidden',
@@ -141,7 +141,7 @@ export default function ConfigPanel({
                   <div
                     style={{
                       fontFamily: "'Outfit', sans-serif",
-                      fontSize: '0.58rem',
+                      fontSize: '0.78rem',
                       color: 'rgba(255,255,255,0.28)',
                       lineHeight: 1.4,
                       overflow: 'hidden',
@@ -154,10 +154,10 @@ export default function ConfigPanel({
                 </div>
 
                 <div style={{ flexShrink: 0, textAlign: 'right' }}>
-                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.05rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
+                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
                     {m.basePrice} TND
                   </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.45rem', color: 'rgba(212,175,55,0.4)', letterSpacing: '0.1em', marginTop: '1px' }}>{displaySymbol}</div>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: 'rgba(212,175,55,0.4)', letterSpacing: '0.1em', marginTop: '3px' }}>{displaySymbol}</div>
                 </div>
 
                 {isSelected && (
