@@ -3,7 +3,7 @@ const translations = {
   nav_histoire: 'Our Story',
   nav_huiles: 'Our Oils',
   nav_collection: 'Collection',
-  nav_usine: 'Our Mill',
+  nav_usine: 'Our Factory',
   nav_engagements: 'Values',
   nav_recompenses: 'Awards',
   nav_contact: 'Contact',
@@ -58,7 +58,7 @@ const translations = {
   values_v3_desc: 'Expertise passed down from generation to generation since 1911 at the heart of our ancient olive groves in Sfax, Tunisia.',
 
   // Factory
-  factory_label: 'Our Mill',
+  factory_label: 'Our Factory',
   factory_title: 'Modern Extraction & Ancestral Know-how',
   factory_p1: 'Our mill, located in Sfax at the heart of Tunisia, is equipped with the latest world-class technologies — from olive oil extraction to precision bottling.',
   factory_p2: 'Combining innovation and tradition, we guarantee maximum efficiency while adhering to the strictest international organic standards, for an oil of unparalleled purity and freshness.',
