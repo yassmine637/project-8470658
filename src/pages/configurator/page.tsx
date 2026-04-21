@@ -249,7 +249,7 @@ export default function ConfiguratorPage() {
               {selectedModel.name}
             </div>
             <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: '#888', letterSpacing: '0.2em', textTransform: 'uppercase', marginTop: '4px' }}>
-              {selectedLabel.name}
+              {selectedSize.label} · {selectedLabel.name}
             </div>
           </div>
 
