@@ -63,6 +63,7 @@ export const bottleModels: BottleModel[] = [
     defaultSizeId: '3l',
     sizeImages: {
       '500 ml': PRODUCT_IMAGES.bidonMetallique500ml,
+      '750 ml': PRODUCT_IMAGES.bidonMetallique750ml,
     },
   },
   {
