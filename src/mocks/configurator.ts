@@ -51,6 +51,7 @@ export const bottleModels: BottleModel[] = [
     sizeImages: {
       '500 ml': PRODUCT_IMAGES.bouteilleCarree500ml,
       '1 L': PRODUCT_IMAGES.bouteilleCarree1L,
+      '3 L': PRODUCT_IMAGES.bouteilleCarree3L,
     },
   },
   {
