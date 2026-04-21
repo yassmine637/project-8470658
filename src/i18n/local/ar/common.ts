@@ -303,6 +303,10 @@ const translations = {
 
   // Products page
   products_lineup_subtitle: 'اختر الزجاجة التي تناسب أسلوب حياتك',
+  product_bouteille_1l_volume: 'عبوة خضراء 1 لتر — عضوي',
+  product_bouteille_500ml_volume: 'زجاجة أسطوانية 500 مل',
+  product_bouteille_750ml_volume: 'زجاجة مربعة أنيقة 750 مل',
+  product_bidon_3l_volume: 'عبوة معدنية 3 لتر',
 };
 
 export default translations;

@@ -8,6 +8,13 @@ import VideoModal from './components/VideoModal';
 import { products, Product } from '@/mocks/products';
 import { useCart } from '@/hooks/useCart';
 
+const PRODUCT_VOLUME_KEYS: Record<string, string> = {
+  'bouteille-1l': 'product_bouteille_1l_volume',
+  'bouteille-500ml': 'product_bouteille_500ml_volume',
+  'bouteille-250ml': 'product_bouteille_750ml_volume',
+  'bouteille-speciale': 'product_bidon_3l_volume',
+};
+
 const BADGE_STYLES: Record<string, { bg: string; color: string }> = {
   'Bio & Naturel':   { bg: '#3a6040', color: '#e8f5e9' },
   'Best-seller':     { bg: '#c9a84c', color: '#1a2617' },
@@ -291,7 +298,7 @@ export default function ProductsPage() {
                         fontSize: '0.78rem',
                       }}
                     >
-                      {product.volume}
+                      {PRODUCT_VOLUME_KEYS[product.id] ? t(PRODUCT_VOLUME_KEYS[product.id]) : product.volume}
                     </p>
                   </div>
 

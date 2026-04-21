@@ -303,6 +303,10 @@ const translations = {
 
   // Products page
   products_lineup_subtitle: 'Choose the bottle that matches your art of living',
+  product_bouteille_1l_volume: 'Green 1L can — Organic',
+  product_bouteille_500ml_volume: 'Cylindrical 500ml bottle',
+  product_bouteille_750ml_volume: 'Slim square 750ml bottle',
+  product_bidon_3l_volume: 'Metal 3L can',
 };
 
 export default translations;

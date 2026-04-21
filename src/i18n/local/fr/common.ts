@@ -303,6 +303,10 @@ const translations = {
 
   // Products page
   products_lineup_subtitle: 'Choisissez la bouteille qui correspond à votre art de vivre',
+  product_bouteille_1l_volume: 'Bidon vert 1L — Bio',
+  product_bouteille_500ml_volume: 'Bouteille cylindrique 500ml',
+  product_bouteille_750ml_volume: 'Bouteille carrée élancée 750ml',
+  product_bidon_3l_volume: 'Bidon métallique 3L',
 };
 
 export default translations;
