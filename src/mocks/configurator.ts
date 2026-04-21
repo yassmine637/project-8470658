@@ -35,6 +35,7 @@ export const bottleModels: BottleModel[] = [
     basePrice: 26,
     description: 'Silhouette classique, format idéal pour offrir',
     image: PRODUCT_IMAGES.bouteilleCylindrique500ml,
+    defaultSizeId: '500ml',
     sizeImages: {
       '750 ml': PRODUCT_IMAGES.bouteilleCylindrique750ml,
       '1 L': PRODUCT_IMAGES.bouteilleCylindrique1L,
