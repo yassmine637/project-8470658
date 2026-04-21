@@ -135,7 +135,7 @@ export default function ConfigPanel({
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {m.name}
+                      {m.name.replace(/\s*\d+\s*(ml|L)\b/gi, '').trim()}
                     </span>
                   </div>
                   <div
