@@ -146,8 +146,8 @@ export default function ConfiguratorPage() {
         {/* LEFT PANEL */}
         <div
           style={{
-            width: isSummaryStep ? '0' : '260px',
-            minWidth: isSummaryStep ? '0' : '260px',
+            width: isSummaryStep ? '0' : '340px',
+            minWidth: isSummaryStep ? '0' : '340px',
             overflow: 'hidden',
             transition: 'none',
             borderRight: '1px solid rgba(255,255,255,0.06)',
@@ -157,7 +157,7 @@ export default function ConfiguratorPage() {
             flexDirection: 'column',
           }}
         >
-          <div style={{ width: '260px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ width: '340px', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
             {/* Section label */}
             <div
