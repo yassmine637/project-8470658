@@ -246,7 +246,7 @@ export default function ConfiguratorPage() {
             }}
           >
             <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 400, color: '#1a1a1a', letterSpacing: '0.08em' }}>
-              {selectedModel.name}
+              {selectedModel.name.replace(/\s*\d+\s*(ml|L)\b/gi, '').trim()}
             </div>
             <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: '#888', letterSpacing: '0.2em', textTransform: 'uppercase', marginTop: '4px' }}>
               {selectedSize.label} · {selectedLabel.name}
