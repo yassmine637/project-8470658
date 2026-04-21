@@ -307,6 +307,9 @@ const translations = {
   product_bouteille_500ml_volume: 'Bouteille cylindrique 500ml',
   product_bouteille_750ml_volume: 'Bouteille carrée élancée 750ml',
   product_bidon_3l_volume: 'Bidon métallique 3L',
+
+  // Contact
+  contact_address_value: 'Meknessi, Sfax, Tunisie',
 };
 
 export default translations;

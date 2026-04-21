@@ -307,6 +307,9 @@ const translations = {
   product_bouteille_500ml_volume: 'زجاجة أسطوانية 500 مل',
   product_bouteille_750ml_volume: 'زجاجة مربعة أنيقة 750 مل',
   product_bidon_3l_volume: 'عبوة معدنية 3 لتر',
+
+  // Contact
+  contact_address_value: 'مكناسي، صفاقس، تونس',
 };
 
 export default translations;
