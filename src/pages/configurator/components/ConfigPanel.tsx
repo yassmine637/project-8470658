@@ -439,8 +439,8 @@ export default function ConfigPanel({
                 background: selectedLabel.bgColor,
                 border: `1.5px solid ${selectedLabel.borderColor}`,
                 borderRadius: '6px',
-                width: '180px',
-                height: '252px',
+                width: '260px',
+                height: '420px',
                 margin: '0 auto',
                 overflow: 'hidden',
               }}
@@ -449,7 +449,7 @@ export default function ConfigPanel({
                 <img
                   src={selectedLabel.image}
                   alt={selectedLabel.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', display: 'block' }}
                 />
               ) : (
                 <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px', boxSizing: 'border-box', textAlign: 'center' }}>
