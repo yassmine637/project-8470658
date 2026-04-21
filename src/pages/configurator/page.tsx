@@ -204,7 +204,13 @@ export default function ConfiguratorPage() {
                 selectedSize={selectedSize}
                 selectedLabel={selectedLabel}
                 customText={customText}
-                onModelChange={m => setSelectedModel(m)}
+                onModelChange={m => {
+                  setSelectedModel(m);
+                  if (m.defaultSizeId) {
+                    const ds = bottleSizes.find(s => s.id === m.defaultSizeId);
+                    if (ds) setSelectedSize(ds);
+                  }
+                }}
                 onSizeChange={s => setSelectedSize(s)}
                 onLabelChange={l => setSelectedLabel(l)}
                 onCustomTextChange={txt => setCustomText(txt)}
@@ -261,7 +267,14 @@ export default function ConfiguratorPage() {
             {bottleModels.map(m => (
               <button
                 key={m.id}
-                onClick={() => { setSelectedModel(m); setCurrentStep(0); }}
+                onClick={() => {
+                  setSelectedModel(m);
+                  if (m.defaultSizeId) {
+                    const ds = bottleSizes.find(s => s.id === m.defaultSizeId);
+                    if (ds) setSelectedSize(ds);
+                  }
+                  setCurrentStep(0);
+                }}
                 className="cursor-pointer"
                 title={m.name}
                 style={{

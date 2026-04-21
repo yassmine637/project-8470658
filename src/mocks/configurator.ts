@@ -7,6 +7,7 @@ export interface BottleModel {
   image: string;
   description: string;
   sizeImages?: Record<string, string>;
+  defaultSizeId?: string;
 }
 
 export interface BottleSize {
@@ -46,6 +47,7 @@ export const bottleModels: BottleModel[] = [
     basePrice: 58,
     description: 'Design géométrique moderne, segment prestige',
     image: PRODUCT_IMAGES.bouteilleCarree750ml,
+    defaultSizeId: '750ml',
     sizeImages: {
       '500 ml': PRODUCT_IMAGES.bouteilleCarree500ml,
       '1 L': PRODUCT_IMAGES.bouteilleCarree1L,
