@@ -18,6 +18,7 @@ export const PRODUCT_IMAGES = {
   bidonMetallique3L: 'https://storage.readdy-site.link/project_files/87cc5f02-5407-43de-a578-ad5a1f36c09a/ff155bd0-3940-4b0b-af58-9644b13765ac_produit3.png?v=0e0c0d0c3b366f41bef1db8d7c4b2571',
   bidonMetallique500ml: '/bidon-500ml.png',
   bidonMetallique750ml: '/bidon-750ml.png',
+  bidonMetallique1L: '/bidon-1l.png',
 };
 
 // --- Hero (page d'accueil) ---

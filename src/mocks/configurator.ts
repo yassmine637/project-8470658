@@ -66,6 +66,7 @@ export const bottleModels: BottleModel[] = [
     sizeImages: {
       '500 ml': PRODUCT_IMAGES.bidonMetallique500ml,
       '750 ml': PRODUCT_IMAGES.bidonMetallique750ml,
+      '1 L': PRODUCT_IMAGES.bidonMetallique1L,
     },
   },
   {
