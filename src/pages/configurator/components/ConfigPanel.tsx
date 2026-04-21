@@ -408,7 +408,7 @@ export default function ConfigPanel({
                   padding: '12px 46px 12px 14px',
                   color: 'rgba(255,255,255,0.85)',
                   fontFamily: "'Cormorant Garant', serif",
-                  fontSize: '1.25rem',
+                  fontSize: '1.6rem',
                   fontStyle: 'italic',
                   outline: 'none',
                   transition: 'border-color 0.2s, background 0.2s',
