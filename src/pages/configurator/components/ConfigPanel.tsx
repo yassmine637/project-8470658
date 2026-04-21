@@ -46,7 +46,7 @@ export default function ConfigPanel({
 
       {/* ── STEP 0 — Bottle model ── */}
       {step === 0 && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           {models.map((m, idx) => {
             const isSelected = selectedModel.id === m.id;
             return (
