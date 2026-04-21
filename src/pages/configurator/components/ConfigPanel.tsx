@@ -398,7 +398,6 @@ export default function ConfigPanel({
                 type="text"
                 value={customText}
                 onChange={e => onCustomTextChange(e.target.value.slice(0, 32))}
-                placeholder={t('config_custom_text_placeholder')}
                 maxLength={32}
                 style={{
                   width: '100%',
