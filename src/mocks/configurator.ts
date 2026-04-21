@@ -90,7 +90,7 @@ export const labelStyles: LabelStyle[] = [
     id: 'classique-ivoire',
     name: 'Classique Ivoire',
     description: 'Luxe artisanal, identité principale Fendri',
-    priceAdd: 0,
+    priceAdd: 3,
     accentColor: '#3d6b3a',
     bgColor: '#f7fbf5',
     borderColor: '#3d6b3a',
