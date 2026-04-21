@@ -7,6 +7,7 @@
 export const PRODUCT_IMAGES = {
   bidonVert1L: 'https://storage.readdy-site.link/project_files/87cc5f02-5407-43de-a578-ad5a1f36c09a/ccdd84a2-abed-4334-bc41-826fe8a12450_produit4.png?v=5915238d62d55de0b91b7171cb52cf6c',
   bouteilleCylindrique500ml: '/bottle-cylindrique-500ml.png',
+  bouteilleCylindrique500mlFendri: '/bottle-cylindrique-500ml-fendri.png',
   bouteilleCylindrique750ml: '/bottle-750ml.png',
   bouteilleCylindrique1L: '/bottle-1l.png',
   bouteilleCylindrique3L: '/bottle-3l.png',
