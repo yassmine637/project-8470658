@@ -310,6 +310,53 @@ const translations = {
 
   // Contact
   contact_address_value: 'Meknessi, Sfax, Tunisia',
+
+  // Product details
+  product_name: 'FENDRI Olive Oil',
+
+  product_bouteille_1l_tagline: 'Organic authenticity in a bottle designed for nature.',
+  product_bouteille_1l_description: "The FENDRI Green 1L Can is more than just a container — it's a commitment. Designed to meet the growing demand of Tunisian consumers who care about ecological values, this format proudly displays its green hue, a symbol of naturalness and respect for the environment. It contains a 100% organic extra-virgin olive oil, cold-pressed from olives carefully selected in our certified groves, with no chemical inputs or industrial processing.",
+  product_bouteille_1l_details: [
+    'Certified Organic Agriculture (EU & Tunisia)',
+    'Cold extraction — polyphenols preserved',
+    'UV-tinted container for optimal preservation',
+    'Zero pesticides, zero chemical inputs',
+    'BIOL International Award — global organic reference',
+    'Oleic acid ≤ 0.3%',
+  ],
+
+  product_bouteille_500ml_tagline: 'The everyday format — accessible, refined, Tunisian.',
+  product_bouteille_500ml_description: 'The FENDRI Cylindrical 500ml Bottle is the benchmark format on the Tunisian market. Designed to fit local consumption habits, it combines practicality, accessibility and premium quality. Its elegant silhouette and easy-to-handle format make it the ideal bottle for households that use olive oil regularly.',
+  product_bouteille_500ml_details: [
+    'The most widespread format on the Tunisian market',
+    'Ideal for fine grocers & supermarkets',
+    'Perfect for gift sets',
+    'Certified first cold-pressed',
+    'IOC Mario Solinas Finalist 2018, 2019, 2020',
+    'Flos Olei mention 8 years in a row',
+  ],
+
+  product_bouteille_750ml_tagline: 'The art of olive oil for an urban and discerning clientele.',
+  product_bouteille_750ml_description: 'The FENDRI Slim Square 750ml Bottle is as much an aesthetic statement as it is a culinary choice. Its modern geometric design and slender silhouette target an urban, trend-aware clientele that values prestige and distinction. It embodies the meeting point between Tunisian olive tradition and the codes of contemporary luxury.',
+  product_bouteille_750ml_details: [
+    'Distinctive design — prestige segment',
+    'Targeted at urban & high-end clientele',
+    'Ideal volume for discerning enthusiasts',
+    'TOP 100 EVOOLEUM — world ranking',
+    'BIOL International Gold Medal (Italy, 2016)',
+    'Silver Gourmet — AVPA Paris (2015)',
+  ],
+
+  product_bidon_3l_tagline: 'The family reference — economical, sturdy, reliable.',
+  product_bidon_3l_description: 'The FENDRI Metal 3L Can answers a strong and clearly identified demand on the Tunisian market: offering top-quality olive oil in a large, economical format designed for families who consume it regularly. The metal guarantees superior protection against light and oxidation.',
+  product_bidon_3l_details: [
+    'Family format — large, economical volume',
+    'Metal: full protection from light & oxidation',
+    'Guaranteed long-term preservation',
+    'SIQEV quality label (Madrid)',
+    'Bronze Medal — Extra Virgin Oil Awards LA 2016',
+    'Optimal value for money',
+  ],
 };
 
 export default translations;

@@ -8,6 +8,13 @@ import VideoModal from './components/VideoModal';
 import { products, Product } from '@/mocks/products';
 import { useCart } from '@/hooks/useCart';
 
+const PRODUCT_TRANSLATION_PREFIXES: Record<string, string> = {
+  'bouteille-1l': 'product_bouteille_1l',
+  'bouteille-500ml': 'product_bouteille_500ml',
+  'bouteille-250ml': 'product_bouteille_750ml',
+  'bouteille-speciale': 'product_bidon_3l',
+};
+
 const PRODUCT_VOLUME_KEYS: Record<string, string> = {
   'bouteille-1l': 'product_bouteille_1l_volume',
   'bouteille-500ml': 'product_bouteille_500ml_volume',
@@ -441,7 +448,7 @@ export default function ProductsPage() {
                 className="font-bold leading-tight mb-3"
                 style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.6rem, 2.5vw, 2.1rem)', color: '#1a2617' }}
               >
-                {selected.name}
+                {t('product_name')}
               </h2>
 
               <div className="h-px w-10 mb-5" style={{ background: `${accent}70` }} />
@@ -464,7 +471,7 @@ export default function ProductsPage() {
                 className="italic leading-relaxed mb-5"
                 style={{ color: accent, fontFamily: "'Cormorant Garant', serif", fontSize: '1.05rem' }}
               >
-                &ldquo;{selected.tagline}&rdquo;
+                &ldquo;{PRODUCT_TRANSLATION_PREFIXES[selected.id] ? t(`${PRODUCT_TRANSLATION_PREFIXES[selected.id]}_tagline`) : selected.tagline}&rdquo;
               </p>
 
               {/* Description */}
@@ -472,12 +479,12 @@ export default function ProductsPage() {
                 className="text-sm leading-loose mb-6"
                 style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif", lineHeight: '1.9' }}
               >
-                {selected.description}
+                {PRODUCT_TRANSLATION_PREFIXES[selected.id] ? t(`${PRODUCT_TRANSLATION_PREFIXES[selected.id]}_description`) : selected.description}
               </p>
 
               {/* Details */}
               <div className="flex flex-col gap-2.5 mb-8">
-                {selected.details.map((d) => (
+                {((PRODUCT_TRANSLATION_PREFIXES[selected.id] ? (t(`${PRODUCT_TRANSLATION_PREFIXES[selected.id]}_details`, { returnObjects: true }) as string[]) : selected.details)).map((d) => (
                   <div key={d} className="flex items-start gap-2.5">
                     <i
                       className="ri-checkbox-circle-fill text-sm flex-shrink-0 mt-0.5"
