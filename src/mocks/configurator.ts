@@ -77,6 +77,7 @@ export const bottleModels: BottleModel[] = [
     image: PRODUCT_IMAGES.bidonVert1L,
     sizeImages: {
       '500 ml': PRODUCT_IMAGES.bidonVert500ml,
+      '750 ml': PRODUCT_IMAGES.bidonVert750ml,
       '3 L': PRODUCT_IMAGES.bidonVert3L,
     },
   },

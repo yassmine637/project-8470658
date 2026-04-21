@@ -21,6 +21,7 @@ export const PRODUCT_IMAGES = {
   bidonMetallique1L: '/bidon-1l.png',
   bidonVert3L: '/bidon-vert-3l.png',
   bidonVert500ml: '/bidon-vert-500ml.png',
+  bidonVert750ml: '/bidon-vert-750ml.png',
 };
 
 // --- Hero (page d'accueil) ---
