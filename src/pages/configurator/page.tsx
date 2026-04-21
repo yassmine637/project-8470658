@@ -19,6 +19,7 @@ export default function ConfiguratorPage() {
   const [customText, setCustomText] = useState('');
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [estimationOpen, setEstimationOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(true);
 
   const STEPS = [
     { id: 'model', label: t('config_step_model'), icon: 'ri-flask-line', desc: t('config_step_desc_model') },
@@ -146,10 +147,10 @@ export default function ConfiguratorPage() {
         {/* LEFT PANEL */}
         <div
           style={{
-            width: isSummaryStep ? '0' : '420px',
-            minWidth: isSummaryStep ? '0' : '420px',
+            width: isSummaryStep || !panelOpen ? '0' : '420px',
+            minWidth: isSummaryStep || !panelOpen ? '0' : '420px',
             overflow: 'hidden',
-            transition: 'none',
+            transition: 'width 0.32s ease, min-width 0.32s ease',
             borderRight: '1px solid rgba(255,255,255,0.06)',
             background: '#1a1a1a',
             flexShrink: 0,
@@ -331,6 +332,33 @@ export default function ConfiguratorPage() {
           zIndex: 20,
         }}
       >
+        {!isSummaryStep && (
+          <button
+            onClick={() => setPanelOpen(o => !o)}
+            className="cursor-pointer flex items-center gap-2"
+            title={panelOpen ? 'Cacher le panneau' : 'Afficher le panneau'}
+            style={{
+              background: 'none',
+              border: 'none',
+              borderRight: '1px solid rgba(255,255,255,0.06)',
+              height: '100%',
+              padding: '0 18px',
+              color: '#d4af37',
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: '0.62rem',
+              fontWeight: 600,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+              transition: 'color 0.2s, background 0.2s',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.06)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; }}
+          >
+            <i className={panelOpen ? 'ri-side-bar-line' : 'ri-side-bar-fill'} style={{ fontSize: '16px' }} />
+          </button>
+        )}
+
         <button
           onClick={handlePrev}
           disabled={currentStep === 0}
