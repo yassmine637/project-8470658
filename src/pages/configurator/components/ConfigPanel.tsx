@@ -187,7 +187,7 @@ export default function ConfigPanel({
       {/* ── STEP 1 — Volume ── */}
       {step === 1 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
             {sizes.map(s => {
               const isSelected = selectedSize.id === s.id;
               return (
