@@ -17,9 +17,11 @@ import bidonVert750ClassiqueIvoire from '@assets/750ml_1776869583044.png';
 import bidonVert1LClassiqueIvoire from '@assets/1L_1776869885058.png';
 import bidonVert3LClassiqueIvoire from '@assets/3L_1776870093774.png';
 import labelBioModerne from '@assets/étiquette_1776870454089.png';
+import cylindrique500BioModerne from '@assets/500ml_1776871148928.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
+  'cylindrique-500__500ml__bio-moderne': cylindrique500BioModerne,
   'cylindrique-500__750ml__classique-ivoire': cylindrique750ClassiqueIvoire,
   'cylindrique-500__1l__classique-ivoire': cylindrique1LClassiqueIvoire,
   'cylindrique-500__3l__classique-ivoire': cylindrique3LClassiqueIvoire,
