@@ -1,8 +1,8 @@
 import { PRODUCT_IMAGES } from '@/assets/images';
-import cylindrique500ClassiqueIvoire from '@assets/500ml_1776863086363.png';
+import cylindriqueOriginale from '@assets/originale_1776865694722.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
-  'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
+  'cylindrique-500__500ml__classique-ivoire': cylindriqueOriginale,
 };
 
 export function getComboImageKey(modelId: string, sizeId: string, labelId: string) {
@@ -43,10 +43,10 @@ export const bottleModels: BottleModel[] = [
     name: 'Cylindrique 500 ml',
     basePrice: 26,
     description: 'Silhouette classique, format idéal pour offrir',
-    image: PRODUCT_IMAGES.bouteilleCylindrique500ml,
+    image: cylindriqueOriginale,
     defaultSizeId: '500ml',
     sizeImages: {
-      '500 ml': PRODUCT_IMAGES.bouteilleCylindrique500mlFendri,
+      '500 ml': cylindriqueOriginale,
       '750 ml': PRODUCT_IMAGES.bouteilleCylindrique750ml,
       '1 L': PRODUCT_IMAGES.bouteilleCylindrique1L,
       '3 L': PRODUCT_IMAGES.bouteilleCylindrique3L,
