@@ -1,9 +1,10 @@
 import { PRODUCT_IMAGES } from '@/assets/images';
 import cylindriqueOriginale from '@assets/originale_1776865694722.png';
 import cylindrique750ClassiqueIvoire from '@assets/750ml_1776865864090.png';
+import cylindrique500ClassiqueIvoire from '@assets/500ml_1776866216044.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
-  'cylindrique-500__500ml__classique-ivoire': cylindriqueOriginale,
+  'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
   'cylindrique-500__750ml__classique-ivoire': cylindrique750ClassiqueIvoire,
 };
 
