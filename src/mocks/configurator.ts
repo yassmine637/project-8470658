@@ -17,6 +17,7 @@ import bidonVert750ClassiqueIvoire from '@assets/750ml_1776869583044.png';
 import bidonVert1LClassiqueIvoire from '@assets/1L_1776869885058.png';
 import bidonVert3LClassiqueIvoire from '@assets/3L_1776870093774.png';
 import labelBioModerne from '@assets/étiquette_1776870454089.png';
+import labelHeritage from '@assets/familial_1776896105516.png';
 import cylindrique500BioModerne from '@assets/500ml_1776871148928.png';
 import cylindrique750BioModerne from '@assets/750ml_1776871200979.png';
 import cylindrique1LBioModerne from '@assets/1L_1776871245531.png';
@@ -235,7 +236,7 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#8b5e3c',
     bgColor: '#f5ede0',
     borderColor: '#a67c5b',
-    image: '/labels/label-heritage.png',
+    image: labelHeritage,
   },
   {
     id: 'recolte-limitee',
