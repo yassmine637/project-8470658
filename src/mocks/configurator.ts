@@ -3,11 +3,13 @@ import cylindriqueOriginale from '@assets/originale_1776865694722.png';
 import cylindrique750ClassiqueIvoire from '@assets/750ml_1776865864090.png';
 import cylindrique500ClassiqueIvoire from '@assets/500ml_1776866216044.png';
 import cylindrique1LClassiqueIvoire from '@assets/1L_1776866329394.png';
+import cylindrique3LClassiqueIvoire from '@assets/3L_1776866414091.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
   'cylindrique-500__750ml__classique-ivoire': cylindrique750ClassiqueIvoire,
   'cylindrique-500__1l__classique-ivoire': cylindrique1LClassiqueIvoire,
+  'cylindrique-500__3l__classique-ivoire': cylindrique3LClassiqueIvoire,
 };
 
 export function getComboImageKey(modelId: string, sizeId: string, labelId: string) {
