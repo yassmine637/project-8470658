@@ -52,6 +52,7 @@ import bidonVert750RecolteLimitee from '@assets/750ml_1776895799999.png';
 import bidonVert1LRecolteLimitee from '@assets/1L_1776895836137.png';
 import cylindrique500Heritage from '@assets/500mll_1776896487444.png';
 import cylindrique750Heritage from '@assets/750ml_1776896755156.png';
+import cylindrique1LHeritage from '@assets/1L_1776896825471.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -65,6 +66,7 @@ export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__1l__classique-ivoire': cylindrique1LClassiqueIvoire,
   'cylindrique-500__1l__bio-moderne': cylindrique1LBioModerne,
   'cylindrique-500__1l__recolte-limitee': cylindrique1LRecolteLimitee,
+  'cylindrique-500__1l__heritage': cylindrique1LHeritage,
   'cylindrique-500__3l__classique-ivoire': cylindrique3LClassiqueIvoire,
   'cylindrique-500__3l__bio-moderne': cylindrique3LBioModerne,
   'cylindrique-500__3l__recolte-limitee': cylindrique3LRecolteLimitee,
