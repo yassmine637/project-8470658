@@ -20,6 +20,7 @@ import labelBioModerne from '@assets/étiquette_1776870454089.png';
 import cylindrique500BioModerne from '@assets/500ml_1776871148928.png';
 import cylindrique750BioModerne from '@assets/750ml_1776871200979.png';
 import cylindrique1LBioModerne from '@assets/1L_1776871245531.png';
+import cylindrique3LBioModerne from '@assets/3L_1776871521555.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -29,6 +30,7 @@ export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__1l__classique-ivoire': cylindrique1LClassiqueIvoire,
   'cylindrique-500__1l__bio-moderne': cylindrique1LBioModerne,
   'cylindrique-500__3l__classique-ivoire': cylindrique3LClassiqueIvoire,
+  'cylindrique-500__3l__bio-moderne': cylindrique3LBioModerne,
   'carree-750__500ml__classique-ivoire': carree500ClassiqueIvoire,
   'carree-750__750ml__classique-ivoire': carree750ClassiqueIvoire,
   'carree-750__1l__classique-ivoire': carree1LClassiqueIvoire,
