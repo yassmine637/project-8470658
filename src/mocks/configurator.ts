@@ -16,6 +16,7 @@ import bidonVert500ClassiqueIvoire from '@assets/500ml_1776869267382.png';
 import bidonVert750ClassiqueIvoire from '@assets/750ml_1776869583044.png';
 import bidonVert1LClassiqueIvoire from '@assets/1L_1776869885058.png';
 import bidonVert3LClassiqueIvoire from '@assets/3L_1776870093774.png';
+import labelBioModerne from '@assets/étiquette_1776870454089.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -150,7 +151,7 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#3d7a4a',
     bgColor: '#f0f7ee',
     borderColor: '#3d7a4a',
-    image: '/labels/label-bio-moderne.png',
+    image: labelBioModerne,
   },
   {
     id: 'luxe-noir-or',
