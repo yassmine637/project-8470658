@@ -14,6 +14,7 @@ import bidonMetal1LClassiqueIvoire from '@assets/1L_1776868636686.png';
 import bidonMetal3LClassiqueIvoire from '@assets/3L_1776868988026.png';
 import bidonVert500ClassiqueIvoire from '@assets/500ml_1776869267382.png';
 import bidonVert750ClassiqueIvoire from '@assets/750ml_1776869583044.png';
+import bidonVert1LClassiqueIvoire from '@assets/1L_1776869885058.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -30,6 +31,7 @@ export const COMBO_IMAGES: Record<string, string> = {
   'bidon-metal-3l__3l__classique-ivoire': bidonMetal3LClassiqueIvoire,
   'bidon-vert-1l__500ml__classique-ivoire': bidonVert500ClassiqueIvoire,
   'bidon-vert-1l__750ml__classique-ivoire': bidonVert750ClassiqueIvoire,
+  'bidon-vert-1l__1l__classique-ivoire': bidonVert1LClassiqueIvoire,
 };
 
 export function getComboImageKey(modelId: string, sizeId: string, labelId: string) {
