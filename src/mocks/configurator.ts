@@ -75,6 +75,7 @@ export const bottleModels: BottleModel[] = [
     basePrice: 42,
     description: 'Éco-responsable, certifié bio, esprit nature',
     image: PRODUCT_IMAGES.bidonVert1L,
+    defaultSizeId: '1l',
     sizeImages: {
       '500 ml': PRODUCT_IMAGES.bidonVert500ml,
       '750 ml': PRODUCT_IMAGES.bidonVert750ml,
