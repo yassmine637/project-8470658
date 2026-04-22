@@ -6,6 +6,7 @@ import cylindrique1LClassiqueIvoire from '@assets/1L_1776866329394.png';
 import cylindrique3LClassiqueIvoire from '@assets/3L_1776866414091.png';
 import carree500ClassiqueIvoire from '@assets/500ml_1776867176849.png';
 import carree750ClassiqueIvoire from '@assets/750ml_1776867264312.png';
+import carree1LClassiqueIvoire from '@assets/1L_1776867322586.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -14,6 +15,7 @@ export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__3l__classique-ivoire': cylindrique3LClassiqueIvoire,
   'carree-750__500ml__classique-ivoire': carree500ClassiqueIvoire,
   'carree-750__750ml__classique-ivoire': carree750ClassiqueIvoire,
+  'carree-750__1l__classique-ivoire': carree1LClassiqueIvoire,
 };
 
 export function getComboImageKey(modelId: string, sizeId: string, labelId: string) {
