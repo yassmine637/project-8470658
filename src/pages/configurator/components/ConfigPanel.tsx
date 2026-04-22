@@ -108,22 +108,6 @@ export default function ConfigPanel({
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
                     <span
                       style={{
-                        fontFamily: "'Outfit', sans-serif",
-                        fontSize: '0.62rem',
-                        fontWeight: 700,
-                        color: isSelected ? '#1a1a0e' : 'rgba(255,255,255,0.2)',
-                        background: isSelected ? '#d4af37' : 'rgba(255,255,255,0.07)',
-                        borderRadius: '4px',
-                        padding: '2px 6px',
-                        letterSpacing: '0.08em',
-                        transition: 'all 0.2s',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <span
-                      style={{
                         fontFamily: "'Cormorant Garant', serif",
                         fontSize: '1.25rem',
                         fontWeight: 600,
