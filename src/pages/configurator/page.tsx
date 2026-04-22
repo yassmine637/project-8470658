@@ -257,6 +257,7 @@ export default function ConfiguratorPage() {
               labelStyle={selectedLabel}
               customText={customText}
               size={selectedSize.label}
+              sizeId={selectedSize.id}
             />
           </div>
 

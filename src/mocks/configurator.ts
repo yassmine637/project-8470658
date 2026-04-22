@@ -1,4 +1,13 @@
 import { PRODUCT_IMAGES } from '@/assets/images';
+import cylindrique500ClassiqueIvoire from '@assets/500ml_1776863086363.png';
+
+export const COMBO_IMAGES: Record<string, string> = {
+  'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
+};
+
+export function getComboImageKey(modelId: string, sizeId: string, labelId: string) {
+  return `${modelId}__${sizeId}__${labelId}`;
+}
 
 export interface BottleModel {
   id: string;

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import type { BottleModel, LabelStyle } from '@/mocks/configurator';
+import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
 
 interface BottleViewerProps {
   model: BottleModel;
   labelStyle: LabelStyle;
   customText: string;
   size: string;
+  sizeId?: string;
 }
 
 const SIZE_SCALE: Record<string, number> = {
@@ -15,12 +17,14 @@ const SIZE_SCALE: Record<string, number> = {
   '1 L': 0.95,
 };
 
-export default function BottleViewer({ model, labelStyle, size }: BottleViewerProps) {
+export default function BottleViewer({ model, labelStyle, size, sizeId }: BottleViewerProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [prevModelId, setPrevModelId] = useState(model.id);
   const [transitioning, setTransitioning] = useState(false);
   const sizeScale = SIZE_SCALE[size] ?? 0.85;
-  const bottleImage = model.sizeImages?.[size] ?? model.image;
+  const comboKey = sizeId ? getComboImageKey(model.id, sizeId, labelStyle.id) : '';
+  const comboImage = comboKey ? COMBO_IMAGES[comboKey] : undefined;
+  const bottleImage = comboImage ?? model.sizeImages?.[size] ?? model.image;
 
   useEffect(() => {
     setIsLoaded(false);

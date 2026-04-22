@@ -32,6 +32,7 @@
     "noUncheckedSideEffectImports": false,
     "paths": {
       "@/*": ["./src/*"],
+      "@assets/*": ["./attached_assets/*"],
     }
   },
   "include": ["src", "vite-env.d.ts"]
