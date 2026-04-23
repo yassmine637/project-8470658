@@ -295,8 +295,8 @@ export default function ConfiguratorPage() {
         {/* RIGHT PANEL — Summary */}
         <div
           style={{
-            width: isSummaryStep ? '320px' : '0',
-            minWidth: isSummaryStep ? '320px' : '0',
+            width: isSummaryStep ? '400px' : '0',
+            minWidth: isSummaryStep ? '400px' : '0',
             overflow: 'hidden',
             transition: 'none',
             borderLeft: '1px solid rgba(255,255,255,0.06)',
@@ -304,7 +304,7 @@ export default function ConfiguratorPage() {
             flexShrink: 0,
           }}
         >
-          <div style={{ width: '320px', height: '100%', overflowY: 'auto', padding: '20px', boxSizing: 'border-box', scrollbarWidth: 'thin', scrollbarColor: 'rgba(212,175,55,0.2) transparent' }}>
+          <div style={{ width: '400px', height: '100%', overflowY: 'auto', padding: '24px', boxSizing: 'border-box', scrollbarWidth: 'thin', scrollbarColor: 'rgba(212,175,55,0.2) transparent' }}>
             <ConfigSummary
               model={selectedModel}
               size={selectedSize}
