@@ -9,6 +9,7 @@ interface ConfigPanelProps {
   labels: LabelStyle[];
   selectedModel: BottleModel;
   selectedSize: BottleSize;
+  sizeChosen?: boolean;
   selectedLabel: LabelStyle;
   customText: string;
   onModelChange: (m: BottleModel) => void;
@@ -21,7 +22,7 @@ interface ConfigPanelProps {
 export default function ConfigPanel({
   step,
   models, sizes, labels,
-  selectedModel, selectedSize, selectedLabel, customText,
+  selectedModel, selectedSize, sizeChosen = true, selectedLabel, customText,
   onModelChange, onSizeChange, onLabelChange, onCustomTextChange,
   onValidate,
 }: ConfigPanelProps) {
@@ -175,7 +176,7 @@ export default function ConfigPanel({
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
             {sizes.map(s => {
-              const isSelected = selectedSize.id === s.id;
+              const isSelected = sizeChosen && selectedSize.id === s.id;
               return (
                 <button
                   key={s.id}
@@ -251,7 +252,7 @@ export default function ConfigPanel({
               {sizes.map(s => {
                 const heights: Record<string, number> = { '500ml': 42, '750ml': 64, '1l': 88, '3l': 130 };
                 const h = heights[s.id] || 64;
-                const isSel = selectedSize.id === s.id;
+                const isSel = sizeChosen && selectedSize.id === s.id;
                 return (
                   <div key={s.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
                     <div
