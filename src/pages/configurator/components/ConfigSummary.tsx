@@ -77,6 +77,72 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
         </div>
       </div>
 
+      {/* Label preview */}
+      <div
+        style={{
+          padding: '16px',
+          borderRadius: '14px',
+          background: 'rgba(255,255,255,0.02)',
+          border: '1px solid rgba(212,175,55,0.1)',
+        }}
+      >
+        <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: 'rgba(212,175,55,0.5)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: '12px', fontWeight: 700 }}>
+          {t('config_label_preview')}
+        </div>
+        <div
+          style={{
+            position: 'relative',
+            background: label.bgColor,
+            border: `1.5px solid ${label.borderColor}`,
+            borderRadius: '6px',
+            width: '220px',
+            height: '340px',
+            margin: '0 auto',
+            overflow: 'hidden',
+          }}
+        >
+          {label.image ? (
+            <img
+              src={label.image}
+              alt={label.name}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', display: 'block' }}
+            />
+          ) : (
+            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px', boxSizing: 'border-box', textAlign: 'center' }}>
+              <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.22em', color: label.accentColor, textTransform: 'uppercase', marginBottom: '4px' }}>Domaine</div>
+              <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 700, color: label.bgColor === '#0e0e0e' ? '#d4af37' : '#1a2617', letterSpacing: '0.08em', lineHeight: 1.1 }}>FENDRI</div>
+              <div style={{ width: '60%', height: '1px', background: label.accentColor, margin: '6px auto', opacity: 0.6 }} />
+              <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.5rem', color: label.bgColor === '#0e0e0e' ? 'rgba(255,255,255,0.6)' : '#5a6c56', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                Extra Vierge
+              </div>
+            </div>
+          )}
+          {customText && (
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: '14px',
+                textAlign: 'center',
+                padding: '0 10px',
+                fontFamily: "'Cormorant Garant', serif",
+                fontSize: '0.85rem',
+                fontStyle: 'italic',
+                color: label.accentColor,
+                letterSpacing: '0.06em',
+                textShadow: label.bgColor === '#0e0e0e' ? '0 1px 2px rgba(0,0,0,0.6)' : '0 1px 2px rgba(255,255,255,0.4)',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {customText}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Price breakdown */}
       <div
         style={{
