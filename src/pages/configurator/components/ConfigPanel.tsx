@@ -245,24 +245,24 @@ export default function ConfigPanel({
             <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.5rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '12px' }}>
               {t('config_volume_comparison')}
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '16px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '24px', justifyContent: 'center' }}>
               {sizes.map(s => {
-                const heights: Record<string, number> = { '500ml': 24, '750ml': 38, '1l': 52, '3l': 80 };
-                const h = heights[s.id] || 38;
+                const heights: Record<string, number> = { '500ml': 42, '750ml': 64, '1l': 88, '3l': 130 };
+                const h = heights[s.id] || 64;
                 const isSel = selectedSize.id === s.id;
                 return (
-                  <div key={s.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                  <div key={s.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
                     <div
                       style={{
-                        width: '20px',
+                        width: '34px',
                         height: `${h}px`,
-                        borderRadius: '3px 3px 2px 2px',
+                        borderRadius: '4px 4px 3px 3px',
                         background: isSel ? 'rgba(212,175,55,0.55)' : 'rgba(255,255,255,0.07)',
                         border: isSel ? '1px solid rgba(212,175,55,0.65)' : '1px solid rgba(255,255,255,0.05)',
                         transition: 'all 0.3s',
                       }}
                     />
-                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.48rem', color: isSel ? '#d4af37' : 'rgba(255,255,255,0.2)', transition: 'color 0.3s' }}>
+                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', color: isSel ? '#d4af37' : 'rgba(255,255,255,0.35)', transition: 'color 0.3s', letterSpacing: '0.04em' }}>
                       {s.label}
                     </span>
                   </div>
