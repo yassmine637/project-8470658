@@ -4,6 +4,7 @@ import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
 import cylindrique500SizeStepOverride from '@assets/produit1_1776954621827.png';
 import carreeModelStepOverride from '@assets/originale_1776954747158.png';
 import bidonMetalModelStepOverride from '@assets/originale_1776954957250.png';
+import bidonVertModelStepOverride from '@assets/originale_1776955073362.png';
 
 interface BottleViewerProps {
   model: BottleModel;
@@ -32,6 +33,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
   const modelStepOverride = currentStep === 0
     ? (model.id === 'carree-750' ? carreeModelStepOverride
       : model.id === 'bidon-metal-3l' ? bidonMetalModelStepOverride
+      : model.id === 'bidon-vert-1l' ? bidonVertModelStepOverride
       : undefined)
     : undefined;
   const bottleImage = modelStepOverride ?? sizeStepOverride ?? comboImage ?? model.sizeImages?.[size] ?? model.image;
