@@ -82,6 +82,7 @@ import bidonVert500LuxeNoirOr from '@assets/500ml_1776949753535.png';
 import bidonVert750LuxeNoirOr from '@assets/750ml_1776949840500.png';
 import bidonVert3LLuxeNoirOr from '@assets/3L_1776950300832.png';
 import bidonVert1LLuxeNoirOr from '@assets/1L_1776950545769.png';
+import labelLuxeNoirOr from '@assets/étiquette_1776950575296.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -290,7 +291,7 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#d4af37',
     bgColor: '#0e0e0e',
     borderColor: '#d4af37',
-    image: '/labels/label-luxe-noir-or.png',
+    image: labelLuxeNoirOr,
   },
   {
     id: 'heritage',
