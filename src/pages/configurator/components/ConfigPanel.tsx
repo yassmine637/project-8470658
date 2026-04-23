@@ -311,20 +311,25 @@ export default function ConfigPanel({
               >
                 <div
                   style={{
-                    width: '64px',
-                    height: '90px',
+                    width: '96px',
+                    height: '136px',
                     borderRadius: '6px',
                     background: l.bgColor,
                     border: isSelected ? `1.5px solid ${l.accentColor}` : `1.5px solid ${l.borderColor}55`,
                     flexShrink: 0,
                     overflow: 'hidden',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '4px',
+                    boxSizing: 'border-box',
                   }}
                 >
                   {l.image ? (
                     <img
                       src={l.image}
                       alt={l.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
                     />
                   ) : (
                     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px', padding: '6px', boxSizing: 'border-box' }}>
