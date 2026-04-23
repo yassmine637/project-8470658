@@ -252,7 +252,7 @@ export default function ConfiguratorPage() {
           </div>
 
           {/* Bottle image */}
-          <div style={{ width: '100%', height: '100%', maxWidth: isSummaryStep ? '400px' : '100%' }}>
+          <div style={{ width: '100%', height: '100%' }}>
             <BottleViewer
               model={selectedModel}
               labelStyle={selectedLabel}
