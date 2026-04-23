@@ -275,7 +275,7 @@ export default function ConfigPanel({
 
       {/* ── STEP 2 — Label ── */}
       {step === 2 && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {labels.map(l => {
             const isSelected = selectedLabel.id === l.id;
             return (
