@@ -8,6 +8,7 @@ interface ConfigPanelProps {
   sizes: BottleSize[];
   labels: LabelStyle[];
   selectedModel: BottleModel;
+  modelChosen?: boolean;
   selectedSize: BottleSize;
   sizeChosen?: boolean;
   selectedLabel: LabelStyle;
@@ -22,7 +23,7 @@ interface ConfigPanelProps {
 export default function ConfigPanel({
   step,
   models, sizes, labels,
-  selectedModel, selectedSize, sizeChosen = true, selectedLabel, customText,
+  selectedModel, modelChosen = true, selectedSize, sizeChosen = true, selectedLabel, customText,
   onModelChange, onSizeChange, onLabelChange, onCustomTextChange,
   onValidate,
 }: ConfigPanelProps) {
@@ -51,7 +52,7 @@ export default function ConfigPanel({
       {step === 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
           {models.map((m, idx) => {
-            const isSelected = selectedModel.id === m.id;
+            const isSelected = modelChosen && selectedModel.id === m.id;
             return (
               <button
                 key={m.id}

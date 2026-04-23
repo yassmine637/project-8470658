@@ -14,6 +14,7 @@ export default function ConfiguratorPage() {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedModel, setSelectedModel] = useState<BottleModel>(bottleModels[0]);
+  const [modelChosen, setModelChosen] = useState(false);
   const [selectedSize, setSelectedSize] = useState<BottleSize>(bottleSizes[0]);
   const [sizeChosen, setSizeChosen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState<LabelStyle>(labelStyles[0]);
@@ -203,12 +204,14 @@ export default function ConfiguratorPage() {
                 sizes={bottleSizes}
                 labels={labelStyles}
                 selectedModel={selectedModel}
+                modelChosen={modelChosen}
                 selectedSize={selectedSize}
                 sizeChosen={sizeChosen}
                 selectedLabel={selectedLabel}
                 customText={customText}
                 onModelChange={m => {
                   setSelectedModel(m);
+                  setModelChosen(true);
                   setSizeChosen(false);
                   if (m.defaultSizeId) {
                     const ds = bottleSizes.find(s => s.id === m.defaultSizeId);
@@ -273,6 +276,7 @@ export default function ConfiguratorPage() {
                 key={m.id}
                 onClick={() => {
                   setSelectedModel(m);
+                  setModelChosen(true);
                   setSizeChosen(false);
                   if (m.defaultSizeId) {
                     const ds = bottleSizes.find(s => s.id === m.defaultSizeId);
