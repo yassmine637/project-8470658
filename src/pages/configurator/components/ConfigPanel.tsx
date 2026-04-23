@@ -381,7 +381,7 @@ export default function ConfigPanel({
       {step === 3 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div>
-            <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.22em', color: 'rgba(212,175,55,0.6)', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>
+            <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.22em', color: 'rgba(212,175,55,0.6)', textTransform: 'uppercase', display: 'block', marginBottom: '10px' }}>
               {t('config_custom_text_label')}
             </label>
             <div style={{ position: 'relative' }}>
@@ -398,7 +398,7 @@ export default function ConfigPanel({
                   padding: '32px 64px 32px 22px',
                   color: 'rgba(255,255,255,0.85)',
                   fontFamily: "'Cormorant Garant', serif",
-                  fontSize: '1.6rem',
+                  fontSize: '2rem',
                   fontStyle: 'italic',
                   outline: 'none',
                   transition: 'border-color 0.2s, background 0.2s',
@@ -407,7 +407,7 @@ export default function ConfigPanel({
                 onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.55)'; (e.target as HTMLInputElement).style.background = 'rgba(255,255,255,0.05)'; }}
                 onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.22)'; (e.target as HTMLInputElement).style.background = 'rgba(255,255,255,0.03)'; }}
               />
-              <span style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: customText.length > 28 ? 'rgba(212,175,55,0.8)' : 'rgba(255,255,255,0.16)' }}>
+              <span style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', fontFamily: "'Outfit', sans-serif", fontSize: '0.85rem', color: customText.length > 28 ? 'rgba(212,175,55,0.8)' : 'rgba(255,255,255,0.3)' }}>
                 {customText.length}/32
               </span>
             </div>
@@ -424,7 +424,7 @@ export default function ConfigPanel({
                   background: 'linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.06))',
                   color: '#d4af37',
                   fontFamily: "'Outfit', sans-serif",
-                  fontSize: '0.78rem',
+                  fontSize: '1rem',
                   fontWeight: 600,
                   letterSpacing: '0.18em',
                   textTransform: 'uppercase',
@@ -444,7 +444,7 @@ export default function ConfigPanel({
                   (e.currentTarget as HTMLButtonElement).style.color = '#d4af37';
                 }}
               >
-                <i className="ri-check-line" style={{ fontSize: '14px' }} />
+                <i className="ri-check-line" style={{ fontSize: '18px' }} />
                 <span>OK</span>
               </button>
             )}
@@ -461,8 +461,8 @@ export default function ConfigPanel({
               gap: '8px',
             }}
           >
-            <i className="ri-information-line" style={{ color: 'rgba(212,175,55,0.45)', fontSize: '12px', marginTop: '1px', flexShrink: 0 }} />
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.25)', lineHeight: 1.6, margin: 0 }}>
+            <i className="ri-information-line" style={{ color: 'rgba(212,175,55,0.45)', fontSize: '16px', marginTop: '2px', flexShrink: 0 }} />
+            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, margin: 0 }}>
               {t('config_optional_note')}
             </p>
           </div>
