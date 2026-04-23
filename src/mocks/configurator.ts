@@ -73,6 +73,7 @@ import cylindrique3LLuxeNoirOr from '@assets/3L_1776948107987.png';
 import carree500LuxeNoirOr from '@assets/500ml_1776948575841.png';
 import carree750LuxeNoirOr from '@assets/750ml_1776948588209.png';
 import carree1LLuxeNoirOr from '@assets/1L_1776948631748.png';
+import carree3LLuxeNoirOr from '@assets/3L_1776948675560.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -112,6 +113,7 @@ export const COMBO_IMAGES: Record<string, string> = {
   'carree-750__1l__heritage': carree1LHeritage,
   'carree-750__3l__classique-ivoire': carree3LClassiqueIvoire,
   'carree-750__3l__bio-moderne': carree3LBioModerne,
+  'carree-750__3l__luxe-noir-or': carree3LLuxeNoirOr,
   'carree-750__3l__recolte-limitee': carree3LRecolteLimitee,
   'carree-750__3l__heritage': carree3LHeritage,
   'bidon-metal-3l__500ml__classique-ivoire': bidonMetal500ClassiqueIvoire,
