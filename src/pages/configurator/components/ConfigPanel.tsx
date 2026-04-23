@@ -381,7 +381,7 @@ export default function ConfigPanel({
       {step === 3 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           <div>
-            <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.22em', color: 'rgba(212,175,55,0.6)', textTransform: 'uppercase', display: 'block', marginBottom: '10px' }}>
+            <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.22em', color: 'rgba(212,175,55,0.6)', textTransform: 'uppercase', display: 'block', marginBottom: '22px' }}>
               {t('config_custom_text_label')}
             </label>
             <div style={{ position: 'relative' }}>
