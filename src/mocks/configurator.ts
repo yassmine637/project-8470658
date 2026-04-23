@@ -64,7 +64,7 @@ import bidonMetal1LHeritage from '@assets/1L_1776899688534.png';
 import bidonMetal3LHeritage from '@assets/3L_1776899719358.png';
 import bidonVert500Heritage from '@assets/500ml_1776899950735.png';
 import bidonVert750Heritage from '@assets/750ml_1776900216044.png';
-import bidonVert3LHeritage from '@assets/3L_1776900278296.png';
+import bidonVert3LHeritage from '@assets/3L_1776952745772.png';
 import bidonVert1LHeritage from '@assets/1L_1776900405113.png';
 import cylindrique500LuxeNoirOr from '@assets/500ml_1776948018012.png';
 import cylindrique750LuxeNoirOr from '@assets/750ml_1776948030377.png';
