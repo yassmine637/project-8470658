@@ -187,7 +187,7 @@ export default function ConfiguratorPage() {
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.95rem', fontWeight: 700, letterSpacing: '0.22em', color: '#d4af37', textTransform: 'uppercase' }}>
                     {STEPS[currentStep]?.label}
                   </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: 'rgba(255,255,255,0.25)', marginTop: '1px' }}>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.25)', marginTop: '3px' }}>
                     {STEPS[currentStep]?.desc}
                   </div>
                 </div>
