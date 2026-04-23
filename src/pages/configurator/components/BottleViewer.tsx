@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { BottleModel, LabelStyle } from '@/mocks/configurator';
 import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
+import cylindrique500SizeStepOverride from '@assets/produit1_1776954621827.png';
 
 interface BottleViewerProps {
   model: BottleModel;
@@ -25,7 +26,8 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
   const sizeScale = SIZE_SCALE[size] ?? 0.85;
   const comboKey = sizeId ? getComboImageKey(model.id, sizeId, labelStyle.id) : '';
   const comboImage = comboKey && currentStep >= 2 ? COMBO_IMAGES[comboKey] : undefined;
-  const bottleImage = comboImage ?? model.sizeImages?.[size] ?? model.image;
+  const sizeStepOverride = currentStep === 1 && model.id === 'cylindrique-500' && sizeId === '500ml' ? cylindrique500SizeStepOverride : undefined;
+  const bottleImage = sizeStepOverride ?? comboImage ?? model.sizeImages?.[size] ?? model.image;
 
   useEffect(() => {
     setIsLoaded(false);
