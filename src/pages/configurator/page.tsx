@@ -215,6 +215,7 @@ export default function ConfiguratorPage() {
                 onSizeChange={s => setSelectedSize(s)}
                 onLabelChange={l => setSelectedLabel(l)}
                 onCustomTextChange={txt => setCustomText(txt)}
+                onValidate={handleNext}
               />
             </div>
           </div>

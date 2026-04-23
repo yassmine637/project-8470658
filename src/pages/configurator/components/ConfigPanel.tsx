@@ -15,6 +15,7 @@ interface ConfigPanelProps {
   onSizeChange: (s: BottleSize) => void;
   onLabelChange: (l: LabelStyle) => void;
   onCustomTextChange: (t: string) => void;
+  onValidate?: () => void;
 }
 
 export default function ConfigPanel({
@@ -22,6 +23,7 @@ export default function ConfigPanel({
   models, sizes, labels,
   selectedModel, selectedSize, selectedLabel, customText,
   onModelChange, onSizeChange, onLabelChange, onCustomTextChange,
+  onValidate,
 }: ConfigPanelProps) {
   const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -409,6 +411,43 @@ export default function ConfigPanel({
                 {customText.length}/32
               </span>
             </div>
+
+            {onValidate && (
+              <button
+                onClick={onValidate}
+                style={{
+                  marginTop: '12px',
+                  width: '100%',
+                  padding: '14px 20px',
+                  borderRadius: '9px',
+                  border: '1px solid rgba(212,175,55,0.55)',
+                  background: 'linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.06))',
+                  color: '#d4af37',
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  transition: 'all 0.22s ease',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'linear-gradient(135deg, rgba(212,175,55,0.3), rgba(212,175,55,0.12))';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#f0cf5a';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.06))';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#d4af37';
+                }}
+              >
+                <i className="ri-check-line" style={{ fontSize: '14px' }} />
+                <span>OK — {t('config_step_summary')}</span>
+              </button>
+            )}
           </div>
 
           <div
