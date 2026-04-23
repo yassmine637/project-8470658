@@ -445,7 +445,7 @@ export default function ConfigPanel({
                 }}
               >
                 <i className="ri-check-line" style={{ fontSize: '14px' }} />
-                <span>OK — {t('config_step_summary')}</span>
+                <span>OK</span>
               </button>
             )}
           </div>
