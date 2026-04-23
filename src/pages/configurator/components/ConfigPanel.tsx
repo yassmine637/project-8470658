@@ -395,7 +395,7 @@ export default function ConfigPanel({
                   background: 'rgba(255,255,255,0.03)',
                   border: '1px solid rgba(212,175,55,0.22)',
                   borderRadius: '9px',
-                  padding: '32px 64px 32px 22px',
+                  padding: '48px 72px 48px 26px',
                   color: 'rgba(255,255,255,0.85)',
                   fontFamily: "'Cormorant Garant', serif",
                   fontSize: '2rem',
