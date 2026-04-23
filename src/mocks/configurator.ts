@@ -79,7 +79,7 @@ import bidonMetal750LuxeNoirOr from '@assets/750ml_1776949433319.png';
 import bidonMetal1LLuxeNoirOr from '@assets/1L_1776949452958.png';
 import bidonMetal3LLuxeNoirOr from '@assets/3L_1776949488481.png';
 import bidonVert500LuxeNoirOr from '@assets/500ml_1776949753535.png';
-import bidonVert750LuxeNoirOr from '@assets/750ml_1776949840500.png';
+import bidonVert750LuxeNoirOr from '@assets/750ml_1776951753730.png';
 import bidonVert3LLuxeNoirOr from '@assets/3L_1776950300832.png';
 import bidonVert1LLuxeNoirOr from '@assets/1L_1776950545769.png';
 import labelLuxeNoirOr from '@assets/étiquette_1776950575296.png';
