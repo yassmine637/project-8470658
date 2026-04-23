@@ -250,7 +250,7 @@ const translations = {
   config_step_desc_model: 'Choisissez votre bouteille',
   config_step_desc_size: 'Sélectionnez le volume de votre bouteille',
   config_step_desc_label: 'Personnalisez le style de votre étiquette',
-  config_step_desc_text: 'Ajoutez votre texte',
+  config_step_desc_text: 'Gravez une dédicace inoubliable',
   config_step_desc_summary: 'Finalisez votre choix',
   config_step_label_prefix: 'Étape',
   config_volume_comparison: 'Comparaison des volumes',
