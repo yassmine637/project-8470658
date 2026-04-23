@@ -91,8 +91,8 @@ export default function ConfigPanel({
 
                 <div
                   style={{
-                    width: '60px',
-                    height: '86px',
+                    width: '88px',
+                    height: '124px',
                     flexShrink: 0,
                     borderRadius: '8px',
                     overflow: 'hidden',
@@ -109,7 +109,7 @@ export default function ConfigPanel({
                     <span
                       style={{
                         fontFamily: "'Cormorant Garant', serif",
-                        fontSize: '1.25rem',
+                        fontSize: '1.65rem',
                         fontWeight: 600,
                         color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.85)',
                         transition: 'color 0.2s',
@@ -125,8 +125,8 @@ export default function ConfigPanel({
                   <div
                     style={{
                       fontFamily: "'Outfit', sans-serif",
-                      fontSize: '0.78rem',
-                      color: 'rgba(255,255,255,0.28)',
+                      fontSize: '0.95rem',
+                      color: 'rgba(255,255,255,0.32)',
                       lineHeight: 1.4,
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
@@ -138,10 +138,10 @@ export default function ConfigPanel({
                 </div>
 
                 <div style={{ flexShrink: 0, textAlign: 'right' }}>
-                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
+                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.8rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
                     {m.basePrice} TND
                   </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: 'rgba(212,175,55,0.4)', letterSpacing: '0.1em', marginTop: '3px' }}>{displaySymbol}</div>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', color: 'rgba(212,175,55,0.45)', letterSpacing: '0.1em', marginTop: '4px' }}>{displaySymbol}</div>
                 </div>
 
                 {isSelected && (
