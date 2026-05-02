@@ -132,9 +132,6 @@ export default function ConfigPanel({
                       fontSize: '0.95rem',
                       color: 'rgba(255,255,255,0.32)',
                       lineHeight: 1.4,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
                     }}
                   >
                     {t(m.descriptionKey)}
