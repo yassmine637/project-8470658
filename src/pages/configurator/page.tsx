@@ -55,12 +55,12 @@ export default function ConfiguratorPage() {
           zIndex: 20,
           display: 'flex',
           alignItems: 'center',
-          height: '56px',
+          height: '72px',
           borderBottom: '1px solid rgba(255,255,255,0.08)',
           background: '#1a1a1a',
           flexShrink: 0,
-          padding: '0 20px',
-          gap: '16px',
+          padding: '0 28px',
+          gap: '20px',
         }}
       >
         {/* Logo / back */}
@@ -87,7 +87,7 @@ export default function ConfiguratorPage() {
         <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />
 
         <div style={{ flexShrink: 0 }}>
-          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.05rem', fontWeight: 700, color: '#d4af37', letterSpacing: '0.18em', lineHeight: 1 }}>FENDRI</div>
+          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.3rem', fontWeight: 700, color: '#d4af37', letterSpacing: '0.18em', lineHeight: 1 }}>FENDRI</div>
         </div>
 
         {/* Step tabs — centered */}
@@ -104,10 +104,10 @@ export default function ConfiguratorPage() {
                   background: 'none',
                   border: 'none',
                   borderBottom: isActive ? '2px solid #d4af37' : '2px solid transparent',
-                  padding: '0 20px',
-                  height: '56px',
+                  padding: '0 22px',
+                  height: '72px',
                   fontFamily: "'Outfit', sans-serif",
-                  fontSize: '0.62rem',
+                  fontSize: '0.72rem',
                   fontWeight: isActive ? 700 : 400,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
@@ -136,9 +136,9 @@ export default function ConfiguratorPage() {
 
         {/* Price */}
         <div style={{ flexShrink: 0, textAlign: 'right' }}>
-          <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.48rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{t('config_total') || 'Total'}</div>
-          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.1rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
-            {totalPrice} <span style={{ fontSize: '0.65rem', fontFamily: "'Outfit', sans-serif", fontWeight: 400 }}>TND</span>
+          <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{t('config_total') || 'Total'}</div>
+          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
+            {totalPrice} <span style={{ fontSize: '0.75rem', fontFamily: "'Outfit', sans-serif", fontWeight: 400 }}>TND</span>
           </div>
         </div>
       </div>
