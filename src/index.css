@@ -221,3 +221,71 @@ html {
 .delay-300 { transition-delay: 300ms !important; }
 .delay-400 { transition-delay: 400ms !important; }
 .delay-500 { transition-delay: 500ms !important; }
+
+/* ─── RTL support (Arabic) ───────────────────────────────────── */
+html[dir="rtl"] body {
+  font-family: 'Cairo', sans-serif;
+}
+
+/* All text-bearing elements inherit RTL direction */
+html[dir="rtl"] p,
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] span,
+html[dir="rtl"] a,
+html[dir="rtl"] li,
+html[dir="rtl"] button,
+html[dir="rtl"] label,
+html[dir="rtl"] input,
+html[dir="rtl"] textarea {
+  direction: rtl;
+}
+
+/* Gold underline anchors: flip start position */
+html[dir="rtl"] .gold-underline::after {
+  left: auto;
+  right: 0;
+}
+
+/* Nav active underline: flip start position */
+html[dir="rtl"] .group span[class*="absolute"] {
+  left: auto;
+  right: 0;
+}
+
+/* Flex rows that contain left/right icon pairs */
+html[dir="rtl"] .flex-row-icon {
+  flex-direction: row-reverse;
+}
+
+/* Breadcrumb separator mirror */
+html[dir="rtl"] .breadcrumb-sep {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+
+/* Reveal animations: mirror X translations */
+html[dir="rtl"] .reveal-left {
+  transform: translateX(30px);
+}
+html[dir="rtl"] .reveal-right {
+  transform: translateX(-30px);
+}
+html[dir="rtl"] .reveal-left.is-visible,
+html[dir="rtl"] .reveal-right.is-visible {
+  transform: translateX(0);
+}
+
+/* Form / input text alignment */
+html[dir="rtl"] input[type="text"],
+html[dir="rtl"] input[type="email"],
+html[dir="rtl"] textarea {
+  text-align: right;
+}
+
+/* Checkbox/bullet list icons in product details */
+html[dir="rtl"] .rtl-icon-row {
+  flex-direction: row-reverse;
+}

@@ -45,6 +45,18 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const lang = LANGS.find((l) => l.code === currentLang);
+    if (!lang) return;
+    document.documentElement.dir = lang.dir;
+    document.documentElement.lang = currentLang;
+    if (currentLang === 'ar') {
+      document.body.style.fontFamily = "'Cairo', sans-serif";
+    } else {
+      document.body.style.fontFamily = '';
+    }
+  }, [currentLang]);
+
   // Smooth anchor navigation — works from any page
   const handleAnchorNav = (sectionId: string) => {
     if (menuOpen) setMenuOpen(false);
