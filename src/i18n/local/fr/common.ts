@@ -263,7 +263,7 @@ const translations = {
   config_included_label: 'Inclus',
   config_litre: 'litre',
   config_prev: 'Préc.',
-  config_next: 'Étape suivante',
+  config_next: 'Suivant',
   config_see_recap: 'Voir le récap',
   config_back_home: "Retour",
 

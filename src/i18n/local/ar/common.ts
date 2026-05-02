@@ -263,7 +263,7 @@ const translations = {
   config_included_label: 'مشمول',
   config_litre: 'لتر',
   config_prev: 'السابق',
-  config_next: 'الخطوة التالية',
+  config_next: 'التالي',
   config_see_recap: 'عرض الملخص',
   config_back_home: 'رجوع',
 
