@@ -240,23 +240,6 @@ export default function ConfiguratorPage() {
             background: '#f7f6f3',
           }}
         >
-          {/* Product title top */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '24px',
-              left: '0',
-              right: '0',
-              textAlign: 'center',
-              pointerEvents: 'none',
-              zIndex: 5,
-            }}
-          >
-            <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 400, color: '#1a1a1a', letterSpacing: '0.08em' }}>
-              {selectedModel.name.replace(/\s*\d+\s*(ml|L)\b/gi, '').trim()}
-            </div>
-          </div>
-
           {/* Bottle image */}
           <div style={{ width: '100%', height: '100%' }}>
             <BottleViewer
