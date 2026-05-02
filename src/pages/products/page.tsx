@@ -643,28 +643,28 @@ export default function ProductsPage() {
                       className="text-xs uppercase tracking-widest mb-2"
                       style={{ color: galleryAccent, fontFamily: "'Outfit', sans-serif" }}
                     >
-                      {galleryProduct.volume}
+                      {PRODUCT_VOLUME_KEYS[galleryProduct.id] ? t(PRODUCT_VOLUME_KEYS[galleryProduct.id]) : galleryProduct.volume}
                     </p>
                     <h3
                       className="font-bold leading-tight mb-3"
                       style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.7rem, 3vw, 2.4rem)' }}
                     >
-                      {galleryProduct.name}
+                      {t('product_name')}
                     </h3>
                     <p
                       className="italic mb-4"
                       style={{ color: galleryAccent, fontFamily: "'Cormorant Garant', serif", fontSize: '1.05rem' }}
                     >
-                      &ldquo;{galleryProduct.tagline}&rdquo;
+                      &ldquo;{PRODUCT_TRANSLATION_PREFIXES[galleryProduct.id] ? t(`${PRODUCT_TRANSLATION_PREFIXES[galleryProduct.id]}_tagline`) : galleryProduct.tagline}&rdquo;
                     </p>
                     <p
                       className="text-sm leading-loose mb-5"
                       style={{ color: '#5f705c', fontFamily: "'Outfit', sans-serif" }}
                     >
-                      {galleryProduct.description}
+                      {PRODUCT_TRANSLATION_PREFIXES[galleryProduct.id] ? t(`${PRODUCT_TRANSLATION_PREFIXES[galleryProduct.id]}_description`) : galleryProduct.description}
                     </p>
                     <div className="flex flex-col gap-2.5 mb-6">
-                      {galleryProduct.details.slice(0, 4).map((detail) => (
+                      {((PRODUCT_TRANSLATION_PREFIXES[galleryProduct.id] ? (t(`${PRODUCT_TRANSLATION_PREFIXES[galleryProduct.id]}_details`, { returnObjects: true }) as string[]) : galleryProduct.details)).slice(0, 4).map((detail) => (
                         <div key={detail} className="flex items-start gap-2.5">
                           <i className="ri-checkbox-circle-fill text-sm flex-shrink-0 mt-0.5" style={{ color: galleryAccent }} />
                           <span className="text-xs leading-relaxed" style={{ color: '#5f705c', fontFamily: "'Outfit', sans-serif" }}>
@@ -676,7 +676,7 @@ export default function ProductsPage() {
                     <div className="flex items-center justify-between gap-4 flex-wrap">
                       <div>
                         <p className="text-xs uppercase tracking-widest" style={{ color: '#8a9586', fontFamily: "'Outfit', sans-serif" }}>
-                          Prix
+                          {t('config_price')}
                         </p>
                         <p className="font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', lineHeight: 1 }}>
                           {galleryProduct.price} <span style={{ color: galleryAccent, fontSize: '1rem' }}>{galleryProduct.currency}</span>
@@ -691,7 +691,7 @@ export default function ProductsPage() {
                           fontFamily: "'Outfit', sans-serif",
                         }}
                       >
-                        Commander
+                        {t('card_order')}
                       </button>
                     </div>
                   </div>
@@ -717,13 +717,13 @@ export default function ProductsPage() {
                 className="text-xs uppercase tracking-widest mb-1"
                 style={{ color: galleryAccent, fontFamily: "'Outfit', sans-serif" }}
               >
-                {galleryProduct.volume}
+                {PRODUCT_VOLUME_KEYS[galleryProduct.id] ? t(PRODUCT_VOLUME_KEYS[galleryProduct.id]) : galleryProduct.volume}
               </p>
               <h3
                 className="text-2xl font-bold"
                 style={{ color: '#f8f6f1', fontFamily: "'Cormorant Garant', serif" }}
               >
-                {galleryProduct.name}
+                {t('product_name')}
               </h3>
               <button
                 onClick={() => setGalleryView(galleryView === 'image' ? 'video' : 'image')}
