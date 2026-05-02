@@ -308,6 +308,28 @@ const translations = {
   product_bouteille_750ml_volume: 'Slim square 750ml bottle',
   product_bidon_3l_volume: 'Metal 3L can',
 
+  // Configurator — model names & descriptions
+  config_model_cylindrique_name: 'Cylindrical',
+  config_model_cylindrique_desc: 'Classic silhouette, ideal gifting format',
+  config_model_carree_name: 'Slim Square',
+  config_model_carree_desc: 'Modern geometric design, prestige segment',
+  config_model_bidon_metal_name: 'Metal Can',
+  config_model_bidon_metal_desc: 'Professional container, optimal preservation',
+  config_model_bidon_vert_name: 'Green Bio Can',
+  config_model_bidon_vert_desc: 'Eco-responsible, certified organic, nature spirit',
+
+  // Configurator — label names & descriptions
+  config_label_classique_name: 'Classic Ivory',
+  config_label_classique_desc: 'Artisan luxury, Fendri signature identity',
+  config_label_bio_name: 'Modern Organic',
+  config_label_bio_desc: 'Export edition, minimalist & ecological',
+  config_label_luxe_name: 'Luxury Black & Gold Edition',
+  config_label_luxe_desc: 'Premium packaging, international premium market',
+  config_label_heritage_name: 'Maison Fendri Heritage',
+  config_label_heritage_desc: 'Family storytelling, authentic Tunisian tradition',
+  config_label_recolte_name: 'Harvest — Limited Edition',
+  config_label_recolte_desc: 'Seasonal product, terroir & harvest spirit',
+
   // Contact
   contact_address_value: 'Meknessi, Sfax, Tunisia',
 

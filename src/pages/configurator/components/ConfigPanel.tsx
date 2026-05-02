@@ -123,7 +123,7 @@ export default function ConfigPanel({
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {m.name.replace(/\s*\d+\s*(ml|L)\b/gi, '').trim()}
+                      {t(m.nameKey)}
                     </span>
                   </div>
                   <div
@@ -137,7 +137,7 @@ export default function ConfigPanel({
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {m.description}
+                    {t(m.descriptionKey)}
                   </div>
                 </div>
 
@@ -346,10 +346,10 @@ export default function ConfigPanel({
 
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '1.05rem', fontWeight: 600, color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.85)', transition: 'color 0.2s', marginBottom: '5px' }}>
-                    {l.name}
+                    {t(l.nameKey)}
                   </div>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.4 }}>
-                    {l.description}
+                    {t(l.descriptionKey)}
                   </div>
                   <div
                     style={{

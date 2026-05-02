@@ -308,6 +308,28 @@ const translations = {
   product_bouteille_750ml_volume: 'Bouteille carrée élancée 750ml',
   product_bidon_3l_volume: 'Bidon métallique 3L',
 
+  // Configurator — model names & descriptions
+  config_model_cylindrique_name: 'Cylindrique',
+  config_model_cylindrique_desc: 'Silhouette classique, format idéal pour offrir',
+  config_model_carree_name: 'Carrée Élancée',
+  config_model_carree_desc: 'Design géométrique moderne, segment prestige',
+  config_model_bidon_metal_name: 'Bidon Métallique',
+  config_model_bidon_metal_desc: 'Contenant professionnel, conservation optimale',
+  config_model_bidon_vert_name: 'Bidon Vert Bio',
+  config_model_bidon_vert_desc: 'Éco-responsable, certifié bio, esprit nature',
+
+  // Configurator — label names & descriptions
+  config_label_classique_name: 'Classique Ivoire',
+  config_label_classique_desc: 'Luxe artisanal, identité principale Fendri',
+  config_label_bio_name: 'Bio Moderne',
+  config_label_bio_desc: 'Version export, minimaliste & écologique',
+  config_label_luxe_name: 'Édition Luxe Noir & Or',
+  config_label_luxe_desc: 'Packaging haut de gamme, marché premium international',
+  config_label_heritage_name: 'Maison Fendri Héritage',
+  config_label_heritage_desc: 'Storytelling familial, tradition tunisienne authentique',
+  config_label_recolte_name: 'Récolte — Édition Limitée',
+  config_label_recolte_desc: 'Produit saisonnier, esprit terroir & récolte',
+
   // Contact
   contact_address_value: 'Meknessi, Sfax, Tunisie',
 

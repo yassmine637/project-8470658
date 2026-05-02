@@ -100,9 +100,9 @@ export default function OrderConfirmModal({
           }}
         >
           {[
-            [t('confirm_model'), model.name],
+            [t('confirm_model'), t(model.nameKey)],
             [t('confirm_size'), size.label],
-            [t('confirm_label'), label?.name ?? 'Sans étiquette'],
+            [t('confirm_label'), label ? t(label.nameKey) : (t('config_no_label') || 'Sans étiquette')],
             ...(customText ? [[t('confirm_custom'), `"${customText}"`]] : []),
             [t('confirm_total'), `${totalPrice} TND`],
           ].map(([k, v]) => (

@@ -174,9 +174,11 @@ export function getComboImageKey(modelId: string, sizeId: string, labelId: strin
 export interface BottleModel {
   id: string;
   name: string;
+  nameKey: string;
   basePrice: number;
   image: string;
   description: string;
+  descriptionKey: string;
   sizeImages?: Record<string, string>;
   defaultSizeId?: string;
 }
@@ -191,7 +193,9 @@ export interface BottleSize {
 export interface LabelStyle {
   id: string;
   name: string;
+  nameKey: string;
   description: string;
+  descriptionKey: string;
   priceAdd: number;
   accentColor: string;
   bgColor: string;
@@ -203,8 +207,10 @@ export const bottleModels: BottleModel[] = [
   {
     id: 'cylindrique-500',
     name: 'Cylindrique 500 ml',
+    nameKey: 'config_model_cylindrique_name',
     basePrice: 26,
     description: 'Silhouette classique, format idéal pour offrir',
+    descriptionKey: 'config_model_cylindrique_desc',
     image: cylindriqueOriginale,
     defaultSizeId: '500ml',
     sizeImages: {
@@ -217,8 +223,10 @@ export const bottleModels: BottleModel[] = [
   {
     id: 'carree-750',
     name: 'Carrée Élancée 750 ml',
+    nameKey: 'config_model_carree_name',
     basePrice: 58,
     description: 'Design géométrique moderne, segment prestige',
+    descriptionKey: 'config_model_carree_desc',
     image: PRODUCT_IMAGES.bouteilleCarree750ml,
     defaultSizeId: '750ml',
     sizeImages: {
@@ -230,8 +238,10 @@ export const bottleModels: BottleModel[] = [
   {
     id: 'bidon-metal-3l',
     name: 'Bidon Métallique 3 L',
+    nameKey: 'config_model_bidon_metal_name',
     basePrice: 74,
     description: 'Contenant professionnel, conservation optimale',
+    descriptionKey: 'config_model_bidon_metal_desc',
     image: PRODUCT_IMAGES.bidonMetallique3L,
     defaultSizeId: '3l',
     sizeImages: {
@@ -243,8 +253,10 @@ export const bottleModels: BottleModel[] = [
   {
     id: 'bidon-vert-1l',
     name: 'Bidon Vert 1 L Bio',
+    nameKey: 'config_model_bidon_vert_name',
     basePrice: 42,
     description: 'Éco-responsable, certifié bio, esprit nature',
+    descriptionKey: 'config_model_bidon_vert_desc',
     image: PRODUCT_IMAGES.bidonVert1L,
     defaultSizeId: '1l',
     sizeImages: {
@@ -266,7 +278,9 @@ export const labelStyles: LabelStyle[] = [
   {
     id: 'classique-ivoire',
     name: 'Classique Ivoire',
+    nameKey: 'config_label_classique_name',
     description: 'Luxe artisanal, identité principale Fendri',
+    descriptionKey: 'config_label_classique_desc',
     priceAdd: 3,
     accentColor: '#3d6b3a',
     bgColor: '#f7fbf5',
@@ -276,7 +290,9 @@ export const labelStyles: LabelStyle[] = [
   {
     id: 'bio-moderne',
     name: 'Bio Moderne',
+    nameKey: 'config_label_bio_name',
     description: 'Version export, minimaliste & écologique',
+    descriptionKey: 'config_label_bio_desc',
     priceAdd: 5,
     accentColor: '#3d7a4a',
     bgColor: '#f0f7ee',
@@ -286,7 +302,9 @@ export const labelStyles: LabelStyle[] = [
   {
     id: 'luxe-noir-or',
     name: 'Édition Luxe Noir & Or',
+    nameKey: 'config_label_luxe_name',
     description: 'Packaging haut de gamme, marché premium international',
+    descriptionKey: 'config_label_luxe_desc',
     priceAdd: 14,
     accentColor: '#d4af37',
     bgColor: '#0e0e0e',
@@ -296,7 +314,9 @@ export const labelStyles: LabelStyle[] = [
   {
     id: 'heritage',
     name: 'Maison Fendri Héritage',
+    nameKey: 'config_label_heritage_name',
     description: 'Storytelling familial, tradition tunisienne authentique',
+    descriptionKey: 'config_label_heritage_desc',
     priceAdd: 8,
     accentColor: '#8b5e3c',
     bgColor: '#f5ede0',
@@ -306,7 +326,9 @@ export const labelStyles: LabelStyle[] = [
   {
     id: 'recolte-limitee',
     name: 'Récolte – Édition Limitée',
+    nameKey: 'config_label_recolte_name',
     description: 'Produit saisonnier, esprit terroir & récolte',
+    descriptionKey: 'config_label_recolte_desc',
     priceAdd: 18,
     accentColor: '#c17f24',
     bgColor: '#fef6e4',

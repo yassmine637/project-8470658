@@ -308,6 +308,28 @@ const translations = {
   product_bouteille_750ml_volume: 'زجاجة مربعة أنيقة 750 مل',
   product_bidon_3l_volume: 'عبوة معدنية 3 لتر',
 
+  // Configurator — model names & descriptions
+  config_model_cylindrique_name: 'أسطواني',
+  config_model_cylindrique_desc: 'شكل كلاسيكي، التنسيق المثالي للهدايا',
+  config_model_carree_name: 'مربع أنيق',
+  config_model_carree_desc: 'تصميم هندسي عصري، قطاع البريستيج',
+  config_model_bidon_metal_name: 'عبوة معدنية',
+  config_model_bidon_metal_desc: 'وعاء احترافي، حفظ مثالي',
+  config_model_bidon_vert_name: 'عبوة خضراء عضوية',
+  config_model_bidon_vert_desc: 'صديق للبيئة، معتمد عضوياً، روح الطبيعة',
+
+  // Configurator — label names & descriptions
+  config_label_classique_name: 'كلاسيكي عاجي',
+  config_label_classique_desc: 'فخامة حرفية، الهوية الرئيسية لفندري',
+  config_label_bio_name: 'عضوي عصري',
+  config_label_bio_desc: 'إصدار التصدير، بسيط وإيكولوجي',
+  config_label_luxe_name: 'إصدار فاخر أسود وذهبي',
+  config_label_luxe_desc: 'تغليف فاخر، السوق الدولية المميزة',
+  config_label_heritage_name: 'ميزون فندري التراث',
+  config_label_heritage_desc: 'قصة العائلة، التقليد التونسي الأصيل',
+  config_label_recolte_name: 'الحصاد — إصدار محدود',
+  config_label_recolte_desc: 'منتج موسمي، روح الأرض والحصاد',
+
   // Contact
   contact_address_value: 'مكناسي، صفاقس، تونس',
 

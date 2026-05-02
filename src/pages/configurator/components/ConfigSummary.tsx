@@ -18,9 +18,9 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
   const borderColor = label?.borderColor ?? 'rgba(201,168,76,0.3)';
 
   const lineItems = [
-    { label: model.name, sub: t('config_base_model'), price: model.basePrice, included: false },
+    { label: t(model.nameKey), sub: t('config_base_model'), price: model.basePrice, included: false },
     { label: size.label, sub: t('config_step_size'), price: size.priceAdd, included: size.priceAdd === 0 },
-    ...(label ? [{ label: label.name, sub: t('config_step_label'), price: label.priceAdd, included: label.priceAdd === 0 }] : [{ label: t('config_no_label') || 'Sans étiquette', sub: t('config_step_label'), price: 0, included: true }]),
+    ...(label ? [{ label: t(label.nameKey), sub: t('config_step_label'), price: label.priceAdd, included: label.priceAdd === 0 }] : [{ label: t('config_no_label') || 'Sans étiquette', sub: t('config_step_label'), price: 0, included: true }]),
     ...(customText ? [{ label: `"${customText}"`, sub: t('config_personalization'), price: 0, included: true }] : []),
   ];
 
@@ -60,7 +60,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
             {t('config_product_display_name')}
           </div>
           <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', color: 'rgba(255,255,255,0.35)', marginTop: '3px' }}>
-            {model.name} · {size.label}
+            {t(model.nameKey)} · {size.label}
           </div>
           <div
             style={{
@@ -75,7 +75,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
             }}
           >
             <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: accentColor, flexShrink: 0 }} />
-            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: accentColor }}>{label?.name ?? 'Sans étiquette'}</span>
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: accentColor }}>{label ? t(label.nameKey) : (t('config_no_label') || 'Sans étiquette')}</span>
           </div>
         </div>
       </div>

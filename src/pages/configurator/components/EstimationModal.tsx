@@ -142,9 +142,9 @@ export default function EstimationModal({
   const fullPhone = phoneNumber ? `${selectedCountry.dialCode} ${phoneNumber}` : '';
 
   const lineItems = [
-    { label: t('config_step_model') + ' ' + model.name, detail: t('config_base_model'), price: model.basePrice },
+    { label: t('config_step_model') + ' ' + t(model.nameKey), detail: t('config_base_model'), price: model.basePrice },
     { label: t('config_step_size') + ' ' + size.label, detail: size.priceAdd === 0 ? t('config_included') : t('config_supplement'), price: size.priceAdd },
-    ...(label ? [{ label: t('config_label_etiquette') + ' ' + label.name, detail: label.description, price: label.priceAdd }] : [{ label: t('config_label_etiquette') + ' Sans étiquette', detail: '—', price: 0 }]),
+    ...(label ? [{ label: t('config_label_etiquette') + ' ' + t(label.nameKey), detail: t(label.descriptionKey), price: label.priceAdd }] : [{ label: t('config_label_etiquette') + ' ' + (t('config_no_label') || 'Sans étiquette'), detail: '—', price: 0 }]),
     ...(customText ? [{ label: t('config_personalization'), detail: `${t('config_text_label')} "${customText}"`, price: 0 }] : []),
   ];
 
@@ -411,10 +411,10 @@ export default function EstimationModal({
                 </div>
                 <div className="flex-1">
                   <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.1rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{t('config_product_name')}</div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', marginTop: '3px' }}>{t('config_custom_config')} · {model.name} · {size.label}</div>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', marginTop: '3px' }}>{t('config_custom_config')} · {t(model.nameKey)} · {size.label}</div>
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', marginTop: '6px', padding: '3px 8px', borderRadius: '20px', background: `${label.accentColor}18`, border: `1px solid ${label.accentColor}33` }}>
                     <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: label.accentColor }} />
-                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: label.accentColor }}>{t('config_label_etiquette')} {label.name}</span>
+                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: label.accentColor }}>{t('config_label_etiquette')} {t(label.nameKey)}</span>
                   </div>
                 </div>
               </div>
