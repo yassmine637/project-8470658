@@ -129,6 +129,12 @@ const translations = {
   products_title: 'مجموعتنا',
   products_subtitle: 'أربعة أشكال استثنائية — قوارير زجاجية مزيّنة برموز أمازيغية، تعبير عن قرن من الخبرة في صناعة زيت الزيتون.',
 
+  // Product badges
+  badge_bio: 'عضوي وطبيعي',
+  badge_bestseller: 'الأكثر مبيعاً',
+  badge_premium: 'فاخر',
+  badge_family: 'الحجم العائلي',
+
   // Product card
   card_order: 'اطلب',
   card_add_cart: 'أضف إلى السلة',

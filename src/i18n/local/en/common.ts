@@ -129,6 +129,12 @@ const translations = {
   products_title: 'Our Collection',
   products_subtitle: 'Four exceptional formats — glass bottles adorned with Berber symbols, the expression of a century of olive oil expertise.',
 
+  // Product badges
+  badge_bio: 'Organic & Natural',
+  badge_bestseller: 'Best-seller',
+  badge_premium: 'Premium',
+  badge_family: 'Family Size',
+
   // Product card
   card_order: 'Order',
   card_add_cart: 'Add to cart',

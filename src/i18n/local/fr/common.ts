@@ -129,6 +129,12 @@ const translations = {
   products_title: 'Notre Collection',
   products_subtitle: "Quatre formats d'exception, habillés de symboles berbères ciselés dans le verre — l'héritage vivant d'un siècle de passion oléicole.",
 
+  // Product badges
+  badge_bio: 'Bio & Naturel',
+  badge_bestseller: 'Best-seller',
+  badge_premium: 'Premium',
+  badge_family: 'Format Familial',
+
   // Product card
   card_order: 'Commander',
   card_add_cart: 'Ajouter au panier',

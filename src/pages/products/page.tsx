@@ -29,6 +29,13 @@ const BADGE_STYLES: Record<string, { bg: string; color: string }> = {
   'Format Familial': { bg: '#7b5e3a', color: '#fdf3e3' },
 };
 
+const BADGE_TRANSLATION_KEYS: Record<string, string> = {
+  'Bio & Naturel':   'badge_bio',
+  'Best-seller':     'badge_bestseller',
+  'Premium':         'badge_premium',
+  'Format Familial': 'badge_family',
+};
+
 export default function ProductsPage() {
   const { t } = useTranslation();
   const { addToCart, openCart } = useCart();
@@ -239,7 +246,7 @@ export default function ProductsPage() {
                           opacity: hasSelection && !isActive ? 0.5 : 1,
                         }}
                       >
-                        {product.badge}
+                        {BADGE_TRANSLATION_KEYS[product.badge] ? t(BADGE_TRANSLATION_KEYS[product.badge]) : product.badge}
                       </span>
                     )}
 
@@ -431,7 +438,7 @@ export default function ProductsPage() {
                   className="self-start mb-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
                   style={{ background: badgeStyle.bg, color: badgeStyle.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem' }}
                 >
-                  {selected.badge}
+                  {BADGE_TRANSLATION_KEYS[selected.badge] ? t(BADGE_TRANSLATION_KEYS[selected.badge]) : selected.badge}
                 </span>
               )}
 
@@ -636,7 +643,7 @@ export default function ProductsPage() {
                           fontSize: '0.65rem',
                         }}
                       >
-                        {galleryProduct.badge}
+                        {BADGE_TRANSLATION_KEYS[galleryProduct.badge] ? t(BADGE_TRANSLATION_KEYS[galleryProduct.badge]) : galleryProduct.badge}
                       </span>
                     )}
                     <p
