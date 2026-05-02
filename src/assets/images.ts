@@ -5,7 +5,7 @@
 
 // --- Produits ---
 export const PRODUCT_IMAGES = {
-  bidonVert1L: 'https://storage.readdy-site.link/project_files/87cc5f02-5407-43de-a578-ad5a1f36c09a/ccdd84a2-abed-4334-bc41-826fe8a12450_produit4.png?v=5915238d62d55de0b91b7171cb52cf6c',
+  bidonVert1L: '/produit4-nobg.png',
   bouteilleCylindrique500ml: '/bottle-cylindrique-500ml.png',
   bouteilleCylindrique500mlFendri: '/bottle-cylindrique-500ml-fendri.png',
   bouteilleCylindrique750ml: '/bottle-750ml.png',
@@ -14,8 +14,8 @@ export const PRODUCT_IMAGES = {
   bouteilleCarree500ml: '/bottle-carree-500ml.png',
   bouteilleCarree1L: '/bottle-carree-1l.png',
   bouteilleCarree3L: '/bottle-carree-3l.png',
-  bouteilleCarree750ml: 'https://storage.readdy-site.link/project_files/87cc5f02-5407-43de-a578-ad5a1f36c09a/cb96320d-b880-4e18-92d6-bccb286e8022_produit2.png?v=d81677a1f75fb73edd938a350e975ed7',
-  bidonMetallique3L: 'https://storage.readdy-site.link/project_files/87cc5f02-5407-43de-a578-ad5a1f36c09a/ff155bd0-3940-4b0b-af58-9644b13765ac_produit3.png?v=0e0c0d0c3b366f41bef1db8d7c4b2571',
+  bouteilleCarree750ml: '/produit2-nobg.png',
+  bidonMetallique3L: '/produit3-nobg.png',
   bidonMetallique500ml: '/bidon-500ml.png',
   bidonMetallique750ml: '/bidon-750ml.png',
   bidonMetallique1L: '/bidon-1l.png',
