@@ -133,6 +133,8 @@ const translations = {
   card_order: 'Order',
   card_add_cart: 'Add to cart',
   card_details: 'View details',
+  card_back_image: 'Back to image',
+  card_video_soon: 'Video coming soon',
 
   // Order modal
   order_title: 'Place your order',

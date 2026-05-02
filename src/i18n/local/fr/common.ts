@@ -133,6 +133,8 @@ const translations = {
   card_order: 'Commander',
   card_add_cart: 'Ajouter au panier',
   card_details: 'Voir les détails',
+  card_back_image: "Retour à l'image",
+  card_video_soon: 'Vidéo bientôt disponible',
 
   // Order modal
   order_title: 'Passer votre commande',

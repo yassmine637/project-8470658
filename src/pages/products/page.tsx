@@ -369,7 +369,7 @@ export default function ProductsPage() {
               ) : (
                 <div className="flex flex-col items-center gap-4" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   <i className="ri-film-line text-5xl" />
-                  <p className="text-sm" style={{ fontFamily: "'Outfit', sans-serif" }}>Vidéo bientôt disponible</p>
+                  <p className="text-sm" style={{ fontFamily: "'Outfit', sans-serif" }}>{t('card_video_soon')}</p>
                 </div>
               )}
 
@@ -735,7 +735,7 @@ export default function ProductsPage() {
                   fontFamily: "'Outfit', sans-serif",
                 }}
               >
-                {galleryView === 'image' ? 'Voir les détails' : "Retour à l'image"}
+                {galleryView === 'image' ? t('card_details') : t('card_back_image')}
               </button>
             </div>
           </div>

@@ -133,6 +133,8 @@ const translations = {
   card_order: 'اطلب',
   card_add_cart: 'أضف إلى السلة',
   card_details: 'عرض التفاصيل',
+  card_back_image: 'العودة إلى الصورة',
+  card_video_soon: 'الفيديو قريباً',
 
   // Order modal
   order_title: 'أرسل طلبك',
