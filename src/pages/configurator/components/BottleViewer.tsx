@@ -91,7 +91,6 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 0.45s ease',
             filter: 'drop-shadow(0 28px 48px rgba(0,0,0,0.22))',
-            mixBlendMode: 'multiply',
             pointerEvents: 'none',
             display: 'block',
           }}
