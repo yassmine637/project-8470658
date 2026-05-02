@@ -4,7 +4,7 @@ import type { BottleModel, BottleSize, LabelStyle } from '@/mocks/configurator';
 interface ConfigSummaryProps {
   model: BottleModel;
   size: BottleSize;
-  label: LabelStyle;
+  label: LabelStyle | null;
   customText: string;
   totalPrice: number;
   onOrder: () => void;
@@ -13,11 +13,14 @@ interface ConfigSummaryProps {
 
 export default function ConfigSummary({ model, size, label, customText, totalPrice, onOrder, onEstimation }: ConfigSummaryProps) {
   const { t } = useTranslation();
+  const accentColor = label?.accentColor ?? '#c9a84c';
+  const bgColor = label?.bgColor ?? '#f8f6f1';
+  const borderColor = label?.borderColor ?? 'rgba(201,168,76,0.3)';
 
   const lineItems = [
     { label: model.name, sub: t('config_base_model'), price: model.basePrice, included: false },
     { label: size.label, sub: t('config_step_size'), price: size.priceAdd, included: size.priceAdd === 0 },
-    { label: label.name, sub: t('config_step_label'), price: label.priceAdd, included: label.priceAdd === 0 },
+    ...(label ? [{ label: label.name, sub: t('config_step_label'), price: label.priceAdd, included: label.priceAdd === 0 }] : [{ label: t('config_no_label') || 'Sans étiquette', sub: t('config_step_label'), price: 0, included: true }]),
     ...(customText ? [{ label: `"${customText}"`, sub: t('config_personalization'), price: 0, included: true }] : []),
   ];
 
@@ -67,12 +70,12 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
               marginTop: '8px',
               padding: '3px 10px',
               borderRadius: '20px',
-              background: `${label.accentColor}15`,
-              border: `1px solid ${label.accentColor}30`,
+              background: `${accentColor}15`,
+              border: `1px solid ${accentColor}30`,
             }}
           >
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: label.accentColor, flexShrink: 0 }} />
-            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: label.accentColor }}>{label.name}</span>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: accentColor, flexShrink: 0 }} />
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: accentColor }}>{label?.name ?? 'Sans étiquette'}</span>
           </div>
         </div>
       </div>
@@ -89,11 +92,12 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
         <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: 'rgba(212,175,55,0.5)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: '12px', fontWeight: 700 }}>
           {t('config_label_preview')}
         </div>
+        {label ? (
         <div
           style={{
             position: 'relative',
-            background: label.bgColor,
-            border: `1.5px solid ${label.borderColor}`,
+            background: bgColor,
+            border: `1.5px solid ${borderColor}`,
             borderRadius: '6px',
             width: '220px',
             height: '340px',
@@ -109,10 +113,10 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
             />
           ) : (
             <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px', boxSizing: 'border-box', textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.22em', color: label.accentColor, textTransform: 'uppercase', marginBottom: '4px' }}>Domaine</div>
-              <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 700, color: label.bgColor === '#0e0e0e' ? '#d4af37' : '#1a2617', letterSpacing: '0.08em', lineHeight: 1.1 }}>FENDRI</div>
-              <div style={{ width: '60%', height: '1px', background: label.accentColor, margin: '6px auto', opacity: 0.6 }} />
-              <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.5rem', color: label.bgColor === '#0e0e0e' ? 'rgba(255,255,255,0.6)' : '#5a6c56', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+              <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.22em', color: accentColor, textTransform: 'uppercase', marginBottom: '4px' }}>Domaine</div>
+              <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 700, color: bgColor === '#0e0e0e' ? '#d4af37' : '#1a2617', letterSpacing: '0.08em', lineHeight: 1.1 }}>FENDRI</div>
+              <div style={{ width: '60%', height: '1px', background: accentColor, margin: '6px auto', opacity: 0.6 }} />
+              <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.5rem', color: bgColor === '#0e0e0e' ? 'rgba(255,255,255,0.6)' : '#5a6c56', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                 Extra Vierge
               </div>
             </div>
@@ -129,9 +133,9 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
                 fontFamily: "'Cormorant Garant', serif",
                 fontSize: '0.85rem',
                 fontStyle: 'italic',
-                color: label.accentColor,
+                color: accentColor,
                 letterSpacing: '0.06em',
-                textShadow: label.bgColor === '#0e0e0e' ? '0 1px 2px rgba(0,0,0,0.6)' : '0 1px 2px rgba(255,255,255,0.4)',
+                textShadow: bgColor === '#0e0e0e' ? '0 1px 2px rgba(0,0,0,0.6)' : '0 1px 2px rgba(255,255,255,0.4)',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -141,6 +145,11 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
             </div>
           )}
         </div>
+        ) : (
+          <div style={{ width: '220px', height: '340px', margin: '0 auto', borderRadius: '6px', border: '1.5px dashed rgba(212,175,55,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em' }}>Aucune étiquette</span>
+          </div>
+        )}
       </div>
 
       {/* Price breakdown */}

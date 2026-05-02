@@ -8,7 +8,7 @@ import bidonVertModelStepOverride from '@assets/originale_1776955073362.png';
 
 interface BottleViewerProps {
   model: BottleModel;
-  labelStyle: LabelStyle;
+  labelStyle: LabelStyle | null;
   customText: string;
   size: string;
   sizeId?: string;
@@ -27,7 +27,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
   const [prevModelId, setPrevModelId] = useState(model.id);
   const [transitioning, setTransitioning] = useState(false);
   const sizeScale = SIZE_SCALE[size] ?? 0.85;
-  const comboKey = sizeId ? getComboImageKey(model.id, sizeId, labelStyle.id) : '';
+  const comboKey = sizeId && labelStyle ? getComboImageKey(model.id, sizeId, labelStyle.id) : '';
   const comboImage = comboKey && currentStep >= 2 ? COMBO_IMAGES[comboKey] : undefined;
   const sizeStepOverride = currentStep === 1 && model.id === 'cylindrique-500' && sizeId === '500ml' ? cylindrique500SizeStepOverride : undefined;
   const modelStepOverride = currentStep === 0
@@ -65,7 +65,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
           width: '180px',
           height: '24px',
           borderRadius: '50%',
-          background: `radial-gradient(ellipse, ${labelStyle.accentColor}33 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse, ${labelStyle?.accentColor ?? '#c9a84c'}33 0%, transparent 70%)`,
           filter: 'blur(16px)',
           transition: 'background 0.5s ease',
           pointerEvents: 'none',

@@ -17,7 +17,7 @@ export default function ConfiguratorPage() {
   const [modelChosen, setModelChosen] = useState(false);
   const [selectedSize, setSelectedSize] = useState<BottleSize>(bottleSizes[0]);
   const [sizeChosen, setSizeChosen] = useState(false);
-  const [selectedLabel, setSelectedLabel] = useState<LabelStyle>(labelStyles[0]);
+  const [selectedLabel, setSelectedLabel] = useState<LabelStyle | null>(null);
   const [customText, setCustomText] = useState('');
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [estimationOpen, setEstimationOpen] = useState(false);
@@ -31,7 +31,7 @@ export default function ConfiguratorPage() {
     { id: 'summary', label: t('config_step_summary'), icon: 'ri-file-list-3-line', desc: t('config_step_desc_summary') },
   ];
 
-  const totalPrice = selectedModel.basePrice + selectedSize.priceAdd + selectedLabel.priceAdd;
+  const totalPrice = selectedModel.basePrice + selectedSize.priceAdd + (selectedLabel?.priceAdd ?? 0);
   const handleNext = () => { if (currentStep < STEPS.length - 1) setCurrentStep(s => s + 1); };
   const handlePrev = () => { if (currentStep > 0) setCurrentStep(s => s - 1); };
   const isSummaryStep = currentStep === STEPS.length - 1;
