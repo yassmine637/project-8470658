@@ -12,7 +12,7 @@ function StatItem({ value, suffix, label, display, isYear, delay }: {
 
   const formatted = display
     ? (visible ? display : '0')
-    : (visible ? count.toLocaleString('fr-FR') : '0');
+    : (visible ? String(count).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : '0');
 
   return (
     <div
@@ -26,7 +26,7 @@ function StatItem({ value, suffix, label, display, isYear, delay }: {
     >
       <span
         className="text-3xl font-bold"
-        style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}
+        style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", unicodeBidi: 'bidi-override', direction: 'ltr' }}
         dir="ltr"
       >
         {formatted}{suffix}
