@@ -86,9 +86,7 @@ function getBotReply(input: string): string {
 export default function ReaddyAgent() {
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState<Lang | null>(null);
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 0, from: 'bot', text: '' },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [listening, setListening] = useState(false);
   const [typing, setTyping] = useState(false);
@@ -113,7 +111,7 @@ export default function ReaddyAgent() {
     const detected = detectLang(trimmed);
     setLang(detected);
 
-    if (messages.length === 1 && messages[0].text === '') {
+    if (messages.length === 0) {
       setMessages([{ id: 0, from: 'bot', text: COPY[detected].welcome }]);
     }
 
