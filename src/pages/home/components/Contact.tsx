@@ -96,10 +96,19 @@ export default function Contact() {
 
     setStatus('sending');
     try {
-      const res = await fetch('https://readdy.ai/api/form/d72koh1sakbatd8b3mb0', {
+      const payload = {
+        nom: formData.get('nom') as string,
+        prenom: formData.get('prenom') as string,
+        email: formData.get('email') as string,
+        telephone: phoneNumber ? `${countryCode} ${phoneNumber}` : '',
+        pays: countryName,
+        sujet: formData.get('sujet') as string,
+        message: formData.get('message') as string,
+      };
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: data.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
         setStatus('success');

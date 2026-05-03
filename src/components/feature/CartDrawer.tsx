@@ -85,19 +85,24 @@ export default function CartDrawer() {
     }
     setSubmitting(true);
     try {
-      const body = new URLSearchParams({
-        name: form.name,
-        email: form.email,
-        phone: `${countryCode} ${phoneNumber}`,
-        pays: countryName,
-        address: form.address,
-        order_summary: buildOrderSummary(),
-        total: `${totalPrice} ${t('currency_tnd') ?? 'د.ت'}`,
-      });
-      await fetch('https://readdy.ai/api/form/d7chpnem3fsfopf23dmg', {
+      const orderItems = items.map((i) => ({
+        productId: i.product.id,
+        productName: i.product.name,
+        volume: i.product.volume,
+        price: i.product.price,
+        quantity: i.quantity,
+      }));
+      await fetch('/api/orders', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: orderItems,
+          guestName: form.name,
+          guestEmail: form.email,
+          guestPhone: `${countryCode} ${phoneNumber}`,
+          currency: 'TND',
+          shippingAddress: { address: form.address, country: countryName },
+        }),
       });
       setStep('success');
       clearCart();

@@ -151,25 +151,27 @@ export default function EstimationModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    const configSummary = `Model: ${model.name} | Size: ${size.label} | Label: ${label?.name ?? t('config_no_label')}${customText ? ` | Text: "${customText}"` : ''} | Qty: ${quantity} | Total TTC: ${totalTTC} ${t('currency_tnd') ?? 'د.ت'} (≈ ${formatPrice(totalTTC)} ${displaySymbol})`;
-    const body = new URLSearchParams({
-      name,
-      email,
-      phone: fullPhone,
-      pays: selectedCountry.name,
-      currency: currencyCode,
-      message: message || '',
-      configuration: configSummary,
-      devis_number: devisNumber.current,
-      quantity: String(quantity),
-      total_ht: String(subtotal),
-      total_ttc: String(totalTTC),
-    });
     try {
-      await fetch('https://readdy.ai/api/form/d7ch914kpdh0a4advigg', {
+      await fetch('/api/configurator', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body.toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone: fullPhone,
+          country: selectedCountry.name,
+          currency: currencyCode,
+          message: message || '',
+          configuration: {
+            model: { id: model.id, name: model.name, basePrice: model.basePrice },
+            size: { id: size.id, label: size.label, volume: size.volume, priceAdd: size.priceAdd },
+            label: label ? { id: label.id, name: label.name, priceAdd: label.priceAdd } : null,
+            customText: customText || '',
+          },
+          quantity,
+          totalHT: subtotal,
+          totalTTC,
+        }),
       });
       setFormStep('sent');
     } catch {
