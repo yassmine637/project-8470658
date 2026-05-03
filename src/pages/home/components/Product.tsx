@@ -3,12 +3,13 @@ import { useReveal } from '@/hooks/useReveal';
 import { PRODUCT_SECTION_IMAGES } from '@/assets/images';
 
 export default function Product() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { ref: imgRef, visible: imgVisible } = useReveal();
   const { ref: textRef, visible: textVisible } = useReveal();
+  const productFeat1 = i18n.language === 'ar' ? `100% ${t('product_feat1_label')}` : t('product_feat1_label');
 
   const FEATURES = [
-    { icon: 'ri-leaf-line', label: t('product_feat1_label'), desc: t('product_feat1_desc') },
+    { icon: 'ri-leaf-line', label: productFeat1, desc: t('product_feat1_desc') },
     { icon: 'ri-temp-cold-line', label: t('product_feat2_label'), desc: t('product_feat2_desc') },
     { icon: 'ri-award-line', label: t('product_feat3_label'), desc: t('product_feat3_desc') },
     { icon: 'ri-ship-2-line', label: t('product_feat4_label'), desc: t('product_feat4_desc') },
@@ -101,7 +102,9 @@ export default function Product() {
                 <div className="w-8 h-8 flex items-center justify-center" style={{ color: 'rgba(212,175,55,0.8)', fontSize: '1.4rem' }}>
                   <i className={f.icon} />
                 </div>
-                <p className="text-sm font-bold leading-tight" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{f.label}</p>
+                <p className="text-sm font-bold leading-tight" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                  {f.label}
+                </p>
                 <p className="text-xs leading-relaxed" style={{ color: '#8a9e82', fontFamily: "'Outfit', sans-serif" }}>{f.desc}</p>
               </div>
             ))}
