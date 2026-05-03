@@ -17,10 +17,11 @@ const BADGE_STYLES: Record<string, { bg: string; color: string }> = {
 const ACCENT_COLORS: string[] = ['#4a7c4e', '#c9a84c', '#b8942a', '#8b6914'];
 
 export default function ProductCard({ product, index }: ProductCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { addToCart, openCart } = useCart();
   const badgeStyle = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
   const accent = ACCENT_COLORS[index % ACCENT_COLORS.length];
+  const isArabic = i18n.language === 'ar';
 
   return (
     <div
@@ -84,7 +85,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
                 {product.price}
               </span>
               <span className="text-base font-semibold ml-1" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
-                {product.currency}
+                {isArabic ? 'د.ت' : product.currency}
               </span>
             </div>
 

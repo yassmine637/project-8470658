@@ -37,7 +37,7 @@ const BADGE_TRANSLATION_KEYS: Record<string, string> = {
 };
 
 export default function ProductsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { addToCart, openCart } = useCart();
   const [selected, setSelected] = useState<Product | null>(null);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
@@ -159,6 +159,8 @@ export default function ProductsPage() {
   const badgeStyle = selected?.badge ? BADGE_STYLES[selected.badge] ?? BADGE_STYLES['Premium'] : null;
   const galleryProduct = galleryIndex !== null ? products[galleryIndex] : null;
   const galleryAccent = galleryProduct?.accentColor ?? '#c9a84c';
+  const isArabic = i18n.language === 'ar';
+  const formatPrice = (amount: number) => (isArabic ? `${amount} د.ت` : `${amount} TND`);
 
   return (
     <>
@@ -469,7 +471,7 @@ export default function ProductsPage() {
                   {selected.price}
                 </span>
                 <span className="text-base font-semibold" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
-                  {selected.currency}
+                  {isArabic ? 'د.ت' : selected.currency}
                 </span>
               </div>
 
@@ -686,7 +688,7 @@ export default function ProductsPage() {
                           {t('config_price')}
                         </p>
                         <p className="font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', lineHeight: 1 }}>
-                          {galleryProduct.price} <span style={{ color: galleryAccent, fontSize: '1rem' }}>{galleryProduct.currency}</span>
+                          {formatPrice(galleryProduct.price)} <span style={{ color: galleryAccent, fontSize: '1rem' }}>{isArabic ? '' : galleryProduct.currency}</span>
                         </p>
                       </div>
                       <button
