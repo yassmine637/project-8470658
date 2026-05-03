@@ -118,3 +118,8 @@ externalPort = 3001
 deploymentTarget = "static"
 build = ["npm", "run", "build"]
 publicDir = "out"
+
+[userenv]
+
+[userenv.shared]
+JWT_SECRET = ""
