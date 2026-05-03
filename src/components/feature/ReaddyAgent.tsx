@@ -17,42 +17,76 @@ interface SpeechRecognitionInstance {
   stop: () => void;
 }
 
-const WELCOME =
-  "Bonjour 👋 Je suis l’assistant virtuel de Domaine Fendri. Comment puis-je vous aider aujourd’hui ? Vous pouvez poser des questions sur nos huiles d’olive, les bouteilles personnalisées ou votre commande.";
+type Lang = 'ar' | 'fr' | 'en';
+
+function detectLang(input: string): Lang {
+  if (/[\u0600-\u06FF]/.test(input)) return 'ar';
+  const q = input.toLowerCase();
+  if (/[àâçéèêëîïôùûüÿœ]/i.test(input) || /(^|\\s)(bonjour|salut|merci|huile|commande|livraison|contact|bouteille)/.test(q)) return 'fr';
+  return 'en';
+}
+
+const COPY: Record<Lang, { welcome: string; fallback: string; greeting: string; voiceUnsupported: string }> = {
+  fr: {
+    welcome: "Bonjour 👋 Je suis l’assistant virtuel de Domaine Fendri. Comment puis-je vous aider aujourd’hui ? Vous pouvez poser des questions sur nos huiles d’olive, les bouteilles personnalisées ou votre commande.",
+    fallback: "Merci pour votre message. Pour toute demande spéciale, je vous invite à visiter la page collection ou à nous contacter directement. Notre équipe est à votre service !",
+    greeting: "Bonjour ! Ravi de vous accueillir chez Fendri. Comment puis-je vous aider ?",
+    voiceUnsupported: "La reconnaissance vocale n’est pas prise en charge par votre navigateur.",
+  },
+  en: {
+    welcome: "Hello 👋 I’m Domaine Fendri’s virtual assistant. How can I help you today? You can ask about our olive oils, personalized bottles, or your order.",
+    fallback: "Thanks for your message. For any special request, please visit the collection page or contact us directly. Our team is here to help!",
+    greeting: "Hello! Glad to welcome you to Fendri. How can I help?",
+    voiceUnsupported: "Speech recognition is not supported by your browser.",
+  },
+  ar: {
+    welcome: "مرحبًا 👋 أنا المساعد الافتراضي لضيعة فندري. كيف يمكنني مساعدتك اليوم؟ يمكنك طرح أسئلة حول زيوتنا، القوارير المخصصة، أو طلبك.",
+    fallback: "شكرًا على رسالتك. لأي طلب خاص، أدعوك إلى زيارة صفحة المجموعة أو التواصل معنا مباشرة. فريقنا في خدمتك!",
+    greeting: "مرحبًا! يسعدني تواجدك لدى فندري. كيف يمكنني مساعدتك؟",
+    voiceUnsupported: "التعرّف على الصوت غير مدعوم في متصفحك.",
+  },
+};
 
 function getBotReply(input: string): string {
   const q = input.toLowerCase();
-  if (q.includes('huile') || q.includes('olive') || q.includes('produit')) {
-    return "Nos huiles d’olive extra vierges sont produites depuis 1911 à Sfax, en Tunisie. Chaque bouteille reflète un savoir-faire transmis et un caractère unique. Souhaitez-vous découvrir notre collection ?";
+  const lang = detectLang(input);
+  if (lang === 'ar') {
+    if (q.includes('زيت') || q.includes('زيو') || q.includes('olive')) return 'زيوتنا البكر الممتازة تُنتَج منذ 1911 في صفاقس، تونس. كل قارورة تعكس خبرة متوارثة وطابعًا فريدًا. هل ترغب في استكشاف مجموعتنا؟';
+    if (q.includes('قارورة') || q.includes('تخصيص') || q.includes('معدّل') || q.includes('configur')) return 'يتيح لك المُعدِّل تخصيص القارورة بالكامل: الطراز، الحجم، الملصق والنص. ابدأ من قسم المجموعة!';
+    if (q.includes('طلب') || q.includes('سعر') || q.includes('شراء')) return 'لإتمام طلب أو الحصول على عرض مخصص، تواصل معنا عبر نموذج الاتصال أو من صفحة المجموعة. سيقوم فريقنا بالرد خلال 24 ساعة.';
+    if (q.includes('توصيل') || q.includes('شحن') || q.includes('مدة')) return 'نحن نشحن داخل تونس وإلى الخارج. تختلف المدة حسب الوجهة: 3–5 أيام داخل تونس، و7–14 يومًا دوليًا. الشحن مجاني ابتداءً من 150 دينار.';
+    if (q.includes('جائزة') || q.includes('ميدالية') || q.includes('award')) return 'حصلت ضيعة فندري على العديد من الجوائز الدولية، بما في ذلك ميداليات ذهبية في Concours Mondial de Bruxelles. زيوتنا من بين الأفضل عالميًا.';
+    if (q.includes('اتصال') || q.includes('هاتف') || q.includes('email') || q.includes('عنوان')) return 'يمكنك التواصل معنا عبر نموذج الاتصال أسفل الصفحة، أو مباشرة على contact@domainefendri.com. نحن متاحون من الاثنين إلى الجمعة، من 9 صباحًا إلى 6 مساءً.';
+    if (q.includes('مرحبا') || q.includes('سلام') || q.includes('أهلا')) return COPY.ar.greeting;
+    if (q.includes('شكرا') || q.includes('thanks')) return 'بكل سرور! لا تتردد في طرح أي سؤال آخر. نتمنى لك زيارة ممتعة لموقعنا!';
+    return COPY.ar.fallback;
   }
-  if (q.includes('bouteille') || q.includes('personnalis') || q.includes('configur')) {
-    return "Le configurateur vous permet de personnaliser entièrement la bouteille : modèle, taille, étiquette et texte. Commencez par la section collection !";
+  if (lang === 'fr') {
+    if (q.includes('huile') || q.includes('olive') || q.includes('produit')) return "Nos huiles d’olive extra vierges sont produites depuis 1911 à Sfax, en Tunisie. Chaque bouteille reflète un savoir-faire transmis et un caractère unique. Souhaitez-vous découvrir notre collection ?";
+    if (q.includes('bouteille') || q.includes('personnalis') || q.includes('configur')) return "Le configurateur vous permet de personnaliser entièrement la bouteille : modèle, taille, étiquette et texte. Commencez par la section collection !";
+    if (q.includes('commande') || q.includes('commander') || q.includes('acheter') || q.includes('prix')) return "Pour finaliser une commande ou obtenir un devis personnalisé, contactez-nous via le formulaire ou depuis la page collection. Notre équipe vous répond sous 24 heures.";
+    if (q.includes('livraison') || q.includes('délai') || q.includes('expédition')) return "Nous livrons en Tunisie et à l’international. Les délais varient selon la destination : 3 à 5 jours en Tunisie et 7 à 14 jours à l’étranger. La livraison est offerte dès 150 dinars.";
+    if (q.includes('récompense') || q.includes('award') || q.includes('médaille') || q.includes('prix')) return "Le Domaine Fendri a reçu de nombreuses distinctions internationales, dont des médailles d’or au Concours Mondial de Bruxelles. Nos huiles sont reconnues parmi les meilleures au monde.";
+    if (q.includes('contact') || q.includes('téléphone') || q.includes('email') || q.includes('adresse')) return "Vous pouvez nous joindre via le formulaire de contact en bas de page, ou directement à contact@domainefendri.com. Nous sommes disponibles du lundi au vendredi, de 9h à 18h.";
+    if (q.includes('bonjour') || q.includes('salut') || q.includes('hello') || q.includes('bonsoir')) return COPY.fr.greeting;
+    if (q.includes('merci') || q.includes('thank')) return "Avec plaisir ! N’hésitez pas si vous avez d’autres questions. Bonne visite sur notre site !";
+    return COPY.fr.fallback;
   }
-  if (q.includes('commande') || q.includes('commander') || q.includes('acheter') || q.includes('prix')) {
-    return "Pour finaliser une commande ou obtenir un devis personnalisé, contactez-nous via le formulaire ou depuis la page collection. Notre équipe vous répond sous 24 heures.";
-  }
-  if (q.includes('livraison') || q.includes('délai') || q.includes('expédition')) {
-    return "Nous livrons en Tunisie et à l’international. Les délais varient selon la destination : 3 à 5 jours en Tunisie et 7 à 14 jours à l’étranger. La livraison est offerte dès 150 dinars.";
-  }
-  if (q.includes('récompense') || q.includes('award') || q.includes('médaille') || q.includes('prix')) {
-    return "Le Domaine Fendri a reçu de nombreuses distinctions internationales, dont des médailles d’or au Concours Mondial de Bruxelles. Nos huiles sont reconnues parmi les meilleures au monde.";
-  }
-  if (q.includes('contact') || q.includes('téléphone') || q.includes('email') || q.includes('adresse')) {
-    return "Vous pouvez nous joindre via le formulaire de contact en bas de page, ou directement à contact@domainefendri.com. Nous sommes disponibles du lundi au vendredi, de 9h à 18h.";
-  }
-  if (q.includes('bonjour') || q.includes('salut') || q.includes('hello') || q.includes('bonsoir')) {
-    return "Bonjour ! Ravi de vous accueillir chez Fendri. Comment puis-je vous aider ?";
-  }
-  if (q.includes('merci') || q.includes('thank')) {
-    return "Avec plaisir ! N’hésitez pas si vous avez d’autres questions. Bonne visite sur notre site !";
-  }
-    return "Merci pour votre message. Pour toute demande spéciale, je vous invite à visiter la page collection ou à nous contacter directement. Notre équipe est à votre service !";
+  if (q.includes('oil') || q.includes('olive') || q.includes('product')) return "Our extra virgin olive oils have been produced since 1911 in Sfax, Tunisia. Each bottle reflects a passed-down craft and a unique identity. Would you like to explore our collection?";
+  if (q.includes('bottle') || q.includes('custom') || q.includes('config')) return "The configurator lets you fully customize the bottle: model, size, label, and text. Start with the collection section!";
+  if (q.includes('order') || q.includes('buy') || q.includes('price')) return "To place an order or get a custom quote, contact us through the form or from the collection page. Our team will reply within 24 hours.";
+  if (q.includes('delivery') || q.includes('shipping') || q.includes('time')) return "We ship in Tunisia and internationally. Delivery times vary by destination: 3–5 days in Tunisia and 7–14 days abroad. Shipping is free from 150 dinars.";
+  if (q.includes('award') || q.includes('medal') || q.includes('prize')) return "Domaine Fendri has received many international distinctions, including gold medals at the Concours Mondial de Bruxelles. Our oils are recognized among the best in the world.";
+  if (q.includes('contact') || q.includes('phone') || q.includes('email') || q.includes('address')) return "You can reach us through the contact form at the bottom of the page, or directly at contact@domainefendri.com. We are available Monday to Friday, 9am to 6pm.";
+  if (q.includes('hello') || q.includes('hi') || q.includes('good morning') || q.includes('good evening')) return COPY.en.greeting;
+  if (q.includes('thank')) return "With pleasure! Feel free to ask if you have any other questions. Enjoy your visit to our site!";
+  return COPY.en.fallback;
 }
 
 export default function ReaddyAgent() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: 0, from: 'bot', text: WELCOME },
+    { id: 0, from: 'bot', text: COPY.fr.welcome },
   ]);
   const [input, setInput] = useState('');
   const [listening, setListening] = useState(false);
@@ -93,7 +127,7 @@ export default function ReaddyAgent() {
 
   const toggleVoice = () => {
     type SpeechRecognitionCtor = new () => SpeechRecognitionInstance;
-    const w = window as Record<string, unknown>;
+    const w = window as unknown as Record<string, unknown>;
     const SpeechRecognitionAPI =
       (w['SpeechRecognition'] as SpeechRecognitionCtor | undefined) ||
       (w['webkitSpeechRecognition'] as SpeechRecognitionCtor | undefined);
@@ -101,7 +135,7 @@ export default function ReaddyAgent() {
     if (!SpeechRecognitionAPI) {
       setMessages((prev) => [
         ...prev,
-        { id: Date.now(), from: 'bot', text: "La reconnaissance vocale n’est pas prise en charge par votre navigateur." },
+        { id: Date.now(), from: 'bot', text: COPY.fr.voiceUnsupported },
       ]);
       return;
     }
@@ -113,7 +147,8 @@ export default function ReaddyAgent() {
     }
 
     const recognition = new SpeechRecognitionAPI();
-    recognition.lang = 'fr-FR';
+    const lang = detectLang(input);
+    recognition.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'fr-FR';
     recognition.interimResults = false;
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
@@ -371,7 +406,7 @@ export default function ReaddyAgent() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Votre message..."
+              placeholder={detectLang(input) === 'ar' ? 'رسالتك...' : detectLang(input) === 'en' ? 'Your message...' : 'Votre message...'}
               style={{
                 flex: 1,
                 border: '1px solid #e0dbd0',
