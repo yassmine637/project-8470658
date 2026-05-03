@@ -1,61 +1,89 @@
-# Fendri — Luxury E-Commerce & Product Configurator
+# Domaine Fendri — Application E-commerce
 
-## Project Overview
+Application e-commerce complète pour l'huile d'olive Domaine Fendri. Frontend React + Vite, backend Express + MongoDB.
 
-A high-end, luxury e-commerce and product customization platform (Fendri brand) built with React + TypeScript + Vite. Features a landing page, product catalog, and a sophisticated 3D-like product configurator for bespoke bottles (perfumes/spirits).
+## Architecture
 
-## Tech Stack
+- **Frontend** : React 19 + Vite + TypeScript + TailwindCSS (port 5000)
+- **Backend** : Express.js sur port 3001 (dev), MongoDB via Mongoose
+- **Proxy** : Vite redirige `/api/*` → `localhost:3001`
 
-- **Frontend:** React 19, TypeScript
-- **Build Tool:** Vite 8
-- **Styling:** Tailwind CSS 3, PostCSS
-- **Routing:** React Router 7
-- **Internationalization:** i18next (English & French)
-- **Icons:** Lucide React, Remix Icon
-- **Services:** Firebase, Supabase, Stripe (in dependencies)
-- **Charts:** Recharts
-
-## Project Structure
+## Structure du projet
 
 ```
+server/
+  config/db.js          — Connexion MongoDB avec retry auto
+  middleware/auth.js    — JWT protect + admin middleware
+  models/               — User, Product, Order, ConfiguratorOrder, ContactMessage
+  routes/               — auth, products, orders, configurator, contact, checkout, admin
+  index.js              — Express entry point (port 3001)
+  seed.js               — Peuple la DB avec 4 produits
+
 src/
-  assets/         Static assets and image mappings
-  components/
-    base/         Low-level reusable components
-    feature/      Domain-specific components (CartDrawer, Header, etc.)
-  hooks/          Custom React hooks (useCart, useCurrency)
-  i18n/           Translation files and i18n config
-  mocks/          Mock data (products, configurator)
+  api/                  — Services API (client, auth, products, orders, configurator, contact, checkout, admin)
+  hooks/useAuth.tsx     — AuthContext JWT (login, register, logout)
   pages/
-    home/         Landing page sections (Hero, About, Awards, etc.)
-    products/     Product listing page
-    configurator/ 3D-like product customization wizard
-  router/         Routing config and AppRoutes
-  App.tsx
-  main.tsx
-eslint-rules/     Custom ESLint rules
+    auth/page.tsx       — Page login/register
+    admin/page.tsx      — Dashboard admin (commandes, messages, configurateur)
+    checkout/success.tsx — Page succès paiement Stripe
+    checkout/cancel.tsx  — Page annulation paiement
+  components/feature/
+    CartDrawer.tsx      — Panier → POST /api/orders
+  pages/home/components/
+    Contact.tsx         — Formulaire → POST /api/contact
+  pages/configurator/components/
+    EstimationModal.tsx — Devis → POST /api/configurator
 ```
 
-## Dev Setup
+## Routes API
 
-- **Package Manager:** npm
-- **Dev server:** `npm run dev` — runs on port 5000 (0.0.0.0)
-- **Build output:** `out/` directory
-- **Path alias:** `@` maps to `src/`
-- **Auto-imports:** React hooks, react-router-dom, react-i18next via unplugin-auto-import
+| Méthode | Route | Description |
+|---------|-------|-------------|
+| POST | /api/auth/register | Créer un compte |
+| POST | /api/auth/login | Connexion JWT |
+| GET | /api/auth/me | Profil utilisateur (auth) |
+| GET | /api/products | Liste des produits |
+| GET | /api/products/:slug | Produit par slug |
+| POST | /api/orders | Créer commande (guest) |
+| POST | /api/orders/authenticated | Créer commande (auth) |
+| GET | /api/orders/my | Mes commandes (auth) |
+| POST | /api/configurator | Soumettre devis configurateur |
+| POST | /api/contact | Envoyer message contact |
+| POST | /api/checkout/create-session | Créer session Stripe |
+| POST | /api/checkout/webhook | Webhook Stripe |
+| GET | /api/admin/* | Dashboard admin (auth + admin) |
+| GET | /api/health | Health check |
 
-## Deployment
+## Secrets requis
 
-- **Type:** Static site
-- **Build command:** `npm run build`
-- **Public directory:** `out/`
+| Clé | Status | Description |
+|-----|--------|-------------|
+| `MONGODB_URI` | ✅ Configuré | URI MongoDB Atlas |
+| `JWT_SECRET` | ⚠️ Optionnel | Défaut: fendri_jwt_secret_2025 |
+| `STRIPE_SECRET_KEY` | ❌ Non configuré | Pour paiements Stripe |
+| `SENDGRID_API_KEY` | ❌ Non configuré | Pour emails transactionnels |
 
-## Key Features
+## Workflows
 
-- Multi-step product configurator with real-time bottle preview
-- Cart system with CartProvider context and CartDrawer
-- Multi-language support (EN/FR)
-- AI assistant integration (ReaddyAgent component)
-- Product videos are displayed on the products page; the 1L bidon uses `attached_assets/1L_1776459416660.mp4`, the 500ml bottle uses `attached_assets/500ml_1776458561147.mp4`, the 750ml bottle uses `attached_assets/750ml_1776459284079.mp4`, and the 3L bidon uses `attached_assets/3L_1776459633650.mp4`.
-- The products page preloads product images first, then delays background video preloading so bottle thumbnails appear faster on initial load.
-- Product thumbnails on the Collection page open a fullscreen image gallery with previous/next arrows and keyboard navigation; the "Voir les détails" button switches to a quick product detail view with video, description, highlights, price, and cart action.
+- **Start application** : `npm run dev` → port 5000 (webview)
+- **API Backend** : `nodemon --watch server server/index.js` → port 3001 (console)
+
+## Compte admin
+
+- **Email** : admin@fendri.com
+- **Password** : Admin2025!
+- **Role** : admin
+
+## Commandes utiles
+
+```bash
+npm run dev          # Lance le frontend Vite
+npm run server:dev   # Lance le backend Express (nodemon)
+npm run seed         # Peuple la DB avec les produits
+```
+
+## Préférences utilisateur
+
+- Interface française pour les messages d'erreur et labels API
+- Prix en TND (dinar tunisien) avec TVA 19%
+- Multilangue: FR / AR / EN via i18next
