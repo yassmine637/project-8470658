@@ -85,13 +85,9 @@ function getBotReply(input: string): string {
 
 export default function ReaddyAgent() {
   const [open, setOpen] = useState(false);
-  const [lang, setLang] = useState<Lang>(() => {
-    const saved = localStorage.getItem('readdy-agent-lang');
-    if (saved === 'ar' || saved === 'fr' || saved === 'en') return saved;
-    return 'ar';
-  });
+  const [lang, setLang] = useState<Lang | null>(null);
   const [messages, setMessages] = useState<Message[]>([
-    { id: 0, from: 'bot', text: COPY.ar.welcome },
+    { id: 0, from: 'bot', text: '' },
   ]);
   const [input, setInput] = useState('');
   const [listening, setListening] = useState(false);
@@ -110,16 +106,16 @@ export default function ReaddyAgent() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, typing]);
 
-  useEffect(() => {
-    localStorage.setItem('readdy-agent-lang', lang);
-  }, [lang]);
-
   const sendMessage = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
 
     const detected = detectLang(trimmed);
     setLang(detected);
+
+    if (messages.length === 1 && messages[0].text === '') {
+      setMessages([{ id: 0, from: 'bot', text: COPY[detected].welcome }]);
+    }
 
     const userMsg: Message = { id: Date.now(), from: 'user', text: trimmed };
     setMessages((prev) => [...prev, userMsg]);
