@@ -18,35 +18,35 @@ interface SpeechRecognitionInstance {
 }
 
 const WELCOME =
-  "مرحبًا 👋 أنا المساعد الافتراضي لمزارع فندري. كيف يمكنني مساعدتك اليوم؟ يمكنك طرح أسئلة حول زيوت الزيتون الفاخرة لدينا، أو الزجاجات المخصصة، أو إتمام طلب.";
+  "Bonjour 👋 Je suis l’assistant virtuel de Domaine Fendri. Comment puis-je vous aider aujourd’hui ? Vous pouvez poser des questions sur nos huiles d’olive, les bouteilles personnalisées ou votre commande.";
 
 function getBotReply(input: string): string {
   const q = input.toLowerCase();
   if (q.includes('huile') || q.includes('olive') || q.includes('produit')) {
-    return "زيوتنا البكر الممتازة تُنتَج منذ 1911 في صفاقس، تونس. كل زجاجة تعكس خبرة متوارثة وطابعًا فريدًا. هل ترغب في استكشاف مجموعتنا؟";
+    return "Nos huiles d’olive extra vierges sont produites depuis 1911 à Sfax, en Tunisie. Chaque bouteille reflète un savoir-faire transmis et un caractère unique. Souhaitez-vous découvrir notre collection ?";
   }
   if (q.includes('bouteille') || q.includes('personnalis') || q.includes('configur')) {
-    return "يتيح لك المصمم تخصيص الزجاجة بالكامل: النموذج، الحجم، الملصق والنص المنقوش. ابدأ من قسم المجموعة!";
+    return "Le configurateur vous permet de personnaliser entièrement la bouteille : modèle, taille, étiquette et texte. Commencez par la section collection !";
   }
   if (q.includes('commande') || q.includes('commander') || q.includes('acheter') || q.includes('prix')) {
-    return "لإتمام طلب أو الحصول على عرض مخصص، تواصل معنا عبر نموذج الاتصال أو زر صفحة المجموعة. سيقوم فريقنا بالرد خلال 24 ساعة.";
+    return "Pour finaliser une commande ou obtenir un devis personnalisé, contactez-nous via le formulaire ou depuis la page collection. Notre équipe vous répond sous 24 heures.";
   }
   if (q.includes('livraison') || q.includes('délai') || q.includes('expédition')) {
-    return "نحن نشحن داخل تونس وإلى الخارج. تختلف المدة حسب الوجهة: 3–5 أيام داخل تونس، و7–14 يومًا دوليًا. الشحن مجاني ابتداءً من 150 دينار.";
+    return "Nous livrons en Tunisie et à l’international. Les délais varient selon la destination : 3 à 5 jours en Tunisie et 7 à 14 jours à l’étranger. La livraison est offerte dès 150 dinars.";
   }
   if (q.includes('récompense') || q.includes('award') || q.includes('médaille') || q.includes('prix')) {
-    return "Le Domaine Fendri a reçu de nombreuses distinctions internationales, dont des médailles d'or au Concours Mondial de Bruxelles. Nos huiles sont reconnues parmi les meilleures au monde.";
+    return "Le Domaine Fendri a reçu de nombreuses distinctions internationales, dont des médailles d’or au Concours Mondial de Bruxelles. Nos huiles sont reconnues parmi les meilleures au monde.";
   }
   if (q.includes('contact') || q.includes('téléphone') || q.includes('email') || q.includes('adresse')) {
-    return "Vous pouvez nous joindre via le formulaire de contact en bas de page, ou directement à contact@domainefendri.com. Nous sommes disponibles du lundi au vendredi, 9h–18h.";
+    return "Vous pouvez nous joindre via le formulaire de contact en bas de page, ou directement à contact@domainefendri.com. Nous sommes disponibles du lundi au vendredi, de 9h à 18h.";
   }
   if (q.includes('bonjour') || q.includes('salut') || q.includes('hello') || q.includes('bonsoir')) {
-    return "مرحبًا! يسعدني تواجدك لدى فندري. كيف يمكنني مساعدتك؟";
+    return "Bonjour ! Ravi de vous accueillir chez Fendri. Comment puis-je vous aider ?";
   }
   if (q.includes('merci') || q.includes('thank')) {
-    return "Avec plaisir ! N'hésitez pas si vous avez d'autres questions. Bonne visite sur notre site !";
+    return "Avec plaisir ! N’hésitez pas si vous avez d’autres questions. Bonne visite sur notre site !";
   }
-    return "شكرًا على رسالتك. لأي طلب خاص، أدعوك إلى زيارة صفحة المجموعة أو التواصل معنا مباشرة. فريقنا في خدمتك!";
+    return "Merci pour votre message. Pour toute demande spéciale, je vous invite à visiter la page collection ou à nous contacter directement. Notre équipe est à votre service !";
 }
 
 export default function ReaddyAgent() {
@@ -101,7 +101,7 @@ export default function ReaddyAgent() {
     if (!SpeechRecognitionAPI) {
       setMessages((prev) => [
         ...prev,
-        { id: Date.now(), from: 'bot', text: "La reconnaissance vocale n'est pas supportée par votre navigateur." },
+        { id: Date.now(), from: 'bot', text: "La reconnaissance vocale n’est pas prise en charge par votre navigateur." },
       ]);
       return;
     }
@@ -224,11 +224,11 @@ export default function ReaddyAgent() {
             </div>
             <div>
               <div style={{ color: '#fff', fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>
-                مساعد فندري
+                Assistant Fendri
               </div>
               <div style={{ color: '#d4af37', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#4caf50', display: 'inline-block' }} />
-                متصل
+                En ligne
               </div>
             </div>
             <button
@@ -244,7 +244,7 @@ export default function ReaddyAgent() {
                 alignItems: 'center',
                 borderRadius: 6,
               }}
-              aria-label="إغلاق"
+              aria-label="Fermer"
             >
               <X size={18} />
             </button>
@@ -371,7 +371,7 @@ export default function ReaddyAgent() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="رسالتك..."
+              placeholder="Votre message..."
               style={{
                 flex: 1,
                 border: '1px solid #e0dbd0',
@@ -409,8 +409,8 @@ export default function ReaddyAgent() {
             {/* Send button */}
             <button
               onClick={() => sendMessage(input)}
-              aria-label="إرسال"
-              title="إرسال"
+              aria-label="Envoyer"
+              title="Envoyer"
               disabled={!input.trim()}
               style={{
                 width: 38,
