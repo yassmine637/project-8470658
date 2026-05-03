@@ -12,8 +12,8 @@ interface ConfigSummaryProps {
 }
 
 export default function ConfigSummary({ model, size, label, customText, totalPrice, onOrder, onEstimation }: ConfigSummaryProps) {
-  const { t } = useTranslation();
-  const isArabic = document?.documentElement?.dir === 'rtl' || document?.documentElement?.lang === 'ar';
+  const { t, i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
   const accentColor = label?.accentColor ?? '#c9a84c';
   const bgColor = label?.bgColor ?? '#f8f6f1';
   const borderColor = label?.borderColor ?? 'rgba(201,168,76,0.3)';

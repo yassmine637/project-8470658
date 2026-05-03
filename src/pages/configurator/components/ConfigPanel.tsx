@@ -27,15 +27,14 @@ export default function ConfigPanel({
   onModelChange, onSizeChange, onLabelChange, onCustomTextChange,
   onValidate,
 }: ConfigPanelProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const isArabic = document?.documentElement?.dir === 'rtl' || document?.documentElement?.lang === 'ar';
+  const isArabic = i18n.language === 'ar';
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [step]);
 
-  const displaySymbol = 'TND';
   const formatPrice = (amount: number) => (isArabic ? `${amount} د.ت` : `${amount} TND`);
 
   return (
@@ -144,7 +143,7 @@ export default function ConfigPanel({
                   <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.8rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
                     {formatPrice(m.basePrice)}
                   </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', color: 'rgba(212,175,55,0.45)', letterSpacing: '0.1em', marginTop: '4px' }}>{displaySymbol}</div>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', color: 'rgba(212,175,55,0.45)', letterSpacing: '0.1em', marginTop: '4px' }}>{isArabic ? 'د.ت' : 'TND'}</div>
                 </div>
 
                 {isSelected && (

@@ -14,8 +14,8 @@ interface OrderConfirmModalProps {
 export default function OrderConfirmModal({
   isOpen, model, size, label, customText, totalPrice, onClose,
 }: OrderConfirmModalProps) {
-  const { t } = useTranslation();
-  const isArabic = document?.documentElement?.dir === 'rtl' || document?.documentElement?.lang === 'ar';
+  const { t, i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
 
   if (!isOpen) return null;
 
