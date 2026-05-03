@@ -210,6 +210,7 @@ const translations = {
   config_col_total: 'الإجمالي',
   config_subtotal: 'المجموع الفرعي',
   config_tva: 'ضريبة القيمة المضافة 19%',
+  config_total: 'الإجمالي',
   config_total_ttc: 'الإجمالي شامل الضريبة',
   config_conditions_title: 'الشروط',
   config_cond1: 'تقدير غير ملزم، صالح لمدة 30 يوماً من تاريخ الإصدار.',

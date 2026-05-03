@@ -136,7 +136,7 @@ export default function ConfiguratorPage() {
 
         {/* Price */}
         <div style={{ flexShrink: 0, textAlign: 'right' }}>
-          <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{t('config_total') || 'Total'}</div>
+          <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{t('config_total') || t('config_total_ttc')}</div>
           <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.4rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
             {totalPrice} <span style={{ fontSize: '0.75rem', fontFamily: "'Outfit', sans-serif", fontWeight: 400 }}>TND</span>
           </div>
