@@ -1,10 +1,12 @@
 import express from 'express';
 import User from '../models/User.js';
 import { generateToken, protect } from '../middleware/auth.js';
+import { authLimiter } from '../middleware/rateLimit.js';
+import { validateAuth } from '../middleware/validate.js';
 
 const router = express.Router();
 
-router.post('/register', async (req, res) => {
+router.post('/register', authLimiter, validateAuth, async (req, res) => {
   try {
     const { name, email, password, phone, country } = req.body;
     if (!name || !email || !password)
@@ -14,11 +16,11 @@ router.post('/register', async (req, res) => {
     const user = await User.create({ name, email, password, phone, country });
     res.status(201).json({ user: user.toSafeObject(), token: generateToken(user._id) });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Erreur lors de la création du compte' });
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, validateAuth, async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password)
@@ -28,7 +30,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     res.json({ user: user.toSafeObject(), token: generateToken(user._id) });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Erreur lors de la connexion' });
   }
 });
 
@@ -39,24 +41,28 @@ router.get('/me', protect, async (req, res) => {
 router.put('/me', protect, async (req, res) => {
   try {
     const { name, phone, country } = req.body;
+    if (name && (name.length < 2 || name.length > 100))
+      return res.status(400).json({ message: 'Nom invalide' });
     const user = await User.findById(req.user._id);
     if (name) user.name = name;
-    if (phone) user.phone = phone;
-    if (country) user.country = country;
+    if (phone) user.phone = phone.slice(0, 30);
+    if (country) user.country = country.slice(0, 100);
     await user.save();
     res.json({ user: user.toSafeObject() });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Erreur lors de la mise à jour' });
   }
 });
 
-router.put('/change-password', protect, async (req, res) => {
+router.put('/change-password', protect, authLimiter, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
     if (!currentPassword || !newPassword)
       return res.status(400).json({ message: 'Mot de passe actuel et nouveau requis' });
     if (newPassword.length < 8)
       return res.status(400).json({ message: 'Le nouveau mot de passe doit faire au moins 8 caractères' });
+    if (newPassword.length > 128)
+      return res.status(400).json({ message: 'Mot de passe trop long' });
     const user = await User.findById(req.user._id);
     if (!(await user.matchPassword(currentPassword)))
       return res.status(401).json({ message: 'Mot de passe actuel incorrect' });
@@ -64,7 +70,7 @@ router.put('/change-password', protect, async (req, res) => {
     await user.save();
     res.json({ message: 'Mot de passe modifié avec succès' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Erreur lors du changement de mot de passe' });
   }
 });
 

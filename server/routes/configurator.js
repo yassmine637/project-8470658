@@ -1,16 +1,17 @@
 import express from 'express';
 import ConfiguratorOrder from '../models/ConfiguratorOrder.js';
+import { configuratorLimiter } from '../middleware/rateLimit.js';
+import { validateConfigurator } from '../middleware/validate.js';
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', configuratorLimiter, validateConfigurator, async (req, res) => {
   try {
     const {
       name, email, phone, country, currency,
       configuration, quantity, totalHT, totalTTC, message,
     } = req.body;
 
-    if (!name || !email) return res.status(400).json({ message: 'Nom et email requis' });
     if (!configuration?.model || !configuration?.size)
       return res.status(400).json({ message: 'Configuration incomplète' });
 
@@ -21,29 +22,30 @@ router.post('/', async (req, res) => {
       devisNumber,
       name,
       email,
-      phone: phone || '',
-      country: country || '',
-      currency: currency || 'TND',
+      phone: phone ? phone.slice(0, 30) : '',
+      country: country ? country.slice(0, 100) : '',
+      currency: ['TND', 'EUR', 'USD', 'GBP'].includes(currency) ? currency : 'TND',
       configuration,
       quantity: quantity || 1,
       totalHT,
       totalTTC,
-      message: message || '',
+      message: message ? message.slice(0, 1000) : '',
     });
 
     res.status(201).json({ order, devisNumber });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Erreur lors de la création du devis' });
   }
 });
 
 router.get('/track/:devisNumber', async (req, res) => {
   try {
-    const order = await ConfiguratorOrder.findOne({ devisNumber: req.params.devisNumber });
+    const dn = req.params.devisNumber.replace(/[^A-Z0-9-]/g, '').slice(0, 20);
+    const order = await ConfiguratorOrder.findOne({ devisNumber: dn });
     if (!order) return res.status(404).json({ message: 'Devis introuvable' });
     res.json({ status: order.status, devisNumber: order.devisNumber, createdAt: order.createdAt });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Erreur lors de la recherche du devis' });
   }
 });
 
