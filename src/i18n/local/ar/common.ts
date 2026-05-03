@@ -274,7 +274,7 @@ const translations = {
   config_litre: 'لتر',
   config_volume_500ml: '500مل',
   config_volume_750ml: '750مل',
-  config_volume_1l: 'لتر',
+  config_volume_1l: '1لتر',
   config_volume_3l: 'لتر',
   config_prev: 'السابق',
   config_next: 'التالي',
