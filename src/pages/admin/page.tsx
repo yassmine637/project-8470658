@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { adminApi } from '@/api/admin';
 
-type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users';
+type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users' | 'security';
 
 const STATUS_COLORS: Record<string, string> = {
   pending: '#f59e0b', paid: '#10b981', processing: '#3b82f6',
@@ -22,6 +22,9 @@ export default function AdminPage() {
   const [messages, setMessages] = useState<unknown[]>([]);
   const [users, setUsers] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(false);
+  const [pwForm, setPwForm] = useState({ current: '', next: '', confirm: '' });
+  const [pwStatus, setPwStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [pwError, setPwError] = useState('');
 
   useEffect(() => {
     if (!isLoading && (!user || !isAdmin)) navigate('/auth');
@@ -65,7 +68,37 @@ export default function AdminPage() {
     { key: 'configs', label: 'Devis configurateur', icon: 'ri-flask-line' },
     { key: 'messages', label: 'Messages', icon: 'ri-mail-line' },
     { key: 'users', label: 'Utilisateurs', icon: 'ri-team-line' },
+    { key: 'security', label: 'Sécurité', icon: 'ri-shield-keyhole-line' },
   ];
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwError('');
+    if (pwForm.next !== pwForm.confirm) {
+      setPwError('Les nouveaux mots de passe ne correspondent pas');
+      return;
+    }
+    if (pwForm.next.length < 8) {
+      setPwError('Le nouveau mot de passe doit faire au moins 8 caractères');
+      return;
+    }
+    setPwStatus('loading');
+    try {
+      const token = localStorage.getItem('fendri_token');
+      const res = await fetch('/api/auth/change-password', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ currentPassword: pwForm.current, newPassword: pwForm.next }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      setPwStatus('success');
+      setPwForm({ current: '', next: '', confirm: '' });
+    } catch (err: unknown) {
+      setPwError(err instanceof Error ? err.message : 'Erreur');
+      setPwStatus('error');
+    }
+  };
 
   const cell = 'px-4 py-3 text-left text-sm';
   const headCell = 'px-4 py-3 text-left text-xs font-bold uppercase tracking-wider';
@@ -279,6 +312,65 @@ export default function AdminPage() {
                     )}
                   </tbody>
                 </table>
+              </div>
+            </div>
+          )}
+          {!loading && tab === 'security' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Sécurité du compte</h2>
+              <p className="text-sm mb-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
+                Connecté en tant que <strong style={{ color: '#1a2617' }}>{user?.email}</strong>
+              </p>
+
+              <div className="rounded-2xl p-8 max-w-md" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
+                <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)', borderRadius: 2, marginBottom: 28 }} />
+                <h3 className="text-lg font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
+                  Changer le mot de passe
+                </h3>
+
+                {pwStatus === 'success' && (
+                  <div className="mb-5 p-3 rounded-xl text-sm" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#166534', fontFamily: "'Outfit', sans-serif" }}>
+                    ✅ Mot de passe modifié avec succès !
+                  </div>
+                )}
+                {pwError && (
+                  <div className="mb-5 p-3 rounded-xl text-sm" style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#991b1b', fontFamily: "'Outfit', sans-serif" }}>
+                    {pwError}
+                  </div>
+                )}
+
+                <form onSubmit={handleChangePassword} className="flex flex-col gap-5">
+                  {[
+                    { key: 'current', label: 'Mot de passe actuel', placeholder: '••••••••' },
+                    { key: 'next', label: 'Nouveau mot de passe', placeholder: 'Min. 8 caractères' },
+                    { key: 'confirm', label: 'Confirmer le nouveau mot de passe', placeholder: '••••••••' },
+                  ].map(({ key, label, placeholder }) => (
+                    <div key={key}>
+                      <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5a6e56', fontFamily: "'Outfit', sans-serif" }}>
+                        {label}
+                      </label>
+                      <input
+                        type="password"
+                        placeholder={placeholder}
+                        value={pwForm[key as keyof typeof pwForm]}
+                        onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))}
+                        required
+                        className="w-full px-4 py-2.5 rounded-xl text-sm outline-none transition-all"
+                        style={{ border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}
+                        onFocus={(e) => { e.target.style.borderColor = '#d4af37'; }}
+                        onBlur={(e) => { e.target.style.borderColor = '#e8e8e4'; }}
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="submit"
+                    disabled={pwStatus === 'loading'}
+                    className="w-full py-3 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer disabled:opacity-60"
+                    style={{ background: 'linear-gradient(135deg, #1a2617 0%, #2f4229 100%)', color: '#d4af37', border: '1px solid rgba(212,175,55,0.2)', fontFamily: "'Outfit', sans-serif" }}
+                  >
+                    {pwStatus === 'loading' ? 'Modification...' : 'Enregistrer le nouveau mot de passe'}
+                  </button>
+                </form>
               </div>
             </div>
           )}

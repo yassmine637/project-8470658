@@ -50,4 +50,22 @@ router.put('/me', protect, async (req, res) => {
   }
 });
 
+router.put('/change-password', protect, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword)
+      return res.status(400).json({ message: 'Mot de passe actuel et nouveau requis' });
+    if (newPassword.length < 8)
+      return res.status(400).json({ message: 'Le nouveau mot de passe doit faire au moins 8 caractères' });
+    const user = await User.findById(req.user._id);
+    if (!(await user.matchPassword(currentPassword)))
+      return res.status(401).json({ message: 'Mot de passe actuel incorrect' });
+    user.password = newPassword;
+    await user.save();
+    res.json({ message: 'Mot de passe modifié avec succès' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 export default router;

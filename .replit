@@ -43,7 +43,7 @@ outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "nodemon --watch server server/index.js"
+args = "node server/index.js"
 waitForPort = 3001
 
 [[ports]]
