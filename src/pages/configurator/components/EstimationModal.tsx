@@ -144,14 +144,14 @@ export default function EstimationModal({
   const lineItems = [
     { label: t('config_step_model') + ' ' + t(model.nameKey), detail: t('config_base_model'), price: model.basePrice },
     { label: t('config_step_size') + ' ' + size.label, detail: size.priceAdd === 0 ? t('config_included') : t('config_supplement'), price: size.priceAdd },
-    ...(label ? [{ label: t('config_label_etiquette') + ' ' + t(label.nameKey), detail: t(label.descriptionKey), price: label.priceAdd }] : [{ label: t('config_label_etiquette') + ' ' + (t('config_no_label') || 'Sans étiquette'), detail: '—', price: 0 }]),
+    ...(label ? [{ label: t('config_label_etiquette') + ' ' + t(label.nameKey), detail: t(label.descriptionKey), price: label.priceAdd }] : [{ label: t('config_label_etiquette') + ' ' + t('config_no_label'), detail: '—', price: 0 }]),
     ...(customText ? [{ label: t('config_personalization'), detail: `${t('config_text_label')} "${customText}"`, price: 0 }] : []),
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    const configSummary = `Model: ${model.name} | Size: ${size.label} | Label: ${label?.name ?? 'Sans étiquette'}${customText ? ` | Text: "${customText}"` : ''} | Qty: ${quantity} | Total TTC: ${totalTTC} TND (≈ ${formatPrice(totalTTC)} ${displaySymbol})`;
+    const configSummary = `Model: ${model.name} | Size: ${size.label} | Label: ${label?.name ?? t('config_no_label')}${customText ? ` | Text: "${customText}"` : ''} | Qty: ${quantity} | Total TTC: ${totalTTC} TND (≈ ${formatPrice(totalTTC)} ${displaySymbol})`;
     const body = new URLSearchParams({
       name,
       email,

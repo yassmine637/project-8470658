@@ -149,7 +149,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
         </div>
         ) : (
           <div style={{ width: '220px', height: '340px', margin: '0 auto', borderRadius: '6px', border: '1.5px dashed rgba(212,175,55,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em' }}>Aucune étiquette</span>
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em' }}>{t('config_no_label')}</span>
           </div>
         )}
       </div>
