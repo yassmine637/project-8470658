@@ -79,7 +79,7 @@ const translations = {
   awards_a1_years: '2018 · 2019 · 2020',
   awards_a1_desc: 'متأهل ثلاث سنوات متتالية في المسابقة الدولية المرجعية التي ينظمها المجلس الدولي للزيتون.',
   awards_a2_title: 'دليل فلوس أوليي',
-  awards_a2_years: '8 إشارات متتالية',
+  awards_a2_years: '8 mentions متتالية',
   awards_a2_desc: 'مدرج 8 مرات على التوالي في الدليل الدولي المرجعي لأفضل زيوت الزيتون البكر الممتازة.',
   awards_a3_title: 'أفضل 100 — إيفولوم',
   awards_a3_years: 'تصنيف عالمي',
@@ -88,7 +88,7 @@ const translations = {
   awards_m2: 'ميدالية برونزية — Extra Virgin Oil Awards، لوس أنجلوس 2016',
   awards_m3: 'ميدالية ذهبية — The Olive Oil Times، 2013',
   awards_m4: 'الذواقة الفضية — AVPA باريس، 2015',
-  awards_m5: 'ملصق جودة — SIQEV، مدريد',
+  awards_m5: 'شهادة جودة — SIQEV، مدريد',
   awards_m6: 'جائزة BIOL الدولية — مرجع عضوي',
 
   // Contact
