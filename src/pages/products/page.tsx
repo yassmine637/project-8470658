@@ -161,6 +161,8 @@ export default function ProductsPage() {
   const galleryAccent = galleryProduct?.accentColor ?? '#c9a84c';
   const isArabic = i18n.language === 'ar';
   const formatPrice = (amount: number) => (isArabic ? `${amount} د.ت` : `${amount} TND`);
+  const formatVolume = (productId: string, fallback: string) => PRODUCT_VOLUME_KEYS[productId] ? t(PRODUCT_VOLUME_KEYS[productId]) : fallback;
+  const formatProductName = () => t('product_name');
 
   return (
     <>
@@ -449,7 +451,7 @@ export default function ProductsPage() {
                 className="text-xs font-semibold uppercase tracking-widest block mb-2"
                 style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}
               >
-                {selected.volume}
+                {isArabic ? formatVolume(selected.id, selected.volume) : selected.volume}
               </span>
 
               {/* Name */}
@@ -457,7 +459,7 @@ export default function ProductsPage() {
                 className="font-bold leading-tight mb-3"
                 style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 'clamp(1.6rem, 2.5vw, 2.1rem)', color: '#1a2617' }}
               >
-                {t('product_name')}
+                {isArabic ? formatProductName() : t('product_name')}
               </h2>
 
               <div className="h-px w-10 mb-5" style={{ background: `${accent}70` }} />
@@ -688,7 +690,7 @@ export default function ProductsPage() {
                           {t('config_price')}
                         </p>
                         <p className="font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', lineHeight: 1 }}>
-                          {formatPrice(galleryProduct.price)} <span style={{ color: galleryAccent, fontSize: '1rem' }}>{isArabic ? '' : galleryProduct.currency}</span>
+                          {formatPrice(galleryProduct.price)} <span style={{ color: galleryAccent, fontSize: '1rem' }}>{isArabic ? 'د.ت' : galleryProduct.currency}</span>
                         </p>
                       </div>
                       <button
@@ -726,13 +728,13 @@ export default function ProductsPage() {
                 className="text-xs uppercase tracking-widest mb-1"
                 style={{ color: galleryAccent, fontFamily: "'Outfit', sans-serif" }}
               >
-                {PRODUCT_VOLUME_KEYS[galleryProduct.id] ? t(PRODUCT_VOLUME_KEYS[galleryProduct.id]) : galleryProduct.volume}
+                {isArabic ? formatVolume(galleryProduct.id, galleryProduct.volume) : galleryProduct.volume}
               </p>
               <h3
                 className="text-2xl font-bold"
                 style={{ color: '#f8f6f1', fontFamily: "'Cormorant Garant', serif" }}
               >
-                {t('product_name')}
+                {isArabic ? formatProductName() : t('product_name')}
               </h3>
               <button
                 onClick={() => setGalleryView(galleryView === 'image' ? 'video' : 'image')}

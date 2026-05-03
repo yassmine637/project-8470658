@@ -22,6 +22,13 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   const badgeStyle = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
   const accent = ACCENT_COLORS[index % ACCENT_COLORS.length];
   const isArabic = i18n.language === 'ar';
+  const volume = isArabic ? t({
+    'Bidon vert 1L — Bio': 'product_bouteille_1l_volume',
+    'Bouteille cylindrique 500ml': 'product_bouteille_500ml_volume',
+    'Bouteille carrée élancée 750ml': 'product_bouteille_750ml_volume',
+    'Bidon métallique 3L': 'product_bidon_3l_volume',
+  }[product.volume] ?? '') : product.volume;
+  const productName = isArabic ? t('product_name') : product.name;
 
   return (
     <div
@@ -57,11 +64,11 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
         <div className="flex flex-col gap-3 px-6 pt-8 pb-6 flex-1 rounded-b-2xl overflow-hidden">
           <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
-            {product.volume}
+            {volume}
           </span>
 
           <h3 className="text-2xl font-bold leading-snug" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
-            {product.name}
+            {productName}
           </h3>
 
           <p className="text-base leading-relaxed" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif", lineHeight: '1.75' }}>
