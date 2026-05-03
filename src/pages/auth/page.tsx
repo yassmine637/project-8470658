@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +9,8 @@ export default function AuthPage() {
   const { t } = useTranslation();
   const { login, register } = useAuth();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<Mode>('login');
+  const [searchParams] = useSearchParams();
+  const [mode, setMode] = useState<Mode>(searchParams.get('mode') === 'register' ? 'register' : 'login');
   const [form, setForm] = useState({ name: '', email: '', password: '', phone: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);

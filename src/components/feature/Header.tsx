@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '@/hooks/useCart';
+import { useAuth } from '@/hooks/useAuth';
 import { useTranslation } from 'react-i18next';
 
 const LANGS = [
@@ -16,13 +17,16 @@ type NavLink =
   | { type: 'route';  href: string;      label: string };
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const isHome = location.pathname === '/';
+  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  const location  = useLocation();
+  const navigate  = useNavigate();
+  const isHome    = location.pathname === '/';
   const { totalCount, openCart } = useCart();
   const { t, i18n } = useTranslation();
+  const { user, isAdmin, logout } = useAuth();
 
   const currentLang: LangCode =
     (LANGS.find((l) => l.code === i18n.language)?.code) ?? 'fr';
@@ -32,11 +36,7 @@ export default function Header() {
     const lang = LANGS.find((l) => l.code === code)!;
     document.documentElement.dir = lang.dir;
     document.documentElement.lang = code;
-    if (code === 'ar') {
-      document.body.style.fontFamily = "'Cairo', sans-serif";
-    } else {
-      document.body.style.fontFamily = '';
-    }
+    document.body.style.fontFamily = code === 'ar' ? "'Cairo', sans-serif" : '';
   };
 
   useEffect(() => {
@@ -50,14 +50,20 @@ export default function Header() {
     if (!lang) return;
     document.documentElement.dir = lang.dir;
     document.documentElement.lang = currentLang;
-    if (currentLang === 'ar') {
-      document.body.style.fontFamily = "'Cairo', sans-serif";
-    } else {
-      document.body.style.fontFamily = '';
-    }
+    document.body.style.fontFamily = currentLang === 'ar' ? "'Cairo', sans-serif" : '';
   }, [currentLang]);
 
-  // Smooth anchor navigation — works from any page
+  // Close user dropdown when clicking outside
+  useEffect(() => {
+    const handle = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handle);
+    return () => document.removeEventListener('mousedown', handle);
+  }, []);
+
   const handleAnchorNav = (sectionId: string) => {
     if (menuOpen) setMenuOpen(false);
     if (isHome) {
@@ -65,6 +71,12 @@ export default function Header() {
     } else {
       navigate('/', { state: { scrollTo: sectionId } });
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setUserMenuOpen(false);
+    navigate('/');
   };
 
   const navLinks: NavLink[] = [
@@ -100,7 +112,7 @@ export default function Header() {
               color: active ? '#1a2617' : 'rgba(255,255,255,0.6)',
               border: 'none',
               borderRadius: 16,
-              padding: code === 'ar' ? '3px 9px 3px 9px' : '3px 8px',
+              padding: code === 'ar' ? '3px 9px' : '3px 8px',
               fontSize: code === 'ar' ? 15 : 11,
               fontWeight: active ? 700 : 500,
               fontFamily: code === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
@@ -145,7 +157,7 @@ export default function Header() {
         className="flex items-center justify-between px-10 md:px-16"
         style={{ height: scrolled ? '60px' : '72px', transition: 'height 0.4s ease' }}
       >
-        {/* Logo — React Router link, no reload */}
+        {/* Logo */}
         <Link
           to="/"
           style={{ textDecoration: 'none' }}
@@ -165,17 +177,13 @@ export default function Header() {
             {navLinks.map((link) => {
               const key = link.type === 'route' ? link.href : link.sectionId;
               const isActive = link.type === 'route' && location.pathname === link.href;
-
               return (
                 <li key={key}>
                   {link.type === 'route' ? (
                     <Link
                       to={link.href}
                       className="relative text-sm font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
-                      style={{
-                        ...linkStyle,
-                        color: isActive ? '#c9a84c' : 'rgba(255,255,255,0.75)',
-                      }}
+                      style={{ ...linkStyle, color: isActive ? '#c9a84c' : 'rgba(255,255,255,0.75)' }}
                     >
                       {link.label}
                       <span
@@ -192,10 +200,7 @@ export default function Header() {
                       onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.75)'; }}
                     >
                       {link.label}
-                      <span
-                        className="absolute -bottom-1 left-0 h-px w-0 group-hover:w-full transition-all duration-300"
-                        style={{ background: '#c9a84c' }}
-                      />
+                      <span className="absolute -bottom-1 left-0 h-px w-0 group-hover:w-full transition-all duration-300" style={{ background: '#c9a84c' }} />
                     </button>
                   )}
                 </li>
@@ -204,10 +209,142 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Right side: Lang switcher + Cart + Mobile menu */}
+        {/* Right side */}
         <div className="flex items-center gap-3">
           <div className="hidden md:flex">
             <LangSwitcher />
+          </div>
+
+          {/* Auth buttons — desktop */}
+          <div className="hidden md:flex items-center gap-2">
+            {user ? (
+              /* User dropdown */
+              <div ref={userMenuRef} style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 7,
+                    background: 'rgba(201,168,76,0.15)',
+                    border: '1px solid rgba(201,168,76,0.4)',
+                    borderRadius: 20,
+                    padding: '5px 13px 5px 9px',
+                    cursor: 'pointer',
+                    color: '#c9a84c',
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    letterSpacing: '0.05em',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  <i className="ri-user-3-line" style={{ fontSize: 14 }} />
+                  {user.name.split(' ')[0]}
+                  <i className={`ri-arrow-${userMenuOpen ? 'up' : 'down'}-s-line`} style={{ fontSize: 12, opacity: 0.7 }} />
+                </button>
+
+                {userMenuOpen && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 8px)',
+                      right: 0,
+                      background: 'rgba(20,32,18,0.98)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: 10,
+                      padding: '6px 0',
+                      minWidth: 160,
+                      backdropFilter: 'blur(20px)',
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                    }}
+                  >
+                    <div style={{ padding: '8px 16px 10px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                      <div style={{ color: '#fff', fontSize: 13, fontWeight: 600, fontFamily: "'Outfit', sans-serif" }}>{user.name}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, fontFamily: "'Outfit', sans-serif", marginTop: 2 }}>{user.email}</div>
+                    </div>
+                    {isAdmin && (
+                      <Link
+                        to="/admin"
+                        onClick={() => setUserMenuOpen(false)}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 8,
+                          padding: '9px 16px', textDecoration: 'none',
+                          color: '#c9a84c', fontSize: 12, fontFamily: "'Outfit', sans-serif",
+                          fontWeight: 600, letterSpacing: '0.05em',
+                        }}
+                      >
+                        <i className="ri-dashboard-line" />
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 8, width: '100%',
+                        padding: '9px 16px', background: 'none', border: 'none', cursor: 'pointer',
+                        color: 'rgba(255,255,255,0.6)', fontSize: 12, fontFamily: "'Outfit', sans-serif",
+                        letterSpacing: '0.05em', textAlign: 'left',
+                      }}
+                    >
+                      <i className="ri-logout-box-r-line" />
+                      Se déconnecter
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Login + Sign up */
+              <>
+                <Link
+                  to="/auth"
+                  style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: 'rgba(255,255,255,0.75)',
+                    textDecoration: 'none',
+                    padding: '5px 12px',
+                    borderRadius: 20,
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    transition: 'all 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color = '#fff';
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.75)';
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.2)';
+                  }}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/auth?mode=register"
+                  style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    color: '#1a2617',
+                    textDecoration: 'none',
+                    padding: '5px 13px',
+                    borderRadius: 20,
+                    background: '#c9a84c',
+                    border: '1px solid #c9a84c',
+                    transition: 'all 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = '#b8942a'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = '#c9a84c'; }}
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Cart icon */}
@@ -217,20 +354,16 @@ export default function Header() {
             style={{ background: 'rgba(255,255,255,0.1)' }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.25)'; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }}
-            aria-label="فتح السلة"
+            aria-label="Ouvrir le panier"
           >
             <i className="ri-shopping-basket-2-line text-base" style={{ color: '#ffffff' }} />
             {totalCount > 0 && (
               <span
                 className="absolute -top-1 -right-1 flex items-center justify-center text-xs font-bold rounded-full"
                 style={{
-                  width: '18px',
-                  height: '18px',
-                  background: '#c9a84c',
-                  color: '#1a2617',
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: '0.6rem',
-                  lineHeight: 1,
+                  width: '18px', height: '18px',
+                  background: '#c9a84c', color: '#1a2617',
+                  fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', lineHeight: 1,
                 }}
               >
                 {totalCount > 9 ? '9+' : totalCount}
@@ -242,7 +375,7 @@ export default function Header() {
           <button
             className="md:hidden text-white text-xl cursor-pointer bg-transparent border-none p-1"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="فتح القائمة"
+            aria-label="Ouvrir le menu"
           >
             <i className={menuOpen ? 'ri-close-line' : 'ri-menu-line'} />
           </button>
@@ -253,7 +386,7 @@ export default function Header() {
       <div
         className="md:hidden overflow-hidden transition-all duration-300"
         style={{
-          maxHeight: menuOpen ? '380px' : '0',
+          maxHeight: menuOpen ? '480px' : '0',
           background: 'rgba(20,32,18,0.98)',
           backdropFilter: 'blur(20px)',
         }}
@@ -298,6 +431,56 @@ export default function Header() {
               </li>
             );
           })}
+
+          {/* Mobile auth */}
+          <li style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '12px 40px', display: 'flex', gap: 10 }}>
+            {user ? (
+              <div style={{ width: '100%' }}>
+                <div style={{ color: '#c9a84c', fontSize: 13, fontWeight: 600, fontFamily: "'Outfit', sans-serif", marginBottom: 8 }}>
+                  <i className="ri-user-3-line" style={{ marginRight: 6 }} />{user.name}
+                </div>
+                {isAdmin && (
+                  <Link to="/admin" onClick={() => setMenuOpen(false)} style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 12, textDecoration: 'none', fontFamily: "'Outfit', sans-serif", marginBottom: 6 }}>
+                    <i className="ri-dashboard-line" style={{ marginRight: 6 }} />Admin Dashboard
+                  </Link>
+                )}
+                <button
+                  onClick={() => { handleLogout(); setMenuOpen(false); }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontFamily: "'Outfit', sans-serif", padding: 0 }}
+                >
+                  <i className="ri-logout-box-r-line" style={{ marginRight: 6 }} />Se déconnecter
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/auth"
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    flex: 1, textAlign: 'center', textDecoration: 'none',
+                    padding: '8px 0', borderRadius: 20, border: '1px solid rgba(255,255,255,0.25)',
+                    color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 600,
+                    fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em',
+                  }}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/auth?mode=register"
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    flex: 1, textAlign: 'center', textDecoration: 'none',
+                    padding: '8px 0', borderRadius: 20,
+                    background: '#c9a84c', color: '#1a2617', fontSize: 12, fontWeight: 600,
+                    fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em',
+                  }}
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
+          </li>
+
           <li style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 8, paddingBottom: 4 }}>
             <LangSwitcher mobile />
           </li>
