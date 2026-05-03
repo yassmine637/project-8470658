@@ -42,7 +42,7 @@ function StatItem({ value, suffix, label, display, isYear, delay }: {
 }
 
 export default function About() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { ref: imgRef, visible: imgVisible } = useReveal();
   const { ref: textRef, visible: textVisible } = useReveal();
   const [videoOpen, setVideoOpen] = useState(false);
@@ -99,7 +99,7 @@ export default function About() {
               >
                 <img
                   src={ABOUT_IMAGES.oliveGrove}
-                  alt="Domaine Fendri olive grove"
+                  alt={i18n.language === 'ar' ? 'بساتين ضيعة فندري' : 'Domaine Fendri olive grove'}
                   className="w-full h-full object-cover object-top"
                 />
               </div>

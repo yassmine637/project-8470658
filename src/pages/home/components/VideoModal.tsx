@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -7,6 +8,7 @@ interface VideoModalProps {
 
 export default function VideoModal({ isOpen, onClose }: VideoModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -110,7 +112,7 @@ export default function VideoModal({ isOpen, onClose }: VideoModalProps) {
           {isOpen && (
             <video
               src="https://storage.readdy-site.link/project_files/87cc5f02-5407-43de-a578-ad5a1f36c09a/fda50e29-ad49-4190-8f91-d56bcb4a04a2_video.mp4?v=25bdd4bd5a80ff00f03621c219107374"
-              title="L'histoire de Domaine Fendri"
+              title={i18n.language === 'ar' ? 'قصة ضيعة فندري' : t('about_video_title')}
               controls
               autoPlay
               style={{
@@ -152,7 +154,7 @@ export default function VideoModal({ isOpen, onClose }: VideoModalProps) {
           </div>
           <div>
             <p style={{ color: '#d4af37', fontFamily: "'Cormorant Garant', serif", fontSize: '0.95rem', fontWeight: 600, margin: 0 }}>
-              L&apos;histoire de Domaine Fendri
+              {i18n.language === 'ar' ? 'قصة ضيعة فندري' : t('about_video_title')}
             </p>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', margin: 0, letterSpacing: '0.08em' }}>
               DEPUIS 1911 · MEKNESSI, SFAX

@@ -52,7 +52,7 @@ const inputCls = "w-full px-4 py-2.5 rounded-xl text-sm outline-none transition-
 const inputSt = { border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', fontFamily: "'Outfit', sans-serif" };
 
 export default function Contact() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [charCount, setCharCount] = useState(0);
   const [countryCode, setCountryCode] = useState('+216');
@@ -160,13 +160,13 @@ export default function Contact() {
             <div className="relative rounded-2xl overflow-hidden" style={{ height: '200px' }}>
               <img
                 src={CONTACT_IMAGES.domaine}
-                alt="Domaine Fendri"
+                alt={i18n.language === 'ar' ? 'ضيعة فندري' : 'Domaine Fendri'}
                 className="w-full h-full object-cover object-top"
               />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(13,26,11,0.9) 0%, rgba(13,26,11,0.2) 60%)' }} />
               <div className="absolute bottom-0 left-0 p-5">
-                <p className="text-white font-bold text-lg" style={{ fontFamily: "'Cormorant Garant', serif" }}>Domaine Fendri</p>
-                <p className="text-xs" style={{ color: 'rgba(212,175,55,0.8)', fontFamily: "'Outfit', sans-serif" }}>Meknessi · Tunisia · Est. 1911</p>
+                <p className="text-white font-bold text-lg" style={{ fontFamily: "'Cormorant Garant', serif" }}>{i18n.language === 'ar' ? 'ضيعة فندري' : 'Domaine Fendri'}</p>
+                <p className="text-xs" style={{ color: 'rgba(212,175,55,0.8)', fontFamily: "'Outfit', sans-serif" }}>{i18n.language === 'ar' ? 'مكنّاسي · تونس · تأسست 1911' : 'Meknessi · Tunisia · Est. 1911'}</p>
               </div>
               <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full" style={{ background: 'rgba(212,175,55,0.2)', color: '#d4af37' }}>
                 <i className="ri-leaf-line text-sm" />

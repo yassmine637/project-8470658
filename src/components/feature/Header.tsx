@@ -155,7 +155,7 @@ export default function Header() {
             className="text-white font-bold tracking-widest uppercase"
             style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.25rem', letterSpacing: '0.2em' }}
           >
-            Domaine Fendri
+            {i18n.language === 'ar' ? 'ضيعة فندري' : 'Domaine Fendri'}
           </span>
         </Link>
 
