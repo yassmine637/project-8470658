@@ -29,12 +29,14 @@ export default function ConfigPanel({
 }: ConfigPanelProps) {
   const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isArabic = document?.documentElement?.dir === 'rtl' || document?.documentElement?.lang === 'ar';
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [step]);
 
   const displaySymbol = 'TND';
+  const formatPrice = (amount: number) => (isArabic ? `${amount} د.ت` : `${amount} TND`);
 
   return (
     <div
@@ -140,7 +142,7 @@ export default function ConfigPanel({
 
                 <div style={{ flexShrink: 0, textAlign: 'right' }}>
                   <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.8rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
-                    {m.basePrice} TND
+                    {formatPrice(m.basePrice)}
                   </div>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', color: 'rgba(212,175,55,0.45)', letterSpacing: '0.1em', marginTop: '4px' }}>{displaySymbol}</div>
                 </div>
@@ -228,7 +230,7 @@ export default function ConfigPanel({
                       display: 'inline-block',
                     }}
                   >
-                    {s.priceAdd > 0 ? `+${s.priceAdd} TND` : t('config_included_label')}
+                    {s.priceAdd > 0 ? `+${formatPrice(s.priceAdd)}` : t('config_included_label')}
                   </div>
                 </button>
               );
@@ -360,7 +362,7 @@ export default function ConfigPanel({
                       display: 'inline-block',
                     }}
                   >
-                    {`+${l.priceAdd} TND`}
+                    {`+${formatPrice(l.priceAdd)}`}
                   </div>
                 </div>
 

@@ -15,6 +15,7 @@ export default function OrderConfirmModal({
   isOpen, model, size, label, customText, totalPrice, onClose,
 }: OrderConfirmModalProps) {
   const { t } = useTranslation();
+  const isArabic = document?.documentElement?.dir === 'rtl' || document?.documentElement?.lang === 'ar';
 
   if (!isOpen) return null;
 
@@ -104,7 +105,7 @@ export default function OrderConfirmModal({
             [t('confirm_size'), size.label],
             [t('confirm_label'), label ? t(label.nameKey) : (t('config_no_label') || 'Sans étiquette')],
             ...(customText ? [[t('confirm_custom'), `"${customText}"`]] : []),
-            [t('confirm_total'), `${totalPrice} TND`],
+            [t('confirm_total'), isArabic ? `${totalPrice} د.ت` : `${totalPrice} TND`],
           ].map(([k, v]) => (
             <div key={k} className="flex justify-between items-center py-1.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
               <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)' }}>{k}</span>

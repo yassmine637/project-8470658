@@ -13,9 +13,11 @@ interface ConfigSummaryProps {
 
 export default function ConfigSummary({ model, size, label, customText, totalPrice, onOrder, onEstimation }: ConfigSummaryProps) {
   const { t } = useTranslation();
+  const isArabic = document?.documentElement?.dir === 'rtl' || document?.documentElement?.lang === 'ar';
   const accentColor = label?.accentColor ?? '#c9a84c';
   const bgColor = label?.bgColor ?? '#f8f6f1';
   const borderColor = label?.borderColor ?? 'rgba(201,168,76,0.3)';
+  const formatPrice = (amount: number) => (isArabic ? `${amount} د.ت` : `${amount} TND`);
 
   const lineItems = [
     { label: t(model.nameKey), sub: t('config_base_model'), price: model.basePrice, included: false },
@@ -195,7 +197,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
               </div>
             </div>
             <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', color: item.included ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.65)', flexShrink: 0, fontWeight: item.price > 0 ? 600 : 400 }}>
-              {item.included ? '—' : `+${item.price} TND`}
+              {item.included ? '—' : `+${formatPrice(item.price)}`}
             </div>
           </div>
         ))}
@@ -209,7 +211,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
           </div>
           <div className="flex items-baseline gap-1">
             <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>{totalPrice}</span>
-            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem', color: 'rgba(212,175,55,0.55)' }}>TND</span>
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem', color: 'rgba(212,175,55,0.55)' }}>{isArabic ? 'د.ت' : 'TND'}</span>
           </div>
         </div>
       </div>
