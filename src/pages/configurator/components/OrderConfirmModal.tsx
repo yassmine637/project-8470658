@@ -103,7 +103,7 @@ export default function OrderConfirmModal({
           {[
             [t('confirm_model'), t(model.nameKey)],
             [t('confirm_size'), size.label],
-            [t('confirm_label'), label ? t(label.nameKey) : (t('config_no_label') || 'Sans étiquette')],
+            [t('confirm_label'), label ? t(label.nameKey) : t('config_no_label')],
             ...(customText ? [[t('confirm_custom'), `"${customText}"`]] : []),
             [t('confirm_total'), isArabic ? `${totalPrice} د.ت` : `${totalPrice} TND`],
           ].map(([k, v]) => (

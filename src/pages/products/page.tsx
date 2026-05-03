@@ -394,7 +394,7 @@ export default function ProductsPage() {
                   style={{ background: accent }}
                 />
                 <span className="text-xs uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem' }}>
-                  Animation produit
+                  {t('card_video_label')}
                 </span>
               </div>
 
@@ -421,7 +421,7 @@ export default function ProductsPage() {
                   }}
                 >
                   <i className="ri-fullscreen-line text-sm" />
-                  Voir en plein écran
+                  {t('card_fullscreen')}
                 </button>
               )}
             </div>
@@ -561,7 +561,7 @@ export default function ProductsPage() {
                   }}
                 >
                   <i className="ri-shopping-basket-2-line text-base" />
-                  Commander
+                  {t('card_order')}
                 </button>
               </div>
             </div>

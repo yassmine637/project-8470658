@@ -75,7 +75,7 @@ export default function CartDrawer() {
   };
 
   const buildOrderSummary = () =>
-    items.map((i) => `${i.product.name} (${i.product.volume}) x${i.quantity} = ${i.product.price * i.quantity} TND`).join(' | ');
+    items.map((i) => `${i.product.name} (${i.product.volume}) x${i.quantity} = ${i.product.price * i.quantity} ${t('currency_tnd') ?? 'د.ت'}`).join(' | ');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,7 +92,7 @@ export default function CartDrawer() {
         pays: countryName,
         address: form.address,
         order_summary: buildOrderSummary(),
-        total: `${totalPrice} TND`,
+        total: `${totalPrice} ${t('currency_tnd') ?? 'د.ت'}`,
       });
       await fetch('https://readdy.ai/api/form/d7chpnem3fsfopf23dmg', {
         method: 'POST',
@@ -252,7 +252,7 @@ export default function CartDrawer() {
 
                             {/* Price */}
                             <span className="text-base font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                              {item.product.price * item.quantity} <span className="text-xs font-semibold" style={{ color: '#c9a84c' }}>TND</span>
+                              {item.product.price * item.quantity} <span className="text-xs font-semibold" style={{ color: '#c9a84c' }}>{t('currency_tnd') ?? 'د.ت'}</span>
                             </span>
                           </div>
                         </div>
@@ -295,7 +295,7 @@ export default function CartDrawer() {
                         {item.product.volume} × {item.quantity}
                       </span>
                       <span className="text-xs font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                        {item.product.price * item.quantity} TND
+                        {item.product.price * item.quantity} {t('currency_tnd') ?? 'د.ت'}
                       </span>
                     </div>
                   ))}
@@ -303,7 +303,7 @@ export default function CartDrawer() {
                 <div className="mt-3 pt-3 flex justify-between items-center" style={{ borderTop: '1px solid rgba(201,168,76,0.2)' }}>
                   <span className="text-sm font-bold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{t('cart_total')}</span>
                   <span className="text-lg font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                    {totalPrice} <span className="text-sm" style={{ color: '#c9a84c' }}>TND</span>
+                    {totalPrice} <span className="text-sm" style={{ color: '#c9a84c' }}>{t('currency_tnd') ?? 'د.ت'}</span>
                   </span>
                 </div>
               </div>
@@ -509,7 +509,7 @@ export default function CartDrawer() {
                   {t('cart_total')}
                 </span>
                 <span className="text-2xl font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                  {totalPrice} <span className="text-sm font-semibold" style={{ color: '#c9a84c' }}>TND</span>
+                  {totalPrice} <span className="text-sm font-semibold" style={{ color: '#c9a84c' }}>{t('currency_tnd') ?? 'د.ت'}</span>
                 </span>
               </div>
               <button

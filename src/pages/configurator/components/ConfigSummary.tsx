@@ -22,7 +22,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
   const lineItems = [
     { label: t(model.nameKey), sub: t('config_base_model'), price: model.basePrice, included: false },
     { label: size.label, sub: t('config_step_size'), price: size.priceAdd, included: size.priceAdd === 0 },
-    ...(label ? [{ label: t(label.nameKey), sub: t('config_step_label'), price: label.priceAdd, included: label.priceAdd === 0 }] : [{ label: t('config_no_label') || 'Sans étiquette', sub: t('config_step_label'), price: 0, included: true }]),
+    ...(label ? [{ label: t(label.nameKey), sub: t('config_step_label'), price: label.priceAdd, included: label.priceAdd === 0 }] : [{ label: t('config_no_label'), sub: t('config_step_label'), price: 0, included: true }]),
     ...(customText ? [{ label: `"${customText}"`, sub: t('config_personalization'), price: 0, included: true }] : []),
   ];
 
@@ -77,7 +77,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
             }}
           >
             <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: accentColor, flexShrink: 0 }} />
-            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: accentColor }}>{label ? t(label.nameKey) : (t('config_no_label') || 'Sans étiquette')}</span>
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: accentColor }}>{label ? t(label.nameKey) : t('config_no_label')}</span>
           </div>
         </div>
       </div>

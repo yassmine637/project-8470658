@@ -18,21 +18,21 @@ interface SpeechRecognitionInstance {
 }
 
 const WELCOME =
-  "Bonjour 👋 Je suis l'assistant virtuel du Domaine Fendri. Comment puis-je vous aider aujourd'hui ? Vous pouvez me poser des questions sur nos huiles d'olive premium, nos bouteilles personnalisées ou passer une commande.";
+  "مرحبًا 👋 أنا المساعد الافتراضي لمزارع فندري. كيف يمكنني مساعدتك اليوم؟ يمكنك طرح أسئلة حول زيوت الزيتون الفاخرة لدينا، أو الزجاجات المخصصة، أو إتمام طلب.";
 
 function getBotReply(input: string): string {
   const q = input.toLowerCase();
   if (q.includes('huile') || q.includes('olive') || q.includes('produit')) {
-    return "Nos huiles d'olive extra vierge sont produites depuis 1911 à Sfax, Tunisie. Chaque bouteille reflète un savoir-faire ancestral et un terroir exceptionnel. Souhaitez-vous découvrir notre collection ?";
+    return "زيوتنا البكر الممتازة تُنتَج منذ 1911 في صفاقس، تونس. كل زجاجة تعكس خبرة متوارثة وطابعًا فريدًا. هل ترغب في استكشاف مجموعتنا؟";
   }
   if (q.includes('bouteille') || q.includes('personnalis') || q.includes('configur')) {
-    return "Notre configurateur vous permet de personnaliser entièrement votre bouteille : modèle, taille, étiquette et texte gravé. Rendez-vous dans la section Collection pour commencer !";
+    return "يتيح لك المصمم تخصيص الزجاجة بالكامل: النموذج، الحجم، الملصق والنص المنقوش. ابدأ من قسم المجموعة!";
   }
   if (q.includes('commande') || q.includes('commander') || q.includes('acheter') || q.includes('prix')) {
-    return "Pour passer une commande ou obtenir un devis personnalisé, contactez-nous via le formulaire de contact ou rendez-vous sur notre page Collection. Notre équipe vous répondra sous 24h.";
+    return "لإتمام طلب أو الحصول على عرض مخصص، تواصل معنا عبر نموذج الاتصال أو زر صفحة المجموعة. سيقوم فريقنا بالرد خلال 24 ساعة.";
   }
   if (q.includes('livraison') || q.includes('délai') || q.includes('expédition')) {
-    return "Nous livrons en France et à l'international. Les délais varient selon la destination : 3–5 jours en France, 7–14 jours à l'international. Livraison offerte dès 150€ d'achat.";
+    return "نحن نشحن داخل تونس وإلى الخارج. تختلف المدة حسب الوجهة: 3–5 أيام داخل تونس، و7–14 يومًا دوليًا. الشحن مجاني ابتداءً من 150 دينار.";
   }
   if (q.includes('récompense') || q.includes('award') || q.includes('médaille') || q.includes('prix')) {
     return "Le Domaine Fendri a reçu de nombreuses distinctions internationales, dont des médailles d'or au Concours Mondial de Bruxelles. Nos huiles sont reconnues parmi les meilleures au monde.";
@@ -41,12 +41,12 @@ function getBotReply(input: string): string {
     return "Vous pouvez nous joindre via le formulaire de contact en bas de page, ou directement à contact@domainefendri.com. Nous sommes disponibles du lundi au vendredi, 9h–18h.";
   }
   if (q.includes('bonjour') || q.includes('salut') || q.includes('hello') || q.includes('bonsoir')) {
-    return "Bonjour ! Je suis ravi de vous accueillir chez Domaine Fendri. Comment puis-je vous aider ?";
+    return "مرحبًا! يسعدني تواجدك لدى فندري. كيف يمكنني مساعدتك؟";
   }
   if (q.includes('merci') || q.includes('thank')) {
     return "Avec plaisir ! N'hésitez pas si vous avez d'autres questions. Bonne visite sur notre site !";
   }
-  return "Merci pour votre message. Pour toute demande spécifique, je vous invite à consulter notre page Collection ou à nous contacter directement. Notre équipe est à votre disposition !";
+    return "شكرًا على رسالتك. لأي طلب خاص، أدعوك إلى زيارة صفحة المجموعة أو التواصل معنا مباشرة. فريقنا في خدمتك!";
 }
 
 export default function ReaddyAgent() {
@@ -224,11 +224,11 @@ export default function ReaddyAgent() {
             </div>
             <div>
               <div style={{ color: '#fff', fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>
-                Assistant Domaine Fendri
+                مساعد فندري
               </div>
               <div style={{ color: '#d4af37', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
                 <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#4caf50', display: 'inline-block' }} />
-                En ligne
+                متصل
               </div>
             </div>
             <button
@@ -244,7 +244,7 @@ export default function ReaddyAgent() {
                 alignItems: 'center',
                 borderRadius: 6,
               }}
-              aria-label="Fermer"
+              aria-label="إغلاق"
             >
               <X size={18} />
             </button>
@@ -371,7 +371,7 @@ export default function ReaddyAgent() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Votre message..."
+              placeholder="رسالتك..."
               style={{
                 flex: 1,
                 border: '1px solid #e0dbd0',
@@ -409,8 +409,8 @@ export default function ReaddyAgent() {
             {/* Send button */}
             <button
               onClick={() => sendMessage(input)}
-              aria-label="Envoyer"
-              title="Envoyer"
+              aria-label="إرسال"
+              title="إرسال"
               disabled={!input.trim()}
               style={{
                 width: 38,

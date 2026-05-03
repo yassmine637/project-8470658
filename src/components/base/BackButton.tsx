@@ -5,7 +5,7 @@ interface BackButtonProps {
   to?: string;
 }
 
-export default function BackButton({ label = 'Retour', to }: BackButtonProps) {
+export default function BackButton({ label = 'عودة', to }: BackButtonProps) {
   const navigate = useNavigate();
 
   const handleClick = () => {

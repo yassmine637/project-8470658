@@ -151,7 +151,7 @@ export default function EstimationModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    const configSummary = `Model: ${model.name} | Size: ${size.label} | Label: ${label?.name ?? t('config_no_label')}${customText ? ` | Text: "${customText}"` : ''} | Qty: ${quantity} | Total TTC: ${totalTTC} TND (≈ ${formatPrice(totalTTC)} ${displaySymbol})`;
+    const configSummary = `Model: ${model.name} | Size: ${size.label} | Label: ${label?.name ?? t('config_no_label')}${customText ? ` | Text: "${customText}"` : ''} | Qty: ${quantity} | Total TTC: ${totalTTC} ${t('currency_tnd') ?? 'د.ت'} (≈ ${formatPrice(totalTTC)} ${displaySymbol})`;
     const body = new URLSearchParams({
       name,
       email,

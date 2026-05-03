@@ -217,7 +217,7 @@ export default function Header() {
             style={{ background: 'rgba(255,255,255,0.1)' }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.25)'; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }}
-            aria-label="Open cart"
+            aria-label="فتح السلة"
           >
             <i className="ri-shopping-basket-2-line text-base" style={{ color: '#ffffff' }} />
             {totalCount > 0 && (
@@ -242,7 +242,7 @@ export default function Header() {
           <button
             className="md:hidden text-white text-xl cursor-pointer bg-transparent border-none p-1"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
+            aria-label="فتح القائمة"
           >
             <i className={menuOpen ? 'ri-close-line' : 'ri-menu-line'} />
           </button>
