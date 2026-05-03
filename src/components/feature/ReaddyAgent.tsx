@@ -85,8 +85,13 @@ function getBotReply(input: string): string {
 
 export default function ReaddyAgent() {
   const [open, setOpen] = useState(false);
+  const [lang, setLang] = useState<Lang>(() => {
+    const saved = localStorage.getItem('readdy-agent-lang');
+    if (saved === 'ar' || saved === 'fr' || saved === 'en') return saved;
+    return 'ar';
+  });
   const [messages, setMessages] = useState<Message[]>([
-    { id: 0, from: 'bot', text: COPY.fr.welcome },
+    { id: 0, from: 'bot', text: COPY.ar.welcome },
   ]);
   const [input, setInput] = useState('');
   const [listening, setListening] = useState(false);
@@ -105,9 +110,16 @@ export default function ReaddyAgent() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, typing]);
 
+  useEffect(() => {
+    localStorage.setItem('readdy-agent-lang', lang);
+  }, [lang]);
+
   const sendMessage = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
+
+    const detected = detectLang(trimmed);
+    setLang(detected);
 
     const userMsg: Message = { id: Date.now(), from: 'user', text: trimmed };
     setMessages((prev) => [...prev, userMsg]);
@@ -147,7 +159,6 @@ export default function ReaddyAgent() {
     }
 
     const recognition = new SpeechRecognitionAPI();
-    const lang = detectLang(input);
     recognition.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'fr-FR';
     recognition.interimResults = false;
     recognition.onresult = (event) => {
@@ -406,7 +417,7 @@ export default function ReaddyAgent() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={detectLang(input) === 'ar' ? 'رسالتك...' : detectLang(input) === 'en' ? 'Your message...' : 'Votre message...'}
+              placeholder={lang === 'ar' ? 'رسالتك...' : lang === 'en' ? 'Your message...' : 'Votre message...'}
               style={{
                 flex: 1,
                 border: '1px solid #e0dbd0',
