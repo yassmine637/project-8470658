@@ -14,15 +14,11 @@ import adminRoutes from './routes/admin.js';
 const app = express();
 const PORT = process.env.API_PORT || 3001;
 
-connectDB();
-
 app.post('/api/checkout/webhook', express.raw({ type: 'application/json' }));
 
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? (process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : '*')
-    : '*',
+  origin: '*',
   credentials: true,
 }));
 app.use(express.json());
@@ -45,4 +41,5 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 API Fendri démarrée sur le port ${PORT}`);
+  connectDB();
 });
