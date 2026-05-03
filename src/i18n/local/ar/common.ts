@@ -294,6 +294,7 @@ const translations = {
   config_certified_bio: 'معتمد عضوياً',
   config_worldwide_delivery: 'توصيل عالمي',
   config_return_14: 'إرجاع خلال 14 يوماً',
+  config_no_label: 'بدون ملصق',
   config_cgv: 'بالطلب، أنت تقبل شروطنا العامة للبيع.',
   config_delivery_delay: 'توصيل خلال 5–7 أيام عمل.',
 
