@@ -50,6 +50,24 @@ const COPY: Record<Lang, { welcome: string; fallback: string; greeting: string; 
 function getBotReply(input: string): string {
   const q = input.toLowerCase();
   const lang = detectLang(input);
+  const siteTopics = [
+    'huile', 'olive', 'produit', 'bouteille', 'bouteilles', 'personnalis', 'configur',
+    'commande', 'commander', 'acheter', 'prix', 'livraison', 'expédition', 'délai',
+    'contact', 'téléphone', 'email', 'adresse', 'récompense', 'award', 'médaille',
+    'factory', 'usine', 'collection', 'panier', 'configurateur', 'label', 'illustration',
+    'زيت', 'زيو', 'قارورة', 'تخصيص', 'طلب', 'سعر', 'توصيل', 'اتصال', 'هاتف',
+    'جائزة', 'ميدالية', 'معصرة', 'مجموعة', 'سلة'
+  ];
+  const isOnTopic = siteTopics.some((term) => q.includes(term));
+
+  if (!isOnTopic) {
+    return lang === 'ar'
+      ? 'أنا هنا للإجابة فقط على كل ما يخص هذا الموقع ومنتجاته وخدماته. إذا أردت، اسألني عن الزيت، القوارير، الطلبات، أو التوصيل.'
+      : lang === 'fr'
+        ? 'Je suis là pour répondre uniquement aux questions liées à ce site, à ses produits et à ses services. Vous pouvez me demander l’huile, les bouteilles, les commandes ou la livraison.'
+        : 'I only answer questions related to this site, its products, and its services. You can ask me about the oil, bottles, orders, or delivery.';
+  }
+
   if (lang === 'ar') {
     if (q.includes('زيت') || q.includes('زيو') || q.includes('olive')) return 'زيوتنا البكر الممتازة تُنتَج منذ 1911 في صفاقس، تونس. كل قارورة تعكس خبرة متوارثة وطابعًا فريدًا. هل ترغب في استكشاف مجموعتنا؟';
     if (q.includes('قارورة') || q.includes('تخصيص') || q.includes('معدّل') || q.includes('configur')) return 'يتيح لك المُعدِّل تخصيص القارورة بالكامل: الطراز، الحجم، الملصق والنص. ابدأ من قسم المجموعة!';
