@@ -1,0 +1,259 @@
+import sgMail from '@sendgrid/mail';
+
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || 'noreply@domainefendri.com';
+const FROM_NAME = 'Domaine Fendri';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@fendri.com';
+
+if (SENDGRID_API_KEY) {
+  sgMail.setApiKey(SENDGRID_API_KEY);
+}
+
+function isEnabled() {
+  return Boolean(SENDGRID_API_KEY);
+}
+
+async function send(msg) {
+  if (!isEnabled()) return;
+  try {
+    await sgMail.send(msg);
+  } catch (err) {
+    console.error('[Email] SendGrid error:', err?.response?.body || err.message);
+  }
+}
+
+const COLORS = {
+  bg: '#F7F5F0',
+  surface: '#FFFFFF',
+  primary: '#2C3A23',
+  gold: '#A8884A',
+  text: '#1A1A1A',
+  muted: '#6B6B6B',
+  border: '#E2DDD5',
+};
+
+function baseLayout(title, content) {
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${title}</title>
+</head>
+<body style="margin:0;padding:0;background:${COLORS.bg};font-family:Georgia,serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:${COLORS.bg};padding:40px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+        <!-- Header -->
+        <tr>
+          <td align="center" style="padding:0 0 32px 0;">
+            <p style="margin:0;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+              Maison Fendri · Sfax, Tunisie · Fondée en 1911
+            </p>
+            <h1 style="margin:8px 0 0 0;font-size:28px;letter-spacing:2px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+              DOMAINE FENDRI
+            </h1>
+            <div style="width:48px;height:1px;background:${COLORS.gold};margin:16px auto 0;"></div>
+          </td>
+        </tr>
+
+        <!-- Card -->
+        <tr>
+          <td style="background:${COLORS.surface};border:1px solid ${COLORS.border};padding:40px 48px;">
+            ${content}
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td align="center" style="padding:32px 0 0 0;">
+            <p style="margin:0;font-size:11px;color:${COLORS.muted};font-family:Arial,sans-serif;letter-spacing:1px;">
+              © ${new Date().getFullYear()} Domaine Fendri · Tous droits réservés
+            </p>
+            <p style="margin:6px 0 0;font-size:11px;color:${COLORS.muted};font-family:Arial,sans-serif;">
+              Sfax, Tunisie · contact@domainefendri.com
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+function formatCurrency(amount, currency = 'TND') {
+  return `${(amount / 100).toFixed(2)} ${currency}`;
+}
+
+function itemsTable(items, currency) {
+  const rows = items.map(item => `
+    <tr>
+      <td style="padding:12px 0;border-bottom:1px solid ${COLORS.border};color:${COLORS.text};font-family:Arial,sans-serif;font-size:14px;">
+        ${item.productName}${item.volume ? ` <span style="color:${COLORS.muted}">(${item.volume})</span>` : ''}
+      </td>
+      <td style="padding:12px 0;border-bottom:1px solid ${COLORS.border};text-align:center;color:${COLORS.muted};font-family:Arial,sans-serif;font-size:14px;">
+        ×${item.quantity}
+      </td>
+      <td style="padding:12px 0;border-bottom:1px solid ${COLORS.border};text-align:right;color:${COLORS.text};font-family:Arial,sans-serif;font-size:14px;">
+        ${formatCurrency(item.price * item.quantity, currency)}
+      </td>
+    </tr>
+  `).join('');
+
+  return `
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
+      <tr>
+        <th style="text-align:left;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;padding-bottom:8px;border-bottom:2px solid ${COLORS.primary};">Produit</th>
+        <th style="text-align:center;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;padding-bottom:8px;border-bottom:2px solid ${COLORS.primary};">Qté</th>
+        <th style="text-align:right;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;padding-bottom:8px;border-bottom:2px solid ${COLORS.primary};">Prix</th>
+      </tr>
+      ${rows}
+    </table>
+  `;
+}
+
+function totalsBlock(order) {
+  const currency = order.currency || 'TND';
+  return `
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:8px;">
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Sous-total HT</td>
+        <td style="padding:6px 0;text-align:right;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${formatCurrency(order.totalHT, currency)}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">TVA (19%)</td>
+        <td style="padding:6px 0;text-align:right;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${formatCurrency(order.tva, currency)}</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 0 0;font-family:Georgia,serif;font-size:16px;color:${COLORS.primary};font-weight:bold;border-top:2px solid ${COLORS.primary};">Total TTC</td>
+        <td style="padding:12px 0 0;text-align:right;font-family:Georgia,serif;font-size:16px;color:${COLORS.gold};font-weight:bold;border-top:2px solid ${COLORS.primary};">${formatCurrency(order.totalTTC, currency)}</td>
+      </tr>
+    </table>
+  `;
+}
+
+function shippingBlock(address, paymentMethod) {
+  const paymentLabels = {
+    cod: 'Paiement à la livraison',
+    stripe: 'Carte bancaire (Stripe)',
+    paypal: 'PayPal',
+    konnect: 'Konnect',
+  };
+  const parts = [address.street, address.city, address.postalCode, address.country].filter(Boolean);
+  return `
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:32px;background:${COLORS.bg};padding:20px 24px;">
+      <tr>
+        <td width="50%" style="vertical-align:top;padding-right:16px;">
+          <p style="margin:0 0 6px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;">Livraison</p>
+          <p style="margin:0;font-size:13px;color:${COLORS.text};font-family:Arial,sans-serif;line-height:1.6;">
+            ${parts.length ? parts.join(', ') : 'Adresse non renseignée'}
+          </p>
+        </td>
+        <td width="50%" style="vertical-align:top;padding-left:16px;border-left:1px solid ${COLORS.border};">
+          <p style="margin:0 0 6px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;">Paiement</p>
+          <p style="margin:0;font-size:13px;color:${COLORS.text};font-family:Arial,sans-serif;">
+            ${paymentLabels[paymentMethod] || paymentMethod || 'Non précisé'}
+          </p>
+        </td>
+      </tr>
+    </table>
+  `;
+}
+
+export async function sendOrderConfirmation({ order, customerName, customerEmail }) {
+  const orderId = String(order._id).slice(-8).toUpperCase();
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Confirmation de commande
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      Merci pour votre commande, ${customerName} !
+    </h2>
+    <p style="margin:16px 0 0;font-size:14px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;">
+      Nous avons bien reçu votre commande et nous la préparons avec soin.<br/>
+      Vous recevrez une notification dès qu'elle sera expédiée.
+    </p>
+
+    <div style="margin:24px 0;padding:14px 20px;background:${COLORS.bg};border-left:3px solid ${COLORS.gold};">
+      <p style="margin:0;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;">Référence commande</p>
+      <p style="margin:4px 0 0;font-size:18px;font-family:Georgia,serif;color:${COLORS.primary};letter-spacing:2px;">#DF-${orderId}</p>
+    </div>
+
+    ${itemsTable(order.items, order.currency)}
+    ${totalsBlock(order)}
+    ${shippingBlock(order.shippingAddress || {}, order.paymentMethod)}
+
+    <p style="margin:32px 0 0;font-size:13px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;text-align:center;font-style:italic;">
+      Pour toute question, répondez à cet email ou contactez-nous à<br/>
+      <a href="mailto:contact@domainefendri.com" style="color:${COLORS.gold};text-decoration:none;">contact@domainefendri.com</a>
+    </p>
+  `;
+
+  await send({
+    to: customerEmail,
+    from: { email: FROM_EMAIL, name: FROM_NAME },
+    subject: `Domaine Fendri — Commande #DF-${orderId} confirmée`,
+    html: baseLayout('Confirmation de commande', content),
+  });
+}
+
+export async function sendOrderNotificationToAdmin({ order, customerName, customerEmail }) {
+  const orderId = String(order._id).slice(-8).toUpperCase();
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Nouvelle commande
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      Commande #DF-${orderId}
+    </h2>
+    <p style="margin:16px 0 0;font-size:14px;color:${COLORS.muted};font-family:Arial,sans-serif;">
+      Client : <strong style="color:${COLORS.text};">${customerName}</strong> — 
+      <a href="mailto:${customerEmail}" style="color:${COLORS.gold};text-decoration:none;">${customerEmail}</a>
+    </p>
+    ${itemsTable(order.items, order.currency)}
+    ${totalsBlock(order)}
+    ${shippingBlock(order.shippingAddress || {}, order.paymentMethod)}
+  `;
+
+  await send({
+    to: ADMIN_EMAIL,
+    from: { email: FROM_EMAIL, name: FROM_NAME },
+    subject: `[Admin] Nouvelle commande #DF-${orderId} — ${customerName}`,
+    html: baseLayout('Nouvelle commande', content),
+  });
+}
+
+export async function sendWelcomeEmail({ name, email }) {
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Bienvenue
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      Bienvenue, ${name} !
+    </h2>
+    <p style="margin:20px 0 0;font-size:14px;color:${COLORS.text};font-family:Arial,sans-serif;line-height:1.8;">
+      Votre compte Domaine Fendri a été créé avec succès.<br/>
+      Découvrez nos huiles d'olive biologiques, pressées à froid depuis 1911 dans la région de Sfax.
+    </p>
+    <div style="margin:32px 0;text-align:center;">
+      <div style="width:48px;height:1px;background:${COLORS.gold};margin:0 auto 24px;"></div>
+      <p style="margin:0;font-size:13px;color:${COLORS.muted};font-family:Arial,sans-serif;font-style:italic;line-height:1.8;">
+        « L'huile d'olive est l'or liquide de la Méditerranée. »
+      </p>
+    </div>
+    <p style="margin:24px 0 0;font-size:13px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;text-align:center;">
+      Pour toute question : 
+      <a href="mailto:contact@domainefendri.com" style="color:${COLORS.gold};text-decoration:none;">contact@domainefendri.com</a>
+    </p>
+  `;
+
+  await send({
+    to: email,
+    from: { email: FROM_EMAIL, name: FROM_NAME },
+    subject: 'Bienvenue chez Domaine Fendri',
+    html: baseLayout('Bienvenue', content),
+  });
+}

@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import { generateToken, protect } from '../middleware/auth.js';
 import { authLimiter } from '../middleware/rateLimit.js';
 import { validateAuth } from '../middleware/validate.js';
+import { sendWelcomeEmail } from '../services/email.js';
 
 const router = express.Router();
 
@@ -14,6 +15,9 @@ router.post('/register', authLimiter, validateAuth, async (req, res) => {
     if (await User.findOne({ email }))
       return res.status(400).json({ message: 'Email déjà utilisé' });
     const user = await User.create({ name, email, password, phone, country });
+
+    sendWelcomeEmail({ name: user.name, email: user.email });
+
     res.status(201).json({ user: user.toSafeObject(), token: generateToken(user._id) });
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la création du compte' });

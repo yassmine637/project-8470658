@@ -1,8 +1,10 @@
 import express from 'express';
 import Order from '../models/Order.js';
+import User from '../models/User.js';
 import { protect } from '../middleware/auth.js';
 import { orderLimiter } from '../middleware/rateLimit.js';
 import { validateOrder } from '../middleware/validate.js';
+import { sendOrderConfirmation, sendOrderNotificationToAdmin } from '../services/email.js';
 
 const router = express.Router();
 
@@ -31,6 +33,12 @@ router.post('/', orderLimiter, validateOrder, async (req, res) => {
       notes: notes ? notes.slice(0, 500) : '',
       paymentMethod: validPaymentMethods.includes(paymentMethod) ? paymentMethod : 'cod',
     });
+
+    await Promise.all([
+      sendOrderConfirmation({ order, customerName: guestName, customerEmail: guestEmail }),
+      sendOrderNotificationToAdmin({ order, customerName: guestName, customerEmail: guestEmail }),
+    ]);
+
     res.status(201).json(order);
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la création de la commande' });
@@ -55,6 +63,15 @@ router.post('/authenticated', protect, validateOrder, async (req, res) => {
       shippingAddress: shippingAddress || {},
       notes: notes ? notes.slice(0, 500) : '',
     });
+
+    const user = await User.findById(req.user._id).select('name email');
+    if (user) {
+      await Promise.all([
+        sendOrderConfirmation({ order, customerName: user.name, customerEmail: user.email }),
+        sendOrderNotificationToAdmin({ order, customerName: user.name, customerEmail: user.email }),
+      ]);
+    }
+
     res.status(201).json(order);
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la création de la commande' });
