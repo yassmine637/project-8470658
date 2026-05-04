@@ -122,4 +122,3 @@ publicDir = "out"
 [userenv]
 
 [userenv.shared]
-JWT_SECRET = ""
