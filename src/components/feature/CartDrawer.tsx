@@ -42,6 +42,7 @@ export default function CartDrawer() {
   const { t } = useTranslation();
   const [step, setStep] = useState<Step>('cart');
   const [submitting, setSubmitting] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'paypal'>('cod');
   const [form, setForm] = useState({ name: '', address: '', email: '' });
   const [formError, setFormError] = useState('');
 
@@ -102,6 +103,7 @@ export default function CartDrawer() {
           guestPhone: `${countryCode} ${phoneNumber}`,
           currency: 'TND',
           shippingAddress: { address: form.address, country: countryName },
+          paymentMethod,
         }),
       });
       setStep('success');
@@ -439,6 +441,65 @@ export default function CartDrawer() {
                 <p className="text-xs" style={{ color: '#c4c4b8', fontFamily: "'Outfit', sans-serif" }}>
                   {countryFlag} {countryName}
                 </p>
+              </div>
+
+              {/* Payment method selector */}
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                  Mode de paiement
+                </label>
+                <div className="flex flex-col gap-2">
+                  {/* Paiement à la livraison */}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('cod')}
+                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left transition-all duration-200 cursor-pointer border-none"
+                    style={{
+                      background: paymentMethod === 'cod' ? 'rgba(26,38,23,0.06)' : '#ffffff',
+                      border: `2px solid ${paymentMethod === 'cod' ? '#1a2617' : 'rgba(0,0,0,0.1)'}`,
+                    }}
+                  >
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: paymentMethod === 'cod' ? '#1a2617' : 'rgba(0,0,0,0.06)' }}>
+                      <i className="ri-truck-line text-sm" style={{ color: paymentMethod === 'cod' ? '#c9a84c' : '#9aaa96' }} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                        Paiement à la livraison
+                      </p>
+                      <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                        Payez en cash à la réception de votre commande
+                      </p>
+                    </div>
+                    <div className="ml-auto flex-shrink-0">
+                      <div className="w-4 h-4 rounded-full border-2 flex items-center justify-center" style={{ borderColor: paymentMethod === 'cod' ? '#1a2617' : 'rgba(0,0,0,0.2)' }}>
+                        {paymentMethod === 'cod' && <div className="w-2 h-2 rounded-full" style={{ background: '#1a2617' }} />}
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* PayPal — bientôt disponible */}
+                  <button
+                    type="button"
+                    disabled
+                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left cursor-not-allowed border-none"
+                    style={{ background: '#f9f9f7', border: '2px solid rgba(0,0,0,0.06)', opacity: 0.6 }}
+                  >
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: '#003087' }}>
+                      <span className="text-xs font-black" style={{ color: '#ffffff' }}>P</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                        PayPal
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
+                          Bientôt
+                        </span>
+                      </p>
+                      <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                        Pour les paiements internationaux
+                      </p>
+                    </div>
+                  </button>
+                </div>
               </div>
 
               {formError && (

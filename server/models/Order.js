@@ -23,6 +23,11 @@ const orderSchema = new mongoose.Schema({
     enum: ['pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled'],
     default: 'pending',
   },
+  paymentMethod: {
+    type: String,
+    enum: ['cod', 'paypal', 'stripe', 'konnect'],
+    default: 'cod',
+  },
   stripeSessionId: { type: String, default: '' },
   stripePaymentIntentId: { type: String, default: '' },
   shippingAddress: {

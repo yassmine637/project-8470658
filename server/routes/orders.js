@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/', orderLimiter, validateOrder, async (req, res) => {
   try {
-    const { items, guestName, guestEmail, guestPhone, shippingAddress, currency, notes } = req.body;
+    const { items, guestName, guestEmail, guestPhone, shippingAddress, currency, notes, paymentMethod } = req.body;
 
     const totalHT = items.reduce((s, i) => s + i.price * i.quantity, 0);
     const tva = Math.round(totalHT * 0.19);
@@ -17,6 +17,7 @@ router.post('/', orderLimiter, validateOrder, async (req, res) => {
     if (!guestName || !guestEmail)
       return res.status(400).json({ message: 'Nom et email requis' });
 
+    const validPaymentMethods = ['cod', 'paypal', 'stripe', 'konnect'];
     const order = await Order.create({
       items,
       guestName,
@@ -28,6 +29,7 @@ router.post('/', orderLimiter, validateOrder, async (req, res) => {
       currency: ['TND', 'EUR', 'USD'].includes(currency) ? currency : 'TND',
       shippingAddress: shippingAddress || {},
       notes: notes ? notes.slice(0, 500) : '',
+      paymentMethod: validPaymentMethods.includes(paymentMethod) ? paymentMethod : 'cod',
     });
     res.status(201).json(order);
   } catch (err) {
