@@ -1,88 +1,105 @@
 import { PRODUCT_IMAGES } from '@/assets/images';
-import cylindriqueOriginale from '@assets/originale_1776865694722.png';
-import cylindrique750ClassiqueIvoire from '@assets/750ml_1776865864090.png';
-import cylindrique500ClassiqueIvoire from '@assets/500ml_1776866216044.png';
-import cylindrique1LClassiqueIvoire from '@assets/1L_1776866329394.png';
-import cylindrique3LClassiqueIvoire from '@assets/3L_1776866414091.png';
-import carree500ClassiqueIvoire from '@assets/500ml_1776867176849.png';
-import carree750ClassiqueIvoire from '@assets/750ml_1776867264312.png';
-import carree1LClassiqueIvoire from '@assets/1L_1776867322586.png';
-import carree3LClassiqueIvoire from '@assets/3L_1776867624778.png';
-import bidonMetal500ClassiqueIvoire from '@assets/500ml_1776868215567.png';
-import bidonMetal750ClassiqueIvoire from '@assets/750ml_1776868394733.png';
-import bidonMetal1LClassiqueIvoire from '@assets/1L_1776868636686.png';
-import bidonMetal3LClassiqueIvoire from '@assets/3L_1776868988026.png';
-import bidonVert500ClassiqueIvoire from '@assets/500ml_1776869267382.png';
-import bidonVert750ClassiqueIvoire from '@assets/750ml_1776869583044.png';
-import bidonVert1LClassiqueIvoire from '@assets/1L_1776869885058.png';
-import bidonVert3LClassiqueIvoire from '@assets/3L_1776870093774.png';
-import labelBioModerne from '@assets/étiquette_1776870454089.png';
-import labelHeritage from '@assets/familial_1776896105516.png';
-import cylindrique500BioModerne from '@assets/500ml_1776871148928.png';
-import cylindrique750BioModerne from '@assets/750ml_1776871200979.png';
-import cylindrique1LBioModerne from '@assets/1L_1776871245531.png';
-import cylindrique3LBioModerne from '@assets/3L_1776871521555.png';
-import carree500BioModerne from '@assets/500ml_1776871857534.png';
-import carree750BioModerne from '@assets/750ml_1776871910154.png';
-import carree1LBioModerne from '@assets/1L_1776872101730.png';
-import carree3LBioModerne from '@assets/3L_1776872298266.png';
-import bidonVert500BioModerne from '@assets/500ml_1776872537715.png';
-import bidonVert750BioModerne from '@assets/750ml_1776872641234.png';
-import bidonVert1LBioModerne from '@assets/1L_1776872898224.png';
-import bidonVert3LBioModerne from '@assets/3L_1776873004010.png';
-import bidonMetal500BioModerne from '@assets/500ml_1776873224731.png';
-import bidonMetal750BioModerne from '@assets/750ml_1776873382832.png';
-import bidonMetal1LBioModerne from '@assets/1L_1776873439204.png';
-import bidonMetal3LBioModerne from '@assets/3L_1776873802047.png';
-import cylindrique500RecolteLimitee from '@assets/500ml_1776874193596.png';
-import cylindrique750RecolteLimitee from '@assets/750ml_1776894089907.png';
-import cylindrique1LRecolteLimitee from '@assets/1L_1776894155435.png';
-import cylindrique3LRecolteLimitee from '@assets/3L_1776894197839.png';
-import carree1LRecolteLimitee from '@assets/1L_1776894433740.png';
-import carree3LRecolteLimitee from '@assets/3L_1776894488826.png';
-import carree500RecolteLimitee from '@assets/500ml_1776894951990.png';
-import carree750RecolteLimitee from '@assets/750ml_1776895115571.png';
-import bidonMetal500RecolteLimitee from '@assets/500ml_1776895250436.png';
-import bidonMetal750RecolteLimitee from '@assets/750ml_1776895291843.png';
-import bidonMetal1LRecolteLimitee from '@assets/1L_1776895359493.png';
-import bidonMetal3LRecolteLimitee from '@assets/3L_1776951128050.png';
-import bidonVert500RecolteLimitee from '@assets/500ml_1776895557489.png';
-import bidonVert3LRecolteLimitee from '@assets/3L_1776895670812.png';
-import bidonVert750RecolteLimitee from '@assets/750ml_1776951962768.png';
-import bidonVert1LRecolteLimitee from '@assets/1L_1776952183061.png';
-import cylindrique500Heritage from '@assets/500mll_1776896487444.png';
-import cylindrique750Heritage from '@assets/750ml_1776896755156.png';
-import cylindrique1LHeritage from '@assets/1L_1776896825471.png';
-import cylindrique3LHeritage from '@assets/3L_1776896880250.png';
-import carree500Heritage from '@assets/500ml_1776897402483.png';
-import carree750Heritage from '@assets/750ml_1776897427255.png';
-import carree1LHeritage from '@assets/1L_1776897488178.png';
-import carree3LHeritage from '@assets/3L_1776897577909.png';
-import bidonMetal500Heritage from '@assets/500ml_1776899296457.png';
-import bidonMetal750Heritage from '@assets/750ml_1776899342063.png';
-import bidonMetal1LHeritage from '@assets/1L_1776899688534.png';
-import bidonMetal3LHeritage from '@assets/3L_1776899719358.png';
-import bidonVert500Heritage from '@assets/500ml_1776899950735.png';
-import bidonVert750Heritage from '@assets/750ml_1776900216044.png';
-import bidonVert3LHeritage from '@assets/3L_1776952745772.png';
-import bidonVert1LHeritage from '@assets/1L_1776900405113.png';
-import cylindrique500LuxeNoirOr from '@assets/500ml_1776948018012.png';
-import cylindrique750LuxeNoirOr from '@assets/750ml_1776948030377.png';
-import cylindrique1LLuxeNoirOr from '@assets/1L_1776948085540.png';
-import cylindrique3LLuxeNoirOr from '@assets/3L_1776951360050.png';
-import carree500LuxeNoirOr from '@assets/500ml_1776948575841.png';
-import carree750LuxeNoirOr from '@assets/750ml_1776948588209.png';
-import carree1LLuxeNoirOr from '@assets/1L_1776948631748.png';
-import carree3LLuxeNoirOr from '@assets/3L_1776948675560.png';
-import bidonMetal500LuxeNoirOr from '@assets/500ml_1776949253503.png';
-import bidonMetal750LuxeNoirOr from '@assets/750ml_1776949433319.png';
-import bidonMetal1LLuxeNoirOr from '@assets/1L_1776949452958.png';
-import bidonMetal3LLuxeNoirOr from '@assets/3L_1776949488481.png';
-import bidonVert500LuxeNoirOr from '@assets/500ml_1776949753535.png';
-import bidonVert750LuxeNoirOr from '@assets/750ml_1776951753730.png';
-import bidonVert3LLuxeNoirOr from '@assets/3L_1776950300832.png';
-import bidonVert1LLuxeNoirOr from '@assets/1L_1776952387720.png';
-import labelLuxeNoirOr from '@assets/étiquette_1776950575296.png';
+
+// ============================================================
+// FENDRI — Images du configurateur
+// Toutes les images sont dans public/images/configurateur/
+// ============================================================
+
+// --- Images de base (sans étiquette) ---
+const cylindriqueOriginale = '/images/configurateur/cylindrique-originale.png';
+
+// --- Combinaisons : Classique Ivoire ---
+const cylindrique500ClassiqueIvoire = '/images/configurateur/cylindrique-500ml-classique-ivoire.png';
+const cylindrique750ClassiqueIvoire = '/images/configurateur/cylindrique-750ml-classique-ivoire.png';
+const cylindrique1LClassiqueIvoire = '/images/configurateur/cylindrique-1l-classique-ivoire.png';
+const cylindrique3LClassiqueIvoire = '/images/configurateur/cylindrique-3l-classique-ivoire.png';
+const carree500ClassiqueIvoire = '/images/configurateur/carree-500ml-classique-ivoire.png';
+const carree750ClassiqueIvoire = '/images/configurateur/carree-750ml-classique-ivoire.png';
+const carree1LClassiqueIvoire = '/images/configurateur/carree-1l-classique-ivoire.png';
+const carree3LClassiqueIvoire = '/images/configurateur/carree-3l-classique-ivoire.png';
+const bidonMetal500ClassiqueIvoire = '/images/configurateur/bidon-metal-500ml-classique-ivoire.png';
+const bidonMetal750ClassiqueIvoire = '/images/configurateur/bidon-metal-750ml-classique-ivoire.png';
+const bidonMetal1LClassiqueIvoire = '/images/configurateur/bidon-metal-1l-classique-ivoire.png';
+const bidonMetal3LClassiqueIvoire = '/images/configurateur/bidon-metal-3l-classique-ivoire.png';
+const bidonVert500ClassiqueIvoire = '/images/configurateur/bidon-vert-500ml-classique-ivoire.png';
+const bidonVert750ClassiqueIvoire = '/images/configurateur/bidon-vert-750ml-classique-ivoire.png';
+const bidonVert1LClassiqueIvoire = '/images/configurateur/bidon-vert-1l-classique-ivoire.png';
+const bidonVert3LClassiqueIvoire = '/images/configurateur/bidon-vert-3l-classique-ivoire.png';
+
+// --- Combinaisons : Bio Moderne ---
+const labelBioModerne = '/images/etiquettes/label-bio-moderne.png';
+const cylindrique500BioModerne = '/images/configurateur/cylindrique-500ml-bio-moderne.png';
+const cylindrique750BioModerne = '/images/configurateur/cylindrique-750ml-bio-moderne.png';
+const cylindrique1LBioModerne = '/images/configurateur/cylindrique-1l-bio-moderne.png';
+const cylindrique3LBioModerne = '/images/configurateur/cylindrique-3l-bio-moderne.png';
+const carree500BioModerne = '/images/configurateur/carree-500ml-bio-moderne.png';
+const carree750BioModerne = '/images/configurateur/carree-750ml-bio-moderne.png';
+const carree1LBioModerne = '/images/configurateur/carree-1l-bio-moderne.png';
+const carree3LBioModerne = '/images/configurateur/carree-3l-bio-moderne.png';
+const bidonVert500BioModerne = '/images/configurateur/bidon-vert-500ml-bio-moderne.png';
+const bidonVert750BioModerne = '/images/configurateur/bidon-vert-750ml-bio-moderne.png';
+const bidonVert1LBioModerne = '/images/configurateur/bidon-vert-1l-bio-moderne.png';
+const bidonVert3LBioModerne = '/images/configurateur/bidon-vert-3l-bio-moderne.png';
+const bidonMetal500BioModerne = '/images/configurateur/bidon-metal-500ml-bio-moderne.png';
+const bidonMetal750BioModerne = '/images/configurateur/bidon-metal-750ml-bio-moderne.png';
+const bidonMetal1LBioModerne = '/images/configurateur/bidon-metal-1l-bio-moderne.png';
+const bidonMetal3LBioModerne = '/images/configurateur/bidon-metal-3l-bio-moderne.png';
+
+// --- Combinaisons : Récolte Limitée ---
+const cylindrique500RecolteLimitee = '/images/configurateur/cylindrique-500ml-recolte-limitee.png';
+const cylindrique750RecolteLimitee = '/images/configurateur/cylindrique-750ml-recolte-limitee.png';
+const cylindrique1LRecolteLimitee = '/images/configurateur/cylindrique-1l-recolte-limitee.png';
+const cylindrique3LRecolteLimitee = '/images/configurateur/cylindrique-3l-recolte-limitee.png';
+const carree1LRecolteLimitee = '/images/configurateur/carree-1l-recolte-limitee.png';
+const carree3LRecolteLimitee = '/images/configurateur/carree-3l-recolte-limitee.png';
+const carree500RecolteLimitee = '/images/configurateur/carree-500ml-recolte-limitee.png';
+const carree750RecolteLimitee = '/images/configurateur/carree-750ml-recolte-limitee.png';
+const bidonMetal500RecolteLimitee = '/images/configurateur/bidon-metal-500ml-recolte-limitee.png';
+const bidonMetal750RecolteLimitee = '/images/configurateur/bidon-metal-750ml-recolte-limitee.png';
+const bidonMetal1LRecolteLimitee = '/images/configurateur/bidon-metal-1l-recolte-limitee.png';
+const bidonMetal3LRecolteLimitee = '/images/configurateur/bidon-metal-3l-recolte-limitee.png';
+const bidonVert500RecolteLimitee = '/images/configurateur/bidon-vert-500ml-recolte-limitee.png';
+const bidonVert3LRecolteLimitee = '/images/configurateur/bidon-vert-3l-recolte-limitee.png';
+const bidonVert750RecolteLimitee = '/images/configurateur/bidon-vert-750ml-recolte-limitee.png';
+const bidonVert1LRecolteLimitee = '/images/configurateur/bidon-vert-1l-recolte-limitee.png';
+
+// --- Combinaisons : Héritage ---
+const labelHeritage = '/images/etiquettes/label-heritage.png';
+const cylindrique500Heritage = '/images/configurateur/cylindrique-500ml-heritage.png';
+const cylindrique750Heritage = '/images/configurateur/cylindrique-750ml-heritage.png';
+const cylindrique1LHeritage = '/images/configurateur/cylindrique-1l-heritage.png';
+const cylindrique3LHeritage = '/images/configurateur/cylindrique-3l-heritage.png';
+const carree500Heritage = '/images/configurateur/carree-500ml-heritage.png';
+const carree750Heritage = '/images/configurateur/carree-750ml-heritage.png';
+const carree1LHeritage = '/images/configurateur/carree-1l-heritage.png';
+const carree3LHeritage = '/images/configurateur/carree-3l-heritage.png';
+const bidonMetal500Heritage = '/images/configurateur/bidon-metal-500ml-heritage.png';
+const bidonMetal750Heritage = '/images/configurateur/bidon-metal-750ml-heritage.png';
+const bidonMetal1LHeritage = '/images/configurateur/bidon-metal-1l-heritage.png';
+const bidonMetal3LHeritage = '/images/configurateur/bidon-metal-3l-heritage.png';
+const bidonVert500Heritage = '/images/configurateur/bidon-vert-500ml-heritage.png';
+const bidonVert750Heritage = '/images/configurateur/bidon-vert-750ml-heritage.png';
+const bidonVert3LHeritage = '/images/configurateur/bidon-vert-3l-heritage.png';
+const bidonVert1LHeritage = '/images/configurateur/bidon-vert-1l-heritage.png';
+
+// --- Combinaisons : Luxe Noir & Or ---
+const labelLuxeNoirOr = '/images/etiquettes/label-luxe-noir-or.png';
+const cylindrique500LuxeNoirOr = '/images/configurateur/cylindrique-500ml-luxe-noir-or.png';
+const cylindrique750LuxeNoirOr = '/images/configurateur/cylindrique-750ml-luxe-noir-or.png';
+const cylindrique1LLuxeNoirOr = '/images/configurateur/cylindrique-1l-luxe-noir-or.png';
+const cylindrique3LLuxeNoirOr = '/images/configurateur/cylindrique-3l-luxe-noir-or.png';
+const carree500LuxeNoirOr = '/images/configurateur/carree-500ml-luxe-noir-or.png';
+const carree750LuxeNoirOr = '/images/configurateur/carree-750ml-luxe-noir-or.png';
+const carree1LLuxeNoirOr = '/images/configurateur/carree-1l-luxe-noir-or.png';
+const carree3LLuxeNoirOr = '/images/configurateur/carree-3l-luxe-noir-or.png';
+const bidonMetal500LuxeNoirOr = '/images/configurateur/bidon-metal-500ml-luxe-noir-or.png';
+const bidonMetal750LuxeNoirOr = '/images/configurateur/bidon-metal-750ml-luxe-noir-or.png';
+const bidonMetal1LLuxeNoirOr = '/images/configurateur/bidon-metal-1l-luxe-noir-or.png';
+const bidonMetal3LLuxeNoirOr = '/images/configurateur/bidon-metal-3l-luxe-noir-or.png';
+const bidonVert500LuxeNoirOr = '/images/configurateur/bidon-vert-500ml-luxe-noir-or.png';
+const bidonVert750LuxeNoirOr = '/images/configurateur/bidon-vert-750ml-luxe-noir-or.png';
+const bidonVert3LLuxeNoirOr = '/images/configurateur/bidon-vert-3l-luxe-noir-or.png';
+const bidonVert1LLuxeNoirOr = '/images/configurateur/bidon-vert-1l-luxe-noir-or.png';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -286,7 +303,7 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#3d6b3a',
     bgColor: '#f7fbf5',
     borderColor: '#3d6b3a',
-    image: '/labels/label-classique.png',
+    image: '/images/etiquettes/label-classique.png',
   },
   {
     id: 'bio-moderne',
@@ -334,6 +351,6 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#c17f24',
     bgColor: '#fef6e4',
     borderColor: '#d4943a',
-    image: '/labels/label-recolte.png',
+    image: '/images/etiquettes/label-recolte.png',
   },
 ];

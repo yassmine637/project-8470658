@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import type { BottleModel, LabelStyle } from '@/mocks/configurator';
 import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
-import cylindrique500SizeStepOverride from '@assets/produit1_1776954621827.png';
-import carreeModelStepOverride from '@assets/originale_1776954747158.png';
-import bidonMetalModelStepOverride from '@assets/originale_1776954957250.png';
-import bidonVertModelStepOverride from '@assets/originale_1776955073362.png';
+const cylindrique500SizeStepOverride = '/images/configurateur/cylindrique-500ml-etape.png';
+const carreeModelStepOverride = '/images/configurateur/carree-originale.png';
+const bidonMetalModelStepOverride = '/images/configurateur/bidon-metal-originale.png';
+const bidonVertModelStepOverride = '/images/configurateur/bidon-vert-originale.png';
 
 interface BottleViewerProps {
   model: BottleModel;

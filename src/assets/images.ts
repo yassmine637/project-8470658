@@ -1,27 +1,28 @@
 // ============================================================
 // FENDRI — Centralisation de toutes les URLs d'images
+// Toutes les images sont dans public/images/
 // Modifier ici pour changer une image sur tout le site
 // ============================================================
 
-// --- Produits ---
+// --- Produits (bouteilles & bidons) ---
 export const PRODUCT_IMAGES = {
-  bidonVert1L: '/produit4-nobg.webp',
-  bouteilleCylindrique500ml: '/bottle-cylindrique-500ml.webp',
-  bouteilleCylindrique500mlFendri: '/bottle-cylindrique-500ml-fendri.png',
-  bouteilleCylindrique750ml: '/bottle-750ml.png',
-  bouteilleCylindrique1L: '/bottle-1l.png',
-  bouteilleCylindrique3L: '/bottle-3l.png',
-  bouteilleCarree500ml: '/bottle-carree-500ml.png',
-  bouteilleCarree1L: '/bottle-carree-1l.png',
-  bouteilleCarree3L: '/bottle-carree-3l.png',
-  bouteilleCarree750ml: '/produit2-nobg.webp',
-  bidonMetallique3L: '/produit3-nobg.webp',
-  bidonMetallique500ml: '/bidon-500ml.png',
-  bidonMetallique750ml: '/bidon-750ml.png',
-  bidonMetallique1L: '/bidon-1l.png',
-  bidonVert3L: '/bidon-vert-3l.png',
-  bidonVert500ml: '/bidon-vert-500ml.png',
-  bidonVert750ml: '/bidon-vert-750ml.png',
+  bidonVert1L: '/images/produits/produit4-nobg.webp',
+  bouteilleCylindrique500ml: '/images/produits/bottle-cylindrique-500ml.webp',
+  bouteilleCylindrique500mlFendri: '/images/produits/bottle-cylindrique-500ml-fendri.png',
+  bouteilleCylindrique750ml: '/images/produits/bottle-750ml.png',
+  bouteilleCylindrique1L: '/images/produits/bottle-1l.png',
+  bouteilleCylindrique3L: '/images/produits/bottle-3l.png',
+  bouteilleCarree500ml: '/images/produits/bottle-carree-500ml.png',
+  bouteilleCarree1L: '/images/produits/bottle-carree-1l.png',
+  bouteilleCarree3L: '/images/produits/bottle-carree-3l.png',
+  bouteilleCarree750ml: '/images/produits/produit2-nobg.webp',
+  bidonMetallique3L: '/images/produits/produit3-nobg.webp',
+  bidonMetallique500ml: '/images/produits/bidon-500ml.png',
+  bidonMetallique750ml: '/images/produits/bidon-750ml.png',
+  bidonMetallique1L: '/images/produits/bidon-1l.png',
+  bidonVert3L: '/images/produits/bidon-vert-3l.png',
+  bidonVert500ml: '/images/produits/bidon-vert-500ml.png',
+  bidonVert750ml: '/images/produits/bidon-vert-750ml.png',
 };
 
 // --- Hero (page d'accueil) ---
