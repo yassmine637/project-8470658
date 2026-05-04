@@ -16,6 +16,8 @@ import adminRoutes from './routes/admin.js';
 const app = express();
 const PORT = process.env.API_PORT || 3001;
 
+app.set('trust proxy', 1);
+
 app.post('/api/checkout/webhook', express.raw({ type: 'application/json' }));
 
 app.use(helmet({
