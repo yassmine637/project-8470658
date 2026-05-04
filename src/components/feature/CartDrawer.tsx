@@ -495,7 +495,30 @@ export default function CartDrawer() {
                         </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        Carte bancaire tunisienne · e-DINAR · wallet
+                        Carte bancaire · e-DINAR · wallet mobile
+                      </p>
+                    </div>
+                  </button>
+
+                  {/* D17 mobile — bientôt disponible */}
+                  <button
+                    type="button"
+                    disabled
+                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left cursor-not-allowed border-none"
+                    style={{ background: '#f9f9f7', border: '2px solid rgba(0,0,0,0.06)', opacity: 0.65 }}
+                  >
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: '#e63946' }}>
+                      <i className="ri-smartphone-line text-sm" style={{ color: '#ffffff' }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                        D17 — Paiement mobile
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
+                          Bientôt
+                        </span>
+                      </p>
+                      <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                        Wallet La Poste Tunisienne · paiement par téléphone
                       </p>
                     </div>
                   </button>
@@ -518,7 +541,7 @@ export default function CartDrawer() {
                         </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        Paiement international sécurisé
+                        Paiement international · mobile &amp; ordinateur
                       </p>
                     </div>
                   </button>
