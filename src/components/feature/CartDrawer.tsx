@@ -7,54 +7,54 @@ type Step = 'cart' | 'checkout' | 'success';
 
 const COUNTRY_CODES = [
   // ── Tunisie ──
-  { code: '+216', flag: '🇹🇳', name: 'Tunisie' },
+  { code: '+216', flag: '🇹🇳', name: 'Tunisie', digits: 8 },
   // ── Pays arabes du Golfe ──
-  { code: '+966', flag: '🇸🇦', name: 'Arabie Saoudite' },
-  { code: '+971', flag: '🇦🇪', name: 'Émirats Arabes Unis' },
-  { code: '+974', flag: '🇶🇦', name: 'Qatar' },
-  { code: '+965', flag: '🇰🇼', name: 'Koweït' },
-  { code: '+973', flag: '🇧🇭', name: 'Bahreïn' },
-  { code: '+968', flag: '🇴🇲', name: 'Oman' },
+  { code: '+966', flag: '🇸🇦', name: 'Arabie Saoudite', digits: 9 },
+  { code: '+971', flag: '🇦🇪', name: 'Émirats Arabes Unis', digits: 9 },
+  { code: '+974', flag: '🇶🇦', name: 'Qatar', digits: 8 },
+  { code: '+965', flag: '🇰🇼', name: 'Koweït', digits: 8 },
+  { code: '+973', flag: '🇧🇭', name: 'Bahreïn', digits: 8 },
+  { code: '+968', flag: '🇴🇲', name: 'Oman', digits: 8 },
   // ── Pays arabes du Levant & Afrique du Nord ──
-  { code: '+962', flag: '🇯🇴', name: 'Jordanie' },
-  { code: '+961', flag: '🇱🇧', name: 'Liban' },
-  { code: '+963', flag: '🇸🇾', name: 'Syrie' },
-  { code: '+964', flag: '🇮🇶', name: 'Irak' },
-  { code: '+970', flag: '🇵🇸', name: 'Palestine' },
-  { code: '+20', flag: '🇪🇬', name: 'Égypte' },
-  { code: '+218', flag: '🇱🇾', name: 'Libye' },
-  { code: '+212', flag: '🇲🇦', name: 'Maroc' },
-  { code: '+213', flag: '🇩🇿', name: 'Algérie' },
-  { code: '+249', flag: '🇸🇩', name: 'Soudan' },
-  { code: '+967', flag: '🇾🇪', name: 'Yémen' },
+  { code: '+962', flag: '🇯🇴', name: 'Jordanie', digits: 9 },
+  { code: '+961', flag: '🇱🇧', name: 'Liban', digits: 8 },
+  { code: '+963', flag: '🇸🇾', name: 'Syrie', digits: 9 },
+  { code: '+964', flag: '🇮🇶', name: 'Irak', digits: 10 },
+  { code: '+970', flag: '🇵🇸', name: 'Palestine', digits: 9 },
+  { code: '+20', flag: '🇪🇬', name: 'Égypte', digits: 10 },
+  { code: '+218', flag: '🇱🇾', name: 'Libye', digits: 9 },
+  { code: '+212', flag: '🇲🇦', name: 'Maroc', digits: 9 },
+  { code: '+213', flag: '🇩🇿', name: 'Algérie', digits: 9 },
+  { code: '+249', flag: '🇸🇩', name: 'Soudan', digits: 9 },
+  { code: '+967', flag: '🇾🇪', name: 'Yémen', digits: 9 },
   // ── Europe de l'Ouest ──
-  { code: '+33', flag: '🇫🇷', name: 'France' },
-  { code: '+32', flag: '🇧🇪', name: 'Belgique' },
-  { code: '+41', flag: '🇨🇭', name: 'Suisse' },
-  { code: '+49', flag: '🇩🇪', name: 'Allemagne' },
-  { code: '+44', flag: '🇬🇧', name: 'Royaume-Uni' },
-  { code: '+39', flag: '🇮🇹', name: 'Italie' },
-  { code: '+34', flag: '🇪🇸', name: 'Espagne' },
-  { code: '+31', flag: '🇳🇱', name: 'Pays-Bas' },
-  { code: '+351', flag: '🇵🇹', name: 'Portugal' },
-  { code: '+43', flag: '🇦🇹', name: 'Autriche' },
-  { code: '+352', flag: '🇱🇺', name: 'Luxembourg' },
-  { code: '+353', flag: '🇮🇪', name: 'Irlande' },
-  { code: '+30', flag: '🇬🇷', name: 'Grèce' },
+  { code: '+33', flag: '🇫🇷', name: 'France', digits: 9 },
+  { code: '+32', flag: '🇧🇪', name: 'Belgique', digits: 9 },
+  { code: '+41', flag: '🇨🇭', name: 'Suisse', digits: 9 },
+  { code: '+49', flag: '🇩🇪', name: 'Allemagne', digits: 11 },
+  { code: '+44', flag: '🇬🇧', name: 'Royaume-Uni', digits: 10 },
+  { code: '+39', flag: '🇮🇹', name: 'Italie', digits: 10 },
+  { code: '+34', flag: '🇪🇸', name: 'Espagne', digits: 9 },
+  { code: '+31', flag: '🇳🇱', name: 'Pays-Bas', digits: 9 },
+  { code: '+351', flag: '🇵🇹', name: 'Portugal', digits: 9 },
+  { code: '+43', flag: '🇦🇹', name: 'Autriche', digits: 10 },
+  { code: '+352', flag: '🇱🇺', name: 'Luxembourg', digits: 9 },
+  { code: '+353', flag: '🇮🇪', name: 'Irlande', digits: 9 },
+  { code: '+30', flag: '🇬🇷', name: 'Grèce', digits: 10 },
   // ── Europe du Nord ──
-  { code: '+46', flag: '🇸🇪', name: 'Suède' },
-  { code: '+47', flag: '🇳🇴', name: 'Norvège' },
-  { code: '+45', flag: '🇩🇰', name: 'Danemark' },
-  { code: '+358', flag: '🇫🇮', name: 'Finlande' },
+  { code: '+46', flag: '🇸🇪', name: 'Suède', digits: 9 },
+  { code: '+47', flag: '🇳🇴', name: 'Norvège', digits: 8 },
+  { code: '+45', flag: '🇩🇰', name: 'Danemark', digits: 8 },
+  { code: '+358', flag: '🇫🇮', name: 'Finlande', digits: 9 },
   // ── Europe de l'Est ──
-  { code: '+48', flag: '🇵🇱', name: 'Pologne' },
-  { code: '+420', flag: '🇨🇿', name: 'Tchéquie' },
-  { code: '+36', flag: '🇭🇺', name: 'Hongrie' },
-  { code: '+40', flag: '🇷🇴', name: 'Roumanie' },
+  { code: '+48', flag: '🇵🇱', name: 'Pologne', digits: 9 },
+  { code: '+420', flag: '🇨🇿', name: 'Tchéquie', digits: 9 },
+  { code: '+36', flag: '🇭🇺', name: 'Hongrie', digits: 9 },
+  { code: '+40', flag: '🇷🇴', name: 'Roumanie', digits: 10 },
   // ── Autres ──
-  { code: '+1', flag: '🇺🇸', name: 'États-Unis' },
-  { code: '+1', flag: '🇨🇦', name: 'Canada' },
-  { code: '+61', flag: '🇦🇺', name: 'Australie' },
+  { code: '+1', flag: '🇺🇸', name: 'États-Unis', digits: 10 },
+  { code: '+1', flag: '🇨🇦', name: 'Canada', digits: 10 },
+  { code: '+61', flag: '🇦🇺', name: 'Australie', digits: 9 },
 ];
 
 export default function CartDrawer() {
@@ -71,6 +71,7 @@ export default function CartDrawer() {
   const [countryCode, setCountryCode] = useState('+216');
   const [countryFlag, setCountryFlag] = useState('🇹🇳');
   const [countryName, setCountryName] = useState('Tunisie');
+  const [countryDigits, setCountryDigits] = useState(8);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dropOpen, setDropOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
@@ -103,6 +104,10 @@ export default function CartDrawer() {
     e.preventDefault();
     if (!form.name || !form.address || !phoneNumber || !form.email) {
       setFormError(t('cart_error_required'));
+      return;
+    }
+    if (phoneNumber.replace(/\D/g, '').length !== countryDigits) {
+      setFormError(`Numéro invalide — ${countryDigits} chiffres requis pour ${countryName} (${countryCode})`);
       return;
     }
     setSubmitting(true);
@@ -420,6 +425,8 @@ export default function CartDrawer() {
                               setCountryCode(c.code);
                               setCountryFlag(c.flag);
                               setCountryName(c.name);
+                              setCountryDigits(c.digits);
+                              setPhoneNumber('');
                               setDropOpen(false);
                             }}
                             className="cursor-pointer w-full flex items-center gap-2.5 whitespace-nowrap"
@@ -451,17 +458,41 @@ export default function CartDrawer() {
                     name="phone"
                     required
                     value={phoneNumber}
-                    onChange={e => setPhoneNumber(e.target.value)}
-                    placeholder="XX XXX XXX"
+                    maxLength={countryDigits}
+                    onChange={e => {
+                      const digits = e.target.value.replace(/\D/g, '').slice(0, countryDigits);
+                      setPhoneNumber(digits);
+                    }}
+                    placeholder={'X'.repeat(countryDigits)}
                     className="flex-1 px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
-                    style={{ ...inputStyle, minWidth: 0 }}
+                    style={{
+                      ...inputStyle,
+                      minWidth: 0,
+                      borderColor: phoneNumber.length > 0 && phoneNumber.length === countryDigits
+                        ? '#4a7c4e'
+                        : phoneNumber.length > 0
+                        ? '#c9a84c'
+                        : 'rgba(0,0,0,0.1)',
+                    }}
                     onFocus={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
-                    onBlur={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
+                    onBlur={(e) => {
+                      (e.currentTarget as HTMLInputElement).style.borderColor =
+                        phoneNumber.length === countryDigits ? '#4a7c4e' : 'rgba(0,0,0,0.1)';
+                    }}
                   />
                 </div>
-                <p className="text-xs" style={{ color: '#c4c4b8', fontFamily: "'Outfit', sans-serif" }}>
-                  {countryFlag} {countryName}
-                </p>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs" style={{ color: '#c4c4b8', fontFamily: "'Outfit', sans-serif" }}>
+                    {countryFlag} {countryName} — {countryDigits} chiffres requis
+                  </p>
+                  <p className="text-xs font-semibold" style={{
+                    color: phoneNumber.length === countryDigits ? '#4a7c4e' : phoneNumber.length > 0 ? '#c9a84c' : '#c4c4b8',
+                    fontFamily: "'Outfit', sans-serif",
+                  }}>
+                    {phoneNumber.length}/{countryDigits}
+                    {phoneNumber.length === countryDigits && <i className="ri-check-line ml-1" />}
+                  </p>
+                </div>
               </div>
 
               {/* Payment method selector */}

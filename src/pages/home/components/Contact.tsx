@@ -5,54 +5,54 @@ import { CONTACT_IMAGES } from '@/assets/images';
 
 const COUNTRY_CODES = [
   // ── Tunisia ──
-  { code: '+216', flag: '🇹🇳', name: 'Tunisia' },
+  { code: '+216', flag: '🇹🇳', name: 'Tunisia', digits: 8 },
   // ── Gulf Arab Countries ──
-  { code: '+966', flag: '🇸🇦', name: 'Saudi Arabia' },
-  { code: '+971', flag: '🇦🇪', name: 'UAE' },
-  { code: '+974', flag: '🇶🇦', name: 'Qatar' },
-  { code: '+965', flag: '🇰🇼', name: 'Kuwait' },
-  { code: '+973', flag: '🇧🇭', name: 'Bahrain' },
-  { code: '+968', flag: '🇴🇲', name: 'Oman' },
+  { code: '+966', flag: '🇸🇦', name: 'Saudi Arabia', digits: 9 },
+  { code: '+971', flag: '🇦🇪', name: 'UAE', digits: 9 },
+  { code: '+974', flag: '🇶🇦', name: 'Qatar', digits: 8 },
+  { code: '+965', flag: '🇰🇼', name: 'Kuwait', digits: 8 },
+  { code: '+973', flag: '🇧🇭', name: 'Bahrain', digits: 8 },
+  { code: '+968', flag: '🇴🇲', name: 'Oman', digits: 8 },
   // ── Levant & North Africa ──
-  { code: '+962', flag: '🇯🇴', name: 'Jordan' },
-  { code: '+961', flag: '🇱🇧', name: 'Lebanon' },
-  { code: '+963', flag: '🇸🇾', name: 'Syria' },
-  { code: '+964', flag: '🇮🇶', name: 'Iraq' },
-  { code: '+970', flag: '🇵🇸', name: 'Palestine' },
-  { code: '+20', flag: '🇪🇬', name: 'Egypt' },
-  { code: '+218', flag: '🇱🇾', name: 'Libya' },
-  { code: '+212', flag: '🇲🇦', name: 'Morocco' },
-  { code: '+213', flag: '🇩🇿', name: 'Algeria' },
-  { code: '+249', flag: '🇸🇩', name: 'Sudan' },
-  { code: '+967', flag: '🇾🇪', name: 'Yemen' },
+  { code: '+962', flag: '🇯🇴', name: 'Jordan', digits: 9 },
+  { code: '+961', flag: '🇱🇧', name: 'Lebanon', digits: 8 },
+  { code: '+963', flag: '🇸🇾', name: 'Syria', digits: 9 },
+  { code: '+964', flag: '🇮🇶', name: 'Iraq', digits: 10 },
+  { code: '+970', flag: '🇵🇸', name: 'Palestine', digits: 9 },
+  { code: '+20', flag: '🇪🇬', name: 'Egypt', digits: 10 },
+  { code: '+218', flag: '🇱🇾', name: 'Libya', digits: 9 },
+  { code: '+212', flag: '🇲🇦', name: 'Morocco', digits: 9 },
+  { code: '+213', flag: '🇩🇿', name: 'Algeria', digits: 9 },
+  { code: '+249', flag: '🇸🇩', name: 'Sudan', digits: 9 },
+  { code: '+967', flag: '🇾🇪', name: 'Yemen', digits: 9 },
   // ── Western Europe ──
-  { code: '+33', flag: '🇫🇷', name: 'France' },
-  { code: '+32', flag: '🇧🇪', name: 'Belgium' },
-  { code: '+41', flag: '🇨🇭', name: 'Switzerland' },
-  { code: '+49', flag: '🇩🇪', name: 'Germany' },
-  { code: '+44', flag: '🇬🇧', name: 'United Kingdom' },
-  { code: '+39', flag: '🇮🇹', name: 'Italy' },
-  { code: '+34', flag: '🇪🇸', name: 'Spain' },
-  { code: '+31', flag: '🇳🇱', name: 'Netherlands' },
-  { code: '+351', flag: '🇵🇹', name: 'Portugal' },
-  { code: '+43', flag: '🇦🇹', name: 'Austria' },
-  { code: '+352', flag: '🇱🇺', name: 'Luxembourg' },
-  { code: '+353', flag: '🇮🇪', name: 'Ireland' },
-  { code: '+30', flag: '🇬🇷', name: 'Greece' },
+  { code: '+33', flag: '🇫🇷', name: 'France', digits: 9 },
+  { code: '+32', flag: '🇧🇪', name: 'Belgium', digits: 9 },
+  { code: '+41', flag: '🇨🇭', name: 'Switzerland', digits: 9 },
+  { code: '+49', flag: '🇩🇪', name: 'Germany', digits: 11 },
+  { code: '+44', flag: '🇬🇧', name: 'United Kingdom', digits: 10 },
+  { code: '+39', flag: '🇮🇹', name: 'Italy', digits: 10 },
+  { code: '+34', flag: '🇪🇸', name: 'Spain', digits: 9 },
+  { code: '+31', flag: '🇳🇱', name: 'Netherlands', digits: 9 },
+  { code: '+351', flag: '🇵🇹', name: 'Portugal', digits: 9 },
+  { code: '+43', flag: '🇦🇹', name: 'Austria', digits: 10 },
+  { code: '+352', flag: '🇱🇺', name: 'Luxembourg', digits: 9 },
+  { code: '+353', flag: '🇮🇪', name: 'Ireland', digits: 9 },
+  { code: '+30', flag: '🇬🇷', name: 'Greece', digits: 10 },
   // ── Northern Europe ──
-  { code: '+46', flag: '🇸🇪', name: 'Sweden' },
-  { code: '+47', flag: '🇳🇴', name: 'Norway' },
-  { code: '+45', flag: '🇩🇰', name: 'Denmark' },
-  { code: '+358', flag: '🇫🇮', name: 'Finland' },
+  { code: '+46', flag: '🇸🇪', name: 'Sweden', digits: 9 },
+  { code: '+47', flag: '🇳🇴', name: 'Norway', digits: 8 },
+  { code: '+45', flag: '🇩🇰', name: 'Denmark', digits: 8 },
+  { code: '+358', flag: '🇫🇮', name: 'Finland', digits: 9 },
   // ── Eastern Europe ──
-  { code: '+48', flag: '🇵🇱', name: 'Poland' },
-  { code: '+420', flag: '🇨🇿', name: 'Czech Republic' },
-  { code: '+36', flag: '🇭🇺', name: 'Hungary' },
-  { code: '+40', flag: '🇷🇴', name: 'Romania' },
+  { code: '+48', flag: '🇵🇱', name: 'Poland', digits: 9 },
+  { code: '+420', flag: '🇨🇿', name: 'Czech Republic', digits: 9 },
+  { code: '+36', flag: '🇭🇺', name: 'Hungary', digits: 9 },
+  { code: '+40', flag: '🇷🇴', name: 'Romania', digits: 10 },
   // ── Other ──
-  { code: '+1', flag: '🇺🇸', name: 'United States' },
-  { code: '+1', flag: '🇨🇦', name: 'Canada' },
-  { code: '+61', flag: '🇦🇺', name: 'Australia' },
+  { code: '+1', flag: '🇺🇸', name: 'United States', digits: 10 },
+  { code: '+1', flag: '🇨🇦', name: 'Canada', digits: 10 },
+  { code: '+61', flag: '🇦🇺', name: 'Australia', digits: 9 },
 ];
 
 function FormField({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
@@ -79,6 +79,7 @@ export default function Contact() {
   const [countryCode, setCountryCode] = useState('+216');
   const [countryFlag, setCountryFlag] = useState('🇹🇳');
   const [countryName, setCountryName] = useState('Tunisia');
+  const [countryDigits, setCountryDigits] = useState(8);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dropOpen, setDropOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -108,6 +109,10 @@ export default function Contact() {
     const formData = new FormData(form);
     const message = formData.get('message') as string;
     if (message && message.length > 500) return;
+    if (phoneNumber && phoneNumber.replace(/\D/g, '').length !== countryDigits) {
+      setStatus('error');
+      return;
+    }
 
     formData.set('telephone', phoneNumber ? `${countryCode} ${phoneNumber}` : '');
     formData.set('pays', countryName);
@@ -340,6 +345,8 @@ export default function Contact() {
                                 setCountryCode(c.code);
                                 setCountryFlag(c.flag);
                                 setCountryName(c.name);
+                                setCountryDigits(c.digits);
+                                setPhoneNumber('');
                                 setDropOpen(false);
                               }}
                               className="cursor-pointer w-full flex items-center gap-2.5 whitespace-nowrap"
@@ -372,17 +379,41 @@ export default function Contact() {
                       name="telephone"
                       required
                       value={phoneNumber}
-                      onChange={e => setPhoneNumber(e.target.value)}
-                      placeholder={t('contact_form_placeholder_phone')}
+                      maxLength={countryDigits}
+                      onChange={e => {
+                        const digits = e.target.value.replace(/\D/g, '').slice(0, countryDigits);
+                        setPhoneNumber(digits);
+                      }}
+                      placeholder={'X'.repeat(countryDigits)}
                       className={`${inputCls} flex-1`}
-                      style={{ ...inputSt, minWidth: 0 }}
+                      style={{
+                        ...inputSt,
+                        minWidth: 0,
+                        borderColor: phoneNumber.length > 0 && phoneNumber.length === countryDigits
+                          ? '#4a7c4e'
+                          : phoneNumber.length > 0
+                          ? '#d4af37'
+                          : '#e8e8e4',
+                      }}
                       onFocus={(e) => { e.target.style.borderColor = '#d4af37'; e.target.style.background = '#ffffff'; }}
-                      onBlur={(e) => { e.target.style.borderColor = '#e8e8e4'; e.target.style.background = '#fafaf8'; }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = phoneNumber.length === countryDigits ? '#4a7c4e' : '#e8e8e4';
+                        e.target.style.background = '#fafaf8';
+                      }}
                     />
                   </div>
-                  <p className="text-xs mt-1" style={{ color: '#c4c4b8', fontFamily: "'Outfit', sans-serif" }}>
-                    {countryFlag} {countryName}
-                  </p>
+                  <div className="flex items-center justify-between mt-1">
+                    <p className="text-xs" style={{ color: '#c4c4b8', fontFamily: "'Outfit', sans-serif" }}>
+                      {countryFlag} {countryName} — {countryDigits} chiffres requis
+                    </p>
+                    <p className="text-xs font-semibold" style={{
+                      color: phoneNumber.length === countryDigits ? '#4a7c4e' : phoneNumber.length > 0 ? '#d4af37' : '#c4c4b8',
+                      fontFamily: "'Outfit', sans-serif",
+                    }}>
+                      {phoneNumber.length}/{countryDigits}
+                      {phoneNumber.length === countryDigits && <i className="ri-check-line ml-1" />}
+                    </p>
+                  </div>
                 </FormField>
 
                 <FormField label={t('contact_form_email')} required>
