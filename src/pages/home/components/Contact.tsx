@@ -4,34 +4,55 @@ import { useReveal } from '@/hooks/useReveal';
 import { CONTACT_IMAGES } from '@/assets/images';
 
 const COUNTRY_CODES = [
+  // ── Tunisia ──
   { code: '+216', flag: '🇹🇳', name: 'Tunisia' },
-  { code: '+33', flag: '🇫🇷', name: 'France' },
-  { code: '+32', flag: '🇧🇪', name: 'Belgium' },
-  { code: '+41', flag: '🇨🇭', name: 'Switzerland' },
-  { code: '+212', flag: '🇲🇦', name: 'Morocco' },
-  { code: '+213', flag: '🇩🇿', name: 'Algeria' },
-  { code: '+218', flag: '🇱🇾', name: 'Libya' },
-  { code: '+20', flag: '🇪🇬', name: 'Egypt' },
+  // ── Gulf Arab Countries ──
   { code: '+966', flag: '🇸🇦', name: 'Saudi Arabia' },
   { code: '+971', flag: '🇦🇪', name: 'UAE' },
   { code: '+974', flag: '🇶🇦', name: 'Qatar' },
   { code: '+965', flag: '🇰🇼', name: 'Kuwait' },
   { code: '+973', flag: '🇧🇭', name: 'Bahrain' },
   { code: '+968', flag: '🇴🇲', name: 'Oman' },
+  // ── Levant & North Africa ──
   { code: '+962', flag: '🇯🇴', name: 'Jordan' },
   { code: '+961', flag: '🇱🇧', name: 'Lebanon' },
+  { code: '+963', flag: '🇸🇾', name: 'Syria' },
+  { code: '+964', flag: '🇮🇶', name: 'Iraq' },
+  { code: '+970', flag: '🇵🇸', name: 'Palestine' },
+  { code: '+20', flag: '🇪🇬', name: 'Egypt' },
+  { code: '+218', flag: '🇱🇾', name: 'Libya' },
+  { code: '+212', flag: '🇲🇦', name: 'Morocco' },
+  { code: '+213', flag: '🇩🇿', name: 'Algeria' },
+  { code: '+249', flag: '🇸🇩', name: 'Sudan' },
+  { code: '+967', flag: '🇾🇪', name: 'Yemen' },
+  // ── Western Europe ──
+  { code: '+33', flag: '🇫🇷', name: 'France' },
+  { code: '+32', flag: '🇧🇪', name: 'Belgium' },
+  { code: '+41', flag: '🇨🇭', name: 'Switzerland' },
   { code: '+49', flag: '🇩🇪', name: 'Germany' },
   { code: '+44', flag: '🇬🇧', name: 'United Kingdom' },
   { code: '+39', flag: '🇮🇹', name: 'Italy' },
   { code: '+34', flag: '🇪🇸', name: 'Spain' },
   { code: '+31', flag: '🇳🇱', name: 'Netherlands' },
+  { code: '+351', flag: '🇵🇹', name: 'Portugal' },
+  { code: '+43', flag: '🇦🇹', name: 'Austria' },
+  { code: '+352', flag: '🇱🇺', name: 'Luxembourg' },
+  { code: '+353', flag: '🇮🇪', name: 'Ireland' },
+  { code: '+30', flag: '🇬🇷', name: 'Greece' },
+  // ── Northern Europe ──
+  { code: '+46', flag: '🇸🇪', name: 'Sweden' },
+  { code: '+47', flag: '🇳🇴', name: 'Norway' },
+  { code: '+45', flag: '🇩🇰', name: 'Denmark' },
+  { code: '+358', flag: '🇫🇮', name: 'Finland' },
+  // ── Eastern Europe ──
+  { code: '+48', flag: '🇵🇱', name: 'Poland' },
+  { code: '+420', flag: '🇨🇿', name: 'Czech Republic' },
+  { code: '+36', flag: '🇭🇺', name: 'Hungary' },
+  { code: '+40', flag: '🇷🇴', name: 'Romania' },
+  // ── Other ──
   { code: '+1', flag: '🇺🇸', name: 'United States' },
   { code: '+1', flag: '🇨🇦', name: 'Canada' },
   { code: '+61', flag: '🇦🇺', name: 'Australia' },
-  { code: '+81', flag: '🇯🇵', name: 'Japan' },
-  { code: '+86', flag: '🇨🇳', name: 'China' },
-  { code: '+7', flag: '🇷🇺', name: 'Russia' },
-  { code: '+55', flag: '🇧🇷', name: 'Brazil' },
 ];
 
 function FormField({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {

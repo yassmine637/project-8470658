@@ -6,34 +6,55 @@ import { useCart } from '@/hooks/useCart';
 type Step = 'cart' | 'checkout' | 'success';
 
 const COUNTRY_CODES = [
+  // ── Tunisie ──
   { code: '+216', flag: '🇹🇳', name: 'Tunisie' },
-  { code: '+33', flag: '🇫🇷', name: 'France' },
-  { code: '+32', flag: '🇧🇪', name: 'Belgique' },
-  { code: '+41', flag: '🇨🇭', name: 'Suisse' },
-  { code: '+212', flag: '🇲🇦', name: 'Maroc' },
-  { code: '+213', flag: '🇩🇿', name: 'Algérie' },
-  { code: '+218', flag: '🇱🇾', name: 'Libye' },
-  { code: '+20', flag: '🇪🇬', name: 'Égypte' },
+  // ── Pays arabes du Golfe ──
   { code: '+966', flag: '🇸🇦', name: 'Arabie Saoudite' },
   { code: '+971', flag: '🇦🇪', name: 'Émirats Arabes Unis' },
   { code: '+974', flag: '🇶🇦', name: 'Qatar' },
   { code: '+965', flag: '🇰🇼', name: 'Koweït' },
   { code: '+973', flag: '🇧🇭', name: 'Bahreïn' },
   { code: '+968', flag: '🇴🇲', name: 'Oman' },
+  // ── Pays arabes du Levant & Afrique du Nord ──
   { code: '+962', flag: '🇯🇴', name: 'Jordanie' },
   { code: '+961', flag: '🇱🇧', name: 'Liban' },
+  { code: '+963', flag: '🇸🇾', name: 'Syrie' },
+  { code: '+964', flag: '🇮🇶', name: 'Irak' },
+  { code: '+970', flag: '🇵🇸', name: 'Palestine' },
+  { code: '+20', flag: '🇪🇬', name: 'Égypte' },
+  { code: '+218', flag: '🇱🇾', name: 'Libye' },
+  { code: '+212', flag: '🇲🇦', name: 'Maroc' },
+  { code: '+213', flag: '🇩🇿', name: 'Algérie' },
+  { code: '+249', flag: '🇸🇩', name: 'Soudan' },
+  { code: '+967', flag: '🇾🇪', name: 'Yémen' },
+  // ── Europe de l'Ouest ──
+  { code: '+33', flag: '🇫🇷', name: 'France' },
+  { code: '+32', flag: '🇧🇪', name: 'Belgique' },
+  { code: '+41', flag: '🇨🇭', name: 'Suisse' },
   { code: '+49', flag: '🇩🇪', name: 'Allemagne' },
   { code: '+44', flag: '🇬🇧', name: 'Royaume-Uni' },
   { code: '+39', flag: '🇮🇹', name: 'Italie' },
   { code: '+34', flag: '🇪🇸', name: 'Espagne' },
   { code: '+31', flag: '🇳🇱', name: 'Pays-Bas' },
+  { code: '+351', flag: '🇵🇹', name: 'Portugal' },
+  { code: '+43', flag: '🇦🇹', name: 'Autriche' },
+  { code: '+352', flag: '🇱🇺', name: 'Luxembourg' },
+  { code: '+353', flag: '🇮🇪', name: 'Irlande' },
+  { code: '+30', flag: '🇬🇷', name: 'Grèce' },
+  // ── Europe du Nord ──
+  { code: '+46', flag: '🇸🇪', name: 'Suède' },
+  { code: '+47', flag: '🇳🇴', name: 'Norvège' },
+  { code: '+45', flag: '🇩🇰', name: 'Danemark' },
+  { code: '+358', flag: '🇫🇮', name: 'Finlande' },
+  // ── Europe de l'Est ──
+  { code: '+48', flag: '🇵🇱', name: 'Pologne' },
+  { code: '+420', flag: '🇨🇿', name: 'Tchéquie' },
+  { code: '+36', flag: '🇭🇺', name: 'Hongrie' },
+  { code: '+40', flag: '🇷🇴', name: 'Roumanie' },
+  // ── Autres ──
   { code: '+1', flag: '🇺🇸', name: 'États-Unis' },
   { code: '+1', flag: '🇨🇦', name: 'Canada' },
   { code: '+61', flag: '🇦🇺', name: 'Australie' },
-  { code: '+81', flag: '🇯🇵', name: 'Japon' },
-  { code: '+86', flag: '🇨🇳', name: 'Chine' },
-  { code: '+7', flag: '🇷🇺', name: 'Russie' },
-  { code: '+55', flag: '🇧🇷', name: 'Brésil' },
 ];
 
 export default function CartDrawer() {
