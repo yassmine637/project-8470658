@@ -1,24 +1,26 @@
-import sgMail from '@sendgrid/mail';
+import { Resend } from 'resend';
 
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
-const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || 'noreply@domainefendri.com';
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const FROM_NAME = 'Domaine Fendri';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@fendri.com';
 
-if (SENDGRID_API_KEY) {
-  sgMail.setApiKey(SENDGRID_API_KEY);
-}
-
 function isEnabled() {
-  return Boolean(SENDGRID_API_KEY);
+  return Boolean(RESEND_API_KEY);
 }
 
-async function send(msg) {
+async function send({ to, from, subject, html }) {
   if (!isEnabled()) return;
   try {
-    await sgMail.send(msg);
+    const resend = new Resend(RESEND_API_KEY);
+    await resend.emails.send({
+      from: `${FROM_NAME} <${from.email || FROM_EMAIL}>`,
+      to,
+      subject,
+      html,
+    });
   } catch (err) {
-    console.error('[Email] SendGrid error:', err?.response?.body || err.message);
+    console.error('[Email] Resend error:', err?.message || err);
   }
 }
 
