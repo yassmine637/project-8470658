@@ -110,6 +110,115 @@ router.get('/konnect/status/:paymentRef', async (req, res) => {
   }
 });
 
+// ─── PayPal ────────────────────────────────────────────────────────────────
+const getPayPalToken = async () => {
+  const clientId = process.env.PAYPAL_CLIENT_ID;
+  const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+  if (!clientId || !clientSecret) throw new Error('PayPal non configuré');
+  const base = process.env.PAYPAL_ENV === 'production'
+    ? 'https://api-m.paypal.com'
+    : 'https://api-m.sandbox.paypal.com';
+  const res = await fetch(`${base}/v1/oauth2/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
+    },
+    body: 'grant_type=client_credentials',
+  });
+  const data = await res.json();
+  return { token: data.access_token, base };
+};
+
+router.post('/paypal/init', async (req, res) => {
+  try {
+    const { token, base } = await getPayPalToken();
+    const { items, guestName, guestEmail, guestPhone, shippingAddress, notes } = req.body;
+    if (!items?.length) return res.status(400).json({ message: 'Panier vide' });
+    if (!guestName || !guestEmail) return res.status(400).json({ message: 'Nom et email requis' });
+
+    const totalHT = items.reduce((s, i) => s + i.price * i.quantity, 0);
+    const tva = Math.round(totalHT * 0.19);
+    const totalTTC = totalHT + tva;
+    const amountEUR = (totalTTC * 0.30).toFixed(2);
+
+    const order = await Order.create({
+      items,
+      guestName,
+      guestEmail,
+      guestPhone: guestPhone ? guestPhone.slice(0, 30) : '',
+      totalHT,
+      tva,
+      totalTTC,
+      currency: 'TND',
+      shippingAddress: shippingAddress || {},
+      notes: notes ? notes.slice(0, 500) : '',
+      paymentMethod: 'paypal',
+      status: 'pending',
+    });
+
+    const domain = process.env.REPLIT_DEV_DOMAIN
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+      : 'http://localhost:5000';
+
+    const ppRes = await fetch(`${base}/v2/checkout/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        intent: 'CAPTURE',
+        purchase_units: [{
+          reference_id: order._id.toString(),
+          description: `Domaine Fendri — ${items.map(i => `${i.productName} x${i.quantity}`).join(', ')}`,
+          amount: { currency_code: 'EUR', value: amountEUR },
+        }],
+        application_context: {
+          brand_name: 'Domaine Fendri',
+          landing_page: 'BILLING',
+          user_action: 'PAY_NOW',
+          return_url: `${domain}/checkout/success?provider=paypal&order_id=${order._id}`,
+          cancel_url: `${domain}/checkout/cancel?order_id=${order._id}`,
+        },
+      }),
+    });
+
+    const ppData = await ppRes.json();
+    if (!ppRes.ok) return res.status(502).json({ message: ppData.message || 'Erreur PayPal', details: ppData });
+
+    const approvalLink = ppData.links?.find(l => l.rel === 'approve')?.href;
+    res.json({ approvalUrl: approvalLink, paypalOrderId: ppData.id, orderId: order._id });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.post('/paypal/capture/:paypalOrderId', async (req, res) => {
+  try {
+    const { token, base } = await getPayPalToken();
+    const { paypalOrderId } = req.params;
+    const { orderId } = req.body;
+
+    const captureRes = await fetch(`${base}/v2/checkout/orders/${paypalOrderId}/capture`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    });
+
+    const captureData = await captureRes.json();
+    if (captureData.status === 'COMPLETED' && orderId) {
+      await Order.findByIdAndUpdate(orderId, {
+        status: 'paid',
+        stripePaymentIntentId: paypalOrderId,
+      });
+    }
+    res.json({ status: captureData.status });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// ─── Stripe ────────────────────────────────────────────────────────────────
 const getStripe = () => {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error('STRIPE_SECRET_KEY not configured');

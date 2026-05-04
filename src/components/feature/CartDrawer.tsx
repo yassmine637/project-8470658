@@ -42,7 +42,7 @@ export default function CartDrawer() {
   const { t } = useTranslation();
   const [step, setStep] = useState<Step>('cart');
   const [submitting, setSubmitting] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'paypal'>('cod');
+  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'konnect' | 'paypal'>('cod');
   const [form, setForm] = useState({ name: '', address: '', email: '' });
   const [formError, setFormError] = useState('');
 
@@ -477,17 +477,40 @@ export default function CartDrawer() {
                     </div>
                   </button>
 
+                  {/* Konnect — bientôt disponible */}
+                  <button
+                    type="button"
+                    disabled
+                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left cursor-not-allowed border-none"
+                    style={{ background: '#f9f9f7', border: '2px solid rgba(0,0,0,0.06)', opacity: 0.65 }}
+                  >
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0 overflow-hidden" style={{ background: '#1a1a2e' }}>
+                      <span className="text-xs font-black tracking-tight" style={{ color: '#e94560' }}>K</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                        Konnect
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
+                          Bientôt
+                        </span>
+                      </p>
+                      <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                        Carte bancaire tunisienne · e-DINAR · wallet
+                      </p>
+                    </div>
+                  </button>
+
                   {/* PayPal — bientôt disponible */}
                   <button
                     type="button"
                     disabled
                     className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left cursor-not-allowed border-none"
-                    style={{ background: '#f9f9f7', border: '2px solid rgba(0,0,0,0.06)', opacity: 0.6 }}
+                    style={{ background: '#f9f9f7', border: '2px solid rgba(0,0,0,0.06)', opacity: 0.65 }}
                   >
                     <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: '#003087' }}>
-                      <span className="text-xs font-black" style={{ color: '#ffffff' }}>P</span>
+                      <span className="text-xs font-black" style={{ color: '#ffffff', letterSpacing: '-1px' }}>PP</span>
                     </div>
-                    <div>
+                    <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                         PayPal
                         <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
@@ -495,7 +518,7 @@ export default function CartDrawer() {
                         </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        Pour les paiements internationaux
+                        Paiement international sécurisé
                       </p>
                     </div>
                   </button>
