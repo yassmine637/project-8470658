@@ -18,8 +18,8 @@ export const adminApi = {
     return api.get<{ orders: unknown[]; total: number; pages: number }>(`/admin/orders?${q}`);
   },
 
-  updateOrderStatus: (id: string, status: string) =>
-    api.put(`/admin/orders/${id}/status`, { status }),
+  updateOrderStatus: (id: string, status: string, trackingNumber?: string, carrier?: string) =>
+    api.put(`/admin/orders/${id}/status`, { status, trackingNumber, carrier }),
 
   configuratorOrders: (params?: { page?: number; status?: string }) => {
     const q = new URLSearchParams();

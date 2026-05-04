@@ -5,6 +5,8 @@ import { adminApi } from '@/api/admin';
 
 type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users' | 'security';
 
+type ShippingModal = { orderId: string; trackingNumber: string; carrier: string } | null;
+
 const STATUS_COLORS: Record<string, string> = {
   pending: '#f59e0b', paid: '#10b981', processing: '#3b82f6',
   shipped: '#8b5cf6', delivered: '#059669', cancelled: '#ef4444',
@@ -25,6 +27,7 @@ export default function AdminPage() {
   const [pwForm, setPwForm] = useState({ current: '', next: '', confirm: '' });
   const [pwStatus, setPwStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [pwError, setPwError] = useState('');
+  const [shippingModal, setShippingModal] = useState<ShippingModal>(null);
 
   useEffect(() => {
     if (!isLoading && (!user || !isAdmin)) navigate('/auth');
@@ -195,14 +198,15 @@ export default function AdminPage() {
                         </td>
                         <td className={cell}>
                           <select
-                            defaultValue={o.status as string}
-                            onChange={async (e) => {
+                            value={o.status as string}
+                            onChange={(e) => {
                               const newStatus = e.target.value;
-                              try {
-                                await adminApi.updateOrderStatus(o._id as string, newStatus);
-                                setOrders((prev) => prev.map((x) => (x as Record<string, unknown>)._id === o._id ? { ...x, status: newStatus } : x));
-                              } catch {
-                                alert('Erreur lors du changement de statut');
+                              if (newStatus === 'shipped') {
+                                setShippingModal({ orderId: o._id as string, trackingNumber: '', carrier: '' });
+                              } else {
+                                adminApi.updateOrderStatus(o._id as string, newStatus)
+                                  .then(() => setOrders((prev) => prev.map((x) => (x as Record<string, unknown>)._id === o._id ? { ...x, status: newStatus } : x)))
+                                  .catch(() => alert('Erreur lors du changement de statut'));
                               }
                             }}
                             style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', padding: '4px 8px', borderRadius: '8px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', cursor: 'pointer', outline: 'none' }}
@@ -210,7 +214,7 @@ export default function AdminPage() {
                             <option value="pending">En attente</option>
                             <option value="paid">Payée</option>
                             <option value="processing">En préparation</option>
-                            <option value="shipped">Expédiée</option>
+                            <option value="shipped">Expédiée 📦</option>
                             <option value="delivered">Livrée</option>
                             <option value="cancelled">Annulée</option>
                           </select>
@@ -401,6 +405,82 @@ export default function AdminPage() {
           )}
         </main>
       </div>
+
+      {/* Modal numéro de suivi */}
+      {shippingModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+          <div style={{ background: '#ffffff', borderRadius: '16px', padding: '40px', maxWidth: '460px', width: '100%', boxShadow: '0 24px 60px rgba(0,0,0,0.2)' }}>
+            <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)', borderRadius: 2, marginBottom: 28 }} />
+            <p style={{ margin: '0 0 4px', fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}>
+              Expédition
+            </p>
+            <h3 style={{ margin: '0 0 8px', fontSize: '20px', fontFamily: "'Cormorant Garant', serif", color: '#1a2617', fontWeight: 700 }}>
+              Informations de livraison
+            </h3>
+            <p style={{ margin: '0 0 24px', fontSize: '13px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif", lineHeight: 1.6 }}>
+              Ces informations seront incluses dans l'email envoyé au client.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#5a6e56', marginBottom: '6px', fontFamily: "'Outfit', sans-serif" }}>
+                  Transporteur
+                </label>
+                <input
+                  type="text"
+                  placeholder="ex : Colissimo, DHL, Aramex..."
+                  value={shippingModal.carrier}
+                  onChange={(e) => setShippingModal((m) => m ? { ...m, carrier: e.target.value } : m)}
+                  style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', fontFamily: "'Outfit', sans-serif", fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
+                  onFocus={(e) => { e.target.style.borderColor = '#d4af37'; }}
+                  onBlur={(e) => { e.target.style.borderColor = '#e8e8e4'; }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#5a6e56', marginBottom: '6px', fontFamily: "'Outfit', sans-serif" }}>
+                  Numéro de suivi <span style={{ color: '#9ca3af', fontWeight: 400 }}>(optionnel)</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="ex : 1Z999AA10123456784"
+                  value={shippingModal.trackingNumber}
+                  onChange={(e) => setShippingModal((m) => m ? { ...m, trackingNumber: e.target.value } : m)}
+                  style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', fontFamily: "'Outfit', sans-serif", fontSize: '14px', outline: 'none', boxSizing: 'border-box', letterSpacing: '1px' }}
+                  onFocus={(e) => { e.target.style.borderColor = '#d4af37'; }}
+                  onBlur={(e) => { e.target.style.borderColor = '#e8e8e4'; }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', marginTop: '28px' }}>
+              <button
+                onClick={() => setShippingModal(null)}
+                style={{ flex: 1, padding: '12px', borderRadius: '999px', border: '1.5px solid #e8e8e4', background: 'transparent', color: '#6b7280', fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
+              >
+                Annuler
+              </button>
+              <button
+                onClick={async () => {
+                  const { orderId, trackingNumber, carrier } = shippingModal;
+                  try {
+                    await adminApi.updateOrderStatus(orderId, 'shipped', trackingNumber, carrier);
+                    setOrders((prev) => prev.map((x) => {
+                      const o = x as Record<string, unknown>;
+                      return o._id === orderId ? { ...o, status: 'shipped', trackingNumber, carrier } : o;
+                    }));
+                    setShippingModal(null);
+                  } catch {
+                    alert('Erreur lors de la mise à jour');
+                  }
+                }}
+                style={{ flex: 2, padding: '12px', borderRadius: '999px', border: 'none', background: 'linear-gradient(135deg, #1a2617 0%, #2f4229 100%)', color: '#d4af37', fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }}
+              >
+                Confirmer l'expédition
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

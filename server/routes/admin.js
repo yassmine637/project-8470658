@@ -51,8 +51,12 @@ router.get('/orders', async (req, res) => {
 
 router.put('/orders/:id/status', async (req, res) => {
   try {
-    const { status } = req.body;
-    const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true })
+    const { status, trackingNumber, carrier } = req.body;
+    const update = { status };
+    if (trackingNumber !== undefined) update.trackingNumber = trackingNumber.slice(0, 100);
+    if (carrier !== undefined) update.carrier = carrier.slice(0, 80);
+
+    const order = await Order.findByIdAndUpdate(req.params.id, update, { new: true })
       .populate('user', 'name email');
     if (!order) return res.status(404).json({ message: 'Commande introuvable' });
 

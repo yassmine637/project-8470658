@@ -37,6 +37,8 @@ const orderSchema = new mongoose.Schema({
     postalCode: { type: String, default: '' },
   },
   notes: { type: String, default: '' },
+  trackingNumber: { type: String, default: '' },
+  carrier: { type: String, default: '' },
 }, { timestamps: true });
 
 export default mongoose.model('Order', orderSchema);

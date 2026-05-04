@@ -279,7 +279,7 @@ const STATUS_CONFIG = {
     label: 'Expédiée',
     icon: '→',
     color: '#2C3A23',
-    message: 'Votre commande a été confiée au transporteur et est en route vers vous. Vous la recevrez dans les prochains jours.',
+    message: 'Votre commande a été confiée au transporteur et est en route vers vous.',
     subject: 'Votre commande a été expédiée',
   },
   delivered: {
@@ -327,6 +327,21 @@ export async function sendOrderStatusUpdate({ order, customerName, customerEmail
         ${config.message}
       </p>
     </div>
+
+    ${order.status === 'shipped' && order.trackingNumber ? `
+    <div style="margin:0 0 24px;padding:20px 24px;background:#F0F4EE;border:1px solid #C8D8C4;border-radius:4px;text-align:center;">
+      <p style="margin:0 0 6px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;">
+        Numéro de suivi
+      </p>
+      ${order.carrier ? `<p style="margin:0 0 4px;font-size:12px;color:${COLORS.muted};font-family:Arial,sans-serif;">${order.carrier}</p>` : ''}
+      <p style="margin:0;font-size:22px;font-family:Georgia,serif;color:${COLORS.primary};letter-spacing:3px;font-weight:bold;">
+        ${order.trackingNumber}
+      </p>
+      <p style="margin:10px 0 0;font-size:12px;color:${COLORS.muted};font-family:Arial,sans-serif;">
+        Utilisez ce numéro pour suivre votre colis sur le site du transporteur.
+      </p>
+    </div>
+    ` : ''}
 
     <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:${COLORS.bg};padding:16px 20px;">
       <tr>
