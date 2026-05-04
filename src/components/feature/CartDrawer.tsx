@@ -5,56 +5,57 @@ import { useCart } from '@/hooks/useCart';
 
 type Step = 'cart' | 'checkout' | 'success';
 
+// postalLen: exact digits required (0 = optional, no standard); postalAlpha: alphanumeric code
 const COUNTRY_CODES = [
   // ── Tunisie ──
-  { code: '+216', flag: '🇹🇳', name: 'Tunisie', digits: 8 },
+  { code: '+216', flag: '🇹🇳', name: 'Tunisie', digits: 8, postalLen: 4, postalAlpha: false, postalExample: '1000' },
   // ── Pays arabes du Golfe ──
-  { code: '+966', flag: '🇸🇦', name: 'Arabie Saoudite', digits: 9 },
-  { code: '+971', flag: '🇦🇪', name: 'Émirats Arabes Unis', digits: 9 },
-  { code: '+974', flag: '🇶🇦', name: 'Qatar', digits: 8 },
-  { code: '+965', flag: '🇰🇼', name: 'Koweït', digits: 8 },
-  { code: '+973', flag: '🇧🇭', name: 'Bahreïn', digits: 8 },
-  { code: '+968', flag: '🇴🇲', name: 'Oman', digits: 8 },
+  { code: '+966', flag: '🇸🇦', name: 'Arabie Saoudite', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '12345' },
+  { code: '+971', flag: '🇦🇪', name: 'Émirats Arabes Unis', digits: 9, postalLen: 0, postalAlpha: false, postalExample: '' },
+  { code: '+974', flag: '🇶🇦', name: 'Qatar', digits: 8, postalLen: 0, postalAlpha: false, postalExample: '' },
+  { code: '+965', flag: '🇰🇼', name: 'Koweït', digits: 8, postalLen: 5, postalAlpha: false, postalExample: '13001' },
+  { code: '+973', flag: '🇧🇭', name: 'Bahreïn', digits: 8, postalLen: 3, postalAlpha: false, postalExample: '101' },
+  { code: '+968', flag: '🇴🇲', name: 'Oman', digits: 8, postalLen: 3, postalAlpha: false, postalExample: '100' },
   // ── Pays arabes du Levant & Afrique du Nord ──
-  { code: '+962', flag: '🇯🇴', name: 'Jordanie', digits: 9 },
-  { code: '+961', flag: '🇱🇧', name: 'Liban', digits: 8 },
-  { code: '+963', flag: '🇸🇾', name: 'Syrie', digits: 9 },
-  { code: '+964', flag: '🇮🇶', name: 'Irak', digits: 10 },
-  { code: '+970', flag: '🇵🇸', name: 'Palestine', digits: 9 },
-  { code: '+20', flag: '🇪🇬', name: 'Égypte', digits: 10 },
-  { code: '+218', flag: '🇱🇾', name: 'Libye', digits: 9 },
-  { code: '+212', flag: '🇲🇦', name: 'Maroc', digits: 9 },
-  { code: '+213', flag: '🇩🇿', name: 'Algérie', digits: 9 },
-  { code: '+249', flag: '🇸🇩', name: 'Soudan', digits: 9 },
-  { code: '+967', flag: '🇾🇪', name: 'Yémen', digits: 9 },
+  { code: '+962', flag: '🇯🇴', name: 'Jordanie', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '11110' },
+  { code: '+961', flag: '🇱🇧', name: 'Liban', digits: 8, postalLen: 0, postalAlpha: false, postalExample: '' },
+  { code: '+963', flag: '🇸🇾', name: 'Syrie', digits: 9, postalLen: 0, postalAlpha: false, postalExample: '' },
+  { code: '+964', flag: '🇮🇶', name: 'Irak', digits: 10, postalLen: 5, postalAlpha: false, postalExample: '10001' },
+  { code: '+970', flag: '🇵🇸', name: 'Palestine', digits: 9, postalLen: 3, postalAlpha: false, postalExample: '100' },
+  { code: '+20', flag: '🇪🇬', name: 'Égypte', digits: 10, postalLen: 5, postalAlpha: false, postalExample: '11311' },
+  { code: '+218', flag: '🇱🇾', name: 'Libye', digits: 9, postalLen: 0, postalAlpha: false, postalExample: '' },
+  { code: '+212', flag: '🇲🇦', name: 'Maroc', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '20000' },
+  { code: '+213', flag: '🇩🇿', name: 'Algérie', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '16000' },
+  { code: '+249', flag: '🇸🇩', name: 'Soudan', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '11111' },
+  { code: '+967', flag: '🇾🇪', name: 'Yémen', digits: 9, postalLen: 0, postalAlpha: false, postalExample: '' },
   // ── Europe de l'Ouest ──
-  { code: '+33', flag: '🇫🇷', name: 'France', digits: 9 },
-  { code: '+32', flag: '🇧🇪', name: 'Belgique', digits: 9 },
-  { code: '+41', flag: '🇨🇭', name: 'Suisse', digits: 9 },
-  { code: '+49', flag: '🇩🇪', name: 'Allemagne', digits: 11 },
-  { code: '+44', flag: '🇬🇧', name: 'Royaume-Uni', digits: 10 },
-  { code: '+39', flag: '🇮🇹', name: 'Italie', digits: 10 },
-  { code: '+34', flag: '🇪🇸', name: 'Espagne', digits: 9 },
-  { code: '+31', flag: '🇳🇱', name: 'Pays-Bas', digits: 9 },
-  { code: '+351', flag: '🇵🇹', name: 'Portugal', digits: 9 },
-  { code: '+43', flag: '🇦🇹', name: 'Autriche', digits: 10 },
-  { code: '+352', flag: '🇱🇺', name: 'Luxembourg', digits: 9 },
-  { code: '+353', flag: '🇮🇪', name: 'Irlande', digits: 9 },
-  { code: '+30', flag: '🇬🇷', name: 'Grèce', digits: 10 },
+  { code: '+33', flag: '🇫🇷', name: 'France', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '75001' },
+  { code: '+32', flag: '🇧🇪', name: 'Belgique', digits: 9, postalLen: 4, postalAlpha: false, postalExample: '1000' },
+  { code: '+41', flag: '🇨🇭', name: 'Suisse', digits: 9, postalLen: 4, postalAlpha: false, postalExample: '1200' },
+  { code: '+49', flag: '🇩🇪', name: 'Allemagne', digits: 11, postalLen: 5, postalAlpha: false, postalExample: '10115' },
+  { code: '+44', flag: '🇬🇧', name: 'Royaume-Uni', digits: 10, postalLen: 7, postalAlpha: true, postalExample: 'SW1A 1AA' },
+  { code: '+39', flag: '🇮🇹', name: 'Italie', digits: 10, postalLen: 5, postalAlpha: false, postalExample: '00100' },
+  { code: '+34', flag: '🇪🇸', name: 'Espagne', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '28001' },
+  { code: '+31', flag: '🇳🇱', name: 'Pays-Bas', digits: 9, postalLen: 6, postalAlpha: true, postalExample: '1234AB' },
+  { code: '+351', flag: '🇵🇹', name: 'Portugal', digits: 9, postalLen: 7, postalAlpha: true, postalExample: '1000001' },
+  { code: '+43', flag: '🇦🇹', name: 'Autriche', digits: 10, postalLen: 4, postalAlpha: false, postalExample: '1010' },
+  { code: '+352', flag: '🇱🇺', name: 'Luxembourg', digits: 9, postalLen: 4, postalAlpha: false, postalExample: '1234' },
+  { code: '+353', flag: '🇮🇪', name: 'Irlande', digits: 9, postalLen: 7, postalAlpha: true, postalExample: 'D02YX25' },
+  { code: '+30', flag: '🇬🇷', name: 'Grèce', digits: 10, postalLen: 5, postalAlpha: false, postalExample: '11521' },
   // ── Europe du Nord ──
-  { code: '+46', flag: '🇸🇪', name: 'Suède', digits: 9 },
-  { code: '+47', flag: '🇳🇴', name: 'Norvège', digits: 8 },
-  { code: '+45', flag: '🇩🇰', name: 'Danemark', digits: 8 },
-  { code: '+358', flag: '🇫🇮', name: 'Finlande', digits: 9 },
+  { code: '+46', flag: '🇸🇪', name: 'Suède', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '11120' },
+  { code: '+47', flag: '🇳🇴', name: 'Norvège', digits: 8, postalLen: 4, postalAlpha: false, postalExample: '0150' },
+  { code: '+45', flag: '🇩🇰', name: 'Danemark', digits: 8, postalLen: 4, postalAlpha: false, postalExample: '1050' },
+  { code: '+358', flag: '🇫🇮', name: 'Finlande', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '00100' },
   // ── Europe de l'Est ──
-  { code: '+48', flag: '🇵🇱', name: 'Pologne', digits: 9 },
-  { code: '+420', flag: '🇨🇿', name: 'Tchéquie', digits: 9 },
-  { code: '+36', flag: '🇭🇺', name: 'Hongrie', digits: 9 },
-  { code: '+40', flag: '🇷🇴', name: 'Roumanie', digits: 10 },
+  { code: '+48', flag: '🇵🇱', name: 'Pologne', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '00001' },
+  { code: '+420', flag: '🇨🇿', name: 'Tchéquie', digits: 9, postalLen: 5, postalAlpha: false, postalExample: '11000' },
+  { code: '+36', flag: '🇭🇺', name: 'Hongrie', digits: 9, postalLen: 4, postalAlpha: false, postalExample: '1011' },
+  { code: '+40', flag: '🇷🇴', name: 'Roumanie', digits: 10, postalLen: 6, postalAlpha: false, postalExample: '011111' },
   // ── Autres ──
-  { code: '+1', flag: '🇺🇸', name: 'États-Unis', digits: 10 },
-  { code: '+1', flag: '🇨🇦', name: 'Canada', digits: 10 },
-  { code: '+61', flag: '🇦🇺', name: 'Australie', digits: 9 },
+  { code: '+1', flag: '🇺🇸', name: 'États-Unis', digits: 10, postalLen: 5, postalAlpha: false, postalExample: '90210' },
+  { code: '+1', flag: '🇨🇦', name: 'Canada', digits: 10, postalLen: 6, postalAlpha: true, postalExample: 'K1A0A9' },
+  { code: '+61', flag: '🇦🇺', name: 'Australie', digits: 9, postalLen: 4, postalAlpha: false, postalExample: '2000' },
 ];
 
 export default function CartDrawer() {
@@ -64,8 +65,13 @@ export default function CartDrawer() {
   const [step, setStep] = useState<Step>('cart');
   const [submitting, setSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'konnect' | 'paypal'>('cod');
-  const [form, setForm] = useState({ name: '', address: '', email: '' });
+  const [form, setForm] = useState({ name: '', email: '', street: '', city: '', postalCode: '' });
+  const [postalError, setPostalError] = useState('');
   const [formError, setFormError] = useState('');
+
+  const [postalLen, setPostalLen] = useState(4);
+  const [postalAlpha, setPostalAlpha] = useState(false);
+  const [postalExample, setPostalExample] = useState('1000');
 
   // Phone country selector state
   const [countryCode, setCountryCode] = useState('+216');
@@ -102,13 +108,21 @@ export default function CartDrawer() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!form.name || !form.address || !phoneNumber || !form.email) {
+    if (!form.name || !form.street || !form.city || !phoneNumber || !form.email) {
       setFormError(t('cart_error_required'));
       return;
     }
     if (phoneNumber.replace(/\D/g, '').length !== countryDigits) {
       setFormError(`Numéro invalide — ${countryDigits} chiffres requis pour ${countryName} (${countryCode})`);
       return;
+    }
+    if (postalLen > 0) {
+      const pc = form.postalCode.trim().replace(/\s/g, '');
+      const valid = postalAlpha ? pc.length >= postalLen - 1 && pc.length <= postalLen + 1 : pc.length === postalLen && /^\d+$/.test(pc);
+      if (!valid) {
+        setFormError(`Code postal invalide — ${postalAlpha ? `${postalLen} caractères` : `${postalLen} chiffres`} requis pour ${countryName} (ex: ${postalExample})`);
+        return;
+      }
     }
     setSubmitting(true);
     try {
@@ -128,7 +142,12 @@ export default function CartDrawer() {
           guestEmail: form.email,
           guestPhone: `${countryCode} ${phoneNumber}`,
           currency: 'TND',
-          shippingAddress: { address: form.address, country: countryName },
+          shippingAddress: {
+            street: form.street,
+            city: form.city,
+            postalCode: form.postalCode,
+            country: countryName,
+          },
           paymentMethod,
         }),
       });
@@ -341,11 +360,10 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              {/* Static fields: name, email, address */}
+              {/* Static fields: name, email */}
               {[
                 { name: 'name', label: t('cart_field_name'), type: 'text', placeholder: t('cart_placeholder_name') },
                 { name: 'email', label: t('cart_field_email'), type: 'email', placeholder: t('cart_placeholder_email') },
-                { name: 'address', label: t('cart_field_address'), type: 'text', placeholder: t('cart_placeholder_address') },
               ].map((field) => (
                 <div key={field.name} className="flex flex-col gap-1.5">
                   <label
@@ -369,6 +387,112 @@ export default function CartDrawer() {
                   />
                 </div>
               ))}
+
+              {/* Address fields: street, city, postal code */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                  {t('cart_field_address')}
+                </label>
+                <input
+                  name="street"
+                  type="text"
+                  placeholder={t('cart_placeholder_address')}
+                  value={form.street}
+                  onChange={handleFormChange}
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+                  style={inputStyle}
+                  onFocus={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
+                  onBlur={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
+                />
+              </div>
+
+              <div className="flex gap-3">
+                {/* City */}
+                <div className="flex flex-col gap-1.5 flex-1 min-w-0">
+                  <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                    {t('cart_field_city') ?? 'Ville'}
+                  </label>
+                  <input
+                    name="city"
+                    type="text"
+                    placeholder={t('cart_placeholder_city') ?? 'Tunis'}
+                    value={form.city}
+                    onChange={handleFormChange}
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+                    style={inputStyle}
+                    onFocus={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
+                    onBlur={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
+                  />
+                </div>
+
+                {/* Postal code */}
+                {postalLen > 0 && (
+                  <div className="flex flex-col gap-1.5" style={{ width: '130px', flexShrink: 0 }}>
+                    <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                      {t('cart_field_postal') ?? 'Code postal'}
+                    </label>
+                    <input
+                      name="postalCode"
+                      type="text"
+                      placeholder={postalExample || '—'}
+                      value={form.postalCode}
+                      maxLength={postalLen + 1}
+                      onChange={e => {
+                        const raw = postalAlpha
+                          ? e.target.value.toUpperCase().slice(0, postalLen + 1)
+                          : e.target.value.replace(/\D/g, '').slice(0, postalLen);
+                        setForm(prev => ({ ...prev, postalCode: raw }));
+                        setPostalError('');
+                      }}
+                      className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+                      style={{
+                        ...inputStyle,
+                        borderColor: (() => {
+                          const pc = form.postalCode.replace(/\s/g, '');
+                          if (!pc) return 'rgba(0,0,0,0.1)';
+                          const ok = postalAlpha
+                            ? pc.length >= postalLen - 1
+                            : pc.length === postalLen && /^\d+$/.test(pc);
+                          return ok ? '#4a7c4e' : '#c9a84c';
+                        })(),
+                      }}
+                      onFocus={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
+                      onBlur={(e) => {
+                        const pc = form.postalCode.replace(/\s/g, '');
+                        const ok = postalAlpha
+                          ? pc.length >= postalLen - 1
+                          : pc.length === postalLen && /^\d+$/.test(pc);
+                        (e.currentTarget as HTMLInputElement).style.borderColor = pc ? (ok ? '#4a7c4e' : '#e8534a') : 'rgba(0,0,0,0.1)';
+                        if (pc && !ok) setPostalError(`${postalAlpha ? postalLen + ' car.' : postalLen + ' chiffres'} — ex: ${postalExample}`);
+                      }}
+                    />
+                    <div className="flex items-center justify-between">
+                      {postalError ? (
+                        <p className="text-xs" style={{ color: '#e8534a', fontFamily: "'Outfit', sans-serif" }}>{postalError}</p>
+                      ) : (
+                        <p className="text-xs" style={{ color: '#c4c4b8', fontFamily: "'Outfit', sans-serif" }}>
+                          ex: {postalExample}
+                        </p>
+                      )}
+                      <p className="text-xs font-semibold" style={{
+                        color: (() => {
+                          const pc = form.postalCode.replace(/\s/g, '');
+                          const ok = postalAlpha ? pc.length >= postalLen - 1 : pc.length === postalLen;
+                          return pc ? (ok ? '#4a7c4e' : '#c9a84c') : '#c4c4b8';
+                        })(),
+                        fontFamily: "'Outfit', sans-serif",
+                      }}>
+                        {form.postalCode.replace(/\s/g, '').length}/{postalLen}
+                        {(() => {
+                          const pc = form.postalCode.replace(/\s/g, '');
+                          const ok = postalAlpha ? pc.length >= postalLen - 1 : pc.length === postalLen;
+                          return pc && ok ? <i className="ri-check-line ml-1" /> : null;
+                        })()}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Phone with country selector */}
               <div className="flex flex-col gap-1.5">
@@ -427,6 +551,11 @@ export default function CartDrawer() {
                               setCountryName(c.name);
                               setCountryDigits(c.digits);
                               setPhoneNumber('');
+                              setPostalLen(c.postalLen);
+                              setPostalAlpha(c.postalAlpha);
+                              setPostalExample(c.postalExample);
+                              setForm(prev => ({ ...prev, postalCode: '' }));
+                              setPostalError('');
                               setDropOpen(false);
                             }}
                             className="cursor-pointer w-full flex items-center gap-2.5 whitespace-nowrap"
