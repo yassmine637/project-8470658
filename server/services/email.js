@@ -259,3 +259,102 @@ export async function sendWelcomeEmail({ name, email }) {
     html: baseLayout('Bienvenue', content),
   });
 }
+
+const STATUS_CONFIG = {
+  paid: {
+    label: 'Paiement confirmé',
+    icon: '✓',
+    color: '#2C7A4B',
+    message: 'Votre paiement a bien été reçu. Nous préparons votre commande avec soin.',
+    subject: 'Votre paiement a été confirmé',
+  },
+  processing: {
+    label: 'En cours de préparation',
+    icon: '⚙',
+    color: '#A8884A',
+    message: 'Votre commande est en cours de préparation dans notre atelier. Nous y mettons tout notre savoir-faire.',
+    subject: 'Votre commande est en préparation',
+  },
+  shipped: {
+    label: 'Expédiée',
+    icon: '→',
+    color: '#2C3A23',
+    message: 'Votre commande a été confiée au transporteur et est en route vers vous. Vous la recevrez dans les prochains jours.',
+    subject: 'Votre commande a été expédiée',
+  },
+  delivered: {
+    label: 'Livrée',
+    icon: '✓',
+    color: '#2C7A4B',
+    message: 'Votre commande a été livrée. Nous espérons que vous apprécierez nos huiles d\'olive. Bon appétit !',
+    subject: 'Votre commande a été livrée',
+  },
+  cancelled: {
+    label: 'Annulée',
+    icon: '✕',
+    color: '#8B3A3A',
+    message: 'Votre commande a été annulée. Si vous avez des questions, n\'hésitez pas à nous contacter.',
+    subject: 'Votre commande a été annulée',
+  },
+};
+
+export async function sendOrderStatusUpdate({ order, customerName, customerEmail }) {
+  const config = STATUS_CONFIG[order.status];
+  if (!config) return;
+
+  const orderId = String(order._id).slice(-8).toUpperCase();
+  const currency = order.currency || 'TND';
+
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Mise à jour de commande
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      ${config.subject}
+    </h2>
+    <p style="margin:16px 0 0;font-size:14px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;">
+      Bonjour ${customerName},
+    </p>
+
+    <div style="margin:24px 0;padding:20px 24px;border-left:4px solid ${config.color};background:${COLORS.bg};">
+      <p style="margin:0 0 6px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;">
+        Statut de la commande #DF-${orderId}
+      </p>
+      <p style="margin:0 0 8px;font-size:18px;font-family:Georgia,serif;color:${config.color};font-weight:bold;">
+        ${config.label}
+      </p>
+      <p style="margin:0;font-size:14px;color:${COLORS.text};font-family:Arial,sans-serif;line-height:1.7;">
+        ${config.message}
+      </p>
+    </div>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:${COLORS.bg};padding:16px 20px;">
+      <tr>
+        <td style="font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Référence</td>
+        <td style="text-align:right;font-family:Georgia,serif;font-size:14px;color:${COLORS.primary};letter-spacing:1px;">#DF-${orderId}</td>
+      </tr>
+      <tr>
+        <td style="padding-top:8px;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Total TTC</td>
+        <td style="padding-top:8px;text-align:right;font-family:Georgia,serif;font-size:14px;color:${COLORS.gold};">${formatCurrency(order.totalTTC, currency)}</td>
+      </tr>
+      <tr>
+        <td style="padding-top:8px;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Articles</td>
+        <td style="padding-top:8px;text-align:right;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">
+          ${order.items.map(i => `${i.productName}${i.volume ? ` (${i.volume})` : ''} ×${i.quantity}`).join('<br/>')}
+        </td>
+      </tr>
+    </table>
+
+    <p style="margin:32px 0 0;font-size:13px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;text-align:center;font-style:italic;">
+      Pour toute question, contactez-nous à<br/>
+      <a href="mailto:contact@domainefendri.com" style="color:${COLORS.gold};text-decoration:none;">contact@domainefendri.com</a>
+    </p>
+  `;
+
+  await send({
+    to: customerEmail,
+    from: { email: FROM_EMAIL, name: FROM_NAME },
+    subject: `Domaine Fendri — ${config.subject} (#DF-${orderId})`,
+    html: baseLayout(config.subject, content),
+  });
+}

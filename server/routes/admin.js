@@ -5,6 +5,7 @@ import ContactMessage from '../models/ContactMessage.js';
 import User from '../models/User.js';
 import Product from '../models/Product.js';
 import { protect, admin } from '../middleware/auth.js';
+import { sendOrderStatusUpdate } from '../services/email.js';
 
 const router = express.Router();
 
@@ -51,8 +52,16 @@ router.get('/orders', async (req, res) => {
 router.put('/orders/:id/status', async (req, res) => {
   try {
     const { status } = req.body;
-    const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true })
+      .populate('user', 'name email');
     if (!order) return res.status(404).json({ message: 'Commande introuvable' });
+
+    const customerName = order.guestName || order.user?.name || 'Client';
+    const customerEmail = order.guestEmail || order.user?.email;
+    if (customerEmail) {
+      sendOrderStatusUpdate({ order, customerName, customerEmail });
+    }
+
     res.json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });
