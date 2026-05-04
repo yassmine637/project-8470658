@@ -17,14 +17,13 @@ export default function HomePage() {
   useEffect(() => {
     const scrollTo = (location.state as { scrollTo?: string } | null)?.scrollTo;
     if (scrollTo) {
-      // Small delay to let the page render before scrolling
       setTimeout(() => {
         document.getElementById(scrollTo)?.scrollIntoView({ behavior: 'smooth' });
       }, 120);
     } else {
       window.scrollTo({ top: 0 });
     }
-  }, []);
+  }, [location.state]);
 
   return (
     <>

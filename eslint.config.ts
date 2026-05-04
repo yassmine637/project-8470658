@@ -5,46 +5,6 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import routeElementPlugin from './eslint-rules/route-element-jsx.js'
 
-const autoImportGlobals = {
-  // React
-  React: 'readonly',
-  useState: 'readonly',
-  useEffect: 'readonly',
-  useContext: 'readonly',
-  useReducer: 'readonly',
-  useCallback: 'readonly',
-  useMemo: 'readonly',
-  useRef: 'readonly',
-  useImperativeHandle: 'readonly',
-  useLayoutEffect: 'readonly',
-  useDebugValue: 'readonly',
-  useDeferredValue: 'readonly',
-  useId: 'readonly',
-  useInsertionEffect: 'readonly',
-  useSyncExternalStore: 'readonly',
-  useTransition: 'readonly',
-  startTransition: 'readonly',
-  lazy: 'readonly',
-  memo: 'readonly',
-  forwardRef: 'readonly',
-  createContext: 'readonly',
-  createElement: 'readonly',
-  cloneElement: 'readonly',
-  isValidElement: 'readonly',
-  // React Router
-  useNavigate: 'readonly',
-  useLocation: 'readonly',
-  useParams: 'readonly',
-  useSearchParams: 'readonly',
-  Link: 'readonly',
-  NavLink: 'readonly',
-  Navigate: 'readonly',
-  Outlet: 'readonly',
-  // React i18n
-  useTranslation: 'readonly',
-  Trans: 'readonly',
-}
-
 export default [
   { ignores: ['dist', 'node_modules'] },
   js.configs.recommended,
@@ -55,10 +15,10 @@ export default [
       ecmaVersion: 2020,
       globals: {
         ...globals.browser,
-        ...autoImportGlobals,
+        React: 'readonly',
+        RequestInit: 'readonly',
         NodeJS: 'readonly',
         JSX: 'readonly',
-        IdleRequestCallback: 'readonly',
         __BASE_PATH__: 'readonly',
         __IS_PREVIEW__: 'readonly',
         __READDY_PROJECT_ID__: 'readonly',
@@ -92,7 +52,6 @@ export default [
       'no-undef': 'error',
     },
   },
-  // Only enforce this rule for the router config file to avoid false positives elsewhere.
   {
     files: ['src/router/config.tsx'],
     plugins: {
@@ -103,4 +62,3 @@ export default [
     },
   },
 ]
-
