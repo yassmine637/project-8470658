@@ -171,7 +171,7 @@ export default function AdminPage() {
                 <table className="w-full">
                   <thead style={{ background: '#f9f9f7', borderBottom: '1px solid #e8e8e4' }}>
                     <tr>
-                      {['ID', 'Client', 'Total TTC', 'Statut', 'Date'].map((h) => (
+                      {['ID', 'Client', 'Total TTC', 'Statut', 'Date', 'Action'].map((h) => (
                         <th key={h} className={headCell} style={{ color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>{h}</th>
                       ))}
                     </tr>
@@ -180,7 +180,10 @@ export default function AdminPage() {
                     {(orders as Record<string, unknown>[]).map((o) => (
                       <tr key={o._id as string} style={{ borderBottom: '1px solid #f3f3f0' }}>
                         <td className={cell} style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem' }}>{(o._id as string).slice(-8)}</td>
-                        <td className={cell} style={{ fontFamily: "'Outfit', sans-serif", color: '#1a2617' }}>{(o.guestName as string) || 'Utilisateur'}</td>
+                        <td className={cell} style={{ fontFamily: "'Outfit', sans-serif", color: '#1a2617' }}>
+                          <div>{(o.guestName as string) || (o.user as Record<string, string>)?.name || 'Utilisateur'}</div>
+                          <div style={{ fontSize: '0.7rem', color: '#9ca3af' }}>{(o.guestEmail as string) || (o.user as Record<string, string>)?.email || ''}</div>
+                        </td>
                         <td className={cell} style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 600, color: '#1a2617' }}>{o.totalTTC as number} {o.currency as string}</td>
                         <td className={cell}>
                           <span className="px-2 py-1 rounded-full text-xs font-bold" style={{ background: `${STATUS_COLORS[o.status as string] || '#9ca3af'}18`, color: STATUS_COLORS[o.status as string] || '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
@@ -190,10 +193,32 @@ export default function AdminPage() {
                         <td className={cell} style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem' }}>
                           {new Date(o.createdAt as string).toLocaleDateString('fr-FR')}
                         </td>
+                        <td className={cell}>
+                          <select
+                            defaultValue={o.status as string}
+                            onChange={async (e) => {
+                              const newStatus = e.target.value;
+                              try {
+                                await adminApi.updateOrderStatus(o._id as string, newStatus);
+                                setOrders((prev) => prev.map((x) => (x as Record<string, unknown>)._id === o._id ? { ...x, status: newStatus } : x));
+                              } catch {
+                                alert('Erreur lors du changement de statut');
+                              }
+                            }}
+                            style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', padding: '4px 8px', borderRadius: '8px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', cursor: 'pointer', outline: 'none' }}
+                          >
+                            <option value="pending">En attente</option>
+                            <option value="paid">Payée</option>
+                            <option value="processing">En préparation</option>
+                            <option value="shipped">Expédiée</option>
+                            <option value="delivered">Livrée</option>
+                            <option value="cancelled">Annulée</option>
+                          </select>
+                        </td>
                       </tr>
                     ))}
                     {orders.length === 0 && (
-                      <tr><td colSpan={5} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucune commande</td></tr>
+                      <tr><td colSpan={6} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucune commande</td></tr>
                     )}
                   </tbody>
                 </table>
