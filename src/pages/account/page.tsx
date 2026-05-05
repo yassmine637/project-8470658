@@ -79,7 +79,7 @@ export default function AccountPage() {
   }, [countryOpen]);
 
   useEffect(() => {
-    if (user) setForm({ name: user.name, phone: user.phone || '', country: user.country || '' });
+    if (user) setForm({ name: user.name, phone: user.phone || '', country: COUNTRIES.includes(user.country || '') ? user.country || '' : '' });
   }, [user]);
 
   const fetchOrders = useCallback(async () => {
