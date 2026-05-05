@@ -103,6 +103,10 @@ router.post('/forgot-password', authLimiter, async (req, res) => {
 
     await sendPasswordResetEmail({ name: user.name, email: user.email, resetUrl });
 
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`\n🔑 [DEV] Lien de réinitialisation pour ${user.email}:\n${resetUrl}\n`);
+    }
+
     res.json({ message: 'Si cet email existe, un lien de réinitialisation vous a été envoyé.' });
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la demande de réinitialisation' });
