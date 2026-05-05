@@ -178,7 +178,7 @@ export default function Header() {
               <span
                 style={{
                   fontFamily: "'Cormorant Garant', serif",
-                  fontSize: '0.55rem',
+                  fontSize: '0.45rem',
                   letterSpacing: '0.45em',
                   color: '#c9a84c',
                   fontWeight: 600,
@@ -190,7 +190,7 @@ export default function Header() {
               <span
                 style={{
                   fontFamily: "'Cormorant Garant', serif",
-                  fontSize: '1.35rem',
+                  fontSize: '1rem',
                   letterSpacing: '0.28em',
                   color: '#ffffff',
                   fontWeight: 700,
