@@ -89,6 +89,16 @@ export default function CartDrawer() {
   }, [isOpen]);
 
   useEffect(() => {
+    if (step === 'success') {
+      const timer = setTimeout(() => {
+        closeCart();
+        navigate('/');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
+
+  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
         setDropOpen(false);
@@ -754,12 +764,15 @@ export default function CartDrawer() {
                   {t('cart_success_sub')}
                 </p>
               </div>
+              <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                Redirection vers l'accueil dans 3 secondes…
+              </p>
               <button
-                onClick={closeCart}
+                onClick={() => { closeCart(); navigate('/'); }}
                 className="mt-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest cursor-pointer border-none whitespace-nowrap"
                 style={{ background: '#1a2617', color: '#c9a84c', fontFamily: "'Outfit', sans-serif" }}
               >
-                {t('cart_close')}
+                Retour à l'accueil
               </button>
             </div>
           )}

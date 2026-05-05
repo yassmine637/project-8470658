@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { BottleModel, BottleSize, LabelStyle } from '@/mocks/configurator';
 
@@ -15,7 +17,18 @@ export default function OrderConfirmModal({
   isOpen, model, size, label, customText, totalPrice, onClose,
 }: OrderConfirmModalProps) {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const isArabic = i18n.language === 'ar';
+
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        onClose();
+        navigate('/');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -114,8 +127,11 @@ export default function OrderConfirmModal({
           ))}
         </div>
 
+        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', marginBottom: '16px' }}>
+          Redirection vers l'accueil dans 3 secondes…
+        </p>
         <button
-          onClick={onClose}
+          onClick={() => { onClose(); navigate('/'); }}
           className="cursor-pointer whitespace-nowrap"
           style={{
             background: 'linear-gradient(135deg, #d4af37 0%, #b8962a 100%)',
