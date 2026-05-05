@@ -6,6 +6,7 @@ import ProductsPage from '@/pages/products/page';
 import ConfiguratorPage from '@/pages/configurator/page';
 import AuthPage from '@/pages/auth/page';
 import AdminPage from '@/pages/admin/page';
+import AccountPage from '@/pages/account/page';
 import CheckoutSuccess from '@/pages/checkout/success';
 import CheckoutCancel from '@/pages/checkout/cancel';
 
@@ -16,6 +17,7 @@ const routes: RouteObject[] = [
   { path: '/configurator', element: <ConfiguratorPage /> },
   { path: '/auth', element: <AuthPage /> },
   { path: '/admin', element: <AdminPage /> },
+  { path: '/account', element: <AccountPage /> },
   { path: '/checkout/success', element: <CheckoutSuccess /> },
   { path: '/checkout/cancel', element: <CheckoutCancel /> },
   { path: '*', element: <NotFound /> },
