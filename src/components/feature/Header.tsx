@@ -185,8 +185,8 @@ export default function Header() {
                   {link.type === 'route' ? (
                     <Link
                       to={link.href}
-                      className="relative text-sm font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
-                      style={{ ...linkStyle, color: isActive ? '#c9a84c' : 'rgba(255,255,255,0.75)' }}
+                      className="relative font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
+                      style={{ ...linkStyle, fontSize: '0.65rem', color: isActive ? '#c9a84c' : 'rgba(255,255,255,0.75)' }}
                     >
                       {link.label}
                       <span
@@ -197,8 +197,8 @@ export default function Header() {
                   ) : (
                     <button
                       onClick={() => handleAnchorNav(link.sectionId)}
-                      className="relative text-sm font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
-                      style={linkStyle}
+                      className="relative font-medium uppercase tracking-widest transition-colors duration-300 group whitespace-nowrap"
+                      style={{ ...linkStyle, fontSize: '0.65rem' }}
                       onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#ffffff'; }}
                       onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.75)'; }}
                     >
