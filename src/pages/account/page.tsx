@@ -42,7 +42,7 @@ const inputStyle: React.CSSProperties = {
 };
 
 export default function AccountPage() {
-  const { user, isLoading, logout } = useAuth();
+  const { user, isLoading, logout, updateUser } = useAuth();
   const navigate = useNavigate();
 
   const [tab, setTab] = useState<'profile' | 'orders' | 'security'>('profile');
@@ -104,7 +104,8 @@ export default function AccountPage() {
     setSaveMsg('');
     setSaveError('');
     try {
-      await authApi.updateProfile({ name: form.name, phone: form.phone, country: form.country });
+      const { user: updated } = await authApi.updateProfile({ name: form.name, phone: form.phone, country: form.country });
+      updateUser(updated);
       setSaveMsg('Profil mis à jour avec succès.');
     } catch {
       setSaveError('Erreur lors de la mise à jour.');
