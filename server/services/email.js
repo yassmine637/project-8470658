@@ -10,17 +10,25 @@ function isEnabled() {
 }
 
 async function send({ to, from, subject, html }) {
-  if (!isEnabled()) return;
+  if (!isEnabled()) {
+    console.warn('[Email] RESEND_API_KEY non configuré — email non envoyé');
+    return;
+  }
   try {
     const resend = new Resend(RESEND_API_KEY);
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: `${FROM_NAME} <${from.email || FROM_EMAIL}>`,
       to,
       subject,
       html,
     });
+    if (result.error) {
+      console.error('[Email] Resend API error:', JSON.stringify(result.error));
+    } else {
+      console.log(`[Email] ✅ Envoyé à ${to} — id: ${result.data?.id}`);
+    }
   } catch (err) {
-    console.error('[Email] Resend error:', err?.message || err);
+    console.error('[Email] Resend exception:', err?.message || err);
   }
 }
 
