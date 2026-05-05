@@ -39,6 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     const { user, token } = await authApi.login({ email, password });
     localStorage.setItem('fendri_token', token);
+    localStorage.setItem('fendri_returning_user', 'true');
     setToken(token);
     setUser(user);
   }, []);
@@ -46,6 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = useCallback(async (data: { name: string; email: string; password: string; phone?: string; country?: string }) => {
     const { user, token } = await authApi.register(data);
     localStorage.setItem('fendri_token', token);
+    localStorage.setItem('fendri_returning_user', 'true');
     setToken(token);
     setUser(user);
   }, []);

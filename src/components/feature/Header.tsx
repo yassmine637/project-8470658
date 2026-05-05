@@ -21,6 +21,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const returningUser = localStorage.getItem('fendri_returning_user') === 'true';
   const userMenuRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const location  = useLocation();
@@ -375,56 +376,35 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              /* Login + Sign up */
-              <>
-                <Link
-                  to="/auth"
-                  style={{
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    letterSpacing: '0.08em',
-                    color: 'rgba(255,255,255,0.75)',
-                    textDecoration: 'none',
-                    padding: '5px 12px',
-                    borderRadius: 20,
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    transition: 'all 0.2s',
-                    whiteSpace: 'nowrap',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.color = '#fff';
-                    (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.75)';
-                    (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.2)';
-                  }}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/auth?mode=register"
-                  style={{
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    letterSpacing: '0.08em',
-                    color: '#1a2617',
-                    textDecoration: 'none',
-                    padding: '5px 13px',
-                    borderRadius: 20,
-                    background: '#c9a84c',
-                    border: '1px solid #c9a84c',
-                    transition: 'all 0.2s',
-                    whiteSpace: 'nowrap',
-                  }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = '#b8942a'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = '#c9a84c'; }}
-                >
-                  Sign up
-                </Link>
-              </>
+              <Link
+                to={returningUser ? '/auth' : '/auth?mode=register'}
+                style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: '0.1em',
+                  color: returningUser ? 'rgba(255,255,255,0.8)' : '#1a2617',
+                  textDecoration: 'none',
+                  padding: '5px 14px',
+                  borderRadius: 20,
+                  background: returningUser ? 'transparent' : '#c9a84c',
+                  border: returningUser ? '1px solid rgba(255,255,255,0.25)' : '1px solid #c9a84c',
+                  transition: 'all 0.2s',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  if (returningUser) { el.style.color = '#fff'; el.style.borderColor = 'rgba(255,255,255,0.5)'; }
+                  else { el.style.background = '#b8942a'; el.style.borderColor = '#b8942a'; }
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  if (returningUser) { el.style.color = 'rgba(255,255,255,0.8)'; el.style.borderColor = 'rgba(255,255,255,0.25)'; }
+                  else { el.style.background = '#c9a84c'; el.style.borderColor = '#c9a84c'; }
+                }}
+              >
+                {returningUser ? 'Login' : 'Sign up'}
+              </Link>
             )}
           </div>
 
@@ -535,32 +515,21 @@ export default function Header() {
                 </button>
               </div>
             ) : (
-              <>
-                <Link
-                  to="/auth"
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    flex: 1, textAlign: 'center', textDecoration: 'none',
-                    padding: '8px 0', borderRadius: 20, border: '1px solid rgba(255,255,255,0.25)',
-                    color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 600,
-                    fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em',
-                  }}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/auth?mode=register"
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    flex: 1, textAlign: 'center', textDecoration: 'none',
-                    padding: '8px 0', borderRadius: 20,
-                    background: '#c9a84c', color: '#1a2617', fontSize: 12, fontWeight: 600,
-                    fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em',
-                  }}
-                >
-                  Sign up
-                </Link>
-              </>
+              <Link
+                to={returningUser ? '/auth' : '/auth?mode=register'}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  flex: 1, textAlign: 'center', textDecoration: 'none',
+                  padding: '8px 0', borderRadius: 20,
+                  background: returningUser ? 'transparent' : '#c9a84c',
+                  border: returningUser ? '1px solid rgba(255,255,255,0.25)' : '1px solid #c9a84c',
+                  color: returningUser ? 'rgba(255,255,255,0.8)' : '#1a2617',
+                  fontSize: 12, fontWeight: 600,
+                  fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em',
+                }}
+              >
+                {returningUser ? 'Login' : 'Sign up'}
+              </Link>
             )}
           </li>
 
