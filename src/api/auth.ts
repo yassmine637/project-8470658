@@ -26,4 +26,7 @@ export const authApi = {
 
   updateProfile: (data: { name?: string; phone?: string; country?: string }) =>
     api.put<{ user: User }>('/auth/me', data),
+
+  changePassword: (data: { currentPassword: string; newPassword: string }) =>
+    api.put<{ message: string }>('/auth/change-password', data),
 };

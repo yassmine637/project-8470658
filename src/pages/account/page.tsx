@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/api/auth';
 import { ordersApi, type Order } from '@/api/orders';
 import Header from '@/components/feature/Header';
+import { Eye, EyeOff } from 'lucide-react';
 
 const STATUS_COLORS: Record<string, { bg: string; color: string; label: string }> = {
   pending:   { bg: 'rgba(201,168,76,0.12)', color: '#c9a84c', label: 'En attente' },
@@ -32,7 +33,7 @@ export default function AccountPage() {
   const { user, isLoading, logout } = useAuth();
   const navigate = useNavigate();
 
-  const [tab, setTab] = useState<'profile' | 'orders'>('profile');
+  const [tab, setTab] = useState<'profile' | 'orders' | 'security'>('profile');
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
 
@@ -40,6 +41,14 @@ export default function AccountPage() {
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
   const [saveError, setSaveError] = useState('');
+
+  const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [pwSaving, setPwSaving] = useState(false);
+  const [pwMsg, setPwMsg] = useState('');
+  const [pwError, setPwError] = useState('');
 
   useEffect(() => {
     if (!isLoading && !user) navigate('/auth');
@@ -80,6 +89,31 @@ export default function AccountPage() {
     }
   };
 
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwMsg('');
+    setPwError('');
+    if (pwForm.newPassword.length < 8) {
+      setPwError('Le nouveau mot de passe doit faire au moins 8 caractères.');
+      return;
+    }
+    if (pwForm.newPassword !== pwForm.confirmPassword) {
+      setPwError('Les mots de passe ne correspondent pas.');
+      return;
+    }
+    setPwSaving(true);
+    try {
+      await authApi.changePassword({ currentPassword: pwForm.currentPassword, newPassword: pwForm.newPassword });
+      setPwMsg('Mot de passe modifié avec succès.');
+      setPwForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    } catch (err: unknown) {
+      const msg = (err as { message?: string })?.message;
+      setPwError(msg || 'Erreur lors du changement de mot de passe.');
+    } finally {
+      setPwSaving(false);
+    }
+  };
+
   if (isLoading || !user) return null;
 
   const formatDate = (iso: string) =>
@@ -111,7 +145,7 @@ export default function AccountPage() {
 
         {/* Tabs */}
         <div style={{ display: 'flex', gap: 2, marginBottom: 36, borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: 0 }}>
-          {(['profile', 'orders'] as const).map((t) => (
+          {(['profile', 'orders', 'security'] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -131,7 +165,7 @@ export default function AccountPage() {
                 transition: 'all 0.2s',
               }}
             >
-              {t === 'profile' ? 'Mon Profil' : 'Mes Commandes'}
+              {t === 'profile' ? 'Mon Profil' : t === 'orders' ? 'Mes Commandes' : 'Sécurité'}
             </button>
           ))}
         </div>
@@ -246,6 +280,144 @@ export default function AccountPage() {
                 Se déconnecter
               </button>
             </div>
+          </form>
+        )}
+
+        {/* Security tab */}
+        {tab === 'security' && (
+          <form onSubmit={handleChangePassword} style={{ maxWidth: 480 }}>
+            <div style={{
+              padding: '20px 24px',
+              marginBottom: 28,
+              background: 'rgba(201,168,76,0.06)',
+              border: '1px solid rgba(201,168,76,0.15)',
+              borderRadius: 10,
+            }}>
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.6 }}>
+                Choisissez un mot de passe fort d'au moins 8 caractères. Il ne doit pas être réutilisé ailleurs.
+              </p>
+            </div>
+
+            {/* Current password */}
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
+                Mot de passe actuel
+              </label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={showCurrent ? 'text' : 'password'}
+                  value={pwForm.currentPassword}
+                  onChange={(e) => setPwForm({ ...pwForm, currentPassword: e.target.value })}
+                  required
+                  autoComplete="current-password"
+                  style={{ ...inputStyle, paddingRight: 42 }}
+                  onFocus={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.5)')}
+                  onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
+                />
+                <button type="button" onClick={() => setShowCurrent((v) => !v)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.3)', padding: 0, display: 'flex', alignItems: 'center' }}>
+                  {showCurrent ? <EyeOff size={15} /> : <Eye size={15} />}
+                </button>
+              </div>
+            </div>
+
+            {/* New password */}
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
+                Nouveau mot de passe
+              </label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={showNew ? 'text' : 'password'}
+                  value={pwForm.newPassword}
+                  onChange={(e) => setPwForm({ ...pwForm, newPassword: e.target.value })}
+                  required
+                  autoComplete="new-password"
+                  placeholder="8 caractères minimum"
+                  style={{ ...inputStyle, paddingRight: 42 }}
+                  onFocus={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.5)')}
+                  onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
+                />
+                <button type="button" onClick={() => setShowNew((v) => !v)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.3)', padding: 0, display: 'flex', alignItems: 'center' }}>
+                  {showNew ? <EyeOff size={15} /> : <Eye size={15} />}
+                </button>
+              </div>
+              {/* Strength bar */}
+              {pwForm.newPassword.length > 0 && (() => {
+                const len = pwForm.newPassword.length;
+                const strength = len >= 12 ? 3 : len >= 8 ? 2 : 1;
+                const colors = ['#c83c3c', '#c9a84c', '#4ca04c'];
+                const labels = ['Faible', 'Moyen', 'Fort'];
+                return (
+                  <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ display: 'flex', gap: 4, flex: 1 }}>
+                      {[1, 2, 3].map((s) => (
+                        <div key={s} style={{ height: 3, flex: 1, borderRadius: 2, background: s <= strength ? colors[strength - 1] : 'rgba(255,255,255,0.1)', transition: 'background 0.3s' }} />
+                      ))}
+                    </div>
+                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 10, color: colors[strength - 1], letterSpacing: '0.05em' }}>{labels[strength - 1]}</span>
+                  </div>
+                );
+              })()}
+            </div>
+
+            {/* Confirm password */}
+            <div style={{ marginBottom: 24 }}>
+              <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
+                Confirmer le nouveau mot de passe
+              </label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={showConfirm ? 'text' : 'password'}
+                  value={pwForm.confirmPassword}
+                  onChange={(e) => setPwForm({ ...pwForm, confirmPassword: e.target.value })}
+                  required
+                  autoComplete="new-password"
+                  style={{ ...inputStyle, paddingRight: 42, borderColor: pwForm.confirmPassword && pwForm.confirmPassword !== pwForm.newPassword ? 'rgba(200,60,60,0.5)' : undefined }}
+                  onFocus={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.5)')}
+                  onBlur={(e) => (e.target.style.borderColor = pwForm.confirmPassword && pwForm.confirmPassword !== pwForm.newPassword ? 'rgba(200,60,60,0.5)' : 'rgba(255,255,255,0.1)')}
+                />
+                <button type="button" onClick={() => setShowConfirm((v) => !v)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.3)', padding: 0, display: 'flex', alignItems: 'center' }}>
+                  {showConfirm ? <EyeOff size={15} /> : <Eye size={15} />}
+                </button>
+              </div>
+              {pwForm.confirmPassword && pwForm.confirmPassword !== pwForm.newPassword && (
+                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#c83c3c', marginTop: 6, marginBottom: 0 }}>
+                  Les mots de passe ne correspondent pas.
+                </p>
+              )}
+            </div>
+
+            {pwMsg && (
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: '#4ca04c', marginBottom: 16 }}>
+                <i className="ri-check-line" style={{ marginRight: 6 }} />{pwMsg}
+              </p>
+            )}
+            {pwError && (
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: '#c83c3c', marginBottom: 16 }}>
+                <i className="ri-error-warning-line" style={{ marginRight: 6 }} />{pwError}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={pwSaving}
+              style={{
+                padding: '10px 28px',
+                background: '#c9a84c',
+                border: 'none',
+                borderRadius: 24,
+                color: '#1a2617',
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: '0.1em',
+                cursor: pwSaving ? 'not-allowed' : 'pointer',
+                opacity: pwSaving ? 0.7 : 1,
+                transition: 'all 0.2s',
+              }}
+            >
+              {pwSaving ? 'Modification...' : 'Modifier le mot de passe'}
+            </button>
           </form>
         )}
 
