@@ -260,6 +260,38 @@ export async function sendWelcomeEmail({ name, email }) {
   });
 }
 
+export async function sendPasswordResetEmail({ name, email, resetUrl }) {
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Sécurité du compte
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      Réinitialisation de mot de passe
+    </h2>
+    <p style="margin:20px 0 0;font-size:14px;color:${COLORS.text};font-family:Arial,sans-serif;line-height:1.8;">
+      Bonjour ${name},<br/><br/>
+      Nous avons reçu une demande de réinitialisation du mot de passe pour votre compte.<br/>
+      Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe. Ce lien est valable <strong>1 heure</strong>.
+    </p>
+    <div style="margin:32px 0;text-align:center;">
+      <a href="${resetUrl}" style="display:inline-block;padding:14px 36px;background:${COLORS.primary};color:${COLORS.gold};font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;">
+        Réinitialiser mon mot de passe
+      </a>
+    </div>
+    <p style="margin:24px 0 0;font-size:12px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;text-align:center;">
+      Si vous n'avez pas demandé cette réinitialisation, ignorez cet email — votre mot de passe reste inchangé.<br/>
+      Ce lien expirera automatiquement dans 1 heure.
+    </p>
+  `;
+
+  await send({
+    to: email,
+    from: { email: FROM_EMAIL, name: FROM_NAME },
+    subject: 'Domaine Fendri — Réinitialisation de votre mot de passe',
+    html: baseLayout('Réinitialisation de mot de passe', content),
+  });
+}
+
 const STATUS_CONFIG = {
   paid: {
     label: 'Paiement confirmé',

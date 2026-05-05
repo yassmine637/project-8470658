@@ -29,4 +29,10 @@ export const authApi = {
 
   changePassword: (data: { currentPassword: string; newPassword: string }) =>
     api.put<{ message: string }>('/auth/change-password', data),
+
+  forgotPassword: (data: { email: string }) =>
+    api.post<{ message: string }>('/auth/forgot-password', data),
+
+  resetPassword: (data: { token: string; email: string; newPassword: string }) =>
+    api.post<{ message: string }>('/auth/reset-password', data),
 };
