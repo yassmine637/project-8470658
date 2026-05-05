@@ -166,12 +166,42 @@ export default function Header() {
           style={{ textDecoration: 'none' }}
           onClick={() => { if (isHome) window.scrollTo({ top: 0, behavior: 'smooth' }); }}
         >
-          <span
-            className="text-white font-bold tracking-widest uppercase"
-            style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.25rem', letterSpacing: '0.2em' }}
-          >
-            {i18n.language === 'ar' ? 'ضيعة فندري' : 'Domaine Fendri'}
-          </span>
+          {i18n.language === 'ar' ? (
+            <span
+              className="text-white font-bold tracking-widest uppercase"
+              style={{ fontFamily: "'Cairo', sans-serif", fontSize: '1.1rem', letterSpacing: '0.1em' }}
+            >
+              ضيعة فندري
+            </span>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: 1 }}>
+              <span
+                style={{
+                  fontFamily: "'Cormorant Garant', serif",
+                  fontSize: '0.55rem',
+                  letterSpacing: '0.45em',
+                  color: '#c9a84c',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                }}
+              >
+                Domaine
+              </span>
+              <span
+                style={{
+                  fontFamily: "'Cormorant Garant', serif",
+                  fontSize: '1.35rem',
+                  letterSpacing: '0.28em',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  marginTop: 1,
+                }}
+              >
+                Fendri
+              </span>
+            </div>
+          )}
         </Link>
 
         {/* Desktop nav */}
