@@ -14,7 +14,19 @@ const STATUS_COLORS: Record<string, { bg: string; color: string; label: string }
   cancelled: { bg: 'rgba(200,60,60,0.12)',  color: '#c83c3c', label: 'Annulée' },
 };
 
-const COUNTRIES = ['Tunisie', 'France', 'Belgique', 'Suisse', 'Canada', 'Maroc', 'Algérie', 'Autre'];
+const COUNTRIES = [
+  // Pays arabes
+  'Tunisie', 'Algérie', 'Maroc', 'Libye', 'Égypte', 'Mauritanie',
+  'Arabie Saoudite', 'Émirats Arabes Unis', 'Qatar', 'Koweït', 'Bahreïn', 'Oman',
+  'Jordanie', 'Liban', 'Syrie', 'Irak', 'Yémen', 'Palestine', 'Soudan',
+  // Pays européens
+  'France', 'Belgique', 'Suisse', 'Allemagne', 'Espagne', 'Italie',
+  'Portugal', 'Pays-Bas', 'Luxembourg', 'Autriche', 'Suède', 'Norvège',
+  'Danemark', 'Finlande', 'Pologne', 'République Tchèque', 'Hongrie',
+  'Roumanie', 'Grèce', 'Turquie', 'Royaume-Uni', 'Irlande',
+  // Autres
+  'Canada', 'États-Unis', 'Australie',
+];
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -256,7 +268,8 @@ export default function AccountPage() {
                       border: '1px solid rgba(201,168,76,0.3)',
                       borderRadius: 8,
                       zIndex: 100,
-                      overflow: 'hidden',
+                      overflowY: 'auto',
+                      maxHeight: 220,
                       boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
                     }}>
                       {['', ...COUNTRIES].map((c) => (
