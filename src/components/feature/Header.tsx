@@ -24,6 +24,9 @@ export default function Header() {
   const location  = useLocation();
   const navigate  = useNavigate();
   const isHome    = location.pathname === '/';
+  const showCart  = ['/products', '/configurator', '/checkout'].some(
+    (p) => location.pathname === p || location.pathname.startsWith(p + '/')
+  );
   const { totalCount, openCart } = useCart();
   const { t, i18n } = useTranslation();
   const { user, isAdmin, logout } = useAuth();
@@ -347,29 +350,31 @@ export default function Header() {
             )}
           </div>
 
-          {/* Cart icon */}
-          <button
-            onClick={openCart}
-            className="relative flex items-center justify-center w-9 h-9 rounded-full cursor-pointer border-none transition-all duration-200"
-            style={{ background: 'rgba(255,255,255,0.1)' }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.25)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }}
-            aria-label="Ouvrir le panier"
-          >
-            <i className="ri-shopping-basket-2-line text-base" style={{ color: '#ffffff' }} />
-            {totalCount > 0 && (
-              <span
-                className="absolute -top-1 -right-1 flex items-center justify-center text-xs font-bold rounded-full"
-                style={{
-                  width: '18px', height: '18px',
-                  background: '#c9a84c', color: '#1a2617',
-                  fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', lineHeight: 1,
-                }}
-              >
-                {totalCount > 9 ? '9+' : totalCount}
-              </span>
-            )}
-          </button>
+          {/* Cart icon — only on shopping pages */}
+          {showCart && (
+            <button
+              onClick={openCart}
+              className="relative flex items-center justify-center w-9 h-9 rounded-full cursor-pointer border-none transition-all duration-200"
+              style={{ background: 'rgba(255,255,255,0.1)' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.25)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; }}
+              aria-label="Ouvrir le panier"
+            >
+              <i className="ri-shopping-basket-2-line text-base" style={{ color: '#ffffff' }} />
+              {totalCount > 0 && (
+                <span
+                  className="absolute -top-1 -right-1 flex items-center justify-center text-xs font-bold rounded-full"
+                  style={{
+                    width: '18px', height: '18px',
+                    background: '#c9a84c', color: '#1a2617',
+                    fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', lineHeight: 1,
+                  }}
+                >
+                  {totalCount > 9 ? '9+' : totalCount}
+                </span>
+              )}
+            </button>
+          )}
 
           {/* Mobile hamburger */}
           <button
