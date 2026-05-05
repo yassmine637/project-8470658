@@ -20,7 +20,9 @@ export default function Header() {
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const langMenuRef = useRef<HTMLDivElement>(null);
   const location  = useLocation();
   const navigate  = useNavigate();
   const isHome    = location.pathname === '/';
@@ -56,11 +58,14 @@ export default function Header() {
     document.body.style.fontFamily = currentLang === 'ar' ? "'Cairo', sans-serif" : '';
   }, [currentLang]);
 
-  // Close user dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handle = (e: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
         setUserMenuOpen(false);
+      }
+      if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
+        setLangMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handle);
@@ -93,46 +98,89 @@ export default function Header() {
   ];
 
   const LangSwitcher = ({ mobile = false }: { mobile?: boolean }) => (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2,
-        background: 'rgba(255,255,255,0.08)',
-        borderRadius: 20,
-        padding: '3px 4px',
-        ...(mobile ? { margin: '8px 40px' } : {}),
-      }}
-    >
-      {LANGS.map(({ code, label }) => {
-        const active = currentLang === code;
-        return (
-          <button
-            key={code}
-            onClick={() => { switchLang(code); if (mobile) setMenuOpen(false); }}
-            style={{
-              background: active ? '#c9a84c' : 'transparent',
-              color: active ? '#1a2617' : 'rgba(255,255,255,0.6)',
-              border: 'none',
-              borderRadius: 16,
-              padding: code === 'ar' ? '3px 9px' : '3px 8px',
-              fontSize: code === 'ar' ? 15 : 11,
-              fontWeight: active ? 700 : 500,
-              fontFamily: code === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
-              letterSpacing: code === 'ar' ? 0 : '0.06em',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              lineHeight: 1.5,
-              minWidth: 28,
-              textAlign: 'center',
-            }}
-            aria-label={code === 'fr' ? 'Français' : code === 'en' ? 'English' : 'العربية'}
-            aria-pressed={active}
-          >
-            {label}
-          </button>
-        );
-      })}
+    <div ref={mobile ? undefined : langMenuRef} style={{ position: 'relative' }}>
+      <button
+        onClick={() => setLangMenuOpen(!langMenuOpen)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 5,
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          color: 'rgba(255,255,255,0.65)',
+          fontFamily: "'Outfit', sans-serif",
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: '0.1em',
+          padding: '4px 2px',
+          transition: 'color 0.2s',
+          ...(mobile ? { margin: '4px 40px' } : {}),
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#fff'; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.65)'; }}
+        aria-label="Changer la langue"
+      >
+        <i className="ri-global-line" style={{ fontSize: 13 }} />
+        <span>{currentLang.toUpperCase()}</span>
+        <i className="ri-arrow-down-s-line" style={{ fontSize: 10, opacity: 0.6, marginLeft: -3 }} />
+      </button>
+
+      {langMenuOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 6px)',
+            right: mobile ? 'auto' : 0,
+            left: mobile ? 0 : 'auto',
+            background: 'rgba(14,24,12,0.97)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 8,
+            overflow: 'hidden',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+            minWidth: 100,
+            zIndex: 100,
+          }}
+        >
+          {LANGS.map(({ code, label }) => {
+            const active = currentLang === code;
+            const langName = code === 'fr' ? 'Français' : code === 'en' ? 'English' : 'العربية';
+            return (
+              <button
+                key={code}
+                onClick={() => { switchLang(code); setLangMenuOpen(false); if (mobile) setMenuOpen(false); }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  width: '100%',
+                  padding: '8px 14px',
+                  background: active ? 'rgba(201,168,76,0.1)' : 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: active ? '#c9a84c' : 'rgba(255,255,255,0.65)',
+                  fontFamily: code === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
+                  fontSize: 12,
+                  fontWeight: active ? 600 : 400,
+                  letterSpacing: code === 'ar' ? 0 : '0.05em',
+                  textAlign: 'left',
+                  transition: 'all 0.15s',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'none'; }}
+              >
+                <span style={{ fontSize: 11, fontWeight: 700, opacity: 0.5, minWidth: 22, fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em' }}>
+                  {code.toUpperCase()}
+                </span>
+                {langName}
+                {active && <i className="ri-check-line" style={{ marginLeft: 'auto', fontSize: 11, color: '#c9a84c' }} />}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 
