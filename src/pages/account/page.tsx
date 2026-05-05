@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/api/auth';
 import { ordersApi, type Order } from '@/api/orders';
 import Header from '@/components/feature/Header';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, ChevronDown } from 'lucide-react';
 
 const STATUS_COLORS: Record<string, { bg: string; color: string; label: string }> = {
   pending:   { bg: 'rgba(201,168,76,0.12)', color: '#c9a84c', label: 'En attente' },
@@ -38,6 +38,8 @@ export default function AccountPage() {
   const [ordersLoading, setOrdersLoading] = useState(false);
 
   const [form, setForm] = useState({ name: '', phone: '', country: '' });
+  const [countryOpen, setCountryOpen] = useState(false);
+  const countryRef = useRef<HTMLDivElement>(null);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
   const [saveError, setSaveError] = useState('');
@@ -53,6 +55,16 @@ export default function AccountPage() {
   useEffect(() => {
     if (!isLoading && !user) navigate('/auth');
   }, [user, isLoading, navigate]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (countryRef.current && !countryRef.current.contains(e.target as Node)) {
+        setCountryOpen(false);
+      }
+    };
+    if (countryOpen) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [countryOpen]);
 
   useEffect(() => {
     if (user) setForm({ name: user.name, phone: user.phone || '', country: user.country || '' });
@@ -214,16 +226,66 @@ export default function AccountPage() {
                 <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
                   Pays
                 </label>
-                <select
-                  value={form.country}
-                  onChange={(e) => setForm({ ...form, country: e.target.value })}
-                  style={{ ...inputStyle, cursor: 'pointer' }}
-                  onFocus={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.5)')}
-                  onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
-                >
-                  <option value="">— Sélectionner —</option>
-                  {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                </select>
+                <div ref={countryRef} style={{ position: 'relative' }}>
+                  <button
+                    type="button"
+                    onClick={() => setCountryOpen((v) => !v)}
+                    style={{
+                      ...inputStyle,
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                      borderColor: countryOpen ? 'rgba(201,168,76,0.5)' : 'rgba(255,255,255,0.1)',
+                      textAlign: 'left',
+                    }}
+                  >
+                    <span style={{ color: form.country ? '#fff' : 'rgba(255,255,255,0.3)' }}>
+                      {form.country || '— Sélectionner —'}
+                    </span>
+                    <ChevronDown size={14} style={{ color: 'rgba(255,255,255,0.3)', flexShrink: 0, transform: countryOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                  </button>
+                  {countryOpen && (
+                    <div style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 4px)',
+                      left: 0,
+                      right: 0,
+                      background: '#1a2617',
+                      border: '1px solid rgba(201,168,76,0.3)',
+                      borderRadius: 8,
+                      zIndex: 100,
+                      overflow: 'hidden',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                    }}>
+                      {['', ...COUNTRIES].map((c) => (
+                        <button
+                          key={c || '__placeholder'}
+                          type="button"
+                          onClick={() => { setForm({ ...form, country: c }); setCountryOpen(false); }}
+                          style={{
+                            display: 'block',
+                            width: '100%',
+                            padding: '10px 14px',
+                            background: form.country === c ? 'rgba(201,168,76,0.12)' : 'transparent',
+                            border: 'none',
+                            borderBottom: '1px solid rgba(255,255,255,0.05)',
+                            color: c ? (form.country === c ? '#c9a84c' : '#fff') : 'rgba(255,255,255,0.3)',
+                            fontFamily: "'Outfit', sans-serif",
+                            fontSize: 13,
+                            textAlign: 'left',
+                            cursor: 'pointer',
+                          }}
+                          onMouseEnter={(e) => { if (form.country !== c) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)'; }}
+                          onMouseLeave={(e) => { if (form.country !== c) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                        >
+                          {c || '— Sélectionner —'}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
