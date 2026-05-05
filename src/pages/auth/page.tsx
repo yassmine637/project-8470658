@@ -198,20 +198,9 @@ export default function AuthPage() {
                 </div>
 
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                    <label style={{ ...labelStyle, marginBottom: 0 }}>
-                      Mot de passe <span style={{ color: '#d4af37' }}>*</span>
-                    </label>
-                    {mode === 'login' && (
-                      <button
-                        type="button"
-                        onClick={() => switchMode('forgot')}
-                        style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#d4af37', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontWeight: 600 }}
-                      >
-                        Mot de passe oublié ?
-                      </button>
-                    )}
-                  </div>
+                  <label style={labelStyle}>
+                    Mot de passe <span style={{ color: '#d4af37' }}>*</span>
+                  </label>
                   <div style={{ position: 'relative' }}>
                     <input
                       type={showPassword ? 'text' : 'password'}
@@ -231,6 +220,17 @@ export default function AuthPage() {
                       {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                     </button>
                   </div>
+                  {mode === 'login' && (
+                    <div style={{ textAlign: 'right', marginTop: 6 }}>
+                      <button
+                        type="button"
+                        onClick={() => switchMode('forgot')}
+                        style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#d4af37', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontWeight: 600 }}
+                      >
+                        Mot de passe oublié ?
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {mode === 'register' && (
