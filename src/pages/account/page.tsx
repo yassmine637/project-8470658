@@ -163,9 +163,6 @@ export default function AccountPage() {
           <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2rem', fontWeight: 700, color: '#fff', margin: 0 }}>
             {user.name}
           </h1>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>
-            {user.email}
-          </p>
         </div>
 
         {/* Tabs */}
