@@ -85,7 +85,7 @@ export default function Header() {
   const handleLogout = () => {
     logout();
     setUserMenuOpen(false);
-    navigate('/');
+    navigate('/', { state: { loggedOut: true } });
   };
 
   const navLinks: NavLink[] = [
