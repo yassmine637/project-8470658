@@ -2,7 +2,7 @@ import express from 'express';
 import crypto from 'crypto';
 import User from '../models/User.js';
 import { generateToken, protect } from '../middleware/auth.js';
-import { authLimiter } from '../middleware/rateLimit.js';
+import { authLimiter, passwordChangeLimiter } from '../middleware/rateLimit.js';
 import { validateAuth } from '../middleware/validate.js';
 import { sendWelcomeEmail, sendPasswordResetEmail } from '../services/email.js';
 
@@ -59,7 +59,7 @@ router.put('/me', protect, async (req, res) => {
   }
 });
 
-router.put('/change-password', protect, authLimiter, async (req, res) => {
+router.put('/change-password', protect, passwordChangeLimiter, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
     if (!currentPassword || !newPassword)

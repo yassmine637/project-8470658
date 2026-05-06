@@ -2,8 +2,16 @@ import rateLimit from 'express-rate-limit';
 
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 20,
   message: { message: 'Trop de tentatives. Réessayez dans 15 minutes.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const passwordChangeLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { message: 'Trop de tentatives de changement de mot de passe. Réessayez dans 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false,
 });
