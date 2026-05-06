@@ -332,26 +332,6 @@ export default function AccountPage() {
               >
                 {saving ? 'Enregistrement...' : 'Sauvegarder'}
               </button>
-              <button
-                type="button"
-                onClick={() => { logout(); navigate('/', { state: { loggedOut: true } }); }}
-                style={{
-                  padding: '10px 20px',
-                  background: 'none',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: 24,
-                  color: 'rgba(255,255,255,0.45)',
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: 12,
-                  fontWeight: 600,
-                  letterSpacing: '0.08em',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-              >
-                <i className="ri-logout-box-r-line" style={{ marginRight: 6 }} />
-                Se déconnecter
-              </button>
             </div>
           </form>
         )}
