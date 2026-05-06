@@ -160,9 +160,6 @@ export default function AccountPage() {
           <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, letterSpacing: '0.3em', color: '#c9a84c', textTransform: 'uppercase', marginBottom: 8 }}>
             Mon espace
           </p>
-          <h1 style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2rem', fontWeight: 700, color: '#fff', margin: 0 }}>
-            {user.name}
-          </h1>
         </div>
 
         {/* Tabs */}
