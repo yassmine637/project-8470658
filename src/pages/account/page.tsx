@@ -334,7 +334,7 @@ export default function AccountPage() {
               </button>
               <button
                 type="button"
-                onClick={() => { logout(); navigate('/'); }}
+                onClick={() => { logout(); navigate('/', { state: { loggedOut: true } }); }}
                 style={{
                   padding: '10px 20px',
                   background: 'none',

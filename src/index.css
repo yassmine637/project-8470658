@@ -28,6 +28,11 @@ html {
   to   { opacity: 1; }
 }
 
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes heroBadgeFade {
   from {
     opacity: 0;
