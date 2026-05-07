@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/hooks/useAuth';
+import { authApi } from '@/api/auth';
 import { useTranslation } from 'react-i18next';
 
 const LANGS = [
@@ -85,6 +86,18 @@ export default function Header() {
     logout();
     setUserMenuOpen(false);
     navigate('/', { state: { loggedOut: true } });
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) return;
+    try {
+      await authApi.deleteAccount();
+      logout();
+      setUserMenuOpen(false);
+      navigate('/');
+    } catch {
+      alert('Erreur lors de la suppression du compte. Veuillez réessayer.');
+    }
   };
 
   const navLinks: NavLink[] = [
@@ -384,6 +397,21 @@ export default function Header() {
                       <i className="ri-logout-box-r-line" />
                       Se déconnecter
                     </button>
+                    <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '2px 0' }} />
+                    <button
+                      onClick={handleDeleteAccount}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 8, width: '100%',
+                        padding: '9px 16px', background: 'none', border: 'none', cursor: 'pointer',
+                        color: 'rgba(200,60,60,0.75)', fontSize: 12, fontFamily: "'Outfit', sans-serif",
+                        letterSpacing: '0.05em', textAlign: 'left',
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#c83c3c'; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(200,60,60,0.75)'; }}
+                    >
+                      <i className="ri-delete-bin-6-line" />
+                      Supprimer le compte
+                    </button>
                   </div>
                 )}
               </div>
@@ -516,9 +544,15 @@ export default function Header() {
                 )}
                 <button
                   onClick={() => { handleLogout(); setMenuOpen(false); }}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontFamily: "'Outfit', sans-serif", padding: 0 }}
+                  style={{ display: 'block', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontFamily: "'Outfit', sans-serif", padding: 0, marginBottom: 8 }}
                 >
                   <i className="ri-logout-box-r-line" style={{ marginRight: 6 }} />Se déconnecter
+                </button>
+                <button
+                  onClick={() => { handleDeleteAccount(); setMenuOpen(false); }}
+                  style={{ display: 'block', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(200,60,60,0.75)', fontSize: 12, fontFamily: "'Outfit', sans-serif", padding: 0 }}
+                >
+                  <i className="ri-delete-bin-6-line" style={{ marginRight: 6 }} />Supprimer le compte
                 </button>
               </div>
             ) : (

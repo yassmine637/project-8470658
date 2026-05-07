@@ -79,6 +79,17 @@ router.put('/change-password', protect, passwordChangeLimiter, async (req, res) 
   }
 });
 
+router.delete('/me', protect, async (req, res) => {
+  try {
+    if (req.user.role === 'admin')
+      return res.status(403).json({ message: 'Impossible de supprimer un compte administrateur' });
+    await req.user.deleteOne();
+    res.json({ message: 'Compte supprimé avec succès' });
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de la suppression du compte' });
+  }
+});
+
 router.post('/forgot-password', authLimiter, async (req, res) => {
   try {
     const { email } = req.body;

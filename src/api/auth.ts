@@ -30,6 +30,9 @@ export const authApi = {
   changePassword: (data: { currentPassword: string; newPassword: string }) =>
     api.put<{ message: string }>('/auth/change-password', data),
 
+  deleteAccount: () =>
+    api.delete<{ message: string }>('/auth/me'),
+
   forgotPassword: (data: { email: string }) =>
     api.post<{ message: string }>('/auth/forgot-password', data),
 
