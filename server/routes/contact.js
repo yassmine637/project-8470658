@@ -2,6 +2,7 @@ import express from 'express';
 import ContactMessage from '../models/ContactMessage.js';
 import { contactLimiter } from '../middleware/rateLimit.js';
 import { validateContact } from '../middleware/validate.js';
+import { sendContactNotificationToAdmin } from '../services/email.js';
 
 const router = express.Router();
 
@@ -17,6 +18,11 @@ router.post('/', contactLimiter, validateContact, async (req, res) => {
       sujet,
       message,
     });
+
+    sendContactNotificationToAdmin({ nom, prenom, email, telephone, pays, sujet, message }).catch(err =>
+      console.error('[Contact] Erreur envoi email admin:', err?.message)
+    );
+
     res.status(201).json({ success: true, message: 'Message reçu. Nous vous répondrons sous 24h.' });
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de l\'envoi du message' });

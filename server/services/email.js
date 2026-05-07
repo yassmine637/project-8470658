@@ -338,6 +338,55 @@ const STATUS_CONFIG = {
   },
 };
 
+export async function sendContactNotificationToAdmin({ nom, prenom, email, telephone, pays, sujet, message }) {
+  const fullName = `${prenom} ${nom}`.trim();
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Nouveau message de contact
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      ${sujet || 'Sans objet'}
+    </h2>
+    <p style="margin:16px 0 0;font-size:14px;color:${COLORS.muted};font-family:Arial,sans-serif;">
+      De : <strong style="color:${COLORS.text};">${fullName}</strong> —
+      <a href="mailto:${email}" style="color:${COLORS.gold};text-decoration:none;">${email}</a>
+    </p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:${COLORS.bg};padding:20px 24px;">
+      ${telephone ? `<tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};width:130px;">Téléphone</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${telephone}</td>
+      </tr>` : ''}
+      ${pays ? `<tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Pays</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${pays}</td>
+      </tr>` : ''}
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Sujet</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${sujet || '—'}</td>
+      </tr>
+    </table>
+
+    <div style="margin:0 0 32px;padding:20px 24px;background:${COLORS.bg};border-left:3px solid ${COLORS.gold};">
+      <p style="margin:0 0 8px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;">Message</p>
+      <p style="margin:0;font-size:14px;color:${COLORS.text};font-family:Arial,sans-serif;line-height:1.8;white-space:pre-line;">${message}</p>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="mailto:${email}?subject=Re: ${sujet || 'Votre message'}" style="display:inline-block;padding:12px 32px;background:${COLORS.primary};color:${COLORS.gold};font-family:Arial,sans-serif;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">
+        Répondre à ${fullName}
+      </a>
+    </div>
+  `;
+
+  await send({
+    to: ADMIN_EMAIL,
+    from: { email: FROM_EMAIL, name: FROM_NAME },
+    subject: `[Contact] ${sujet || 'Nouveau message'} — ${fullName}`,
+    html: baseLayout('Nouveau message de contact', content),
+  });
+}
+
 export async function sendOrderStatusUpdate({ order, customerName, customerEmail }) {
   const config = STATUS_CONFIG[order.status];
   if (!config) return;
