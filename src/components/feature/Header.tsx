@@ -357,19 +357,21 @@ export default function Header() {
                       <div style={{ color: '#fff', fontSize: 13, fontWeight: 600, fontFamily: "'Outfit', sans-serif" }}>{user.name}</div>
                       <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, fontFamily: "'Outfit', sans-serif", marginTop: 2 }}>{user.email}</div>
                     </div>
-                    <Link
-                      to="/account"
-                      onClick={() => setUserMenuOpen(false)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 8,
-                        padding: '9px 16px', textDecoration: 'none',
-                        color: 'rgba(255,255,255,0.7)', fontSize: 12, fontFamily: "'Outfit', sans-serif",
-                        fontWeight: 500, letterSpacing: '0.05em',
-                      }}
-                    >
-                      <i className="ri-user-settings-line" />
-                      Mon compte
-                    </Link>
+                    {!isAdmin && (
+                      <Link
+                        to="/account"
+                        onClick={() => setUserMenuOpen(false)}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 8,
+                          padding: '9px 16px', textDecoration: 'none',
+                          color: 'rgba(255,255,255,0.7)', fontSize: 12, fontFamily: "'Outfit', sans-serif",
+                          fontWeight: 500, letterSpacing: '0.05em',
+                        }}
+                      >
+                        <i className="ri-user-settings-line" />
+                        Mon compte
+                      </Link>
+                    )}
                     {isAdmin && (
                       <Link
                         to="/admin"
@@ -534,9 +536,11 @@ export default function Header() {
                 <div style={{ color: '#c9a84c', fontSize: 13, fontWeight: 600, fontFamily: "'Outfit', sans-serif", marginBottom: 8 }}>
                   <i className="ri-user-3-line" style={{ marginRight: 6 }} />{user.name}
                 </div>
-                <Link to="/account" onClick={() => setMenuOpen(false)} style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 12, textDecoration: 'none', fontFamily: "'Outfit', sans-serif", marginBottom: 6 }}>
-                  <i className="ri-user-settings-line" style={{ marginRight: 6 }} />Mon compte
-                </Link>
+                {!isAdmin && (
+                  <Link to="/account" onClick={() => setMenuOpen(false)} style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 12, textDecoration: 'none', fontFamily: "'Outfit', sans-serif", marginBottom: 6 }}>
+                    <i className="ri-user-settings-line" style={{ marginRight: 6 }} />Mon compte
+                  </Link>
+                )}
                 {isAdmin && (
                   <Link to="/admin" onClick={() => setMenuOpen(false)} style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 12, textDecoration: 'none', fontFamily: "'Outfit', sans-serif", marginBottom: 6 }}>
                     <i className="ri-dashboard-line" style={{ marginRight: 6 }} />Admin Dashboard
