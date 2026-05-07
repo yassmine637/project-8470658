@@ -201,12 +201,16 @@ export default function AdminPage() {
                             value={o.status as string}
                             onChange={(e) => {
                               const newStatus = e.target.value;
+                              const prevStatus = o.status as string;
                               if (newStatus === 'shipped') {
                                 setShippingModal({ orderId: o._id as string, trackingNumber: '', carrier: '' });
                               } else {
+                                setOrders((prev) => prev.map((x) => (x as Record<string, unknown>)._id === o._id ? { ...x, status: newStatus } : x));
                                 adminApi.updateOrderStatus(o._id as string, newStatus)
-                                  .then(() => setOrders((prev) => prev.map((x) => (x as Record<string, unknown>)._id === o._id ? { ...x, status: newStatus } : x)))
-                                  .catch(() => alert('Erreur lors du changement de statut'));
+                                  .catch(() => {
+                                    setOrders((prev) => prev.map((x) => (x as Record<string, unknown>)._id === o._id ? { ...x, status: prevStatus } : x));
+                                    alert('Erreur lors du changement de statut');
+                                  });
                               }
                             }}
                             style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', padding: '4px 8px', borderRadius: '8px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', cursor: 'pointer', outline: 'none' }}
