@@ -12,18 +12,28 @@ const ORDER_STATUSES = [
   { value: 'cancelled', label: 'Annulée' },
 ];
 
+const CONFIGURATOR_STATUSES = [
+  { value: 'new', label: 'Nouveau' },
+  { value: 'reviewing', label: 'En révision' },
+  { value: 'quoted', label: 'Devis envoyé' },
+  { value: 'accepted', label: 'Accepté' },
+  { value: 'rejected', label: 'Refusé' },
+];
+
 function StatusDropdown({
   value,
   onChange,
+  statuses = ORDER_STATUSES,
 }: {
   value: string;
   onChange: (v: string) => void;
+  statuses?: { value: string; label: string }[];
 }) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
   const btnRef = useRef<HTMLButtonElement>(null);
 
-  const current = ORDER_STATUSES.find((s) => s.value === value);
+  const current = statuses.find((s) => s.value === value);
 
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -90,7 +100,7 @@ function StatusDropdown({
             overflow: 'hidden',
           }}
         >
-          {ORDER_STATUSES.map((s) => (
+          {statuses.map((s) => (
             <button
               key={s.value}
               onClick={(e) => handleSelect(e, s.value)}
@@ -348,7 +358,7 @@ export default function AdminPage() {
                 <table className="w-full">
                   <thead style={{ background: '#f9f9f7', borderBottom: '1px solid #e8e8e4' }}>
                     <tr>
-                      {['Référence', 'Client', 'Email', 'Total TTC', 'Statut', 'Date'].map((h) => (
+                      {['Référence', 'Client', 'Email', 'Total TTC', 'Statut', 'Date', 'Action'].map((h) => (
                         <th key={h} className={headCell} style={{ color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>{h}</th>
                       ))}
                     </tr>
@@ -362,16 +372,31 @@ export default function AdminPage() {
                         <td className={cell} style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 600, color: '#1a2617' }}>{c.totalTTC as number} {c.currency as string}</td>
                         <td className={cell}>
                           <span className="px-2 py-1 rounded-full text-xs font-bold" style={{ background: `${STATUS_COLORS[c.status as string] || '#9ca3af'}18`, color: STATUS_COLORS[c.status as string] || '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-                            {c.status as string}
+                            {CONFIGURATOR_STATUSES.find(s => s.value === (c.status as string))?.label ?? c.status as string}
                           </span>
                         </td>
                         <td className={cell} style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem' }}>
                           {new Date(c.createdAt as string).toLocaleDateString('fr-FR')}
                         </td>
+                        <td className={cell}>
+                          <StatusDropdown
+                            value={c.status as string}
+                            statuses={CONFIGURATOR_STATUSES}
+                            onChange={(newStatus) => {
+                              const prevStatus = c.status as string;
+                              setConfigs((prev) => prev.map((x) => (x as Record<string, unknown>)._id === c._id ? { ...x, status: newStatus } : x));
+                              adminApi.updateConfigStatus(c._id as string, newStatus)
+                                .catch(() => {
+                                  setConfigs((prev) => prev.map((x) => (x as Record<string, unknown>)._id === c._id ? { ...x, status: prevStatus } : x));
+                                  alert('Erreur lors du changement de statut');
+                                });
+                            }}
+                          />
+                        </td>
                       </tr>
                     ))}
                     {configs.length === 0 && (
-                      <tr><td colSpan={6} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucun devis</td></tr>
+                      <tr><td colSpan={7} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucun devis</td></tr>
                     )}
                   </tbody>
                 </table>
