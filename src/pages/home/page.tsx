@@ -9,7 +9,6 @@ import Factory from './components/Factory';
 import Awards from './components/Awards';
 import Values from './components/Values';
 import Contact from './components/Contact';
-import ReaddyAgent from '@/components/feature/ReaddyAgent';
 
 export default function HomePage() {
   const location = useLocation();
@@ -79,7 +78,6 @@ export default function HomePage() {
         <Contact />
       </main>
       <Footer />
-      <ReaddyAgent />
     </>
   );
 }
