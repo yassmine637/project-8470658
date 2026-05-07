@@ -25,7 +25,8 @@ function StatusDropdown({
 
   const current = ORDER_STATUSES.find((s) => s.value === value);
 
-  const handleOpen = () => {
+  const handleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (btnRef.current) {
       const r = btnRef.current.getBoundingClientRect();
       setPos({ top: r.bottom + 4, left: r.left, width: r.width });
@@ -35,16 +36,24 @@ function StatusDropdown({
 
   useEffect(() => {
     if (!open) return;
+    // Use bubble phase (no capture flag) so option buttons fire onClick first
     const close = () => setOpen(false);
-    window.addEventListener('click', close, true);
-    return () => window.removeEventListener('click', close, true);
+    // Delay to skip the same click that opened the dropdown
+    const timer = setTimeout(() => window.addEventListener('click', close), 0);
+    return () => { clearTimeout(timer); window.removeEventListener('click', close); };
   }, [open]);
+
+  const handleSelect = (e: React.MouseEvent, newValue: string) => {
+    e.stopPropagation(); // Prevent window close listener
+    onChange(newValue);
+    setOpen(false);
+  };
 
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <button
         ref={btnRef}
-        onClick={(e) => { e.stopPropagation(); handleOpen(); }}
+        onClick={handleToggle}
         style={{
           fontFamily: "'Outfit', sans-serif",
           fontSize: '0.78rem',
@@ -68,7 +77,6 @@ function StatusDropdown({
 
       {open && (
         <div
-          onClick={(e) => e.stopPropagation()}
           style={{
             position: 'fixed',
             top: pos.top,
@@ -85,7 +93,7 @@ function StatusDropdown({
           {ORDER_STATUSES.map((s) => (
             <button
               key={s.value}
-              onClick={() => { onChange(s.value); setOpen(false); }}
+              onClick={(e) => handleSelect(e, s.value)}
               style={{
                 display: 'block',
                 width: '100%',
@@ -99,8 +107,8 @@ function StatusDropdown({
                 cursor: 'pointer',
                 fontWeight: s.value === value ? 600 : 400,
               }}
-              onMouseEnter={(e) => { if (s.value !== value) (e.target as HTMLElement).style.background = '#f9f9f7'; }}
-              onMouseLeave={(e) => { if (s.value !== value) (e.target as HTMLElement).style.background = 'transparent'; }}
+              onMouseEnter={(e) => { if (s.value !== value) (e.currentTarget as HTMLElement).style.background = '#f9f9f7'; }}
+              onMouseLeave={(e) => { if (s.value !== value) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
             >
               {s.label}
             </button>
