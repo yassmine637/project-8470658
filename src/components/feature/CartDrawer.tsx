@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/hooks/useCart';
+import { useAuth } from '@/hooks/useAuth';
 
 type Step = 'cart' | 'checkout' | 'success';
 
@@ -60,6 +61,7 @@ const COUNTRY_CODES = [
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeFromCart, updateQuantity, totalPrice, totalCount, clearCart } = useCart();
+  const { user, token } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [step, setStep] = useState<Step>('cart');
@@ -118,7 +120,12 @@ export default function CartDrawer() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!form.name || !form.street || !form.city || !phoneNumber || !form.email) {
+    const needsGuestInfo = !user || !token;
+    if (needsGuestInfo && (!form.name || !form.street || !form.city || !phoneNumber || !form.email)) {
+      setFormError(t('cart_error_required'));
+      return;
+    }
+    if (!needsGuestInfo && (!form.street || !form.city || !phoneNumber)) {
       setFormError(t('cart_error_required'));
       return;
     }
@@ -143,24 +150,38 @@ export default function CartDrawer() {
         price: i.product.price,
         quantity: i.quantity,
       }));
-      await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: orderItems,
-          guestName: form.name,
-          guestEmail: form.email,
-          guestPhone: `${countryCode} ${phoneNumber}`,
-          currency: 'TND',
-          shippingAddress: {
-            street: form.street,
-            city: form.city,
-            postalCode: form.postalCode,
-            country: countryName,
-          },
-          paymentMethod,
-        }),
-      });
+      const shippingAddress = {
+        street: form.street,
+        city: form.city,
+        postalCode: form.postalCode,
+        country: countryName,
+      };
+      if (user && token) {
+        await fetch('/api/orders/authenticated', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({
+            items: orderItems,
+            currency: 'TND',
+            shippingAddress,
+            paymentMethod,
+          }),
+        });
+      } else {
+        await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: orderItems,
+            guestName: form.name,
+            guestEmail: form.email,
+            guestPhone: `${countryCode} ${phoneNumber}`,
+            currency: 'TND',
+            shippingAddress,
+            paymentMethod,
+          }),
+        });
+      }
       setStep('success');
       clearCart();
     } catch {
@@ -370,33 +391,41 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              {/* Static fields: name, email */}
-              {[
-                { name: 'name', label: t('cart_field_name'), type: 'text', placeholder: t('cart_placeholder_name') },
-                { name: 'email', label: t('cart_field_email'), type: 'email', placeholder: t('cart_placeholder_email') },
-              ].map((field) => (
-                <div key={field.name} className="flex flex-col gap-1.5">
-                  <label
-                    htmlFor={field.name}
-                    className="text-xs font-semibold uppercase tracking-wider"
-                    style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}
-                  >
-                    {field.label}
-                  </label>
-                  <input
-                    id={field.name}
-                    name={field.name}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    value={form[field.name as keyof typeof form]}
-                    onChange={handleFormChange}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
-                    style={inputStyle}
-                    onFocus={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
-                    onBlur={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
-                  />
+              {/* Identité : bannière si connecté, champs si invité */}
+              {user ? (
+                <div className="flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.2)' }}>
+                  <i className="ri-user-3-line" style={{ color: '#c9a84c', fontSize: 16 }} />
+                  <div>
+                    <p className="text-xs font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{user.name}</p>
+                    <p className="text-xs" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif" }}>{user.email}</p>
+                  </div>
                 </div>
-              ))}
+              ) : (
+                <>
+                  {[
+                    { name: 'name', label: t('cart_field_name'), type: 'text', placeholder: t('cart_placeholder_name') },
+                    { name: 'email', label: t('cart_field_email'), type: 'email', placeholder: t('cart_placeholder_email') },
+                  ].map((field) => (
+                    <div key={field.name} className="flex flex-col gap-1.5">
+                      <label htmlFor={field.name} className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                        {field.label}
+                      </label>
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        value={form[field.name as keyof typeof form]}
+                        onChange={handleFormChange}
+                        className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+                        style={inputStyle}
+                        onFocus={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
+                        onBlur={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
+                      />
+                    </div>
+                  ))}
+                </>
+              )}
 
               {/* Address fields: street, city, postal code */}
               <div className="flex flex-col gap-1.5">
