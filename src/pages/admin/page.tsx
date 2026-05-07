@@ -1,7 +1,115 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { adminApi } from '@/api/admin';
+
+const ORDER_STATUSES = [
+  { value: 'pending', label: 'En attente' },
+  { value: 'paid', label: 'Payée' },
+  { value: 'processing', label: 'En préparation' },
+  { value: 'shipped', label: 'Expédiée 📦' },
+  { value: 'delivered', label: 'Livrée' },
+  { value: 'cancelled', label: 'Annulée' },
+];
+
+function StatusDropdown({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const current = ORDER_STATUSES.find((s) => s.value === value);
+
+  const handleOpen = () => {
+    if (btnRef.current) {
+      const r = btnRef.current.getBoundingClientRect();
+      setPos({ top: r.bottom + 4, left: r.left, width: r.width });
+    }
+    setOpen((o) => !o);
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    window.addEventListener('click', close, true);
+    return () => window.removeEventListener('click', close, true);
+  }, [open]);
+
+  return (
+    <div style={{ position: 'relative', display: 'inline-block' }}>
+      <button
+        ref={btnRef}
+        onClick={(e) => { e.stopPropagation(); handleOpen(); }}
+        style={{
+          fontFamily: "'Outfit', sans-serif",
+          fontSize: '0.78rem',
+          padding: '5px 10px',
+          borderRadius: '8px',
+          border: '1.5px solid #e8e8e4',
+          background: '#fafaf8',
+          color: '#1a2617',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          whiteSpace: 'nowrap',
+          minWidth: '130px',
+          justifyContent: 'space-between',
+        }}
+      >
+        <span>{current?.label ?? value}</span>
+        <span style={{ fontSize: '0.6rem', opacity: 0.5 }}>▼</span>
+      </button>
+
+      {open && (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            position: 'fixed',
+            top: pos.top,
+            left: pos.left,
+            minWidth: Math.max(pos.width, 160),
+            background: '#ffffff',
+            border: '1.5px solid #e8e8e4',
+            borderRadius: '10px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+            zIndex: 9999,
+            overflow: 'hidden',
+          }}
+        >
+          {ORDER_STATUSES.map((s) => (
+            <button
+              key={s.value}
+              onClick={() => { onChange(s.value); setOpen(false); }}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '9px 14px',
+                textAlign: 'left',
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: '0.8rem',
+                color: s.value === value ? '#d4af37' : '#1a2617',
+                background: s.value === value ? 'rgba(212,175,55,0.08)' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: s.value === value ? 600 : 400,
+              }}
+              onMouseEnter={(e) => { if (s.value !== value) (e.target as HTMLElement).style.background = '#f9f9f7'; }}
+              onMouseLeave={(e) => { if (s.value !== value) (e.target as HTMLElement).style.background = 'transparent'; }}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users' | 'security';
 
@@ -197,10 +305,9 @@ export default function AdminPage() {
                           {new Date(o.createdAt as string).toLocaleDateString('fr-FR')}
                         </td>
                         <td className={cell}>
-                          <select
+                          <StatusDropdown
                             value={o.status as string}
-                            onChange={(e) => {
-                              const newStatus = e.target.value;
+                            onChange={(newStatus) => {
                               const prevStatus = o.status as string;
                               if (newStatus === 'shipped') {
                                 setShippingModal({ orderId: o._id as string, trackingNumber: '', carrier: '' });
@@ -213,15 +320,7 @@ export default function AdminPage() {
                                   });
                               }
                             }}
-                            style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', padding: '4px 8px', borderRadius: '8px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', cursor: 'pointer', outline: 'none' }}
-                          >
-                            <option value="pending">En attente</option>
-                            <option value="paid">Payée</option>
-                            <option value="processing">En préparation</option>
-                            <option value="shipped">Expédiée 📦</option>
-                            <option value="delivered">Livrée</option>
-                            <option value="cancelled">Annulée</option>
-                          </select>
+                          />
                         </td>
                       </tr>
                     ))}
