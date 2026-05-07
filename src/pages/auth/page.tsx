@@ -49,7 +49,7 @@ export default function AuthPage() {
         navigate('/');
       } else if (mode === 'register') {
         await register({ name: form.name, email: form.email, password: form.password, phone: form.phone });
-        navigate('/');
+        navigate('/', { state: { welcome: true, name: form.name } });
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erreur');

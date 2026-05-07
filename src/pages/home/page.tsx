@@ -16,10 +16,16 @@ export default function HomePage() {
   const [banner, setBanner] = useState('');
 
   useEffect(() => {
-    const state = location.state as { scrollTo?: string; loggedOut?: boolean } | null;
+    const state = location.state as { scrollTo?: string; loggedOut?: boolean; welcome?: boolean; name?: string } | null;
     if (state?.loggedOut) {
       setBanner('Vous avez été déconnecté avec succès. À bientôt !');
       const t = setTimeout(() => setBanner(''), 4000);
+      return () => clearTimeout(t);
+    }
+    if (state?.welcome) {
+      const firstName = state.name?.split(' ')[0] ?? '';
+      setBanner(`Bienvenue chez Domaine Fendri${firstName ? `, ${firstName}` : ''} ! Votre compte a été créé avec succès.`);
+      const t = setTimeout(() => setBanner(''), 5000);
       return () => clearTimeout(t);
     }
     const scrollTo = state?.scrollTo;
