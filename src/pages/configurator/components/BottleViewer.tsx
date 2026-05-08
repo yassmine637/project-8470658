@@ -17,6 +17,7 @@ interface BottleViewerProps {
   customText: string;
   size: string;
   sizeId?: string;
+  sizeChosen?: boolean;
   currentStep?: number;
 }
 
@@ -27,10 +28,10 @@ const SIZE_SCALE: Record<string, number> = {
   '1 L': 0.95,
 };
 
-export default function BottleViewer({ model, labelStyle, size, sizeId, currentStep = 0 }: BottleViewerProps) {
+export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChosen = false, currentStep = 0 }: BottleViewerProps) {
   const comboKey = sizeId && labelStyle ? getComboImageKey(model.id, sizeId, labelStyle.id) : '';
   const comboImage = comboKey && currentStep >= 2 ? COMBO_IMAGES[comboKey] : undefined;
-  const sizeStepOverride = currentStep === 1 && model.id === 'cylindrique-500'
+  const sizeStepOverride = currentStep === 1 && sizeChosen && model.id === 'cylindrique-500'
     ? (sizeId === '500ml' ? cylindrique500SizeStepOverride
       : sizeId === '750ml' ? cylindrique750SizeStepOverride
       : sizeId === '1l' ? cylindrique1LSizeStepOverride
@@ -43,7 +44,8 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
       : model.id === 'bidon-vert-1l' ? bidonVertModelStepOverride
       : undefined)
     : undefined;
-  const bottleImage = modelStepOverride ?? sizeStepOverride ?? comboImage ?? model.sizeImages?.[size] ?? model.image;
+  const sizeImage = (currentStep !== 1 || sizeChosen) ? model.sizeImages?.[size] : undefined;
+  const bottleImage = modelStepOverride ?? sizeStepOverride ?? comboImage ?? sizeImage ?? model.image;
 
   const [isLoaded, setIsLoaded] = useState(() => loadedImageCache.has(bottleImage));
   const [prevModelId, setPrevModelId] = useState(model.id);

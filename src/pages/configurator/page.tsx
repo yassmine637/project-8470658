@@ -276,6 +276,7 @@ export default function ConfiguratorPage() {
                 customText={customText}
                 size={selectedSize.label}
                 sizeId={selectedSize.id}
+                sizeChosen={sizeChosen}
                 currentStep={currentStep}
               />
             )}
