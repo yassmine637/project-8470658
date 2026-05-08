@@ -286,10 +286,10 @@ export const bottleModels: BottleModel[] = [
 ];
 
 export const bottleSizes: BottleSize[] = [
-  { id: '500ml', label: '500 مل', volume: '500ml', volumeKey: 'config_volume_500ml', priceAdd: 12 },
-  { id: '750ml', label: '750 مل', volume: '750ml', volumeKey: 'config_volume_750ml', priceAdd: 22 },
-  { id: '1l', label: '1 لتر', volume: '1L', volumeKey: 'config_volume_1l', priceAdd: 34 },
-  { id: '3l', label: '3 لتر', volume: '3L', volumeKey: 'config_volume_3l', priceAdd: 48 },
+  { id: '500ml', label: '500 ml', volume: '500ml', volumeKey: 'config_volume_500ml', priceAdd: 12 },
+  { id: '750ml', label: '750 ml', volume: '750ml', volumeKey: 'config_volume_750ml', priceAdd: 22 },
+  { id: '1l', label: '1 L', volume: '1L', volumeKey: 'config_volume_1l', priceAdd: 34 },
+  { id: '3l', label: '3 L', volume: '3L', volumeKey: 'config_volume_3l', priceAdd: 48 },
 ];
 
 export const labelStyles: LabelStyle[] = [

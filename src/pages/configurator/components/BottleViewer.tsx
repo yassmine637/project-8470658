@@ -19,10 +19,10 @@ interface BottleViewerProps {
 }
 
 const SIZE_SCALE: Record<string, number> = {
-  '3 لتر': 1.0,
-  '500 مل': 0.8,
-  '750 مل': 0.88,
-  '1 لتر': 0.95,
+  '3 L': 1.0,
+  '500 ml': 0.8,
+  '750 ml': 0.88,
+  '1 L': 0.95,
 };
 
 export default function BottleViewer({ model, labelStyle, size, sizeId, currentStep = 0 }: BottleViewerProps) {
