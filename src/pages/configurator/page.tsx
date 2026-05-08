@@ -549,6 +549,7 @@ export default function ConfiguratorPage() {
         label={selectedLabel}
         customText={customText}
         totalPrice={totalPrice}
+        currency={currency}
         onClose={() => setEstimationOpen(false)}
       />
     </div>

@@ -11,6 +11,7 @@ interface EstimationModalProps {
   label: LabelStyle | null;
   customText: string;
   totalPrice: number;
+  currency?: Currency;
   onClose: () => void;
 }
 
@@ -81,7 +82,7 @@ const labelStyleCSS: React.CSSProperties = {
 };
 
 export default function EstimationModal({
-  isOpen, model, size, label, customText, totalPrice, onClose,
+  isOpen, model, size, label, customText, totalPrice, currency: currencyProp, onClose,
 }: EstimationModalProps) {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -92,10 +93,15 @@ export default function EstimationModal({
   const [selectedCountry, setSelectedCountry] = useState<CountryEntry>(COUNTRIES[0]);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryDropOpen, setCountryDropOpen] = useState(false);
+  const [showAllCountries, setShowAllCountries] = useState(false);
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const dropRef = useRef<HTMLDivElement>(null);
+
+  const filteredCountries = (currencyProp && !showAllCountries)
+    ? COUNTRIES.filter(c => c.currency === currencyProp)
+    : COUNTRIES;
 
   const devisNumber = useRef(`FND-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 9000) + 1000)}`);
   const devisDate = useRef(new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }));
@@ -115,11 +121,16 @@ export default function EstimationModal({
   useEffect(() => {
     if (isOpen) {
       setFormStep('estimate');
+      setShowAllCountries(false);
+      if (currencyProp) {
+        const match = COUNTRIES.find(c => c.currency === currencyProp);
+        if (match) { setSelectedCountry(match); setPhoneNumber(''); }
+      }
       setTimeout(() => setVisible(true), 20);
     } else {
       setVisible(false);
     }
-  }, [isOpen]);
+  }, [isOpen, currencyProp]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -330,7 +341,7 @@ export default function EstimationModal({
                         left: 0,
                         right: 0,
                         zIndex: 300,
-                        maxHeight: '240px',
+                        maxHeight: '260px',
                         overflowY: 'auto',
                         background: '#0d1a0b',
                         border: '1px solid rgba(212,175,55,0.25)',
@@ -340,7 +351,50 @@ export default function EstimationModal({
                         boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
                       }}
                     >
-                      {COUNTRIES.map((c, idx) => {
+                      {/* Filter info chip */}
+                      {currencyProp && (
+                        <div style={{
+                          padding: '7px 14px',
+                          borderBottom: '1px solid rgba(212,175,55,0.1)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: '8px',
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <i className="ri-filter-3-line" style={{ color: 'rgba(212,175,55,0.55)', fontSize: '11px' }} />
+                            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(212,175,55,0.55)', letterSpacing: '0.08em' }}>
+                              {showAllCountries
+                                ? `${COUNTRIES.length} pays`
+                                : `${filteredCountries.length} pays · ${CURRENCIES[currencyProp]?.flag} ${currencyProp}`}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={e => { e.stopPropagation(); setShowAllCountries(v => !v); }}
+                            className="cursor-pointer"
+                            style={{
+                              background: 'none',
+                              border: '1px solid rgba(212,175,55,0.2)',
+                              borderRadius: '5px',
+                              padding: '2px 8px',
+                              color: 'rgba(212,175,55,0.65)',
+                              fontFamily: "'Outfit', sans-serif",
+                              fontSize: '0.55rem',
+                              fontWeight: 600,
+                              letterSpacing: '0.08em',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s',
+                            }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(212,175,55,0.5)'; (e.currentTarget as HTMLButtonElement).style.color = '#d4af37'; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(212,175,55,0.2)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(212,175,55,0.65)'; }}
+                          >
+                            {showAllCountries ? '← Réduire' : 'Voir tous'}
+                          </button>
+                        </div>
+                      )}
+
+                      {filteredCountries.map((c, idx) => {
                         const cInfo = CURRENCIES[c.currency] ?? CURRENCIES.TND;
                         const isSelected = selectedCountry.name === c.name;
                         return (
@@ -353,7 +407,7 @@ export default function EstimationModal({
                               padding: '10px 14px',
                               background: isSelected ? 'rgba(212,175,55,0.1)' : 'transparent',
                               border: 'none',
-                              borderBottom: idx < COUNTRIES.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                              borderBottom: idx < filteredCountries.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
                               color: isSelected ? '#d4af37' : 'rgba(255,255,255,0.8)',
                               fontFamily: "'Outfit', sans-serif",
                               fontSize: '0.78rem',
@@ -365,7 +419,6 @@ export default function EstimationModal({
                           >
                             <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{c.flag}</span>
                             <span style={{ flex: 1 }}>{c.name}</span>
-                            {/* Currency auto-badge */}
                             <span style={{
                               fontFamily: "'Outfit', sans-serif",
                               fontSize: '0.6rem',
