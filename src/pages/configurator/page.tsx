@@ -235,7 +235,7 @@ export default function ConfiguratorPage() {
         >
           {/* Bottle image */}
           <div style={{ width: '100%', height: '100%' }}>
-            {!modelChosen && currentStep === 0 ? (
+            {((!modelChosen && currentStep === 0) || (!sizeChosen && currentStep === 1)) ? (
               <div style={{
                 width: '100%',
                 height: '100%',
@@ -259,7 +259,7 @@ export default function ConfiguratorPage() {
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                 }}>
-                  {t('config_select_bottle')}
+                  {currentStep === 1 ? t('config_select_size') : t('config_select_bottle')}
                 </span>
               </div>
             ) : (
