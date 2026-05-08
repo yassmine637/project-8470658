@@ -298,7 +298,7 @@ const translations = {
   config_secure_payment: 'Paiement sécurisé',
   config_certified_bio: 'Certifié Bio',
   config_worldwide_delivery: 'Livraison mondiale',
-  config_return_14: 'Retour 14 jours',
+  config_return_14: 'Récolte artisanale',
   config_cgv: 'En commandant, vous acceptez nos conditions générales de vente.',
   config_delivery_delay: 'Livraison sous 5–7 jours ouvrés.',
 

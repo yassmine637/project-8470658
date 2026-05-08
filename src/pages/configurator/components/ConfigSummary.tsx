@@ -256,7 +256,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
             { icon: 'ri-shield-check-line', key: 'config_secure_payment' },
             { icon: 'ri-award-line', key: 'config_certified_bio' },
             { icon: 'ri-truck-line', key: 'config_worldwide_delivery' },
-            { icon: 'ri-refresh-line', key: 'config_return_14' },
+            { icon: 'ri-seedling-line', key: 'config_return_14' },
           ].map(b => (
             <div key={b.key} className="flex items-center gap-2">
               <i className={b.icon} style={{ color: 'rgba(212,175,55,0.38)', fontSize: '12px', flexShrink: 0 }} />

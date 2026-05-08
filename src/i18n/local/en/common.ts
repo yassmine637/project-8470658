@@ -298,7 +298,7 @@ const translations = {
   config_secure_payment: 'Secure payment',
   config_certified_bio: 'Certified Organic',
   config_worldwide_delivery: 'Worldwide delivery',
-  config_return_14: '14-day returns',
+  config_return_14: 'Artisan harvest',
   config_cgv: 'By ordering, you accept our general terms and conditions.',
   config_delivery_delay: 'Delivery within 5–7 business days.',
 
