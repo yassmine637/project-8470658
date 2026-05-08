@@ -21,37 +21,38 @@ interface CountryEntry {
   flag: string;
   name: string;
   currency: Currency;
+  maxDigits: number;
 }
 
 const COUNTRIES: CountryEntry[] = [
-  { dialCode: '+216', flag: '🇹🇳', name: 'Tunisia', currency: 'TND' },
-  { dialCode: '+33', flag: '🇫🇷', name: 'France', currency: 'EUR' },
-  { dialCode: '+32', flag: '🇧🇪', name: 'Belgium', currency: 'EUR' },
-  { dialCode: '+41', flag: '🇨🇭', name: 'Switzerland', currency: 'CHF' },
-  { dialCode: '+212', flag: '🇲🇦', name: 'Morocco', currency: 'EUR' },
-  { dialCode: '+213', flag: '🇩🇿', name: 'Algeria', currency: 'EUR' },
-  { dialCode: '+218', flag: '🇱🇾', name: 'Libya', currency: 'USD' },
-  { dialCode: '+20', flag: '🇪🇬', name: 'Egypt', currency: 'USD' },
-  { dialCode: '+966', flag: '🇸🇦', name: 'Saudi Arabia', currency: 'SAR' },
-  { dialCode: '+971', flag: '🇦🇪', name: 'UAE', currency: 'AED' },
-  { dialCode: '+974', flag: '🇶🇦', name: 'Qatar', currency: 'AED' },
-  { dialCode: '+965', flag: '🇰🇼', name: 'Kuwait', currency: 'AED' },
-  { dialCode: '+973', flag: '🇧🇭', name: 'Bahrain', currency: 'AED' },
-  { dialCode: '+968', flag: '🇴🇲', name: 'Oman', currency: 'AED' },
-  { dialCode: '+962', flag: '🇯🇴', name: 'Jordan', currency: 'USD' },
-  { dialCode: '+961', flag: '🇱🇧', name: 'Lebanon', currency: 'USD' },
-  { dialCode: '+49', flag: '🇩🇪', name: 'Germany', currency: 'EUR' },
-  { dialCode: '+44', flag: '🇬🇧', name: 'United Kingdom', currency: 'GBP' },
-  { dialCode: '+39', flag: '🇮🇹', name: 'Italy', currency: 'EUR' },
-  { dialCode: '+34', flag: '🇪🇸', name: 'Spain', currency: 'EUR' },
-  { dialCode: '+31', flag: '🇳🇱', name: 'Netherlands', currency: 'EUR' },
-  { dialCode: '+1', flag: '🇺🇸', name: 'United States', currency: 'USD' },
-  { dialCode: '+1', flag: '🇨🇦', name: 'Canada', currency: 'CAD' },
-  { dialCode: '+61', flag: '🇦🇺', name: 'Australia', currency: 'AUD' },
-  { dialCode: '+81', flag: '🇯🇵', name: 'Japan', currency: 'JPY' },
-  { dialCode: '+86', flag: '🇨🇳', name: 'China', currency: 'CNY' },
-  { dialCode: '+7', flag: '🇷🇺', name: 'Russia', currency: 'RUB' },
-  { dialCode: '+55', flag: '🇧🇷', name: 'Brazil', currency: 'BRL' },
+  { dialCode: '+216', flag: '🇹🇳', name: 'Tunisia',        currency: 'TND', maxDigits: 8  },
+  { dialCode: '+33',  flag: '🇫🇷', name: 'France',         currency: 'EUR', maxDigits: 9  },
+  { dialCode: '+32',  flag: '🇧🇪', name: 'Belgium',        currency: 'EUR', maxDigits: 9  },
+  { dialCode: '+41',  flag: '🇨🇭', name: 'Switzerland',    currency: 'CHF', maxDigits: 9  },
+  { dialCode: '+212', flag: '🇲🇦', name: 'Morocco',        currency: 'EUR', maxDigits: 9  },
+  { dialCode: '+213', flag: '🇩🇿', name: 'Algeria',        currency: 'EUR', maxDigits: 9  },
+  { dialCode: '+218', flag: '🇱🇾', name: 'Libya',          currency: 'USD', maxDigits: 9  },
+  { dialCode: '+20',  flag: '🇪🇬', name: 'Egypt',          currency: 'USD', maxDigits: 10 },
+  { dialCode: '+966', flag: '🇸🇦', name: 'Saudi Arabia',   currency: 'SAR', maxDigits: 9  },
+  { dialCode: '+971', flag: '🇦🇪', name: 'UAE',            currency: 'AED', maxDigits: 9  },
+  { dialCode: '+974', flag: '🇶🇦', name: 'Qatar',          currency: 'AED', maxDigits: 8  },
+  { dialCode: '+965', flag: '🇰🇼', name: 'Kuwait',         currency: 'AED', maxDigits: 8  },
+  { dialCode: '+973', flag: '🇧🇭', name: 'Bahrain',        currency: 'AED', maxDigits: 8  },
+  { dialCode: '+968', flag: '🇴🇲', name: 'Oman',           currency: 'AED', maxDigits: 8  },
+  { dialCode: '+962', flag: '🇯🇴', name: 'Jordan',         currency: 'USD', maxDigits: 9  },
+  { dialCode: '+961', flag: '🇱🇧', name: 'Lebanon',        currency: 'USD', maxDigits: 8  },
+  { dialCode: '+49',  flag: '🇩🇪', name: 'Germany',        currency: 'EUR', maxDigits: 11 },
+  { dialCode: '+44',  flag: '🇬🇧', name: 'United Kingdom', currency: 'GBP', maxDigits: 10 },
+  { dialCode: '+39',  flag: '🇮🇹', name: 'Italy',          currency: 'EUR', maxDigits: 10 },
+  { dialCode: '+34',  flag: '🇪🇸', name: 'Spain',          currency: 'EUR', maxDigits: 9  },
+  { dialCode: '+31',  flag: '🇳🇱', name: 'Netherlands',    currency: 'EUR', maxDigits: 9  },
+  { dialCode: '+1',   flag: '🇺🇸', name: 'United States',  currency: 'USD', maxDigits: 10 },
+  { dialCode: '+1',   flag: '🇨🇦', name: 'Canada',         currency: 'CAD', maxDigits: 10 },
+  { dialCode: '+61',  flag: '🇦🇺', name: 'Australia',      currency: 'AUD', maxDigits: 9  },
+  { dialCode: '+81',  flag: '🇯🇵', name: 'Japan',          currency: 'JPY', maxDigits: 11 },
+  { dialCode: '+86',  flag: '🇨🇳', name: 'China',          currency: 'CNY', maxDigits: 11 },
+  { dialCode: '+7',   flag: '🇷🇺', name: 'Russia',         currency: 'RUB', maxDigits: 10 },
+  { dialCode: '+55',  flag: '🇧🇷', name: 'Brazil',         currency: 'BRL', maxDigits: 11 },
 ];
 
 const inputStyle: React.CSSProperties = {
@@ -348,7 +349,7 @@ export default function EstimationModal({
                           <button
                             key={`${c.dialCode}-${idx}`}
                             type="button"
-                            onClick={() => { setSelectedCountry(c); setCountryDropOpen(false); }}
+                            onClick={() => { setSelectedCountry(c); setPhoneNumber(''); setCountryDropOpen(false); }}
                             className="cursor-pointer w-full flex items-center gap-3 whitespace-nowrap"
                             style={{
                               padding: '10px 14px',
@@ -596,18 +597,28 @@ export default function EstimationModal({
                       name="phone"
                       required
                       value={phoneNumber}
-                      onChange={e => setPhoneNumber(e.target.value)}
+                      onChange={e => {
+                        const digits = e.target.value.replace(/\D/g, '');
+                        setPhoneNumber(digits.slice(0, selectedCountry.maxDigits));
+                      }}
                       placeholder={t('config_placeholder_phone')}
+                      maxLength={selectedCountry.maxDigits}
+                      inputMode="numeric"
                       style={{ ...inputStyle, flex: 1 }}
                       onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.6)'; }}
                       onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)'; }}
                     />
                   </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.2)', marginTop: '4px' }}>
-                    {t('config_country_selected')} <span style={{ color: 'rgba(212,175,55,0.5)' }}>{selectedCountry.flag} {selectedCountry.name}</span>
-                    {currencyCode !== 'TND' && (
-                      <span style={{ marginLeft: '6px', color: 'rgba(212,175,55,0.4)' }}>· {currencyInfo.flag} {currencyInfo.code}</span>
-                    )}
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.2)', marginTop: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>
+                      {t('config_country_selected')} <span style={{ color: 'rgba(212,175,55,0.5)' }}>{selectedCountry.flag} {selectedCountry.name}</span>
+                      {currencyCode !== 'TND' && (
+                        <span style={{ marginLeft: '6px', color: 'rgba(212,175,55,0.4)' }}>· {currencyInfo.flag} {currencyInfo.code}</span>
+                      )}
+                    </span>
+                    <span style={{ color: phoneNumber.length === selectedCountry.maxDigits ? 'rgba(212,175,55,0.7)' : 'rgba(255,255,255,0.2)' }}>
+                      {phoneNumber.length}/{selectedCountry.maxDigits}
+                    </span>
                   </div>
                 </div>
 
