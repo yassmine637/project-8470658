@@ -7,13 +7,15 @@ interface ConfigSummaryProps {
   label: LabelStyle | null;
   customText: string;
   totalPrice: number;
+  quantity?: number;
+  onQuantityChange?: (q: number) => void;
   formatPrice?: (amount: number) => string;
   currencySymbol?: string;
   onOrder: () => void;
   onEstimation?: () => void;
 }
 
-export default function ConfigSummary({ model, size, label, customText, totalPrice, formatPrice: externalFormatPrice, currencySymbol: externalSymbol, onOrder, onEstimation }: ConfigSummaryProps) {
+export default function ConfigSummary({ model, size, label, customText, totalPrice, quantity = 1, onQuantityChange, formatPrice: externalFormatPrice, currencySymbol: externalSymbol, onOrder, onEstimation }: ConfigSummaryProps) {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
   const accentColor = label?.accentColor ?? '#c9a84c';
@@ -159,6 +161,93 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
         )}
       </div>
 
+      {/* Quantity selector */}
+      {onQuantityChange && (
+        <div
+          style={{
+            background: 'rgba(255,255,255,0.02)',
+            border: '1px solid rgba(212,175,55,0.1)',
+            borderRadius: '12px',
+            padding: '14px 18px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+          }}
+        >
+          <div>
+            <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(212,175,55,0.6)', textTransform: 'uppercase' }}>
+              {t('config_quantity')}
+            </div>
+            <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.22)', marginTop: '3px' }}>
+              {formatPrice(totalPrice)} / {t('config_unit')}
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+            <button
+              type="button"
+              onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
+              disabled={quantity <= 1}
+              className="cursor-pointer flex items-center justify-center"
+              style={{
+                width: '32px', height: '32px',
+                borderRadius: '8px 0 0 8px',
+                background: quantity <= 1 ? 'rgba(255,255,255,0.03)' : 'rgba(212,175,55,0.1)',
+                border: '1px solid rgba(212,175,55,0.2)',
+                borderRight: 'none',
+                color: quantity <= 1 ? 'rgba(255,255,255,0.2)' : '#d4af37',
+                fontSize: '16px',
+                lineHeight: 1,
+                cursor: quantity <= 1 ? 'not-allowed' : 'pointer',
+                transition: 'all 0.15s',
+              }}
+              onMouseEnter={e => { if (quantity > 1) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.18)'; }}
+              onMouseLeave={e => { if (quantity > 1) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.1)'; }}
+            >
+              −
+            </button>
+            <div
+              style={{
+                minWidth: '46px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(212,175,55,0.2)',
+                fontFamily: "'Cormorant Garant', serif",
+                fontSize: '1.1rem',
+                fontWeight: 700,
+                color: '#d4af37',
+              }}
+            >
+              {quantity}
+            </div>
+            <button
+              type="button"
+              onClick={() => onQuantityChange(Math.min(9999, quantity + 1))}
+              className="cursor-pointer flex items-center justify-center"
+              style={{
+                width: '32px', height: '32px',
+                borderRadius: '0 8px 8px 0',
+                background: 'rgba(212,175,55,0.1)',
+                border: '1px solid rgba(212,175,55,0.2)',
+                borderLeft: 'none',
+                color: '#d4af37',
+                fontSize: '16px',
+                lineHeight: 1,
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.18)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.1)'; }}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Price breakdown */}
       <div
         style={{
@@ -212,10 +301,12 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
         <div style={{ padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase' }}>{t('config_total_ttc_label')}</div>
-            <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.56rem', color: 'rgba(255,255,255,0.18)', marginTop: '3px' }}>{t('config_free_delivery')}</div>
+            <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.56rem', color: 'rgba(255,255,255,0.18)', marginTop: '3px' }}>
+              {quantity > 1 ? `${quantity} × ${fmtNum(totalPrice)} ${displaySymbol}` : t('config_free_delivery')}
+            </div>
           </div>
           <div className="flex items-baseline gap-1">
-            <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>{fmtNum(totalPrice)}</span>
+            <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>{fmtNum(totalPrice * quantity)}</span>
             <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem', color: 'rgba(212,175,55,0.55)' }}>{displaySymbol}</span>
           </div>
         </div>

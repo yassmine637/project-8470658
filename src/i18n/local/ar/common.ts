@@ -293,6 +293,8 @@ const translations = {
   config_product_display_name: 'زيت زيتون فندري',
   config_detail: 'التفاصيل',
   config_price: 'السعر',
+  config_quantity: 'الكمية',
+  config_unit: 'وحدة',
   config_total_ttc_label: 'الإجمالي شامل الضريبة',
   config_free_delivery: 'توصيل مجاني ابتداءً من 3 قوارير',
   config_get_estimate: 'احصل على تقدير',

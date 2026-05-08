@@ -292,6 +292,8 @@ const translations = {
   config_product_display_name: "Huile d'olive Fendri",
   config_detail: 'Détail',
   config_price: 'Prix',
+  config_quantity: 'Quantité',
+  config_unit: 'unité',
   config_total_ttc_label: 'Total TTC',
   config_free_delivery: 'Livraison offerte dès 3 bouteilles',
   config_get_estimate: 'Obtenir une estimation',

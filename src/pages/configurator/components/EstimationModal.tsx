@@ -11,6 +11,7 @@ interface EstimationModalProps {
   label: LabelStyle | null;
   customText: string;
   totalPrice: number;
+  quantity?: number;
   currency?: Currency;
   onClose: () => void;
 }
@@ -82,12 +83,12 @@ const labelStyleCSS: React.CSSProperties = {
 };
 
 export default function EstimationModal({
-  isOpen, model, size, label, customText, totalPrice, currency: currencyProp, onClose,
+  isOpen, model, size, label, customText, totalPrice, quantity: quantityProp = 1, currency: currencyProp, onClose,
 }: EstimationModalProps) {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
   const [formStep, setFormStep] = useState<FormStep>('estimate');
-  const [quantity] = useState(1);
+  const quantity = quantityProp;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<CountryEntry>(COUNTRIES[0]);

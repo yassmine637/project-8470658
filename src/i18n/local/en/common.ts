@@ -292,6 +292,8 @@ const translations = {
   config_product_display_name: 'Fendri Olive Oil',
   config_detail: 'Detail',
   config_price: 'Price',
+  config_quantity: 'Quantity',
+  config_unit: 'unit',
   config_total_ttc_label: 'Total incl. VAT',
   config_free_delivery: 'Free delivery from 3 bottles',
   config_get_estimate: 'Get an estimate',

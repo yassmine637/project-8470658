@@ -23,6 +23,7 @@ export default function ConfiguratorPage() {
   const [sizeChosen, setSizeChosen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState<LabelStyle | null>(null);
   const [customText, setCustomText] = useState('');
+  const [quantity, setQuantity] = useState(1);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [estimationOpen, setEstimationOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
@@ -425,6 +426,8 @@ export default function ConfiguratorPage() {
               label={selectedLabel}
               customText={customText}
               totalPrice={totalPrice}
+              quantity={quantity}
+              onQuantityChange={setQuantity}
               formatPrice={fmtCurrency}
               currencySymbol={configCurrencySymbol}
               onOrder={() => setOrderConfirmed(true)}
@@ -549,6 +552,7 @@ export default function ConfiguratorPage() {
         label={selectedLabel}
         customText={customText}
         totalPrice={totalPrice}
+        quantity={quantity}
         currency={currency}
         onClose={() => setEstimationOpen(false)}
       />
