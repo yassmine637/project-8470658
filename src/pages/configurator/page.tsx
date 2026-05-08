@@ -235,7 +235,7 @@ export default function ConfiguratorPage() {
         >
           {/* Bottle image */}
           <div style={{ width: '100%', height: '100%' }}>
-            {((!modelChosen && currentStep === 0) || (!sizeChosen && currentStep === 1)) ? (
+            {(!modelChosen && currentStep === 0) ? (
               <div style={{
                 width: '100%',
                 height: '100%',
