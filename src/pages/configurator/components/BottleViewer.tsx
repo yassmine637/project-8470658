@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import type { BottleModel, LabelStyle } from '@/mocks/configurator';
 import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
+
+const loadedImageCache = new Set<string>();
 const cylindrique500SizeStepOverride = '/images/configurateur/cylindrique-500ml-etape.png';
 const cylindrique750SizeStepOverride = '/images/configurateur/cylindrique-750ml-etape.png';
 const cylindrique1LSizeStepOverride = '/images/configurateur/cylindrique-1l-etape.png';
@@ -26,7 +28,7 @@ const SIZE_SCALE: Record<string, number> = {
 };
 
 export default function BottleViewer({ model, labelStyle, size, sizeId, currentStep = 0 }: BottleViewerProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(() => loadedImageCache.has(bottleImage));
   const [prevModelId, setPrevModelId] = useState(model.id);
   const [transitioning, setTransitioning] = useState(false);
   const sizeScale = SIZE_SCALE[size] ?? 0.85;
@@ -48,7 +50,9 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
   const bottleImage = modelStepOverride ?? sizeStepOverride ?? comboImage ?? model.sizeImages?.[size] ?? model.image;
 
   useEffect(() => {
-    setIsLoaded(false);
+    if (!loadedImageCache.has(bottleImage)) {
+      setIsLoaded(false);
+    }
   }, [bottleImage]);
 
   useEffect(() => {
@@ -94,7 +98,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
         <img
           src={bottleImage}
           alt={model.name}
-          onLoad={() => setIsLoaded(true)}
+          onLoad={() => { loadedImageCache.add(bottleImage); setIsLoaded(true); }}
           className="w-full h-full object-contain object-center"
           style={{
             opacity: isLoaded ? 1 : 0,

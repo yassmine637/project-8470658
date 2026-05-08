@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bottleModels, bottleSizes, labelStyles } from '@/mocks/configurator';
@@ -30,6 +30,13 @@ export default function ConfiguratorPage() {
     { id: 'text', label: t('config_step_text'), icon: 'ri-quill-pen-line', desc: t('config_step_desc_text') },
     { id: 'summary', label: t('config_step_summary'), icon: 'ri-file-list-3-line', desc: t('config_step_desc_summary') },
   ];
+
+  useEffect(() => {
+    bottleModels.forEach(m => {
+      const img = new Image();
+      img.src = m.image;
+    });
+  }, []);
 
   const totalPrice = selectedModel.basePrice + selectedSize.priceAdd + (selectedLabel?.priceAdd ?? 0);
   const handleNext = () => { if (currentStep < STEPS.length - 1) setCurrentStep(s => s + 1); };
