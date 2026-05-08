@@ -256,6 +256,7 @@ const translations = {
 
   // ConfigPanel
   config_step_model: 'Collection',
+  config_select_bottle: 'Choisissez votre bouteille',
   config_step_size: 'Contenance',
   config_step_label: 'Étiquette',
   config_step_text: 'Message',

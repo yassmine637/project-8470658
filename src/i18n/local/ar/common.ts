@@ -257,6 +257,7 @@ const translations = {
 
   // ConfigPanel
   config_step_model: 'المجموعة',
+  config_select_bottle: 'اختر زجاجتك',
   config_step_size: 'السعة',
   config_step_label: 'الملصق',
   config_step_text: 'الرسالة',

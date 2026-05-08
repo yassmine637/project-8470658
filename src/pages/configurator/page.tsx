@@ -235,14 +235,43 @@ export default function ConfiguratorPage() {
         >
           {/* Bottle image */}
           <div style={{ width: '100%', height: '100%' }}>
-            <BottleViewer
-              model={selectedModel}
-              labelStyle={selectedLabel}
-              customText={customText}
-              size={selectedSize.label}
-              sizeId={selectedSize.id}
-              currentStep={currentStep}
-            />
+            {!modelChosen && currentStep === 0 ? (
+              <div style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '16px',
+              }}>
+                <div style={{
+                  width: '80px',
+                  height: '160px',
+                  borderRadius: '8px 8px 6px 6px',
+                  border: '2px dashed rgba(0,0,0,0.12)',
+                  background: 'rgba(0,0,0,0.03)',
+                }} />
+                <span style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: '0.7rem',
+                  color: 'rgba(0,0,0,0.3)',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}>
+                  {t('config_select_bottle')}
+                </span>
+              </div>
+            ) : (
+              <BottleViewer
+                model={selectedModel}
+                labelStyle={selectedLabel}
+                customText={customText}
+                size={selectedSize.label}
+                sizeId={selectedSize.id}
+                currentStep={currentStep}
+              />
+            )}
           </div>
 
           {/* Model dots */}
