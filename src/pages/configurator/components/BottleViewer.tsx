@@ -28,10 +28,6 @@ const SIZE_SCALE: Record<string, number> = {
 };
 
 export default function BottleViewer({ model, labelStyle, size, sizeId, currentStep = 0 }: BottleViewerProps) {
-  const [isLoaded, setIsLoaded] = useState(() => loadedImageCache.has(bottleImage));
-  const [prevModelId, setPrevModelId] = useState(model.id);
-  const [transitioning, setTransitioning] = useState(false);
-  const sizeScale = SIZE_SCALE[size] ?? 0.85;
   const comboKey = sizeId && labelStyle ? getComboImageKey(model.id, sizeId, labelStyle.id) : '';
   const comboImage = comboKey && currentStep >= 2 ? COMBO_IMAGES[comboKey] : undefined;
   const sizeStepOverride = currentStep === 1 && model.id === 'cylindrique-500'
@@ -48,6 +44,11 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
       : undefined)
     : undefined;
   const bottleImage = modelStepOverride ?? sizeStepOverride ?? comboImage ?? model.sizeImages?.[size] ?? model.image;
+
+  const [isLoaded, setIsLoaded] = useState(() => loadedImageCache.has(bottleImage));
+  const [prevModelId, setPrevModelId] = useState(model.id);
+  const [transitioning, setTransitioning] = useState(false);
+  const sizeScale = SIZE_SCALE[size] ?? 0.85;
 
   useEffect(() => {
     if (!loadedImageCache.has(bottleImage)) {
