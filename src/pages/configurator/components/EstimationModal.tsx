@@ -239,7 +239,7 @@ export default function EstimationModal({
                 {formStep === 'estimate' ? t('config_estimate_title') : formStep === 'contact' ? t('config_quote_title') : t('config_sent_title')}
               </div>
               <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: 'rgba(212,175,55,0.55)', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '1px' }}>
-                {formStep === 'estimate' ? `${t('config_ref')} ${devisNumber.current}` : 'Fendri · Premium Olive Oil'}
+                Fendri · Premium Olive Oil
               </div>
             </div>
           </div>
@@ -269,7 +269,6 @@ export default function EstimationModal({
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '4px' }}>{t('config_estimation')}</div>
-                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1rem', fontWeight: 600, color: 'rgba(255,255,255,0.8)' }}>{devisNumber.current}</div>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', marginTop: '2px' }}>{t('config_date')} {devisDate.current}</div>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)' }}>{t('config_valid')}</div>
                 </div>
@@ -679,7 +678,7 @@ export default function EstimationModal({
                   {t('config_sent_success')}
                 </div>
                 <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, maxWidth: '400px' }}>
-                  {t('config_sent_desc')} <strong style={{ color: 'rgba(255,255,255,0.65)' }}>{devisNumber.current}</strong>. {t('config_sent_delay')}
+                  {t('config_sent_desc')} {t('config_sent_delay')}
                 </p>
               </div>
               <div style={{ height: '1px', width: '60px', background: 'rgba(212,175,55,0.3)' }} />
