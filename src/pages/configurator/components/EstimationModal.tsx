@@ -270,7 +270,6 @@ export default function EstimationModal({
                 <div style={{ textAlign: 'right' }}>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '4px' }}>{t('config_estimation')}</div>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', marginTop: '2px' }}>{t('config_date')} {devisDate.current}</div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)' }}>{t('config_valid')}</div>
                 </div>
               </div>
 
@@ -475,7 +474,7 @@ export default function EstimationModal({
               {/* Notes */}
               <div style={{ padding: '14px 16px', borderRadius: '8px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '24px' }}>
                 <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(212,175,55,0.5)', textTransform: 'uppercase', marginBottom: '8px' }}>{t('config_conditions_title')}</div>
-                {[t('config_cond1'), t('config_cond2'), t('config_cond3'), t('config_cond4')].map((note, i) => (
+                {[t('config_cond2'), t('config_cond3'), t('config_cond4')].map((note, i) => (
                   <div key={i} className="flex items-start gap-2" style={{ marginBottom: i < 3 ? '4px' : 0 }}>
                     <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(212,175,55,0.4)', marginTop: '5px', flexShrink: 0 }} />
                     <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.63rem', color: 'rgba(255,255,255,0.28)', lineHeight: 1.5 }}>{note}</span>
