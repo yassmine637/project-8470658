@@ -38,7 +38,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
       : sizeId === '3l' ? cylindrique3LSizeStepOverride
       : undefined)
     : undefined;
-  const modelStepOverride = currentStep === 0
+  const modelStepOverride = (currentStep === 0 || (currentStep === 1 && !sizeChosen))
     ? (model.id === 'carree-750' ? carreeModelStepOverride
       : model.id === 'bidon-metal-3l' ? bidonMetalModelStepOverride
       : model.id === 'bidon-vert-1l' ? bidonVertModelStepOverride
