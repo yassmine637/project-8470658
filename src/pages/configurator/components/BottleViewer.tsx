@@ -4,6 +4,7 @@ import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
 const cylindrique500SizeStepOverride = '/images/configurateur/cylindrique-500ml-etape.png';
 const cylindrique750SizeStepOverride = '/images/configurateur/cylindrique-750ml-etape.png';
 const cylindrique1LSizeStepOverride = '/images/configurateur/cylindrique-1l-etape.png';
+const cylindrique3LSizeStepOverride = '/images/configurateur/cylindrique-3l-etape.png';
 const carreeModelStepOverride = '/images/configurateur/carree-originale.png';
 const bidonMetalModelStepOverride = '/images/configurateur/bidon-metal-originale.png';
 const bidonVertModelStepOverride = '/images/configurateur/bidon-vert-originale.png';
@@ -35,6 +36,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
     ? (sizeId === '500ml' ? cylindrique500SizeStepOverride
       : sizeId === '750ml' ? cylindrique750SizeStepOverride
       : sizeId === '1l' ? cylindrique1LSizeStepOverride
+      : sizeId === '3l' ? cylindrique3LSizeStepOverride
       : undefined)
     : undefined;
   const modelStepOverride = currentStep === 0
