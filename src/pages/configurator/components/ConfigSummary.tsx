@@ -7,17 +7,22 @@ interface ConfigSummaryProps {
   label: LabelStyle | null;
   customText: string;
   totalPrice: number;
+  formatPrice?: (amount: number) => string;
+  currencySymbol?: string;
   onOrder: () => void;
   onEstimation?: () => void;
 }
 
-export default function ConfigSummary({ model, size, label, customText, totalPrice, onOrder, onEstimation }: ConfigSummaryProps) {
+export default function ConfigSummary({ model, size, label, customText, totalPrice, formatPrice: externalFormatPrice, currencySymbol: externalSymbol, onOrder, onEstimation }: ConfigSummaryProps) {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
   const accentColor = label?.accentColor ?? '#c9a84c';
   const bgColor = label?.bgColor ?? '#f8f6f1';
   const borderColor = label?.borderColor ?? 'rgba(201,168,76,0.3)';
-  const formatPrice = (amount: number) => (isArabic ? `${amount} د.ت` : `${amount} TND`);
+  const fmtNum = externalFormatPrice ?? ((n: number) => String(n));
+  const symb = externalSymbol ?? 'TND';
+  const displaySymbol = symb === 'TND' && isArabic ? 'د.ت' : symb;
+  const formatPrice = (amount: number) => `${fmtNum(amount)} ${displaySymbol}`;
 
   const lineItems = [
     { label: t(model.nameKey), sub: t('config_base_model'), price: model.basePrice, included: false },
@@ -210,8 +215,8 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
             <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.56rem', color: 'rgba(255,255,255,0.18)', marginTop: '3px' }}>{t('config_free_delivery')}</div>
           </div>
           <div className="flex items-baseline gap-1">
-            <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>{totalPrice}</span>
-            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem', color: 'rgba(212,175,55,0.55)' }}>{isArabic ? 'د.ت' : 'TND'}</span>
+            <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>{fmtNum(totalPrice)}</span>
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem', color: 'rgba(212,175,55,0.55)' }}>{displaySymbol}</span>
           </div>
         </div>
       </div>

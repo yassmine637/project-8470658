@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bottleModels, bottleSizes, labelStyles } from '@/mocks/configurator';
@@ -8,6 +8,10 @@ import ConfigPanel from './components/ConfigPanel';
 import ConfigSummary from './components/ConfigSummary';
 import OrderConfirmModal from './components/OrderConfirmModal';
 import EstimationModal from './components/EstimationModal';
+import { useCurrency, CURRENCIES } from '@/hooks/useCurrency';
+import type { Currency } from '@/hooks/useCurrency';
+
+const FEATURED_CURRENCIES: Currency[] = ['TND', 'EUR', 'USD', 'GBP', 'CHF', 'SAR', 'AED'];
 
 export default function ConfiguratorPage() {
   const navigate = useNavigate();
@@ -22,6 +26,20 @@ export default function ConfiguratorPage() {
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [estimationOpen, setEstimationOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
+  const { currency, setCurrency, currencyInfo, format: fmtCurrency } = useCurrency('TND');
+  const [currencyDropOpen, setCurrencyDropOpen] = useState(false);
+  const currencyDropRef = useRef<HTMLDivElement>(null);
+  const configCurrencySymbol = currencyInfo.code === 'TND' ? 'TND' : currencyInfo.symbol;
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (currencyDropRef.current && !currencyDropRef.current.contains(e.target as Node)) {
+        setCurrencyDropOpen(false);
+      }
+    };
+    if (currencyDropOpen) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [currencyDropOpen]);
 
   const STEPS = [
     { id: 'model', label: t('config_step_model'), icon: 'ri-flask-line', desc: t('config_step_desc_model') },
@@ -141,6 +159,79 @@ export default function ConfiguratorPage() {
           </span>
         </div>
 
+        {/* Currency selector */}
+        <div ref={currencyDropRef} style={{ position: 'relative', flexShrink: 0 }}>
+          <button
+            type="button"
+            onClick={() => setCurrencyDropOpen(v => !v)}
+            className="cursor-pointer flex items-center gap-1.5"
+            style={{
+              background: currencyDropOpen ? 'rgba(212,175,55,0.12)' : 'rgba(212,175,55,0.06)',
+              border: '1px solid rgba(212,175,55,0.28)',
+              borderRadius: '7px',
+              padding: '6px 10px',
+              color: '#d4af37',
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: '0.7rem',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              transition: 'all 0.2s',
+              outline: 'none',
+            }}
+          >
+            <span style={{ fontSize: '0.95rem' }}>{currencyInfo.flag}</span>
+            <span>{currencyInfo.code}</span>
+            <i className={currencyDropOpen ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line'} style={{ fontSize: '13px', opacity: 0.6 }} />
+          </button>
+
+          {currencyDropOpen && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 6px)',
+              right: 0,
+              zIndex: 300,
+              background: '#1a1a1a',
+              border: '1px solid rgba(212,175,55,0.22)',
+              borderRadius: '10px',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.55)',
+              overflow: 'hidden',
+              minWidth: '150px',
+            }}>
+              {FEATURED_CURRENCIES.map((code, idx) => {
+                const c = CURRENCIES[code];
+                const isActive = code === currency;
+                return (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => { setCurrency(code); setCurrencyDropOpen(false); }}
+                    className="cursor-pointer w-full flex items-center gap-2"
+                    style={{
+                      padding: '9px 14px',
+                      background: isActive ? 'rgba(212,175,55,0.1)' : 'transparent',
+                      border: 'none',
+                      borderBottom: idx < FEATURED_CURRENCIES.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                      color: isActive ? '#d4af37' : 'rgba(255,255,255,0.75)',
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: '0.75rem',
+                      fontWeight: isActive ? 700 : 400,
+                      textAlign: 'left',
+                      transition: 'background 0.15s',
+                    }}
+                    onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                    onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                  >
+                    <span style={{ fontSize: '0.95rem' }}>{c.flag}</span>
+                    <span style={{ flex: 1 }}>{c.code}</span>
+                    {c.symbol !== c.code && <span style={{ opacity: 0.4, fontSize: '0.65rem' }}>{c.symbol}</span>}
+                    {isActive && <i className="ri-check-line" style={{ fontSize: '11px' }} />}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
       </div>
 
       {/* ── MAIN CONTENT ── */}
@@ -209,6 +300,8 @@ export default function ConfiguratorPage() {
                 sizeChosen={sizeChosen}
                 selectedLabel={selectedLabel}
                 customText={customText}
+                formatPrice={fmtCurrency}
+                currencySymbol={configCurrencySymbol}
                 onModelChange={m => {
                   setSelectedModel(m);
                   setModelChosen(true);
@@ -332,6 +425,8 @@ export default function ConfiguratorPage() {
               label={selectedLabel}
               customText={customText}
               totalPrice={totalPrice}
+              formatPrice={fmtCurrency}
+              currencySymbol={configCurrencySymbol}
               onOrder={() => setOrderConfirmed(true)}
               onEstimation={() => setEstimationOpen(true)}
             />

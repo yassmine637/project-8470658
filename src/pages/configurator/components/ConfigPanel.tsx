@@ -13,6 +13,8 @@ interface ConfigPanelProps {
   sizeChosen?: boolean;
   selectedLabel: LabelStyle | null;
   customText: string;
+  formatPrice?: (amount: number) => string;
+  currencySymbol?: string;
   onModelChange: (m: BottleModel) => void;
   onSizeChange: (s: BottleSize) => void;
   onLabelChange: (l: LabelStyle) => void;
@@ -24,6 +26,8 @@ export default function ConfigPanel({
   step,
   models, sizes, labels,
   selectedModel, modelChosen = true, selectedSize, sizeChosen = true, selectedLabel, customText,
+  formatPrice: externalFormatPrice,
+  currencySymbol: externalSymbol,
   onModelChange, onSizeChange, onLabelChange, onCustomTextChange,
   onValidate,
 }: ConfigPanelProps) {
@@ -35,7 +39,10 @@ export default function ConfigPanel({
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [step]);
 
-  const formatPrice = (amount: number) => (isArabic ? `${amount} د.ت` : `${amount} TND`);
+  const fmtNum = externalFormatPrice ?? ((n: number) => String(n));
+  const symb = externalSymbol ?? 'TND';
+  const displaySymbol = symb === 'TND' && isArabic ? 'د.ت' : symb;
+  const formatPrice = (amount: number) => `${fmtNum(amount)} ${displaySymbol}`;
 
   return (
     <div
@@ -141,9 +148,9 @@ export default function ConfigPanel({
 
                 <div style={{ flexShrink: 0, textAlign: 'right' }}>
                   <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.8rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>
-                    {formatPrice(m.basePrice)}
+                    {fmtNum(m.basePrice)}
                   </div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', color: 'rgba(212,175,55,0.45)', letterSpacing: '0.1em', marginTop: '4px' }}>{isArabic ? 'د.ت' : 'TND'}</div>
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', color: 'rgba(212,175,55,0.45)', letterSpacing: '0.1em', marginTop: '4px' }}>{displaySymbol}</div>
                 </div>
 
                 {isSelected && (

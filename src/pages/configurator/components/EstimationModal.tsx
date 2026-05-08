@@ -413,10 +413,12 @@ export default function EstimationModal({
                 <div className="flex-1">
                   <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.1rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>{t('config_product_name')}</div>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', marginTop: '3px' }}>{t('config_custom_config')} · {t(model.nameKey)} · {size.label}</div>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', marginTop: '6px', padding: '3px 8px', borderRadius: '20px', background: `${label.accentColor}18`, border: `1px solid ${label.accentColor}33` }}>
-                    <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: label.accentColor }} />
-                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: label.accentColor }}>{t('config_label_etiquette')} {t(label.nameKey)}</span>
-                  </div>
+                  {label && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', marginTop: '6px', padding: '3px 8px', borderRadius: '20px', background: `${label.accentColor}18`, border: `1px solid ${label.accentColor}33` }}>
+                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: label.accentColor }} />
+                      <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: label.accentColor }}>{t('config_label_etiquette')} {t(label.nameKey)}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
