@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import type { BottleModel, LabelStyle } from '@/mocks/configurator';
 import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
 const cylindrique500SizeStepOverride = '/images/configurateur/cylindrique-500ml-etape.png';
+const cylindrique750SizeStepOverride = '/images/configurateur/cylindrique-750ml-etape.png';
 const carreeModelStepOverride = '/images/configurateur/carree-originale.png';
 const bidonMetalModelStepOverride = '/images/configurateur/bidon-metal-originale.png';
 const bidonVertModelStepOverride = '/images/configurateur/bidon-vert-originale.png';
@@ -29,7 +30,11 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, currentS
   const sizeScale = SIZE_SCALE[size] ?? 0.85;
   const comboKey = sizeId && labelStyle ? getComboImageKey(model.id, sizeId, labelStyle.id) : '';
   const comboImage = comboKey && currentStep >= 2 ? COMBO_IMAGES[comboKey] : undefined;
-  const sizeStepOverride = currentStep === 1 && model.id === 'cylindrique-500' && sizeId === '500ml' ? cylindrique500SizeStepOverride : undefined;
+  const sizeStepOverride = currentStep === 1 && model.id === 'cylindrique-500'
+    ? (sizeId === '500ml' ? cylindrique500SizeStepOverride
+      : sizeId === '750ml' ? cylindrique750SizeStepOverride
+      : undefined)
+    : undefined;
   const modelStepOverride = currentStep === 0
     ? (model.id === 'carree-750' ? carreeModelStepOverride
       : model.id === 'bidon-metal-3l' ? bidonMetalModelStepOverride
