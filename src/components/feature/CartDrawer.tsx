@@ -309,53 +309,74 @@ export default function CartDrawer() {
 
                           <div className="flex items-center justify-between">
                             {/* Qty controls */}
-                            <div className="flex items-center rounded-lg overflow-hidden" style={{ border: '1.5px solid #c9a84c', background: '#fff' }}>
-                              <button
-                                onClick={() => updateQuantity(item.product.id, Math.max(1, item.quantity - 1))}
-                                className="w-7 h-7 flex items-center justify-center text-sm cursor-pointer border-none transition-colors duration-150"
-                                style={{ background: 'transparent', color: '#1a2617', flexShrink: 0 }}
-                                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.12)'; }}
-                                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
-                              >
-                                <i className="ri-subtract-line" />
-                              </button>
-                              <input
-                                type="number"
-                                min={1}
-                                max={9999}
-                                value={item.quantity}
-                                onChange={(e) => {
-                                  const v = parseInt(e.target.value, 10);
-                                  if (!isNaN(v) && v >= 1 && v <= 9999) updateQuantity(item.product.id, v);
-                                }}
-                                onFocus={(e) => { e.currentTarget.select(); }}
-                                onBlur={(e) => {
-                                  const v = parseInt(e.target.value, 10);
-                                  updateQuantity(item.product.id, (!isNaN(v) && v >= 1) ? Math.min(v, 9999) : 1);
-                                }}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter') (e.currentTarget as HTMLInputElement).blur();
-                                }}
-                                className="text-center text-sm font-bold outline-none"
-                                style={{
-                                  width: '44px',
-                                  height: '28px',
-                                  border: 'none',
-                                  background: 'transparent',
-                                  color: '#1a2617',
-                                  fontFamily: "'Outfit', sans-serif",
-                                  cursor: 'text',
-                                }}
-                              />
-                              <button
-                                onClick={() => updateQuantity(item.product.id, Math.min(9999, item.quantity + 1))}
-                                className="w-7 h-7 flex items-center justify-center text-sm cursor-pointer border-none transition-colors duration-150"
-                                style={{ background: 'transparent', color: '#1a2617', flexShrink: 0 }}
-                                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.12)'; }}
-                                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
-                              >
-                                <i className="ri-add-line" />
-                              </button>
+                            <div className="flex flex-col gap-1">
+                              <span style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                                Qté
+                              </span>
+                              <div className="flex items-center gap-1">
+                                {/* − */}
+                                <button
+                                  onClick={() => updateQuantity(item.product.id, Math.max(1, item.quantity - 1))}
+                                  className="flex items-center justify-center cursor-pointer border-none transition-all duration-150"
+                                  style={{ width: '26px', height: '32px', borderRadius: '7px', background: '#f0ede6', color: '#1a2617', fontSize: '1rem', fontWeight: 700, flexShrink: 0 }}
+                                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.25)'; }}
+                                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#f0ede6'; }}
+                                >
+                                  −
+                                </button>
+
+                                {/* Editable input box */}
+                                <div className="relative flex items-center" style={{ border: '2px solid #c9a84c', borderRadius: '8px', background: '#fff', boxShadow: '0 1px 4px rgba(201,168,76,0.15)' }}>
+                                  <input
+                                    type="number"
+                                    min={1}
+                                    max={9999}
+                                    value={item.quantity}
+                                    onChange={(e) => {
+                                      const v = parseInt(e.target.value, 10);
+                                      if (!isNaN(v) && v >= 1 && v <= 9999) updateQuantity(item.product.id, v);
+                                    }}
+                                    onFocus={(e) => {
+                                      e.currentTarget.select();
+                                      (e.currentTarget.parentElement as HTMLElement).style.borderColor = '#a07a20';
+                                      (e.currentTarget.parentElement as HTMLElement).style.background = '#fffdf5';
+                                    }}
+                                    onBlur={(e) => {
+                                      const v = parseInt(e.target.value, 10);
+                                      updateQuantity(item.product.id, (!isNaN(v) && v >= 1) ? Math.min(v, 9999) : 1);
+                                      (e.currentTarget.parentElement as HTMLElement).style.borderColor = '#c9a84c';
+                                      (e.currentTarget.parentElement as HTMLElement).style.background = '#fff';
+                                    }}
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter') (e.currentTarget as HTMLInputElement).blur();
+                                    }}
+                                    className="text-center font-bold outline-none"
+                                    style={{
+                                      width: '46px',
+                                      height: '30px',
+                                      border: 'none',
+                                      background: 'transparent',
+                                      color: '#1a2617',
+                                      fontFamily: "'Outfit', sans-serif",
+                                      fontSize: '0.9rem',
+                                      cursor: 'text',
+                                      paddingRight: '14px',
+                                    }}
+                                  />
+                                  <i className="ri-pencil-line" style={{ position: 'absolute', right: '4px', top: '50%', transform: 'translateY(-50%)', color: '#c9a84c', fontSize: '0.65rem', pointerEvents: 'none' }} />
+                                </div>
+
+                                {/* + */}
+                                <button
+                                  onClick={() => updateQuantity(item.product.id, Math.min(9999, item.quantity + 1))}
+                                  className="flex items-center justify-center cursor-pointer border-none transition-all duration-150"
+                                  style={{ width: '26px', height: '32px', borderRadius: '7px', background: '#f0ede6', color: '#1a2617', fontSize: '1rem', fontWeight: 700, flexShrink: 0 }}
+                                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.25)'; }}
+                                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#f0ede6'; }}
+                                >
+                                  +
+                                </button>
+                              </div>
                             </div>
 
                             {/* Price */}
