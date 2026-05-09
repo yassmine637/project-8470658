@@ -5,7 +5,7 @@ import Header from '@/components/feature/Header';
 import Footer from '@/components/feature/Footer';
 import BackButton from '@/components/base/BackButton';
 import VideoModal from './components/VideoModal';
-import { products, Product } from '@/mocks/products';
+import { products, Product, getStockStatus, STOCK_DISPLAY } from '@/mocks/products';
 import { useCart } from '@/hooks/useCart';
 
 const PRODUCT_TRANSLATION_PREFIXES: Record<string, string> = {
@@ -318,6 +318,27 @@ export default function ProductsPage() {
                     >
                       {PRODUCT_VOLUME_KEYS[product.id] ? t(PRODUCT_VOLUME_KEYS[product.id]) : product.volume}
                     </p>
+
+                    {/* Stock badge */}
+                    {(() => {
+                      const status = getStockStatus(product.stock);
+                      const s = STOCK_DISPLAY[status];
+                      return (
+                        <span
+                          className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
+                          style={{
+                            background: s.bg,
+                            opacity: hasSelection && !isActive ? 0.5 : 1,
+                            transition: 'opacity 0.3s',
+                          }}
+                        >
+                          <i className={`${s.icon}`} style={{ color: s.color, fontSize: '0.6rem' }} />
+                          <span style={{ color: s.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                            {status === 'low_stock' ? `${product.stock} restants` : s.label}
+                          </span>
+                        </span>
+                      );
+                    })()}
                   </div>
 
                   {/* Active indicator dot */}
@@ -464,17 +485,36 @@ export default function ProductsPage() {
 
               <div className="h-px w-10 mb-5" style={{ background: `${accent}70` }} />
 
-              {/* Price */}
-              <div className="flex items-baseline gap-2 mb-5">
-                <span
-                  className="font-bold"
-                  style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '3rem', color: '#1a2617', lineHeight: 1 }}
-                >
-                  {selected.price}
-                </span>
-                <span className="text-base font-semibold" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
-                  {isArabic ? 'د.ت' : selected.currency}
-                </span>
+              {/* Price + Stock */}
+              <div className="flex items-end gap-4 mb-5 flex-wrap">
+                <div className="flex items-baseline gap-2">
+                  <span
+                    className="font-bold"
+                    style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '3rem', color: '#1a2617', lineHeight: 1 }}
+                  >
+                    {selected.price}
+                  </span>
+                  <span className="text-base font-semibold" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
+                    {isArabic ? 'د.ت' : selected.currency}
+                  </span>
+                </div>
+
+                {/* Stock indicator */}
+                {(() => {
+                  const status = getStockStatus(selected.stock);
+                  const s = STOCK_DISPLAY[status];
+                  return (
+                    <span
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-1"
+                      style={{ background: s.bg, border: `1px solid ${s.color}30` }}
+                    >
+                      <i className={s.icon} style={{ color: s.color, fontSize: '0.75rem' }} />
+                      <span style={{ color: s.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                        {status === 'low_stock' ? `${selected.stock} restants` : s.label}
+                      </span>
+                    </span>
+                  );
+                })()}
               </div>
 
               {/* Tagline */}
@@ -598,27 +638,41 @@ export default function ProductsPage() {
                 </div>
 
                 {/* Add to cart */}
-                <button
-                  onClick={handleAddToCart}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 cursor-pointer border-none whitespace-nowrap"
-                  style={{
-                    background: '#1a2617',
-                    color: accent,
-                    fontFamily: "'Outfit', sans-serif",
-                    minWidth: '170px',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = accent;
-                    (e.currentTarget as HTMLButtonElement).style.color = '#1a2617';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = '#1a2617';
-                    (e.currentTarget as HTMLButtonElement).style.color = accent;
-                  }}
-                >
-                  <i className="ri-shopping-basket-2-line text-base" />
-                  {t('card_order')}
-                </button>
+                {(() => {
+                  const isOutOfStock = getStockStatus(selected.stock) === 'out_of_stock';
+                  return (
+                    <button
+                      onClick={isOutOfStock ? undefined : handleAddToCart}
+                      disabled={isOutOfStock}
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold uppercase tracking-widest border-none whitespace-nowrap"
+                      style={{
+                        background: isOutOfStock ? '#e8e4da' : '#1a2617',
+                        color: isOutOfStock ? '#b0ada6' : accent,
+                        fontFamily: "'Outfit', sans-serif",
+                        minWidth: '170px',
+                        cursor: isOutOfStock ? 'not-allowed' : 'pointer',
+                        transition: 'all 0.3s',
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isOutOfStock) {
+                          (e.currentTarget as HTMLButtonElement).style.background = accent;
+                          (e.currentTarget as HTMLButtonElement).style.color = '#1a2617';
+                          (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isOutOfStock) {
+                          (e.currentTarget as HTMLButtonElement).style.background = '#1a2617';
+                          (e.currentTarget as HTMLButtonElement).style.color = accent;
+                          (e.currentTarget as HTMLButtonElement).style.transform = 'none';
+                        }
+                      }}
+                    >
+                      <i className={isOutOfStock ? 'ri-close-circle-line text-base' : 'ri-shopping-basket-2-line text-base'} />
+                      {isOutOfStock ? 'Rupture de stock' : t('card_order')}
+                    </button>
+                  );
+                })()}
               </div>
             </div>
           </div>

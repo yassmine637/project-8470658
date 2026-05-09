@@ -19,7 +19,22 @@ export interface Product {
   videoUrl?: string;
   accentColor?: string;
   imageScale?: number;
+  stock: number;
 }
+
+export type StockStatus = 'in_stock' | 'low_stock' | 'out_of_stock';
+
+export function getStockStatus(stock: number): StockStatus {
+  if (stock <= 0) return 'out_of_stock';
+  if (stock <= 30) return 'low_stock';
+  return 'in_stock';
+}
+
+export const STOCK_DISPLAY: Record<StockStatus, { label: string; color: string; bg: string; icon: string }> = {
+  in_stock:     { label: 'En stock',      color: '#2d7a3a', bg: 'rgba(45,122,58,0.1)',   icon: 'ri-checkbox-circle-line' },
+  low_stock:    { label: 'Stock limité',  color: '#b8750a', bg: 'rgba(184,117,10,0.1)',  icon: 'ri-error-warning-line' },
+  out_of_stock: { label: 'Rupture',       color: '#c0392b', bg: 'rgba(192,57,43,0.1)',   icon: 'ri-close-circle-line' },
+};
 
 export const products: Product[] = [
   {
@@ -44,6 +59,7 @@ export const products: Product[] = [
     badge: 'Bio & Naturel',
     videoUrl: bidon1LVideo,
     accentColor: '#3a6040',
+    stock: 150,
   },
   {
     id: 'bouteille-500ml',
@@ -67,6 +83,7 @@ export const products: Product[] = [
     badge: 'Best-seller',
     videoUrl: bouteille500mlVideo,
     accentColor: '#c9a84c',
+    stock: 300,
   },
   {
     id: 'bouteille-250ml',
@@ -90,6 +107,7 @@ export const products: Product[] = [
     badge: 'Premium',
     videoUrl: bouteille750mlVideo,
     accentColor: '#b8942a',
+    stock: 12,
   },
   {
     id: 'bouteille-speciale',
@@ -113,5 +131,6 @@ export const products: Product[] = [
     badge: 'Format Familial',
     videoUrl: bidon3LVideo,
     accentColor: '#7b5e3a',
+    stock: 0,
   },
 ];
