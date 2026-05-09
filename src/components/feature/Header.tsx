@@ -267,7 +267,7 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:block">
-          <ul className="flex gap-6 list-none m-0 p-0">
+          <ul className="flex gap-10 list-none m-0 p-0">
             {navLinks.map((link) => {
               const key = link.type === 'route' ? link.href : link.sectionId;
               const isActive = link.type === 'route' && location.pathname === link.href;
