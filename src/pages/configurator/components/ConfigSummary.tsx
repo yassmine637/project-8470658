@@ -2,6 +2,20 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottleModel, BottleSize, LabelStyle } from '@/mocks/configurator';
 
+const VOLUME_TIERS = [
+  { min: 1,   max: 9,    rate: 0,    label: '< 10' },
+  { min: 10,  max: 49,   rate: 0.05, label: '≥ 10' },
+  { min: 50,  max: 99,   rate: 0.10, label: '≥ 50' },
+  { min: 100, max: 9999, rate: 0.15, label: '≥ 100' },
+];
+
+function getDiscountRate(qty: number): number {
+  if (qty >= 100) return 0.15;
+  if (qty >= 50)  return 0.10;
+  if (qty >= 10)  return 0.05;
+  return 0;
+}
+
 interface ConfigSummaryProps {
   model: BottleModel;
   size: BottleSize;
@@ -300,6 +314,65 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
         </div>
       )}
 
+      {/* Volume discount tiers */}
+      {onQuantityChange && (() => {
+        const discountRate = getDiscountRate(quantity);
+        const nextTier = VOLUME_TIERS.find(t => t.min > quantity);
+        const unitsToNext = nextTier ? nextTier.min - quantity : 0;
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: '5px' }}>
+              {VOLUME_TIERS.map((tier) => {
+                const isActive = tier.rate === discountRate;
+                const isPast = tier.rate < discountRate;
+                return (
+                  <div
+                    key={tier.label}
+                    style={{
+                      flex: 1,
+                      borderRadius: '8px',
+                      padding: '6px 4px',
+                      textAlign: 'center',
+                      background: isActive
+                        ? 'rgba(212,175,55,0.14)'
+                        : isPast
+                          ? 'rgba(212,175,55,0.05)'
+                          : 'rgba(255,255,255,0.02)',
+                      border: isActive
+                        ? '1px solid rgba(212,175,55,0.5)'
+                        : '1px solid rgba(255,255,255,0.05)',
+                      transition: 'all 0.3s',
+                    }}
+                  >
+                    <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: isActive ? 'rgba(212,175,55,0.7)' : 'rgba(255,255,255,0.2)', letterSpacing: '0.06em', marginBottom: '2px' }}>
+                      {tier.label}
+                    </div>
+                    <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.85rem', fontWeight: 700, color: isActive ? '#d4af37' : tier.rate > 0 ? 'rgba(212,175,55,0.35)' : 'rgba(255,255,255,0.18)' }}>
+                      {tier.rate === 0 ? '0%' : `-${(tier.rate * 100).toFixed(0)}%`}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            {unitsToNext > 0 && (
+              <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: 'rgba(212,175,55,0.45)', textAlign: 'center', letterSpacing: '0.04em' }}>
+                ✦ {unitsToNext} unité{unitsToNext > 1 ? 's' : ''} de plus pour -{(nextTier!.rate * 100).toFixed(0)}%
+              </div>
+            )}
+            {discountRate > 0 && (
+              <div style={{ borderRadius: '8px', padding: '7px 12px', background: 'rgba(16,160,80,0.08)', border: '1px solid rgba(16,160,80,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(16,200,90,0.75)', letterSpacing: '0.04em' }}>
+                  Remise volume activée
+                </span>
+                <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.9rem', fontWeight: 700, color: 'rgba(16,200,90,0.85)' }}>
+                  -{(discountRate * 100).toFixed(0)}%
+                </span>
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
       {/* Price breakdown */}
       <div
         style={{
@@ -350,18 +423,38 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
 
         <div style={{ height: '1px', background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.2), transparent)', margin: '0 18px' }} />
 
-        <div style={{ padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>
-            <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase' }}>{t('config_total_ttc_label')}</div>
-            <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.56rem', color: 'rgba(255,255,255,0.18)', marginTop: '3px' }}>
-              {quantity > 1 ? `${quantity} × ${fmtNum(totalPrice)} ${displaySymbol}` : t('config_free_delivery')}
+        {(() => {
+          const discountRate = getDiscountRate(quantity);
+          const discountedUnit = Math.round(totalPrice * (1 - discountRate) * 100) / 100;
+          const finalTotal = Math.round(discountedUnit * quantity * 100) / 100;
+          const savings = Math.round((totalPrice - discountedUnit) * quantity * 100) / 100;
+          return (
+            <div style={{ padding: '18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase' }}>{t('config_total_ttc_label')}</div>
+                <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.56rem', color: 'rgba(255,255,255,0.18)', marginTop: '3px' }}>
+                  {quantity > 1 ? `${quantity} × ${fmtNum(discountedUnit)} ${displaySymbol}` : t('config_free_delivery')}
+                </div>
+                {savings > 0 && (
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.54rem', color: 'rgba(16,200,90,0.7)', marginTop: '4px', letterSpacing: '0.02em' }}>
+                    Économie&nbsp;: {fmtNum(savings)} {displaySymbol}
+                  </div>
+                )}
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                {discountRate > 0 && (
+                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.22)', textDecoration: 'line-through', marginBottom: '2px' }}>
+                    {fmtNum(totalPrice * quantity)} {displaySymbol}
+                  </div>
+                )}
+                <div className="flex items-baseline gap-1 justify-end">
+                  <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', fontWeight: 700, color: discountRate > 0 ? 'rgba(16,200,90,0.9)' : '#d4af37', lineHeight: 1 }}>{fmtNum(finalTotal)}</span>
+                  <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem', color: discountRate > 0 ? 'rgba(16,200,90,0.6)' : 'rgba(212,175,55,0.55)' }}>{displaySymbol}</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-baseline gap-1">
-            <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', fontWeight: 700, color: '#d4af37', lineHeight: 1 }}>{fmtNum(totalPrice * quantity)}</span>
-            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem', color: 'rgba(212,175,55,0.55)' }}>{displaySymbol}</span>
-          </div>
-        </div>
+          );
+        })()}
       </div>
 
       {/* Estimation */}

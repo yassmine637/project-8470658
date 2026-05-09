@@ -147,8 +147,10 @@ export default function EstimationModal({
     if (e.target === overlayRef.current) onClose();
   };
 
-  const unitPrice = totalPrice;
-  const subtotal = unitPrice * quantity;
+  const discountRate = quantity >= 100 ? 0.15 : quantity >= 50 ? 0.10 : quantity >= 10 ? 0.05 : 0;
+  const unitPrice = Math.round(totalPrice * (1 - discountRate) * 100) / 100;
+  const discountAmount = Math.round((totalPrice - unitPrice) * quantity * 100) / 100;
+  const subtotal = Math.round(unitPrice * quantity * 100) / 100;
   const tva = Math.round(subtotal * 0.19);
   const totalTTC = subtotal + tva;
 
@@ -502,12 +504,13 @@ export default function EstimationModal({
                 ))}
                 <div style={{ borderTop: '1px solid rgba(212,175,55,0.15)', background: 'rgba(212,175,55,0.03)' }}>
                   {[
-                    { label: `${t('config_subtotal')} (${quantity} × ${formatPrice(unitPrice)} ${displaySymbol})`, value: `${formatPrice(subtotal)} ${displaySymbol}` },
-                    { label: t('config_tva'), value: `${formatPrice(tva)} ${displaySymbol}` },
+                    { label: `${t('config_subtotal')} (${quantity} × ${formatPrice(totalPrice)} ${displaySymbol})`, value: `${formatPrice(totalPrice * quantity)} ${displaySymbol}`, discount: false },
+                    ...(discountRate > 0 ? [{ label: `Remise volume (-${(discountRate * 100).toFixed(0)}%)`, value: `- ${formatPrice(discountAmount)} ${displaySymbol}`, discount: true }] : []),
+                    { label: t('config_tva'), value: `${formatPrice(tva)} ${displaySymbol}`, discount: false },
                   ].map(row => (
-                    <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 16px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                      <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)' }}>{row.label}</span>
-                      <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.68rem', color: 'rgba(255,255,255,0.45)' }}>{row.value}</span>
+                    <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 16px', borderBottom: '1px solid rgba(255,255,255,0.04)', background: row.discount ? 'rgba(16,160,80,0.05)' : 'transparent' }}>
+                      <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.68rem', color: row.discount ? 'rgba(16,200,90,0.7)' : 'rgba(255,255,255,0.35)' }}>{row.label}</span>
+                      <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.68rem', color: row.discount ? 'rgba(16,200,90,0.8)' : 'rgba(255,255,255,0.45)', fontWeight: row.discount ? 600 : 400 }}>{row.value}</span>
                     </div>
                   ))}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px' }}>
