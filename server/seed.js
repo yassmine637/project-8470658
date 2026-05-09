@@ -85,7 +85,7 @@ const products = [
     badge: 'Format Familial',
     accentColor: '#7b5e3a',
     imageScale: 1.15,
-    stock: 120,
+    stock: 30,
   },
 ];
 

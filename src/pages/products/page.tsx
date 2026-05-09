@@ -5,7 +5,8 @@ import Header from '@/components/feature/Header';
 import Footer from '@/components/feature/Footer';
 import BackButton from '@/components/base/BackButton';
 import VideoModal from './components/VideoModal';
-import { products, Product, getStockStatus, STOCK_DISPLAY } from '@/mocks/products';
+import { Product, getStockStatus, STOCK_DISPLAY } from '@/mocks/products';
+import { useProducts } from '@/hooks/useProducts';
 import { useCart } from '@/hooks/useCart';
 
 const PRODUCT_TRANSLATION_PREFIXES: Record<string, string> = {
@@ -39,6 +40,7 @@ const BADGE_TRANSLATION_KEYS: Record<string, string> = {
 export default function ProductsPage() {
   const { t, i18n } = useTranslation();
   const { addToCart, openCart } = useCart();
+  const { products } = useProducts();
   const [selected, setSelected] = useState<Product | null>(null);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);

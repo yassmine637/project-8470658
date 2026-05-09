@@ -1,5 +1,6 @@
 import express from 'express';
 import Order from '../models/Order.js';
+import Product from '../models/Product.js';
 import User from '../models/User.js';
 import { protect } from '../middleware/auth.js';
 import { orderLimiter } from '../middleware/rateLimit.js';
@@ -34,6 +35,16 @@ router.post('/', orderLimiter, validateOrder, async (req, res) => {
       paymentMethod: validPaymentMethods.includes(paymentMethod) ? paymentMethod : 'cod',
     });
 
+    // Décrémenter le stock pour chaque produit commandé
+    await Promise.all(
+      items.map(({ productId, quantity }) =>
+        Product.findOneAndUpdate(
+          { slug: productId, stock: { $gte: quantity } },
+          { $inc: { stock: -quantity } }
+        )
+      )
+    );
+
     await Promise.all([
       sendOrderConfirmation({ order, customerName: guestName, customerEmail: guestEmail }),
       sendOrderNotificationToAdmin({ order, customerName: guestName, customerEmail: guestEmail }),
@@ -63,6 +74,16 @@ router.post('/authenticated', protect, validateOrder, async (req, res) => {
       shippingAddress: shippingAddress || {},
       notes: notes ? notes.slice(0, 500) : '',
     });
+
+    // Décrémenter le stock pour chaque produit commandé
+    await Promise.all(
+      items.map(({ productId, quantity }) =>
+        Product.findOneAndUpdate(
+          { slug: productId, stock: { $gte: quantity } },
+          { $inc: { stock: -quantity } }
+        )
+      )
+    );
 
     const user = await User.findById(req.user._id).select('name email');
     if (user) {
