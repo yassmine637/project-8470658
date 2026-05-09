@@ -1,10 +1,173 @@
-import { useState, useEffect, useRef, FormEvent } from 'react';
+import { useState, useEffect, useRef, FormEvent, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/hooks/useAuth';
 import { useCurrency, CURRENCIES } from '@/hooks/useCurrency';
 import type { Currency } from '@/hooks/useCurrency';
+
+function QuantityInput({
+  productId,
+  quantity,
+  stock,
+  onUpdate,
+}: {
+  productId: string;
+  quantity: number;
+  stock: number;
+  onUpdate: (id: string, qty: number) => void;
+}) {
+  const [raw, setRaw] = useState(String(quantity));
+  const [focused, setFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!focused) setRaw(String(quantity));
+  }, [quantity, focused]);
+
+  const parsed = parseInt(raw, 10);
+  const isEmpty = raw.trim() === '';
+  const isOverStock = !isEmpty && !isNaN(parsed) && parsed > stock;
+  const isUnderMin = !isEmpty && !isNaN(parsed) && parsed < 1;
+  const isInvalid = isEmpty || isNaN(parsed) || isOverStock || isUnderMin;
+
+  const commit = useCallback(() => {
+    const v = parseInt(raw, 10);
+    if (isNaN(v) || v < 1) {
+      onUpdate(productId, 1);
+      setRaw('1');
+    } else if (v > stock) {
+      onUpdate(productId, stock);
+      setRaw(String(stock));
+    } else {
+      onUpdate(productId, v);
+      setRaw(String(v));
+    }
+  }, [raw, stock, productId, onUpdate]);
+
+  const borderColor = focused
+    ? isOverStock ? '#e53935' : isUnderMin ? '#e53935' : '#a07a20'
+    : isOverStock ? '#e5393580' : '#c9a84c';
+
+  const bgColor = focused
+    ? isOverStock ? '#fff5f5' : '#fffdf5'
+    : '#fff';
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          border: `2px solid ${borderColor}`,
+          borderRadius: 8,
+          background: bgColor,
+          boxShadow: isOverStock ? '0 1px 4px rgba(229,57,53,0.15)' : '0 1px 4px rgba(201,168,76,0.15)',
+          transition: 'border-color 0.2s, background 0.2s, box-shadow 0.2s',
+        }}
+      >
+        <input
+          ref={inputRef}
+          type="text"
+          inputMode="numeric"
+          value={raw}
+          onChange={(e) => {
+            const val = e.target.value.replace(/[^0-9]/g, '');
+            setRaw(val === '' ? '' : val);
+          }}
+          onFocus={(e) => {
+            setFocused(true);
+            e.currentTarget.select();
+          }}
+          onBlur={() => {
+            setFocused(false);
+            commit();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.currentTarget.blur();
+            } else if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              const next = Math.min(stock, (parseInt(raw, 10) || 0) + 1);
+              setRaw(String(next));
+              onUpdate(productId, next);
+            } else if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              const next = Math.max(1, (parseInt(raw, 10) || 2) - 1);
+              setRaw(String(next));
+              onUpdate(productId, next);
+            }
+          }}
+          className="text-center font-bold outline-none"
+          style={{
+            width: 46,
+            height: 30,
+            border: 'none',
+            background: 'transparent',
+            color: isOverStock ? '#e53935' : '#1a2617',
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: '0.9rem',
+            cursor: 'text',
+            paddingRight: 14,
+            transition: 'color 0.2s',
+          }}
+        />
+        <i
+          className={isOverStock ? 'ri-error-warning-line' : 'ri-pencil-line'}
+          style={{
+            position: 'absolute',
+            right: 4,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: isOverStock ? '#e53935' : '#c9a84c',
+            fontSize: '0.65rem',
+            pointerEvents: 'none',
+            transition: 'color 0.2s',
+          }}
+        />
+      </div>
+
+      {isOverStock && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 3,
+            animation: 'fadeInDown 0.2s ease',
+          }}
+        >
+          <i className="ri-close-circle-fill" style={{ color: '#e53935', fontSize: '0.6rem', flexShrink: 0 }} />
+          <span style={{
+            color: '#e53935',
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: '0.6rem',
+            fontWeight: 600,
+            letterSpacing: '0.03em',
+            whiteSpace: 'nowrap',
+          }}>
+            Max {stock} dispo.
+          </span>
+        </div>
+      )}
+
+      {!isOverStock && !isInvalid && focused && stock <= 30 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          <i className="ri-error-warning-line" style={{ color: '#b8750a', fontSize: '0.6rem', flexShrink: 0 }} />
+          <span style={{
+            color: '#b8750a',
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: '0.6rem',
+            fontWeight: 600,
+            whiteSpace: 'nowrap',
+          }}>
+            {stock} restants
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 type Step = 'cart' | 'checkout' | 'success';
 
@@ -428,46 +591,12 @@ export default function CartDrawer() {
                                   −
                                 </button>
 
-                                {/* Editable input box */}
-                                <div className="relative flex items-center" style={{ border: '2px solid #c9a84c', borderRadius: '8px', background: '#fff', boxShadow: '0 1px 4px rgba(201,168,76,0.15)' }}>
-                                  <input
-                                    type="number"
-                                    min={1}
-                                    max={item.product.stock}
-                                    value={item.quantity}
-                                    onChange={(e) => {
-                                      const v = parseInt(e.target.value, 10);
-                                      if (!isNaN(v) && v >= 1 && v <= item.product.stock) updateQuantity(item.product.id, v);
-                                    }}
-                                    onFocus={(e) => {
-                                      e.currentTarget.select();
-                                      (e.currentTarget.parentElement as HTMLElement).style.borderColor = '#a07a20';
-                                      (e.currentTarget.parentElement as HTMLElement).style.background = '#fffdf5';
-                                    }}
-                                    onBlur={(e) => {
-                                      const v = parseInt(e.target.value, 10);
-                                      updateQuantity(item.product.id, (!isNaN(v) && v >= 1) ? Math.min(v, item.product.stock) : 1);
-                                      (e.currentTarget.parentElement as HTMLElement).style.borderColor = '#c9a84c';
-                                      (e.currentTarget.parentElement as HTMLElement).style.background = '#fff';
-                                    }}
-                                    onKeyDown={(e) => {
-                                      if (e.key === 'Enter') (e.currentTarget as HTMLInputElement).blur();
-                                    }}
-                                    className="text-center font-bold outline-none"
-                                    style={{
-                                      width: '46px',
-                                      height: '30px',
-                                      border: 'none',
-                                      background: 'transparent',
-                                      color: '#1a2617',
-                                      fontFamily: "'Outfit', sans-serif",
-                                      fontSize: '0.9rem',
-                                      cursor: 'text',
-                                      paddingRight: '14px',
-                                    }}
-                                  />
-                                  <i className="ri-pencil-line" style={{ position: 'absolute', right: '4px', top: '50%', transform: 'translateY(-50%)', color: '#c9a84c', fontSize: '0.65rem', pointerEvents: 'none' }} />
-                                </div>
+                                <QuantityInput
+                                  productId={item.product.id}
+                                  quantity={item.quantity}
+                                  stock={item.product.stock}
+                                  onUpdate={updateQuantity}
+                                />
 
                                 {/* + */}
                                 <button
