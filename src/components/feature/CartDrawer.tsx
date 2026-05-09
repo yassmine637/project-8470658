@@ -3,8 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/hooks/useAuth';
+import { useCurrency, CURRENCIES } from '@/hooks/useCurrency';
+import type { Currency } from '@/hooks/useCurrency';
 
 type Step = 'cart' | 'checkout' | 'success';
+
+const FEATURED_CURRENCIES: Currency[] = ['TND', 'EUR', 'USD', 'GBP', 'CHF', 'SAR', 'AED'];
+
+// French country name → currency
+const FR_COUNTRY_CURRENCY: Record<string, Currency> = {
+  'Tunisie': 'TND',
+  'France': 'EUR', 'Belgique': 'EUR', 'Allemagne': 'EUR', 'Italie': 'EUR',
+  'Espagne': 'EUR', 'Pays-Bas': 'EUR', 'Portugal': 'EUR', 'Autriche': 'EUR',
+  'Luxembourg': 'EUR', 'Irlande': 'EUR', 'Grèce': 'EUR', 'Finlande': 'EUR',
+  'Suisse': 'CHF',
+  'Royaume-Uni': 'GBP',
+  'États-Unis': 'USD', 'Jordanie': 'USD', 'Liban': 'USD', 'Libye': 'USD', 'Égypte': 'USD',
+  'Canada': 'CAD',
+  'Australie': 'AUD',
+  'Arabie Saoudite': 'SAR',
+  'Émirats Arabes Unis': 'AED', 'Qatar': 'AED', 'Koweït': 'AED', 'Bahreïn': 'AED', 'Oman': 'AED',
+  'Maroc': 'EUR', 'Algérie': 'EUR',
+};
 
 // postalLen: exact digits required (0 = optional, no standard); postalAlpha: alphanumeric code
 const COUNTRY_CODES = [
@@ -75,6 +95,12 @@ export default function CartDrawer() {
   const [postalAlpha, setPostalAlpha] = useState(false);
   const [postalExample, setPostalExample] = useState('1000');
 
+  // Currency selector
+  const { currency, setCurrency, currencyInfo, format: fmtCurrency } = useCurrency('TND');
+  const [currencyDropOpen, setCurrencyDropOpen] = useState(false);
+  const currencyDropRef = useRef<HTMLDivElement>(null);
+  const formatPrice = (amountTND: number) => `${fmtCurrency(amountTND)} ${currencyInfo.symbol}`;
+
   // Phone country selector state
   const [countryCode, setCountryCode] = useState('+216');
   const [countryFlag, setCountryFlag] = useState('🇹🇳');
@@ -102,13 +128,12 @@ export default function CartDrawer() {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
-        setDropOpen(false);
-      }
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) setDropOpen(false);
+      if (currencyDropRef.current && !currencyDropRef.current.contains(e.target as Node)) setCurrencyDropOpen(false);
     };
-    if (dropOpen) document.addEventListener('mousedown', handleClickOutside);
+    if (dropOpen || currencyDropOpen) document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [dropOpen]);
+  }, [dropOpen, currencyDropOpen]);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -241,15 +266,93 @@ export default function CartDrawer() {
               )}
             </div>
           </div>
-          <button
-            onClick={closeCart}
-            className="w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer border-none"
-            style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.2)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.08)'; }}
-          >
-            <i className="ri-close-line text-base" />
-          </button>
+
+          <div className="flex items-center gap-2">
+            {/* Currency selector */}
+            <div ref={currencyDropRef} style={{ position: 'relative' }}>
+              <button
+                type="button"
+                onClick={() => setCurrencyDropOpen(v => !v)}
+                className="cursor-pointer flex items-center gap-1.5"
+                style={{
+                  background: currencyDropOpen ? 'rgba(212,175,55,0.18)' : 'rgba(212,175,55,0.08)',
+                  border: '1px solid rgba(212,175,55,0.35)',
+                  borderRadius: '7px',
+                  padding: '5px 9px',
+                  color: '#c9a84c',
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.18)'; }}
+                onMouseLeave={e => { if (!currencyDropOpen) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.08)'; }}
+              >
+                <span style={{ fontSize: '0.9rem' }}>{currencyInfo.flag}</span>
+                <span>{currencyInfo.code}</span>
+                <i className={currencyDropOpen ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line'} style={{ fontSize: '12px', opacity: 0.7 }} />
+              </button>
+
+              {currencyDropOpen && (
+                <div style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 6px)',
+                  right: 0,
+                  zIndex: 400,
+                  background: '#1e2e1c',
+                  border: '1px solid rgba(201,168,76,0.25)',
+                  borderRadius: '10px',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+                  overflow: 'hidden',
+                  minWidth: '160px',
+                }}>
+                  {FEATURED_CURRENCIES.map((code, idx) => {
+                    const c = CURRENCIES[code];
+                    const isActive = code === currency;
+                    return (
+                      <button
+                        key={code}
+                        type="button"
+                        onClick={() => { setCurrency(code); setCurrencyDropOpen(false); }}
+                        className="cursor-pointer w-full flex items-center gap-2"
+                        style={{
+                          padding: '9px 14px',
+                          background: isActive ? 'rgba(201,168,76,0.12)' : 'transparent',
+                          border: 'none',
+                          borderBottom: idx < FEATURED_CURRENCIES.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                          color: isActive ? '#c9a84c' : 'rgba(255,255,255,0.78)',
+                          fontFamily: "'Outfit', sans-serif",
+                          fontSize: '0.75rem',
+                          fontWeight: isActive ? 700 : 400,
+                          textAlign: 'left',
+                          transition: 'background 0.15s',
+                        }}
+                        onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                        onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                      >
+                        <span style={{ fontSize: '0.9rem' }}>{c.flag}</span>
+                        <span style={{ flex: 1 }}>{c.code}</span>
+                        {c.symbol !== c.code && <span style={{ opacity: 0.4, fontSize: '0.62rem' }}>{c.symbol}</span>}
+                        {isActive && <i className="ri-check-line" style={{ fontSize: '11px' }} />}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={closeCart}
+              className="w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer border-none"
+              style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.2)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.08)'; }}
+            >
+              <i className="ri-close-line text-base" />
+            </button>
+          </div>
         </div>
 
         {/* Content */}
@@ -381,7 +484,7 @@ export default function CartDrawer() {
 
                             {/* Price */}
                             <span className="text-base font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                              {item.product.price * item.quantity} <span className="text-xs font-semibold" style={{ color: '#c9a84c' }}>{t('currency_tnd') ?? 'د.ت'}</span>
+                              {formatPrice(item.product.price * item.quantity)}
                             </span>
                           </div>
                         </div>
@@ -424,7 +527,7 @@ export default function CartDrawer() {
                         {item.product.volume} × {item.quantity}
                       </span>
                       <span className="text-xs font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                        {item.product.price * item.quantity} {t('currency_tnd') ?? 'د.ت'}
+                        {formatPrice(item.product.price * item.quantity)}
                       </span>
                     </div>
                   ))}
@@ -432,7 +535,7 @@ export default function CartDrawer() {
                 <div className="mt-3 pt-3 flex justify-between items-center" style={{ borderTop: '1px solid rgba(201,168,76,0.2)' }}>
                   <span className="text-sm font-bold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{t('cart_total')}</span>
                   <span className="text-lg font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                    {totalPrice} <span className="text-sm" style={{ color: '#c9a84c' }}>{t('currency_tnd') ?? 'د.ت'}</span>
+                    {formatPrice(totalPrice)}
                   </span>
                 </div>
               </div>
@@ -642,6 +745,9 @@ export default function CartDrawer() {
                               setForm(prev => ({ ...prev, postalCode: '' }));
                               setPostalError('');
                               setDropOpen(false);
+                              // Auto-switch currency to match country
+                              const autoC = FR_COUNTRY_CURRENCY[c.name];
+                              if (autoC) setCurrency(autoC);
                             }}
                             className="cursor-pointer w-full flex items-center gap-2.5 whitespace-nowrap"
                             style={{
@@ -890,7 +996,7 @@ export default function CartDrawer() {
                   {t('cart_total')}
                 </span>
                 <span className="text-2xl font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                  {totalPrice} <span className="text-sm font-semibold" style={{ color: '#c9a84c' }}>{t('currency_tnd') ?? 'د.ت'}</span>
+                  {formatPrice(totalPrice)}
                 </span>
               </div>
               <button
