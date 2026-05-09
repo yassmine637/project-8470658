@@ -272,6 +272,14 @@ export default function CartDrawer() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dropOpen, setDropOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
+  const [cartCountryDrop, setCartCountryDrop] = useState(false);
+  const cartCountryDropRef = useRef<HTMLDivElement>(null);
+
+  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const discountRate = totalQuantity >= 100 ? 0.15 : totalQuantity >= 50 ? 0.10 : totalQuantity >= 10 ? 0.05 : 0;
+  const discountAmount = totalPrice * discountRate;
+  const discountedTotal = totalPrice - discountAmount;
+  const nextTier = totalQuantity < 10 ? { qty: 10, pct: 5 } : totalQuantity < 50 ? { qty: 50, pct: 10 } : totalQuantity < 100 ? { qty: 100, pct: 15 } : null;
 
   useEffect(() => {
     if (!isOpen) {
@@ -293,10 +301,25 @@ export default function CartDrawer() {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropRef.current && !dropRef.current.contains(e.target as Node)) setDropOpen(false);
       if (currencyDropRef.current && !currencyDropRef.current.contains(e.target as Node)) setCurrencyDropOpen(false);
+      if (cartCountryDropRef.current && !cartCountryDropRef.current.contains(e.target as Node)) setCartCountryDrop(false);
     };
-    if (dropOpen || currencyDropOpen) document.addEventListener('mousedown', handleClickOutside);
+    if (dropOpen || currencyDropOpen || cartCountryDrop) document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [dropOpen, currencyDropOpen]);
+
+  const selectCountry = (c: typeof COUNTRY_CODES[number]) => {
+    setCountryCode(c.code);
+    setCountryFlag(c.flag);
+    setCountryName(c.name);
+    setCountryDigits(c.digits);
+    setPostalLen(c.postalLen);
+    setPostalAlpha(c.postalAlpha);
+    setPostalExample(c.postalExample);
+    setForm(prev => ({ ...prev, postalCode: '' }));
+    setPostalError('');
+    const autoC = FR_COUNTRY_CURRENCY[c.name];
+    if (autoC) setCurrency(autoC);
+  };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -335,7 +358,7 @@ export default function CartDrawer() {
         productId: i.product.id,
         productName: i.product.name,
         volume: i.product.volume,
-        price: i.product.price,
+        price: discountRate > 0 ? Math.round(i.product.price * (1 - discountRate) * 100) / 100 : i.product.price,
         quantity: i.quantity,
       }));
       const shippingAddress = {
@@ -637,6 +660,152 @@ export default function CartDrawer() {
                       </div>
                     ))}
                   </div>
+
+                  {/* ── Country selector + Promotions ── */}
+                  <div className="px-6 pt-4 pb-2 flex flex-col gap-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+
+                    {/* Country selector */}
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                        <i className="ri-earth-line" style={{ color: '#c9a84c' }} />
+                        Pays de livraison
+                      </label>
+                      <div ref={cartCountryDropRef} style={{ position: 'relative' }}>
+                        <button
+                          type="button"
+                          onClick={() => setCartCountryDrop(v => !v)}
+                          className="cursor-pointer flex items-center gap-2.5 w-full"
+                          style={{
+                            padding: '10px 14px',
+                            background: '#ffffff',
+                            border: `1.5px solid ${cartCountryDrop ? '#c9a84c' : 'rgba(0,0,0,0.1)'}`,
+                            borderRadius: '12px',
+                            color: '#1a2617',
+                            fontFamily: "'Outfit', sans-serif",
+                            fontSize: '0.82rem',
+                            outline: 'none',
+                            transition: 'border-color 0.2s',
+                          }}
+                        >
+                          <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{countryFlag}</span>
+                          <span style={{ flex: 1, textAlign: 'left', fontWeight: 600 }}>{countryName}</span>
+                          <span style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '4px',
+                            padding: '2px 8px', borderRadius: '20px',
+                            background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.3)',
+                            fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', fontWeight: 700,
+                            color: '#c9a84c', letterSpacing: '0.06em', flexShrink: 0,
+                          }}>
+                            {currencyInfo.flag} {currencyInfo.code}
+                          </span>
+                          <i className={cartCountryDrop ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line'} style={{ fontSize: '14px', color: '#9ca3af', flexShrink: 0 }} />
+                        </button>
+
+                        {cartCountryDrop && (
+                          <div style={{
+                            position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0,
+                            zIndex: 300, maxHeight: '220px', overflowY: 'auto',
+                            background: '#ffffff', border: '1.5px solid rgba(201,168,76,0.25)',
+                            borderRadius: '12px', boxShadow: '0 16px 40px rgba(0,0,0,0.15)',
+                            scrollbarWidth: 'thin',
+                          }}>
+                            {COUNTRY_CODES.map((c, idx) => {
+                              const isSelected = countryName === c.name;
+                              const cInfo = CURRENCIES[FR_COUNTRY_CURRENCY[c.name] ?? 'TND'] ?? CURRENCIES.TND;
+                              return (
+                                <button
+                                  key={`cart-${c.code}-${idx}`}
+                                  type="button"
+                                  onClick={() => { selectCountry(c); setPhoneNumber(''); setCartCountryDrop(false); }}
+                                  className="cursor-pointer w-full flex items-center gap-2.5"
+                                  style={{
+                                    padding: '9px 14px',
+                                    background: isSelected ? 'rgba(201,168,76,0.08)' : 'transparent',
+                                    border: 'none',
+                                    borderBottom: idx < COUNTRY_CODES.length - 1 ? '1px solid #f3f3f0' : 'none',
+                                    color: isSelected ? '#c9a84c' : '#1a2617',
+                                    fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem',
+                                    textAlign: 'left', transition: 'background 0.15s',
+                                  }}
+                                  onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.05)'; }}
+                                  onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                                >
+                                  <span style={{ fontSize: '1rem', flexShrink: 0 }}>{c.flag}</span>
+                                  <span style={{ flex: 1, fontWeight: isSelected ? 700 : 400 }}>{c.name}</span>
+                                  <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: isSelected ? '#c9a84c' : 'rgba(201,168,76,0.6)', flexShrink: 0 }}>
+                                    {cInfo.code}
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                      {currency !== 'TND' && (
+                        <div className="mt-2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)' }}>
+                          <i className="ri-exchange-line" style={{ color: 'rgba(201,168,76,0.6)', fontSize: '11px', flexShrink: 0 }} />
+                          <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: '#9aaa96' }}>
+                            Taux indicatif · 1 TND ≈ {currencyInfo.rate} {currencyInfo.code}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Promotions */}
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                        <i className="ri-price-tag-3-line" style={{ color: '#c9a84c' }} />
+                        Promotions volume
+                      </label>
+                      <div className="flex flex-col gap-1.5">
+                        {[
+                          { qty: 10, pct: 5 },
+                          { qty: 50, pct: 10 },
+                          { qty: 100, pct: 15 },
+                        ].map(tier => {
+                          const active = totalQuantity >= tier.qty;
+                          const isNext = nextTier?.qty === tier.qty;
+                          return (
+                            <div
+                              key={tier.qty}
+                              className="flex items-center gap-3 px-3 py-2 rounded-lg"
+                              style={{
+                                background: active ? 'rgba(74,124,78,0.07)' : isNext ? 'rgba(201,168,76,0.06)' : 'rgba(0,0,0,0.02)',
+                                border: `1px solid ${active ? 'rgba(74,124,78,0.25)' : isNext ? 'rgba(201,168,76,0.2)' : 'rgba(0,0,0,0.06)'}`,
+                              }}
+                            >
+                              <div className="w-5 h-5 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: active ? '#4a7c4e' : isNext ? 'rgba(201,168,76,0.2)' : 'rgba(0,0,0,0.06)' }}>
+                                {active
+                                  ? <i className="ri-check-line" style={{ fontSize: '10px', color: '#ffffff' }} />
+                                  : <i className="ri-lock-line" style={{ fontSize: '9px', color: isNext ? '#c9a84c' : '#9aaa96' }} />
+                                }
+                              </div>
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', fontWeight: 600, color: active ? '#4a7c4e' : isNext ? '#c9a84c' : '#9aaa96' }}>
+                                  {tier.pct}% de réduction
+                                </span>
+                                <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: '#9aaa96', marginLeft: 6 }}>
+                                  dès {tier.qty} unités
+                                </span>
+                              </div>
+                              {active && (
+                                <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(74,124,78,0.15)', color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
+                                  Actif
+                                </span>
+                              )}
+                              {isNext && !active && (
+                                <span className="text-xs font-semibold" style={{ color: '#c9a84c', fontFamily: "'Outfit', sans-serif", whiteSpace: 'nowrap' }}>
+                                  +{tier.qty - totalQuantity} unité{tier.qty - totalQuantity > 1 ? 's' : ''}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                  </div>
+
                 </div>
               )}
             </>
@@ -667,11 +836,29 @@ export default function CartDrawer() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 pt-3 flex justify-between items-center" style={{ borderTop: '1px solid rgba(201,168,76,0.2)' }}>
-                  <span className="text-sm font-bold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{t('cart_total')}</span>
-                  <span className="text-lg font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                    {formatPrice(totalPrice)}
-                  </span>
+                <div className="mt-3 pt-3" style={{ borderTop: '1px solid rgba(201,168,76,0.2)' }}>
+                  {discountRate > 0 && (
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className="text-xs font-semibold flex items-center gap-1" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
+                        <i className="ri-price-tag-3-line" />
+                        Remise {Math.round(discountRate * 100)}% ({totalQuantity} unités)
+                      </span>
+                      <span className="text-xs font-bold" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
+                        −{formatPrice(discountAmount)}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-bold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{t('cart_total')}</span>
+                    <div className="flex items-center gap-2">
+                      {discountRate > 0 && (
+                        <span className="text-sm line-through" style={{ color: '#9aaa96', fontFamily: "'Cormorant Garant', serif" }}>{formatPrice(totalPrice)}</span>
+                      )}
+                      <span className="text-lg font-bold" style={{ color: discountRate > 0 ? '#4a7c4e' : '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
+                        {formatPrice(discountedTotal)}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -869,20 +1056,9 @@ export default function CartDrawer() {
                             key={`${c.code}-${idx}`}
                             type="button"
                             onClick={() => {
-                              setCountryCode(c.code);
-                              setCountryFlag(c.flag);
-                              setCountryName(c.name);
-                              setCountryDigits(c.digits);
+                              selectCountry(c);
                               setPhoneNumber('');
-                              setPostalLen(c.postalLen);
-                              setPostalAlpha(c.postalAlpha);
-                              setPostalExample(c.postalExample);
-                              setForm(prev => ({ ...prev, postalCode: '' }));
-                              setPostalError('');
                               setDropOpen(false);
-                              // Auto-switch currency to match country
-                              const autoC = FR_COUNTRY_CURRENCY[c.name];
-                              if (autoC) setCurrency(autoC);
                             }}
                             className="cursor-pointer w-full flex items-center gap-2.5 whitespace-nowrap"
                             style={{
@@ -1126,13 +1302,33 @@ export default function CartDrawer() {
 
             {/* Total + CTA */}
             <div className="px-6 pb-5">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif" }}>
-                  {t('cart_total')}
-                </span>
-                <span className="text-2xl font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                  {formatPrice(totalPrice)}
-                </span>
+              <div className="flex flex-col gap-1 mb-3">
+                {discountRate > 0 && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-semibold flex items-center gap-1" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
+                      <i className="ri-price-tag-3-line" />
+                      Remise {Math.round(discountRate * 100)}%
+                    </span>
+                    <span className="text-xs font-bold" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
+                      −{formatPrice(discountAmount)}
+                    </span>
+                  </div>
+                )}
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif" }}>
+                    {t('cart_total')}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {discountRate > 0 && (
+                      <span className="text-sm line-through" style={{ color: '#9aaa96', fontFamily: "'Cormorant Garant', serif" }}>
+                        {formatPrice(totalPrice)}
+                      </span>
+                    )}
+                    <span className="text-2xl font-bold" style={{ color: discountRate > 0 ? '#4a7c4e' : '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
+                      {formatPrice(discountedTotal)}
+                    </span>
+                  </div>
+                </div>
               </div>
               <button
                 onClick={() => setStep('checkout')}
