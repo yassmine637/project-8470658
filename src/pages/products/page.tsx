@@ -511,21 +511,34 @@ export default function ProductsPage() {
               {/* Quantity + CTA */}
               <div className="flex items-center gap-4 flex-wrap">
                 {/* Quantity */}
-                <div className="flex flex-col gap-1">
-                  <div
-                    className="flex items-center rounded-full overflow-hidden"
-                    style={{ border: `1.5px solid ${accent}72`, background: `${accent}18` }}
+                <div className="flex flex-col gap-1.5">
+                  <span
+                    className="text-xs font-bold uppercase tracking-widest"
+                    style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif", letterSpacing: '0.18em' }}
                   >
+                    Quantité
+                  </span>
+                  <div className="flex items-stretch gap-0" style={{ height: '44px' }}>
+                    {/* − */}
                     <button
                       onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                      className="w-9 h-9 flex items-center justify-center text-sm font-bold transition-colors duration-200 cursor-pointer border-none"
-                      style={{ color: '#1a2617', background: 'transparent' }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = `${accent}30`; }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                      className="flex items-center justify-center font-bold text-lg cursor-pointer transition-all duration-150 border-none"
+                      style={{
+                        width: '44px',
+                        background: '#f0ede6',
+                        color: '#1a2617',
+                        borderRadius: '10px 0 0 10px',
+                        border: `1.5px solid rgba(0,0,0,0.15)`,
+                        borderRight: 'none',
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = `${accent}25`; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#f0ede6'; }}
                     >
                       −
                     </button>
-                    <div className="relative flex items-center">
+
+                    {/* Input */}
+                    <div className="relative flex items-center" style={{ background: '#fff', border: `1.5px solid ${accent}`, borderLeft: 'none', borderRight: 'none' }}>
                       <input
                         type="number"
                         min={1}
@@ -537,46 +550,50 @@ export default function ProductsPage() {
                         }}
                         onFocus={(e) => {
                           e.currentTarget.select();
-                          e.currentTarget.style.background = `${accent}30`;
-                          e.currentTarget.parentElement!.parentElement!.style.borderColor = `${accent}cc`;
+                          (e.currentTarget.parentElement as HTMLElement).style.background = `${accent}12`;
                         }}
                         onBlur={(e) => {
-                          e.currentTarget.style.background = 'transparent';
-                          e.currentTarget.parentElement!.parentElement!.style.borderColor = `${accent}72`;
+                          (e.currentTarget.parentElement as HTMLElement).style.background = '#fff';
                           if (!e.currentTarget.value || parseInt(e.currentTarget.value) < 1) setQuantity(1);
                         }}
-                        className="text-center text-sm font-bold outline-none transition-all duration-200"
+                        className="text-center font-bold outline-none transition-all duration-150"
                         style={{
-                          width: '42px',
+                          width: '52px',
+                          height: '100%',
                           background: 'transparent',
                           color: '#1a2617',
                           fontFamily: "'Outfit', sans-serif",
+                          fontSize: '1.1rem',
                           border: 'none',
-                          MozAppearance: 'textfield',
+                          cursor: 'text',
                         }}
                       />
-                      <span
-                        className="flex items-center justify-center pointer-events-none"
-                        style={{ color: `${accent}99`, fontSize: '0.7rem', marginRight: '4px' }}
-                      >
-                        ✏️
-                      </span>
+                      <i
+                        className="ri-pencil-line pointer-events-none"
+                        style={{ position: 'absolute', right: '6px', top: '50%', transform: 'translateY(-50%)', color: accent, fontSize: '0.75rem', opacity: 0.8 }}
+                      />
                     </div>
+
+                    {/* + */}
                     <button
                       onClick={() => setQuantity(q => Math.min(99, q + 1))}
-                      className="w-9 h-9 flex items-center justify-center text-sm font-bold transition-colors duration-200 cursor-pointer border-none"
-                      style={{ color: '#1a2617', background: 'transparent' }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = `${accent}30`; }}
-                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                      className="flex items-center justify-center font-bold text-lg cursor-pointer transition-all duration-150 border-none"
+                      style={{
+                        width: '44px',
+                        background: '#f0ede6',
+                        color: '#1a2617',
+                        borderRadius: '0 10px 10px 0',
+                        border: `1.5px solid rgba(0,0,0,0.15)`,
+                        borderLeft: 'none',
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = `${accent}25`; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#f0ede6'; }}
                     >
                       +
                     </button>
                   </div>
-                  <p
-                    className="text-center"
-                    style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: '#9aaa96', letterSpacing: '0.04em' }}
-                  >
-                    Saisissez ou utilisez − +
+                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: '#9aaa96' }}>
+                    ✏️ Tapez directement ou utilisez − +
                   </p>
                 </div>
 
