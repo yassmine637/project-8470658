@@ -131,6 +131,6 @@ export const products: Product[] = [
     badge: 'Format Familial',
     videoUrl: bidon3LVideo,
     accentColor: '#7b5e3a',
-    stock: 0,
+    stock: 30,
   },
 ];
