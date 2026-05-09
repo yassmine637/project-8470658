@@ -33,7 +33,7 @@ export function getStockStatus(stock: number): StockStatus {
 export const STOCK_DISPLAY: Record<StockStatus, { label: string; color: string; bg: string; icon: string }> = {
   in_stock:     { label: 'En stock',      color: '#2d7a3a', bg: 'rgba(45,122,58,0.1)',   icon: 'ri-checkbox-circle-line' },
   low_stock:    { label: 'Stock limité',  color: '#b8750a', bg: 'rgba(184,117,10,0.1)',  icon: 'ri-error-warning-line' },
-  out_of_stock: { label: 'Rupture',       color: '#c0392b', bg: 'rgba(192,57,43,0.1)',   icon: 'ri-close-circle-line' },
+  out_of_stock: { label: 'Bientôt disponible', color: '#7b5e3a', bg: 'rgba(123,94,58,0.1)', icon: 'ri-time-line' },
 };
 
 export const products: Product[] = [

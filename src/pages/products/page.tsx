@@ -319,10 +319,9 @@ export default function ProductsPage() {
                       {PRODUCT_VOLUME_KEYS[product.id] ? t(PRODUCT_VOLUME_KEYS[product.id]) : product.volume}
                     </p>
 
-                    {/* Stock badge — affiché seulement si pas en rupture */}
+                    {/* Stock badge */}
                     {(() => {
                       const status = getStockStatus(product.stock);
-                      if (status === 'out_of_stock') return null;
                       const s = STOCK_DISPLAY[status];
                       return (
                         <span
