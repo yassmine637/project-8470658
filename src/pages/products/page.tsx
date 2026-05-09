@@ -39,20 +39,25 @@ const BADGE_TRANSLATION_KEYS: Record<string, string> = {
 export default function ProductsPage() {
   const { t, i18n } = useTranslation();
   const { addToCart, openCart } = useCart();
-  const [selected, setSelected] = useState<Product | null>(null);
+  const [selected, setSelected] = useState<Product | null>(products[0] ?? null);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
   const [galleryView, setGalleryView] = useState<'image' | 'video'>('image');
   const [quantity, setQuantity] = useState(1);
 
   // Animation states
-  const [infoVisible, setInfoVisible] = useState(false);
-  const [videoVisible, setVideoVisible] = useState(false);
-  const [currentVideoSrc, setCurrentVideoSrc] = useState('');
+  const [infoVisible, setInfoVisible] = useState(true);
+  const [videoVisible, setVideoVisible] = useState(true);
+  const [currentVideoSrc, setCurrentVideoSrc] = useState(products[0]?.videoUrl ?? '');
   const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { window.scrollTo({ top: 0 }); }, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+    setTimeout(() => {
+      stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 500);
+  }, []);
 
   useEffect(() => {
     const imageUrls = Array.from(new Set(products.map((product) => product.image).filter(Boolean))) as string[];
