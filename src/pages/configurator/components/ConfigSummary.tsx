@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BottleModel, BottleSize, LabelStyle } from '@/mocks/configurator';
 
@@ -18,6 +19,16 @@ interface ConfigSummaryProps {
 export default function ConfigSummary({ model, size, label, customText, totalPrice, quantity = 1, onQuantityChange, formatPrice: externalFormatPrice, currencySymbol: externalSymbol, onOrder, onEstimation }: ConfigSummaryProps) {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
+  const [inputVal, setInputVal] = useState(String(quantity));
+
+  useEffect(() => { setInputVal(String(quantity)); }, [quantity]);
+
+  const commitInput = () => {
+    const parsed = parseInt(inputVal, 10);
+    const clamped = isNaN(parsed) || parsed < 1 ? 1 : Math.min(parsed, 9999);
+    setInputVal(String(clamped));
+    if (onQuantityChange) onQuantityChange(clamped);
+  };
   const accentColor = label?.accentColor ?? '#c9a84c';
   const bgColor = label?.bgColor ?? '#f8f6f1';
   const borderColor = label?.borderColor ?? 'rgba(201,168,76,0.3)';
@@ -206,23 +217,40 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
             >
               −
             </button>
-            <div
+            <input
+              type="text"
+              inputMode="numeric"
+              value={inputVal}
+              onChange={e => {
+                const v = e.target.value.replace(/[^0-9]/g, '');
+                setInputVal(v);
+              }}
+              onBlur={commitInput}
+              onKeyDown={e => { if (e.key === 'Enter') { (e.target as HTMLInputElement).blur(); } }}
               style={{
-                minWidth: '46px',
+                width: '58px',
                 height: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'rgba(255,255,255,0.03)',
+                textAlign: 'center',
+                background: 'rgba(255,255,255,0.05)',
                 border: '1px solid rgba(212,175,55,0.2)',
+                borderLeft: 'none',
+                borderRight: 'none',
                 fontFamily: "'Cormorant Garant', serif",
                 fontSize: '1.1rem',
                 fontWeight: 700,
                 color: '#d4af37',
+                outline: 'none',
               }}
-            >
-              {quantity}
-            </div>
+              onFocus={e => {
+                e.target.select();
+                (e.target as HTMLInputElement).style.background = 'rgba(212,175,55,0.06)';
+                (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.45)';
+              }}
+              onBlurCapture={e => {
+                (e.target as HTMLInputElement).style.background = 'rgba(255,255,255,0.05)';
+                (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)';
+              }}
+            />
             <button
               type="button"
               onClick={() => onQuantityChange(Math.min(9999, quantity + 1))}
