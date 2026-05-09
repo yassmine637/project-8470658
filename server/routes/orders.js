@@ -9,16 +9,36 @@ import { sendOrderConfirmation, sendOrderNotificationToAdmin } from '../services
 
 const router = express.Router();
 
+async function checkStock(items) {
+  const slugs = items.map((i) => i.productId);
+  const products = await Product.find({ slug: { $in: slugs } }).select('slug name stock');
+  for (const item of items) {
+    const product = products.find((p) => p.slug === item.productId);
+    if (!product) return { ok: false, message: `Produit introuvable : ${item.productId}` };
+    if (product.stock < item.quantity) {
+      return {
+        ok: false,
+        message: `Stock insuffisant pour "${product.name}" — ${product.stock} disponible(s), ${item.quantity} demandé(s)`,
+      };
+    }
+  }
+  return { ok: true };
+}
+
 router.post('/', orderLimiter, validateOrder, async (req, res) => {
   try {
     const { items, guestName, guestEmail, guestPhone, shippingAddress, currency, notes, paymentMethod } = req.body;
 
+    if (!guestName || !guestEmail)
+      return res.status(400).json({ message: 'Nom et email requis' });
+
+    // Vérification du stock avant création de la commande
+    const stockCheck = await checkStock(items);
+    if (!stockCheck.ok) return res.status(400).json({ message: stockCheck.message });
+
     const totalHT = items.reduce((s, i) => s + i.price * i.quantity, 0);
     const tva = Math.round(totalHT * 0.19);
     const totalTTC = totalHT + tva;
-
-    if (!guestName || !guestEmail)
-      return res.status(400).json({ message: 'Nom et email requis' });
 
     const validPaymentMethods = ['cod', 'paypal', 'stripe', 'konnect'];
     const order = await Order.create({
@@ -59,6 +79,10 @@ router.post('/', orderLimiter, validateOrder, async (req, res) => {
 router.post('/authenticated', protect, validateOrder, async (req, res) => {
   try {
     const { items, shippingAddress, currency, notes } = req.body;
+
+    // Vérification du stock avant création de la commande
+    const stockCheck = await checkStock(items);
+    if (!stockCheck.ok) return res.status(400).json({ message: stockCheck.message });
 
     const totalHT = items.reduce((s, i) => s + i.price * i.quantity, 0);
     const tva = Math.round(totalHT * 0.19);

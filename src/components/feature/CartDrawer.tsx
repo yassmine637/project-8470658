@@ -344,8 +344,9 @@ export default function CartDrawer() {
         postalCode: form.postalCode,
         country: countryName,
       };
+      let res: Response;
       if (user && token) {
-        await fetch('/api/orders/authenticated', {
+        res = await fetch('/api/orders/authenticated', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({
@@ -356,7 +357,7 @@ export default function CartDrawer() {
           }),
         });
       } else {
-        await fetch('/api/orders', {
+        res = await fetch('/api/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -369,6 +370,11 @@ export default function CartDrawer() {
             paymentMethod,
           }),
         });
+      }
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setFormError(data.message || t('cart_error_generic'));
+        return;
       }
       setStep('success');
       clearCart();
