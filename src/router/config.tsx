@@ -9,12 +9,14 @@ import AdminPage from '@/pages/admin/page';
 import AccountPage from '@/pages/account/page';
 import CheckoutSuccess from '@/pages/checkout/success';
 import CheckoutCancel from '@/pages/checkout/cancel';
+import Studio360Page from '@/pages/studio360/page';
 
 const routes: RouteObject[] = [
   { path: '/', element: <HomePage /> },
   { path: '/products', element: <ProductsPage /> },
   { path: '/products/:id', element: <Navigate to="/products" replace /> },
   { path: '/configurator', element: <ConfiguratorPage /> },
+  { path: '/studio-360', element: <Studio360Page /> },
   { path: '/auth', element: <AuthPage /> },
   { path: '/admin', element: <AdminPage /> },
   { path: '/account', element: <AccountPage /> },
