@@ -661,95 +661,8 @@ export default function CartDrawer() {
                     ))}
                   </div>
 
-                  {/* ── Country selector + Promotions ── */}
+                  {/* ── Promotions ── */}
                   <div className="px-6 pt-4 pb-2 flex flex-col gap-3" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-
-                    {/* Country selector */}
-                    <div>
-                      <label className="text-xs font-semibold uppercase tracking-wider mb-2 flex items-center gap-1.5" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                        <i className="ri-earth-line" style={{ color: '#c9a84c' }} />
-                        Pays de livraison
-                      </label>
-                      <div ref={cartCountryDropRef} style={{ position: 'relative' }}>
-                        <button
-                          type="button"
-                          onClick={() => setCartCountryDrop(v => !v)}
-                          className="cursor-pointer flex items-center gap-2.5 w-full"
-                          style={{
-                            padding: '10px 14px',
-                            background: '#ffffff',
-                            border: `1.5px solid ${cartCountryDrop ? '#c9a84c' : 'rgba(0,0,0,0.1)'}`,
-                            borderRadius: '12px',
-                            color: '#1a2617',
-                            fontFamily: "'Outfit', sans-serif",
-                            fontSize: '0.82rem',
-                            outline: 'none',
-                            transition: 'border-color 0.2s',
-                          }}
-                        >
-                          <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{countryFlag}</span>
-                          <span style={{ flex: 1, textAlign: 'left', fontWeight: 600 }}>{countryName}</span>
-                          <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: '4px',
-                            padding: '2px 8px', borderRadius: '20px',
-                            background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.3)',
-                            fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', fontWeight: 700,
-                            color: '#c9a84c', letterSpacing: '0.06em', flexShrink: 0,
-                          }}>
-                            {currencyInfo.flag} {currencyInfo.code}
-                          </span>
-                          <i className={cartCountryDrop ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line'} style={{ fontSize: '14px', color: '#9ca3af', flexShrink: 0 }} />
-                        </button>
-
-                        {cartCountryDrop && (
-                          <div style={{
-                            position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0,
-                            zIndex: 300, maxHeight: '220px', overflowY: 'auto',
-                            background: '#ffffff', border: '1.5px solid rgba(201,168,76,0.25)',
-                            borderRadius: '12px', boxShadow: '0 16px 40px rgba(0,0,0,0.15)',
-                            scrollbarWidth: 'thin',
-                          }}>
-                            {COUNTRY_CODES.map((c, idx) => {
-                              const isSelected = countryName === c.name;
-                              const cInfo = CURRENCIES[FR_COUNTRY_CURRENCY[c.name] ?? 'TND'] ?? CURRENCIES.TND;
-                              return (
-                                <button
-                                  key={`cart-${c.code}-${idx}`}
-                                  type="button"
-                                  onClick={() => { selectCountry(c); setPhoneNumber(''); setCartCountryDrop(false); }}
-                                  className="cursor-pointer w-full flex items-center gap-2.5"
-                                  style={{
-                                    padding: '9px 14px',
-                                    background: isSelected ? 'rgba(201,168,76,0.08)' : 'transparent',
-                                    border: 'none',
-                                    borderBottom: idx < COUNTRY_CODES.length - 1 ? '1px solid #f3f3f0' : 'none',
-                                    color: isSelected ? '#c9a84c' : '#1a2617',
-                                    fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem',
-                                    textAlign: 'left', transition: 'background 0.15s',
-                                  }}
-                                  onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.05)'; }}
-                                  onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
-                                >
-                                  <span style={{ fontSize: '1rem', flexShrink: 0 }}>{c.flag}</span>
-                                  <span style={{ flex: 1, fontWeight: isSelected ? 700 : 400 }}>{c.name}</span>
-                                  <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: isSelected ? '#c9a84c' : 'rgba(201,168,76,0.6)', flexShrink: 0 }}>
-                                    {cInfo.code}
-                                  </span>
-                                </button>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                      {currency !== 'TND' && (
-                        <div className="mt-2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.15)' }}>
-                          <i className="ri-exchange-line" style={{ color: 'rgba(201,168,76,0.6)', fontSize: '11px', flexShrink: 0 }} />
-                          <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: '#9aaa96' }}>
-                            Taux indicatif · 1 TND ≈ {currencyInfo.rate} {currencyInfo.code}
-                          </span>
-                        </div>
-                      )}
-                    </div>
 
                     {/* Promotions */}
                     <div>
@@ -897,6 +810,95 @@ export default function CartDrawer() {
                   ))}
                 </>
               )}
+
+              {/* Pays de livraison */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                  <i className="ri-earth-line mr-1" style={{ color: '#c9a84c' }} />
+                  Pays de livraison
+                </label>
+                <div ref={cartCountryDropRef} style={{ position: 'relative' }}>
+                  <button
+                    type="button"
+                    onClick={() => setCartCountryDrop(v => !v)}
+                    className="cursor-pointer flex items-center gap-2.5 w-full"
+                    style={{
+                      padding: '11px 14px',
+                      background: '#ffffff',
+                      border: `1px solid ${cartCountryDrop ? '#c9a84c' : 'rgba(0,0,0,0.1)'}`,
+                      borderRadius: '12px',
+                      color: '#1a2617',
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: '0.82rem',
+                      outline: 'none',
+                      transition: 'border-color 0.2s',
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#c9a84c'; }}
+                    onMouseLeave={e => { if (!cartCountryDrop) (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
+                  >
+                    <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{countryFlag}</span>
+                    <span style={{ flex: 1, textAlign: 'left', fontWeight: 600 }}>{countryName}</span>
+                    <span style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '4px',
+                      padding: '2px 8px', borderRadius: '20px',
+                      background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.25)',
+                      fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', fontWeight: 700,
+                      color: '#c9a84c', letterSpacing: '0.05em', flexShrink: 0,
+                    }}>
+                      {currencyInfo.flag} {currencyInfo.code}
+                    </span>
+                    <i className={cartCountryDrop ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line'} style={{ fontSize: '14px', color: '#9ca3af', flexShrink: 0 }} />
+                  </button>
+
+                  {cartCountryDrop && (
+                    <div style={{
+                      position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0,
+                      zIndex: 300, maxHeight: '220px', overflowY: 'auto',
+                      background: '#ffffff', border: '1.5px solid rgba(201,168,76,0.25)',
+                      borderRadius: '12px', boxShadow: '0 16px 40px rgba(0,0,0,0.14)',
+                      scrollbarWidth: 'thin',
+                    }}>
+                      {COUNTRY_CODES.map((c, idx) => {
+                        const isSelected = countryName === c.name;
+                        const cInfo = CURRENCIES[FR_COUNTRY_CURRENCY[c.name] ?? 'TND'] ?? CURRENCIES.TND;
+                        return (
+                          <button
+                            key={`form-${c.code}-${idx}`}
+                            type="button"
+                            onClick={() => { selectCountry(c); setPhoneNumber(''); setCartCountryDrop(false); }}
+                            className="cursor-pointer w-full flex items-center gap-2.5"
+                            style={{
+                              padding: '9px 14px',
+                              background: isSelected ? 'rgba(201,168,76,0.08)' : 'transparent',
+                              border: 'none',
+                              borderBottom: idx < COUNTRY_CODES.length - 1 ? '1px solid #f3f3f0' : 'none',
+                              color: isSelected ? '#c9a84c' : '#1a2617',
+                              fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem',
+                              textAlign: 'left', transition: 'background 0.15s',
+                            }}
+                            onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.05)'; }}
+                            onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                          >
+                            <span style={{ fontSize: '1rem', flexShrink: 0 }}>{c.flag}</span>
+                            <span style={{ flex: 1, fontWeight: isSelected ? 700 : 400 }}>{c.name}</span>
+                            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: isSelected ? '#c9a84c' : 'rgba(201,168,76,0.6)', flexShrink: 0 }}>
+                              {cInfo.code}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+                {currency !== 'TND' && (
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(201,168,76,0.05)', border: '1px solid rgba(201,168,76,0.15)' }}>
+                    <i className="ri-exchange-line" style={{ color: '#c9a84c', fontSize: '10px', flexShrink: 0 }} />
+                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: '#9aaa96' }}>
+                      Taux indicatif · 1 TND ≈ {currencyInfo.rate} {currencyInfo.code}
+                    </span>
+                  </div>
+                )}
+              </div>
 
               {/* Address fields: street, city, postal code */}
               <div className="flex flex-col gap-1.5">
