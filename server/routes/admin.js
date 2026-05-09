@@ -130,4 +130,32 @@ router.get('/users', async (req, res) => {
   }
 });
 
+router.get('/products', async (req, res) => {
+  try {
+    const products = await Product.find({ active: true })
+      .select('slug name volume stock badge accentColor')
+      .sort({ createdAt: 1 });
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.put('/products/:id/stock', async (req, res) => {
+  try {
+    const { stock } = req.body;
+    if (typeof stock !== 'number' || stock < 0 || !Number.isInteger(stock))
+      return res.status(400).json({ message: 'Stock invalide — entier positif requis' });
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { stock },
+      { new: true, runValidators: true }
+    ).select('slug name volume stock badge accentColor');
+    if (!product) return res.status(404).json({ message: 'Produit introuvable' });
+    res.json(product);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 export default router;

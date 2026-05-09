@@ -40,4 +40,10 @@ export const adminApi = {
   markMessageRead: (id: string) => api.put(`/admin/messages/${id}/read`, {}),
 
   users: () => api.get<unknown[]>('/admin/users'),
+
+  products: () =>
+    api.get<{ _id: string; slug: string; name: string; volume: string; stock: number; badge?: string; accentColor?: string }[]>('/admin/products'),
+
+  updateStock: (id: string, stock: number) =>
+    api.put<{ _id: string; stock: number }>(`/admin/products/${id}/stock`, { stock }),
 };

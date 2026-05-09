@@ -129,7 +129,7 @@ function StatusDropdown({
   );
 }
 
-type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users' | 'security';
+type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users' | 'stocks' | 'security';
 
 type ShippingModal = { orderId: string; trackingNumber: string; carrier: string } | null;
 
@@ -149,6 +149,10 @@ export default function AdminPage() {
   const [configs, setConfigs] = useState<unknown[]>([]);
   const [messages, setMessages] = useState<unknown[]>([]);
   const [users, setUsers] = useState<unknown[]>([]);
+  const [adminProducts, setAdminProducts] = useState<unknown[]>([]);
+  const [stockEdits, setStockEdits] = useState<Record<string, string>>({});
+  const [stockSaving, setStockSaving] = useState<Record<string, boolean>>({});
+  const [stockErrors, setStockErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [pwForm, setPwForm] = useState({ current: '', next: '', confirm: '' });
   const [pwStatus, setPwStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -179,6 +183,13 @@ export default function AdminPage() {
         } else if (tab === 'users') {
           const u = await adminApi.users();
           setUsers(u);
+        } else if (tab === 'stocks') {
+          const p = await adminApi.products();
+          setAdminProducts(p);
+          const edits: Record<string, string> = {};
+          p.forEach((prod) => { edits[prod._id] = String(prod.stock); });
+          setStockEdits(edits);
+          setStockErrors({});
         }
       } catch (err) {
         console.error(err);
@@ -197,6 +208,7 @@ export default function AdminPage() {
     { key: 'configs', label: 'Devis configurateur', icon: 'ri-flask-line' },
     { key: 'messages', label: 'Messages', icon: 'ri-mail-line' },
     { key: 'users', label: 'Utilisateurs', icon: 'ri-team-line' },
+    { key: 'stocks', label: 'Stocks', icon: 'ri-stack-line' },
     { key: 'security', label: 'Sécurité', icon: 'ri-shield-keyhole-line' },
   ];
 
@@ -480,6 +492,124 @@ export default function AdminPage() {
               </div>
             </div>
           )}
+          {!loading && tab === 'stocks' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Gestion des stocks</h2>
+              <p className="text-sm mb-6" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
+                Modifiez les quantités disponibles pour chaque produit. Les commandes sont automatiquement refusées si le stock est insuffisant.
+              </p>
+              <div className="flex flex-col gap-4">
+                {(adminProducts as { _id: string; name: string; volume: string; stock: number; badge?: string; accentColor?: string }[]).map((p) => {
+                  const val = stockEdits[p._id] ?? String(p.stock);
+                  const parsed = parseInt(val, 10);
+                  const isInvalid = isNaN(parsed) || parsed < 0 || !Number.isInteger(parsed);
+                  const isSaving = stockSaving[p._id];
+                  const errMsg = stockErrors[p._id];
+                  const stockLevel = parsed <= 5 ? 'critical' : parsed <= 20 ? 'low' : 'ok';
+                  const levelColor = stockLevel === 'critical' ? '#ef4444' : stockLevel === 'low' ? '#f59e0b' : '#10b981';
+
+                  return (
+                    <div key={p._id} className="rounded-2xl p-6" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
+                      <div className="flex items-center justify-between gap-6 flex-wrap">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${p.accentColor || '#c9a84c'}18` }}>
+                            <i className="ri-flask-line" style={{ color: p.accentColor || '#c9a84c', fontSize: '1.1rem' }} />
+                          </div>
+                          <div>
+                            <div className="font-bold text-sm" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{p.volume}</div>
+                            <div className="text-xs mt-0.5" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
+                              {p.badge && <span className="mr-2">{p.badge}</span>}
+                              Stock actuel DB :
+                              <span className="ml-1 font-bold" style={{ color: levelColor }}>{p.stock} unité{p.stock !== 1 ? 's' : ''}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div>
+                            <input
+                              type="number"
+                              min={0}
+                              value={val}
+                              onChange={(e) => {
+                                setStockEdits((s) => ({ ...s, [p._id]: e.target.value }));
+                                setStockErrors((s) => ({ ...s, [p._id]: '' }));
+                              }}
+                              style={{
+                                width: '90px',
+                                padding: '8px 12px',
+                                borderRadius: '10px',
+                                border: `1.5px solid ${isInvalid ? '#ef4444' : '#e8e8e4'}`,
+                                background: '#fafaf8',
+                                color: '#1a2617',
+                                fontFamily: "'Outfit', sans-serif",
+                                fontSize: '0.9rem',
+                                fontWeight: 600,
+                                outline: 'none',
+                                textAlign: 'center',
+                              }}
+                              onFocus={(e) => { e.target.style.borderColor = isInvalid ? '#ef4444' : '#d4af37'; }}
+                              onBlur={(e) => { e.target.style.borderColor = isInvalid ? '#ef4444' : '#e8e8e4'; }}
+                            />
+                          </div>
+                          <button
+                            disabled={isSaving || isInvalid || parsed === p.stock}
+                            onClick={async () => {
+                              setStockSaving((s) => ({ ...s, [p._id]: true }));
+                              setStockErrors((s) => ({ ...s, [p._id]: '' }));
+                              try {
+                                const updated = await adminApi.updateStock(p._id, parsed);
+                                setAdminProducts((prev) => prev.map((x) => {
+                                  const prod = x as { _id: string; stock: number };
+                                  return prod._id === p._id ? { ...prod, stock: updated.stock } : prod;
+                                }));
+                                setStockEdits((s) => ({ ...s, [p._id]: String(updated.stock) }));
+                              } catch (err: unknown) {
+                                setStockErrors((s) => ({ ...s, [p._id]: err instanceof Error ? err.message : 'Erreur' }));
+                              } finally {
+                                setStockSaving((s) => ({ ...s, [p._id]: false }));
+                              }
+                            }}
+                            style={{
+                              padding: '8px 20px',
+                              borderRadius: '999px',
+                              border: 'none',
+                              background: isSaving || isInvalid || parsed === p.stock
+                                ? '#e8e8e4'
+                                : 'linear-gradient(135deg, #1a2617 0%, #2f4229 100%)',
+                              color: isSaving || isInvalid || parsed === p.stock ? '#9ca3af' : '#d4af37',
+                              fontFamily: "'Outfit', sans-serif",
+                              fontSize: '0.78rem',
+                              fontWeight: 700,
+                              textTransform: 'uppercase',
+                              letterSpacing: '1px',
+                              cursor: isSaving || isInvalid || parsed === p.stock ? 'not-allowed' : 'pointer',
+                              transition: 'all 0.2s',
+                            }}
+                          >
+                            {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
+                          </button>
+                          <div
+                            className="w-3 h-3 rounded-full flex-shrink-0"
+                            title={stockLevel === 'critical' ? 'Critique' : stockLevel === 'low' ? 'Faible' : 'OK'}
+                            style={{ background: levelColor, boxShadow: `0 0 6px ${levelColor}60` }}
+                          />
+                        </div>
+                      </div>
+                      {errMsg && (
+                        <div className="mt-3 text-xs px-3 py-2 rounded-lg" style={{ background: '#fef2f2', color: '#ef4444', fontFamily: "'Outfit', sans-serif" }}>
+                          {errMsg}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                {adminProducts.length === 0 && (
+                  <div className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucun produit</div>
+                )}
+              </div>
+            </div>
+          )}
+
           {!loading && tab === 'security' && (
             <div>
               <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Sécurité du compte</h2>
