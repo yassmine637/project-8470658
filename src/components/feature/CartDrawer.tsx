@@ -309,24 +309,49 @@ export default function CartDrawer() {
 
                           <div className="flex items-center justify-between">
                             {/* Qty controls */}
-                            <div className="flex items-center gap-1 rounded-full overflow-hidden" style={{ border: '1px solid rgba(0,0,0,0.1)' }}>
+                            <div className="flex items-center rounded-lg overflow-hidden" style={{ border: '1.5px solid #c9a84c', background: '#fff' }}>
                               <button
-                                onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                                onClick={() => updateQuantity(item.product.id, Math.max(1, item.quantity - 1))}
                                 className="w-7 h-7 flex items-center justify-center text-sm cursor-pointer border-none transition-colors duration-150"
-                                style={{ background: 'transparent', color: '#1a2617' }}
-                                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#f0ede6'; }}
+                                style={{ background: 'transparent', color: '#1a2617', flexShrink: 0 }}
+                                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.12)'; }}
                                 onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
                               >
                                 <i className="ri-subtract-line" />
                               </button>
-                              <span className="w-6 text-center text-sm font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                                {item.quantity}
-                              </span>
+                              <input
+                                type="number"
+                                min={1}
+                                max={9999}
+                                value={item.quantity}
+                                onChange={(e) => {
+                                  const v = parseInt(e.target.value, 10);
+                                  if (!isNaN(v) && v >= 1 && v <= 9999) updateQuantity(item.product.id, v);
+                                }}
+                                onFocus={(e) => { e.currentTarget.select(); }}
+                                onBlur={(e) => {
+                                  const v = parseInt(e.target.value, 10);
+                                  updateQuantity(item.product.id, (!isNaN(v) && v >= 1) ? Math.min(v, 9999) : 1);
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') (e.currentTarget as HTMLInputElement).blur();
+                                }}
+                                className="text-center text-sm font-bold outline-none"
+                                style={{
+                                  width: '44px',
+                                  height: '28px',
+                                  border: 'none',
+                                  background: 'transparent',
+                                  color: '#1a2617',
+                                  fontFamily: "'Outfit', sans-serif",
+                                  cursor: 'text',
+                                }}
+                              />
                               <button
-                                onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                                onClick={() => updateQuantity(item.product.id, Math.min(9999, item.quantity + 1))}
                                 className="w-7 h-7 flex items-center justify-center text-sm cursor-pointer border-none transition-colors duration-150"
-                                style={{ background: 'transparent', color: '#1a2617' }}
-                                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#f0ede6'; }}
+                                style={{ background: 'transparent', color: '#1a2617', flexShrink: 0 }}
+                                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.12)'; }}
                                 onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
                               >
                                 <i className="ri-add-line" />
