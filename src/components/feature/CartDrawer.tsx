@@ -433,11 +433,11 @@ export default function CartDrawer() {
                                   <input
                                     type="number"
                                     min={1}
-                                    max={9999}
+                                    max={item.product.stock}
                                     value={item.quantity}
                                     onChange={(e) => {
                                       const v = parseInt(e.target.value, 10);
-                                      if (!isNaN(v) && v >= 1 && v <= 9999) updateQuantity(item.product.id, v);
+                                      if (!isNaN(v) && v >= 1 && v <= item.product.stock) updateQuantity(item.product.id, v);
                                     }}
                                     onFocus={(e) => {
                                       e.currentTarget.select();
@@ -446,7 +446,7 @@ export default function CartDrawer() {
                                     }}
                                     onBlur={(e) => {
                                       const v = parseInt(e.target.value, 10);
-                                      updateQuantity(item.product.id, (!isNaN(v) && v >= 1) ? Math.min(v, 9999) : 1);
+                                      updateQuantity(item.product.id, (!isNaN(v) && v >= 1) ? Math.min(v, item.product.stock) : 1);
                                       (e.currentTarget.parentElement as HTMLElement).style.borderColor = '#c9a84c';
                                       (e.currentTarget.parentElement as HTMLElement).style.background = '#fff';
                                     }}
@@ -471,7 +471,7 @@ export default function CartDrawer() {
 
                                 {/* + */}
                                 <button
-                                  onClick={() => updateQuantity(item.product.id, Math.min(9999, item.quantity + 1))}
+                                  onClick={() => updateQuantity(item.product.id, Math.min(item.product.stock, item.quantity + 1))}
                                   className="flex items-center justify-center cursor-pointer border-none transition-all duration-150"
                                   style={{ width: '26px', height: '32px', borderRadius: '7px', background: '#f0ede6', color: '#1a2617', fontSize: '1rem', fontWeight: 700, flexShrink: 0 }}
                                   onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.25)'; }}

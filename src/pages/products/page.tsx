@@ -582,11 +582,11 @@ export default function ProductsPage() {
                       <input
                         type="number"
                         min={1}
-                        max={99}
+                        max={selected.stock}
                         value={quantity}
                         onChange={(e) => {
                           const v = parseInt(e.target.value, 10);
-                          if (!isNaN(v) && v >= 1 && v <= 99) setQuantity(v);
+                          if (!isNaN(v) && v >= 1 && v <= selected.stock) setQuantity(v);
                         }}
                         onFocus={(e) => {
                           e.currentTarget.select();
@@ -594,7 +594,9 @@ export default function ProductsPage() {
                         }}
                         onBlur={(e) => {
                           (e.currentTarget.parentElement as HTMLElement).style.background = '#fff';
-                          if (!e.currentTarget.value || parseInt(e.currentTarget.value) < 1) setQuantity(1);
+                          const v = parseInt(e.currentTarget.value, 10);
+                          if (!v || v < 1) setQuantity(1);
+                          else if (v > selected.stock) setQuantity(selected.stock);
                         }}
                         className="text-center font-bold outline-none transition-all duration-150"
                         style={{
@@ -616,7 +618,7 @@ export default function ProductsPage() {
 
                     {/* + */}
                     <button
-                      onClick={() => setQuantity(q => Math.min(99, q + 1))}
+                      onClick={() => setQuantity(q => Math.min(selected.stock, q + 1))}
                       className="flex items-center justify-center font-bold text-lg cursor-pointer transition-all duration-150 border-none"
                       style={{
                         width: '44px',
@@ -633,7 +635,7 @@ export default function ProductsPage() {
                     </button>
                   </div>
                   <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: '#9aaa96' }}>
-                    ✏️ Tapez directement ou utilisez − +
+                    ✏️ Tapez directement ou utilisez − + · max {selected.stock}
                   </p>
                 </div>
 
