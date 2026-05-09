@@ -194,84 +194,108 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
               {formatPrice(totalPrice)} / {t('config_unit')}
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
-            <button
-              type="button"
-              onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
-              disabled={quantity <= 1}
-              className="cursor-pointer flex items-center justify-center"
-              style={{
-                width: '32px', height: '32px',
-                borderRadius: '8px 0 0 8px',
-                background: quantity <= 1 ? 'rgba(255,255,255,0.03)' : 'rgba(212,175,55,0.1)',
-                border: '1px solid rgba(212,175,55,0.2)',
-                borderRight: 'none',
-                color: quantity <= 1 ? 'rgba(255,255,255,0.2)' : '#d4af37',
-                fontSize: '16px',
-                lineHeight: 1,
-                cursor: quantity <= 1 ? 'not-allowed' : 'pointer',
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={e => { if (quantity > 1) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.18)'; }}
-              onMouseLeave={e => { if (quantity > 1) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.1)'; }}
-            >
-              −
-            </button>
-            <input
-              type="text"
-              inputMode="numeric"
-              value={inputVal}
-              onChange={e => {
-                const v = e.target.value.replace(/[^0-9]/g, '');
-                setInputVal(v);
-              }}
-              onBlur={commitInput}
-              onKeyDown={e => { if (e.key === 'Enter') { (e.target as HTMLInputElement).blur(); } }}
-              style={{
-                width: '58px',
-                height: '32px',
-                textAlign: 'center',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(212,175,55,0.2)',
-                borderLeft: 'none',
-                borderRight: 'none',
-                fontFamily: "'Cormorant Garant', serif",
-                fontSize: '1.1rem',
-                fontWeight: 700,
-                color: '#d4af37',
-                outline: 'none',
-              }}
-              onFocus={e => {
-                e.target.select();
-                (e.target as HTMLInputElement).style.background = 'rgba(212,175,55,0.06)';
-                (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.45)';
-              }}
-              onBlurCapture={e => {
-                (e.target as HTMLInputElement).style.background = 'rgba(255,255,255,0.05)';
-                (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)';
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => onQuantityChange(Math.min(9999, quantity + 1))}
-              className="cursor-pointer flex items-center justify-center"
-              style={{
-                width: '32px', height: '32px',
-                borderRadius: '0 8px 8px 0',
-                background: 'rgba(212,175,55,0.1)',
-                border: '1px solid rgba(212,175,55,0.2)',
-                borderLeft: 'none',
-                color: '#d4af37',
-                fontSize: '16px',
-                lineHeight: 1,
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.18)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.1)'; }}
-            >
-              +
-            </button>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0' }}>
+              <button
+                type="button"
+                onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
+                disabled={quantity <= 1}
+                className="cursor-pointer flex items-center justify-center"
+                style={{
+                  width: '34px', height: '38px',
+                  borderRadius: '8px 0 0 8px',
+                  background: quantity <= 1 ? 'rgba(255,255,255,0.02)' : 'rgba(212,175,55,0.1)',
+                  border: '1px solid rgba(212,175,55,0.35)',
+                  borderRight: 'none',
+                  color: quantity <= 1 ? 'rgba(255,255,255,0.2)' : '#d4af37',
+                  fontSize: '18px',
+                  lineHeight: 1,
+                  cursor: quantity <= 1 ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.15s',
+                }}
+                onMouseEnter={e => { if (quantity > 1) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.2)'; }}
+                onMouseLeave={e => { if (quantity > 1) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.1)'; }}
+              >
+                −
+              </button>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={inputVal}
+                  placeholder="1"
+                  onChange={e => {
+                    const v = e.target.value.replace(/[^0-9]/g, '');
+                    setInputVal(v);
+                  }}
+                  onBlur={commitInput}
+                  onKeyDown={e => { if (e.key === 'Enter') { (e.target as HTMLInputElement).blur(); } }}
+                  style={{
+                    width: '72px',
+                    height: '38px',
+                    textAlign: 'center',
+                    paddingRight: '18px',
+                    background: 'rgba(212,175,55,0.06)',
+                    border: '1px solid rgba(212,175,55,0.45)',
+                    borderLeft: 'none',
+                    borderRight: 'none',
+                    fontFamily: "'Cormorant Garant', serif",
+                    fontSize: '1.2rem',
+                    fontWeight: 700,
+                    color: '#d4af37',
+                    outline: 'none',
+                    cursor: 'text',
+                    transition: 'background 0.15s, border-color 0.15s',
+                    boxSizing: 'border-box',
+                  }}
+                  onFocus={e => {
+                    e.target.select();
+                    (e.target as HTMLInputElement).style.background = 'rgba(212,175,55,0.12)';
+                    (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.7)';
+                  }}
+                  onBlurCapture={e => {
+                    (e.target as HTMLInputElement).style.background = 'rgba(212,175,55,0.06)';
+                    (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.45)';
+                  }}
+                />
+                <i
+                  className="ri-pencil-line"
+                  style={{
+                    position: 'absolute',
+                    right: '5px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    fontSize: '10px',
+                    color: 'rgba(212,175,55,0.45)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => onQuantityChange(Math.min(9999, quantity + 1))}
+                className="cursor-pointer flex items-center justify-center"
+                style={{
+                  width: '34px', height: '38px',
+                  borderRadius: '0 8px 8px 0',
+                  background: 'rgba(212,175,55,0.1)',
+                  border: '1px solid rgba(212,175,55,0.35)',
+                  borderLeft: 'none',
+                  color: '#d4af37',
+                  fontSize: '18px',
+                  lineHeight: 1,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.2)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.1)'; }}
+              >
+                +
+              </button>
+            </div>
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: 'rgba(212,175,55,0.4)', letterSpacing: '0.06em' }}>
+              Saisissez ou utilisez − +
+            </span>
           </div>
         </div>
       )}
