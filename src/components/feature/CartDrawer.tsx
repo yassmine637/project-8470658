@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { CURRENCIES } from '@/hooks/useCurrency';
 import type { Currency } from '@/hooks/useCurrency';
 import { useCurrencyCtx } from '@/context/CurrencyContext';
+import { getCitiesForCountry } from '@/data/cities';
 
 function QuantityInput({
   productId,
@@ -164,6 +165,129 @@ function QuantityInput({
           }}>
             {stock} restants
           </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CityCombobox({
+  countryName,
+  value,
+  onChange,
+  inputStyle,
+}: {
+  countryName: string;
+  value: string;
+  onChange: (city: string) => void;
+  inputStyle: React.CSSProperties;
+}) {
+  const cities = getCitiesForCountry(countryName);
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState(value);
+  const dropRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => { setQuery(value); }, [value]);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    if (open) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  const filtered = cities.length > 0
+    ? cities.filter(c => c.toLowerCase().includes(query.toLowerCase()))
+    : [];
+
+  const handleSelect = (city: string) => {
+    setQuery(city);
+    onChange(city);
+    setOpen(false);
+  };
+
+  if (cities.length === 0) {
+    return (
+      <input
+        name="city"
+        type="text"
+        placeholder="Votre ville"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+        style={inputStyle}
+        onFocus={e => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
+        onBlur={e => { (e.currentTarget as HTMLInputElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
+      />
+    );
+  }
+
+  return (
+    <div ref={dropRef} style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
+        <input
+          ref={inputRef}
+          name="city"
+          type="text"
+          placeholder="Rechercher votre ville..."
+          value={query}
+          autoComplete="off"
+          onChange={e => {
+            setQuery(e.target.value);
+            onChange(e.target.value);
+            setOpen(true);
+          }}
+          onFocus={() => setOpen(true)}
+          className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+          style={{ ...inputStyle, paddingRight: '36px', borderColor: open ? '#c9a84c' : (value ? '#4a7c4e' : 'rgba(0,0,0,0.1)') }}
+        />
+        <div style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+          {value && !open
+            ? <i className="ri-check-line" style={{ color: '#4a7c4e', fontSize: '14px' }} />
+            : <i className="ri-arrow-down-s-line" style={{ color: '#9aaa96', fontSize: '16px' }} />
+          }
+        </div>
+      </div>
+
+      {open && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 350,
+          maxHeight: '200px', overflowY: 'auto',
+          background: '#ffffff', border: '1.5px solid rgba(201,168,76,0.35)',
+          borderRadius: '12px', boxShadow: '0 16px 40px rgba(0,0,0,0.14)',
+          scrollbarWidth: 'thin',
+        }}>
+          {filtered.length === 0 ? (
+            <div style={{ padding: '12px 16px', fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', color: '#9aaa96', textAlign: 'center' }}>
+              Aucune ville trouvée — saisissez librement
+            </div>
+          ) : (
+            filtered.slice(0, 60).map((city, idx) => (
+              <button
+                key={city}
+                type="button"
+                onMouseDown={e => { e.preventDefault(); handleSelect(city); }}
+                className="cursor-pointer w-full flex items-center gap-2.5"
+                style={{
+                  padding: '9px 14px',
+                  background: value === city ? 'rgba(201,168,76,0.09)' : 'transparent',
+                  border: 'none',
+                  borderBottom: idx < filtered.slice(0, 60).length - 1 ? '1px solid #f3f3f0' : 'none',
+                  color: value === city ? '#c9a84c' : '#1a2617',
+                  fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem',
+                  textAlign: 'left', fontWeight: value === city ? 700 : 400,
+                }}
+                onMouseEnter={e => { if (value !== city) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.05)'; }}
+                onMouseLeave={e => { if (value !== city) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+              >
+                <i className="ri-map-pin-2-line" style={{ color: '#c9a84c', fontSize: '12px', flexShrink: 0 }} />
+                <span>{city}</span>
+                {value === city && <i className="ri-check-line" style={{ marginLeft: 'auto', color: '#c9a84c', fontSize: '12px' }} />}
+              </button>
+            ))
+          )}
         </div>
       )}
     </div>
@@ -358,7 +482,7 @@ export default function CartDrawer() {
     setPostalLen(c.postalLen);
     setPostalAlpha(c.postalAlpha);
     setPostalExample(c.postalExample);
-    setForm(prev => ({ ...prev, postalCode: '' }));
+    setForm(prev => ({ ...prev, postalCode: '', city: '' }));
     setPostalError('');
     const autoC = FR_COUNTRY_CURRENCY[c.name];
     if (autoC) {
@@ -1009,16 +1133,11 @@ export default function CartDrawer() {
                   <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                     {t('cart_field_city') ?? 'Ville'}
                   </label>
-                  <input
-                    name="city"
-                    type="text"
-                    placeholder={t('cart_placeholder_city') ?? 'Tunis'}
+                  <CityCombobox
+                    countryName={countryName}
                     value={form.city}
-                    onChange={handleFormChange}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
-                    style={inputStyle}
-                    onFocus={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
-                    onBlur={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
+                    onChange={(city) => setForm(prev => ({ ...prev, city }))}
+                    inputStyle={inputStyle}
                   />
                 </div>
 
