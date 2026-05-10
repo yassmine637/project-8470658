@@ -171,6 +171,176 @@ function QuantityInput({
   );
 }
 
+const COUNTRY_ISO: Record<string, string> = {
+  'Tunisie': 'tn', 'France': 'fr', 'Belgique': 'be', 'Suisse': 'ch', 'Allemagne': 'de',
+  'Royaume-Uni': 'gb', 'Italie': 'it', 'Espagne': 'es', 'Pays-Bas': 'nl', 'Portugal': 'pt',
+  'Autriche': 'at', 'Luxembourg': 'lu', 'Irlande': 'ie', 'Grèce': 'gr', 'Suède': 'se',
+  'Norvège': 'no', 'Danemark': 'dk', 'Finlande': 'fi', 'Pologne': 'pl', 'Tchéquie': 'cz',
+  'Hongrie': 'hu', 'Roumanie': 'ro', 'Maroc': 'ma', 'Algérie': 'dz', 'Libye': 'ly',
+  'Égypte': 'eg', 'Soudan': 'sd', 'Yémen': 'ye', 'Arabie Saoudite': 'sa',
+  'Émirats Arabes Unis': 'ae', 'Qatar': 'qa', 'Koweït': 'kw', 'Bahreïn': 'bh',
+  'Oman': 'om', 'Jordanie': 'jo', 'Liban': 'lb', 'Syrie': 'sy', 'Irak': 'iq',
+  'Palestine': 'ps', 'États-Unis': 'us', 'Canada': 'ca', 'Australie': 'au',
+};
+
+interface NominatimResult {
+  place_id: number;
+  display_name: string;
+  address: {
+    road?: string;
+    house_number?: string;
+    city?: string;
+    town?: string;
+    village?: string;
+    suburb?: string;
+    postcode?: string;
+    neighbourhood?: string;
+  };
+}
+
+function StreetAutocomplete({
+  countryName,
+  value,
+  onChange,
+  onCityChange,
+  onPostalChange,
+  inputStyle,
+  placeholder,
+}: {
+  countryName: string;
+  value: string;
+  onChange: (street: string) => void;
+  onCityChange: (city: string) => void;
+  onPostalChange: (postal: string) => void;
+  inputStyle: React.CSSProperties;
+  placeholder: string;
+}) {
+  const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dropRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    if (open) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  const search = useCallback((query: string) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (abortRef.current) abortRef.current.abort();
+    if (query.trim().length < 3) { setSuggestions([]); setOpen(false); return; }
+
+    timerRef.current = setTimeout(async () => {
+      setLoading(true);
+      abortRef.current = new AbortController();
+      const iso = COUNTRY_ISO[countryName];
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=6&addressdetails=1${iso ? `&countrycodes=${iso}` : ''}`;
+      try {
+        const res = await fetch(url, {
+          signal: abortRef.current.signal,
+          headers: { 'Accept-Language': 'fr' },
+        });
+        const data: NominatimResult[] = await res.json();
+        setSuggestions(data);
+        setOpen(data.length > 0);
+      } catch {
+        // aborted or network error
+      } finally {
+        setLoading(false);
+      }
+    }, 350);
+  }, [countryName]);
+
+  const handleSelect = (result: NominatimResult) => {
+    const addr = result.address;
+    const road = [addr.house_number, addr.road].filter(Boolean).join(' ');
+    const street = road || result.display_name.split(',')[0].trim();
+    onChange(street);
+    const city = addr.city || addr.town || addr.village || addr.suburb || addr.neighbourhood || '';
+    if (city) onCityChange(city);
+    if (addr.postcode) onPostalChange(addr.postcode.replace(/\s/g, '').slice(0, 10));
+    setSuggestions([]);
+    setOpen(false);
+  };
+
+  return (
+    <div ref={dropRef} style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
+        <input
+          name="street"
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          autoComplete="off"
+          onChange={e => { onChange(e.target.value); search(e.target.value); }}
+          onFocus={() => { if (suggestions.length > 0) setOpen(true); }}
+          className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+          style={{ ...inputStyle, paddingRight: '36px', borderColor: open ? '#c9a84c' : (value ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.1)') }}
+        />
+        <div style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+          {loading
+            ? <i className="ri-loader-4-line" style={{ color: '#c9a84c', fontSize: '14px', animation: 'spin 0.8s linear infinite' }} />
+            : <i className="ri-search-line" style={{ color: '#9aaa96', fontSize: '13px' }} />
+          }
+        </div>
+      </div>
+
+      {open && suggestions.length > 0 && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 350,
+          maxHeight: '220px', overflowY: 'auto',
+          background: '#ffffff', border: '1.5px solid rgba(201,168,76,0.35)',
+          borderRadius: '12px', boxShadow: '0 16px 40px rgba(0,0,0,0.14)',
+          scrollbarWidth: 'thin',
+        }}>
+          {suggestions.map((s, idx) => {
+            const addr = s.address;
+            const road = [addr.house_number, addr.road].filter(Boolean).join(' ');
+            const city = addr.city || addr.town || addr.village || addr.suburb || '';
+            const main = road || s.display_name.split(',')[0].trim();
+            const sub = [city, addr.postcode].filter(Boolean).join(' · ');
+            return (
+              <button
+                key={s.place_id}
+                type="button"
+                onMouseDown={e => { e.preventDefault(); handleSelect(s); }}
+                className="cursor-pointer w-full flex items-start gap-2.5"
+                style={{
+                  padding: '10px 14px',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: idx < suggestions.length - 1 ? '1px solid #f3f3f0' : 'none',
+                  color: '#1a2617',
+                  fontFamily: "'Outfit', sans-serif",
+                  textAlign: 'left',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.05)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+              >
+                <i className="ri-map-pin-2-line" style={{ color: '#c9a84c', fontSize: '13px', flexShrink: 0, marginTop: '2px' }} />
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#1a2617', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{main}</div>
+                  {sub && <div style={{ fontSize: '0.68rem', color: '#9aaa96', marginTop: '1px' }}>{sub}</div>}
+                </div>
+              </button>
+            );
+          })}
+          <div style={{ padding: '5px 10px', borderTop: '1px solid #f3f3f0', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end' }}>
+            <img src="https://nominatim.openstreetmap.org/ui/mapicons/nominatim-logo-32.png" alt="" style={{ height: '10px', opacity: 0.4 }} onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+            <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: '#c4c4b8' }}>© OpenStreetMap</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function CityCombobox({
   countryName,
   value,
@@ -1114,16 +1284,14 @@ export default function CartDrawer() {
                 <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                   {t('cart_field_address')}
                 </label>
-                <input
-                  name="street"
-                  type="text"
-                  placeholder={t('cart_placeholder_address')}
+                <StreetAutocomplete
+                  countryName={countryName}
                   value={form.street}
-                  onChange={handleFormChange}
-                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
-                  style={inputStyle}
-                  onFocus={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = '#c9a84c'; }}
-                  onBlur={(e) => { (e.currentTarget as HTMLInputElement).style.borderColor = 'rgba(0,0,0,0.1)'; }}
+                  onChange={(street) => setForm(prev => ({ ...prev, street }))}
+                  onCityChange={(city) => setForm(prev => ({ ...prev, city }))}
+                  onPostalChange={(postal) => setForm(prev => ({ ...prev, postalCode: postal }))}
+                  inputStyle={inputStyle}
+                  placeholder={t('cart_placeholder_address') ?? 'N° et nom de rue'}
                 />
               </div>
 

@@ -5,7 +5,7 @@ const CITIES_BY_COUNTRY: Record<string, string[]> = {
     'Jendouba', 'Mahdia', 'Siliana', 'Le Kef', 'Sidi Bouzid', 'Zaghouan', 'Tozeur',
     'Kébili', 'Manouba', 'La Marsa', 'Hammam-Lif', 'La Goulette', 'Radès', 'Mégrine',
     'Moknine', 'Msaken', 'Korba', 'Hammam Sousse', 'Akouda', 'Kalaa Kebira',
-    'El Aïn', 'Téboulba', 'Djerba', 'Zarzis', 'Ben Gardane', 'Tataouine', 'Matmata',
+    'El Aïn', 'Téboulba', 'Djerba', 'Zarzis', 'Ben Gardane', 'Matmata',
     'Douz', 'Nefta', 'Haïdra', 'Thala', 'Sbeitla', 'Maktar', 'Testour',
   ],
   'France': [
