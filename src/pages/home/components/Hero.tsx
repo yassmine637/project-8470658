@@ -74,8 +74,9 @@ export default function Hero() {
               fontFamily: "'Outfit', sans-serif",
               letterSpacing: '0.22em',
               fontWeight: 600,
-              padding: isAr ? '1.5rem 3.5rem' : '1.25rem 2.75rem',
+              padding: isAr ? '1.5rem 5rem' : '1.25rem 2.75rem',
               fontSize: isAr ? '1.05rem' : '0.875rem',
+              minWidth: isAr ? '280px' : undefined,
             }}
           >
             {t('hero_cta_collection')}
@@ -91,8 +92,9 @@ export default function Hero() {
               letterSpacing: '0.22em',
               fontWeight: 500,
               backdropFilter: 'blur(10px)',
-              padding: isAr ? '1.5rem 3.5rem' : '1.25rem 2.75rem',
+              padding: isAr ? '1.5rem 5rem' : '1.25rem 2.75rem',
               fontSize: isAr ? '1.05rem' : '0.875rem',
+              minWidth: isAr ? '280px' : undefined,
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(212,175,55,0.14)';
