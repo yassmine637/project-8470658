@@ -312,7 +312,7 @@ export default function Header() {
                   textTransform: 'uppercase',
                 }}
               >
-                Domaine
+                {i18n.language === 'en' ? 'Estate' : 'Domaine'}
               </span>
               <span
                 style={{
