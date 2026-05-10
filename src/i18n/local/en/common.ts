@@ -38,11 +38,11 @@ const translations = {
 
   // Hero
   hero_badge: 'Maison Fendri · Sfax, Tunisia · Founded in 1911',
-  hero_title1: 'Crafted over',
-  hero_title2: 'a century of mastery',
-  hero_subtitle: "Premium organic olive oil · Sfax, Tunisia",
-  hero_desc1: 'Since 1911, the Fendri family has grown the finest organic olive oil in the heart of Tunisia.',
-  hero_desc2: 'Three generations of craft. One uncompromising standard.',
+  hero_title1: 'A century of',
+  hero_title2: 'olive oil mastery',
+  hero_subtitle: "Organic extra virgin olive oil · Sfax, Tunisia",
+  hero_desc1: 'For over 100 years, the Fendri family has crafted world-class olive oil in the heart of Tunisia.',
+  hero_desc2: 'Three generations of expertise. One unmatched quality.',
   hero_cta_collection: 'Our Collection',
   hero_cta_configurator: 'Configure your bottle',
 
