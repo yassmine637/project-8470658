@@ -1,5 +1,5 @@
 const translations = {
-  brand_name: 'دومين فندري',
+  brand_name: 'ضيعة فندري',
 
   // Auth buttons & page
   auth_signup: 'إنشاء حساب',
