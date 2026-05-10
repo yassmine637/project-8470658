@@ -567,6 +567,7 @@ export default function Header() {
                     style={{
                       fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
                       letterSpacing: currentLang === 'ar' ? 0 : '0.13em',
+                      textAlign: currentLang === 'ar' ? 'right' : 'left',
                       color: 'rgba(255,255,255,0.7)',
                       borderBottom: i < navLinks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                       textDecoration: 'none',
@@ -578,10 +579,14 @@ export default function Header() {
                 ) : (
                   <button
                     onClick={() => handleAnchorNav(link.sectionId)}
-                    className="block w-full text-left px-10 py-3 text-sm font-medium uppercase tracking-widest transition-colors duration-200"
+                    className="block w-full uppercase tracking-widest transition-colors duration-200"
                     style={{
                       fontFamily: currentLang === 'ar' ? "'Cairo', sans-serif" : "'Outfit', sans-serif",
                       letterSpacing: currentLang === 'ar' ? 0 : '0.13em',
+                      textAlign: currentLang === 'ar' ? 'right' : 'left',
+                      padding: '12px 40px',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
                       color: 'rgba(255,255,255,0.7)',
                       borderBottom: i < navLinks.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                       background: 'none',

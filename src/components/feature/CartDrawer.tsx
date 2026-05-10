@@ -840,12 +840,23 @@ export default function CartDrawer() {
 
       {/* Drawer */}
       <div
-        className="fixed top-0 right-0 h-full z-[70] flex flex-col transition-transform duration-400"
+        className="fixed top-0 h-full z-[70] flex flex-col transition-transform duration-400"
         style={{
           width: 'min(440px, 100vw)',
           background: '#faf8f3',
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
-          borderLeft: '1px solid rgba(201,168,76,0.18)',
+          ...(lang === 'ar'
+            ? {
+                left: 0,
+                right: 'auto',
+                borderRight: '1px solid rgba(201,168,76,0.18)',
+                transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
+              }
+            : {
+                right: 0,
+                left: 'auto',
+                borderLeft: '1px solid rgba(201,168,76,0.18)',
+                transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+              }),
         }}
       >
         {/* Header */}

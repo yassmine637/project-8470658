@@ -304,3 +304,34 @@ html[dir="rtl"] textarea {
 html[dir="rtl"] .rtl-icon-row {
   flex-direction: row-reverse;
 }
+
+/* ─── Dropdown button text align in RTL ─────────────────────── */
+html[dir="rtl"] button[style*="textAlign: 'left'"],
+html[dir="rtl"] button[style*="text-align: left"] {
+  text-align: right !important;
+}
+
+/* Nav underline: animate from right in RTL */
+html[dir="rtl"] .group span.absolute {
+  left: auto !important;
+  right: 0 !important;
+}
+
+/* Mobile menu: icon margins flip in RTL */
+html[dir="rtl"] .mobile-user-info i {
+  margin-right: 0;
+  margin-left: 6px;
+}
+
+/* Cart badge: flip to left side in RTL */
+html[dir="rtl"] .-right-1 {
+  right: auto !important;
+  left: -0.25rem !important;
+}
+
+/* Dropdown arrow icons — keep margin logical */
+html[dir="rtl"] .ri-arrow-down-s-line,
+html[dir="rtl"] .ri-arrow-up-s-line {
+  margin-left: 0;
+  margin-right: -3px;
+}
