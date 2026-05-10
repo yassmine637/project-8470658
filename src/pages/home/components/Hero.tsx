@@ -80,6 +80,7 @@ export default function Hero() {
             lineHeight: '2',
             fontSize: 'clamp(1.05rem, 1.9vw, 22px)',
             fontWeight: 400,
+            textAlign: 'center',
           }}
         >
           <span style={{ whiteSpace: 'nowrap' }}>{t('hero_desc1')}</span><br />
