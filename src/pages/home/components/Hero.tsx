@@ -107,7 +107,7 @@ export default function Hero() {
         <div className="hero-cta flex flex-col sm:flex-row gap-5">
           <a
             href="/products"
-            className="inline-flex items-center justify-center gap-3 px-10 py-4 text-xs uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-3 px-11 py-5 text-sm uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 cursor-pointer whitespace-nowrap"
             style={{
               background: 'linear-gradient(135deg, #d4af37 0%, #b8962a 100%)',
               color: '#1a1a0e',
@@ -120,7 +120,7 @@ export default function Hero() {
           </a>
           <a
             href="/configurator"
-            className="inline-flex items-center justify-center gap-3 px-10 py-4 text-xs uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-3 px-11 py-5 text-sm uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 cursor-pointer whitespace-nowrap"
             style={{
               border: '1px solid rgba(212,175,55,0.65)',
               color: '#e8d5a0',
