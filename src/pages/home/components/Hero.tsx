@@ -54,11 +54,12 @@ export default function Hero() {
           className="hero-title-2 font-light text-white mb-5 leading-none"
           style={{
             fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(3.5rem, 8vw, 105px)',
+            fontSize: 'clamp(2.5rem, 5.8vw, 76px)',
             textShadow: '0 6px 40px rgba(0,0,0,0.55)',
             letterSpacing: '0.02em',
             fontStyle: 'italic',
             fontWeight: 300,
+            whiteSpace: 'nowrap',
           }}
         >
           {t('hero_title2')}
