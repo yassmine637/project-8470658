@@ -571,7 +571,19 @@ export default function CartDrawer() {
   const { items, isOpen, closeCart, removeFromCart, updateQuantity, totalPrice, totalCount, clearCart } = useCart();
   const { user, token } = useAuth();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+
+  const PRODUCT_VOLUME_KEYS: Record<string, string> = {
+    'bouteille-1l': 'product_bouteille_1l_volume',
+    'bouteille-500ml': 'product_bouteille_500ml_volume',
+    'bouteille-250ml': 'product_bouteille_750ml_volume',
+    'bouteille-speciale': 'product_bidon_3l_volume',
+  };
+  const locName = (p: { name: string }) => lang === 'fr' ? p.name : t('product_name');
+  const locVolume = (p: { id: string; volume: string }) =>
+    lang === 'fr' ? p.volume : (PRODUCT_VOLUME_KEYS[p.id] ? t(PRODUCT_VOLUME_KEYS[p.id]) : p.volume);
+
   const [step, setStep] = useState<Step>('cart');
   const [submitting, setSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'cod' | 'konnect' | 'paypal' | 'clicktopay'>('cod');
@@ -993,10 +1005,10 @@ export default function CartDrawer() {
                         <div className="flex-1 flex flex-col gap-2 min-w-0">
                           <div>
                             <p className="text-xs font-semibold uppercase tracking-wider truncate" style={{ color: '#c9a84c', fontFamily: "'Outfit', sans-serif" }}>
-                              {item.product.volume}
+                              {locVolume(item.product)}
                             </p>
                             <p className="text-sm font-bold leading-snug" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: '1rem' }}>
-                              {item.product.name}
+                              {locName(item.product)}
                             </p>
                           </div>
 
@@ -1147,7 +1159,7 @@ export default function CartDrawer() {
                   {items.map((item) => (
                     <div key={item.product.id} className="flex justify-between items-center">
                       <span className="text-xs" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif" }}>
-                        {item.product.volume} × {item.quantity}
+                        {locVolume(item.product)} × {item.quantity}
                       </span>
                       <span className="text-xs font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                         {formatPrice(item.product.price * item.quantity)}
