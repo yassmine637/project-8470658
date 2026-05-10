@@ -296,8 +296,17 @@ export default function CartDrawer() {
   const discountAmount = totalPrice * discountRate;
   const discountedTotal = totalPrice - discountAmount;
   const nextTier = totalQuantity < 10 ? { qty: 10, pct: 5 } : totalQuantity < 50 ? { qty: 50, pct: 10 } : totalQuantity < 100 ? { qty: 100, pct: 15 } : null;
-  const shippingCostTND = items.length > 0 ? getShippingCostTND(countryName) : 0;
+  const FREE_SHIPPING_THRESHOLD = 150;
+  const baseShipping = items.length > 0 ? getShippingCostTND(countryName) : 0;
+  const freeShippingTunisia = countryName === 'Tunisie' && discountedTotal >= FREE_SHIPPING_THRESHOLD;
+  const shippingCostTND = freeShippingTunisia ? 0 : baseShipping;
   const grandTotalTND = discountedTotal + shippingCostTND;
+  const remainingForFreeShipping = countryName === 'Tunisie' && !freeShippingTunisia && items.length > 0
+    ? FREE_SHIPPING_THRESHOLD - discountedTotal
+    : 0;
+  const freeShippingProgress = countryName === 'Tunisie' && items.length > 0
+    ? Math.min(100, (discountedTotal / FREE_SHIPPING_THRESHOLD) * 100)
+    : 0;
 
   useEffect(() => {
     if (!isOpen) {
@@ -1362,6 +1371,36 @@ export default function CartDrawer() {
                     {shippingCostTND === 0 ? 'Gratuite' : formatPrice(shippingCostTND)}
                   </span>
                 </div>
+
+                {/* Barre de progression livraison offerte (Tunisie uniquement) */}
+                {countryName === 'Tunisie' && items.length > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      {freeShippingTunisia ? (
+                        <span className="text-xs font-semibold flex items-center gap-1" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
+                          <i className="ri-checkbox-circle-fill" />
+                          Livraison offerte débloquée !
+                        </span>
+                      ) : (
+                        <span className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                          Plus que <strong style={{ color: '#c9a84c' }}>{formatPrice(remainingForFreeShipping)}</strong> pour la livraison offerte
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ height: '4px', borderRadius: '99px', background: 'rgba(0,0,0,0.06)', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%',
+                        width: `${freeShippingProgress}%`,
+                        borderRadius: '99px',
+                        background: freeShippingTunisia
+                          ? 'linear-gradient(90deg, #4a7c4e, #66aa6e)'
+                          : 'linear-gradient(90deg, #c9a84c, #e0bf6e)',
+                        transition: 'width 0.4s ease',
+                      }} />
+                    </div>
+                  </div>
+                )}
+
                 {/* Séparateur */}
                 <div style={{ borderTop: '1px dashed rgba(0,0,0,0.08)', margin: '2px 0' }} />
                 {/* Total TTC */}
