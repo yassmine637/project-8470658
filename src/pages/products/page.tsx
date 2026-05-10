@@ -9,6 +9,23 @@ import { Product, getStockStatus, STOCK_DISPLAY } from '@/mocks/products';
 import { useProducts } from '@/hooks/useProducts';
 import { useCart } from '@/hooks/useCart';
 import { useCurrencyCtx } from '@/context/CurrencyContext';
+import { useWishlist } from '@/hooks/useWishlist';
+
+const ARAB_COUNTRIES_SET = new Set([
+  'Arabie Saoudite','Émirats Arabes Unis','Qatar','Koweït','Bahreïn','Oman',
+  'Jordanie','Liban','Syrie','Irak','Palestine','Égypte','Libye','Maroc','Algérie','Soudan','Yémen','Tunisie',
+]);
+const EU_COUNTRIES_SET = new Set([
+  'France','Belgique','Suisse','Allemagne','Royaume-Uni','Italie','Espagne',
+  'Pays-Bas','Portugal','Autriche','Luxembourg','Irlande','Grèce',
+  'Suède','Norvège','Danemark','Finlande','Pologne','Tchéquie','Hongrie','Roumanie',
+]);
+function getShippingTND(country: string): number {
+  if (country === 'Tunisie') return 7;
+  if (ARAB_COUNTRIES_SET.has(country)) return 25;
+  if (EU_COUNTRIES_SET.has(country)) return 35;
+  return 50;
+}
 
 const PRODUCT_TRANSLATION_PREFIXES: Record<string, string> = {
   'bouteille-1l': 'product_bouteille_1l',
@@ -42,7 +59,16 @@ export default function ProductsPage() {
   const { t, i18n } = useTranslation();
   const { addToCart, openCart } = useCart();
   const { format: fmtCurrency, currencyInfo } = useCurrencyCtx();
+  const { toggleWishlist, isWishlisted } = useWishlist();
   const { products } = useProducts();
+  const [shippingOpen, setShippingOpen] = useState(false);
+  const [shippingCountry, setShippingCountry] = useState('Tunisie');
+  const SHIPPING_ZONES = [
+    { label: t('shipping_zone_tn'), country: 'Tunisie', cost: 7 },
+    { label: t('shipping_zone_arab'), country: 'Arabie Saoudite', cost: 25 },
+    { label: t('shipping_zone_eu'), country: 'France', cost: 35 },
+    { label: t('shipping_zone_intl'), country: 'Canada', cost: 50 },
+  ];
   const [selected, setSelected] = useState<Product | null>(null);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
@@ -686,6 +712,81 @@ export default function ProductsPage() {
                     </button>
                   );
                 })()}
+
+                {/* Wishlist button */}
+                <button
+                  onClick={() => selected && toggleWishlist(selected.id)}
+                  className="flex items-center justify-center w-12 h-12 rounded-full border-none cursor-pointer transition-all duration-200 flex-shrink-0"
+                  style={{
+                    background: selected && isWishlisted(selected.id) ? 'rgba(220,53,69,0.1)' : '#f0ede6',
+                    border: `1.5px solid ${selected && isWishlisted(selected.id) ? 'rgba(220,53,69,0.3)' : 'rgba(0,0,0,0.1)'}`,
+                  }}
+                  title={t(selected && isWishlisted(selected.id) ? 'wishlist_remove' : 'wishlist_add')}
+                >
+                  <i
+                    className={selected && isWishlisted(selected.id) ? 'ri-heart-fill' : 'ri-heart-line'}
+                    style={{ fontSize: '1.1rem', color: selected && isWishlisted(selected.id) ? '#dc3545' : '#9aaa96' }}
+                  />
+                </button>
+              </div>
+
+              {/* Shipping estimator */}
+              <div style={{ marginTop: 20 }}>
+                <button
+                  onClick={() => setShippingOpen(v => !v)}
+                  className="flex items-center gap-2 cursor-pointer border-none bg-transparent"
+                  style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', color: accent, fontWeight: 600, letterSpacing: '0.08em', padding: 0 }}
+                >
+                  <i className="ri-truck-line" style={{ fontSize: '1rem' }} />
+                  {t('shipping_estimator')}
+                  <i className={`ri-arrow-${shippingOpen ? 'up' : 'down'}-s-line`} style={{ fontSize: '0.8rem', opacity: 0.6 }} />
+                </button>
+
+                {shippingOpen && (
+                  <div
+                    style={{
+                      marginTop: 12,
+                      padding: '14px 16px',
+                      background: '#f8f6f1',
+                      borderRadius: 10,
+                      border: '1px solid rgba(0,0,0,0.07)',
+                    }}
+                  >
+                    <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', color: '#9aaa96', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                      {t('shipping_estimate_title')}
+                    </p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      {SHIPPING_ZONES.map((zone) => {
+                        const isSel = shippingCountry === zone.country;
+                        const isTN = zone.country === 'Tunisie';
+                        const displayCost = fmtCurrency(zone.cost);
+                        return (
+                          <button
+                            key={zone.country}
+                            onClick={() => setShippingCountry(zone.country)}
+                            className="flex items-center justify-between cursor-pointer border-none transition-all duration-150"
+                            style={{
+                              padding: '8px 12px',
+                              borderRadius: 8,
+                              background: isSel ? `${accent}14` : 'rgba(0,0,0,0.02)',
+                              border: `1.5px solid ${isSel ? accent + '40' : 'transparent'}`,
+                              fontFamily: "'Outfit', sans-serif",
+                            }}
+                          >
+                            <span style={{ fontSize: '0.75rem', color: '#1a2617', fontWeight: isSel ? 600 : 400 }}>{zone.label}</span>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: isTN && zone.cost === 7 ? '#4a7c4e' : '#1a2617' }}>
+                              {displayCost} {currencyInfo.symbol}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', color: '#4a7c4e', marginTop: 10, display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <i className="ri-gift-line" />
+                      {t('shipping_free_from')}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

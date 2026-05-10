@@ -5,6 +5,10 @@ import { authApi } from '@/api/auth';
 import { ordersApi, type Order } from '@/api/orders';
 import Header from '@/components/feature/Header';
 import { Eye, EyeOff, ChevronDown } from 'lucide-react';
+import { useWishlist } from '@/hooks/useWishlist';
+import { useCart } from '@/hooks/useCart';
+import { products as allProducts } from '@/mocks/products';
+import { useCurrencyCtx } from '@/context/CurrencyContext';
 
 const STATUS_COLORS: Record<string, { bg: string; color: string; label: string }> = {
   pending:   { bg: 'rgba(201,168,76,0.12)', color: '#c9a84c', label: 'En attente' },
@@ -44,8 +48,11 @@ const inputStyle: React.CSSProperties = {
 export default function AccountPage() {
   const { user, isLoading, logout, updateUser } = useAuth();
   const navigate = useNavigate();
+  const { wishlist, toggleWishlist } = useWishlist();
+  const { addToCart, openCart } = useCart();
+  const { format } = useCurrencyCtx();
 
-  const [tab, setTab] = useState<'profile' | 'orders' | 'security'>('profile');
+  const [tab, setTab] = useState<'profile' | 'orders' | 'security' | 'wishlist'>('profile');
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
 
@@ -163,11 +170,11 @@ export default function AccountPage() {
         </div>
 
         {/* Tabs */}
-        <div style={{ display: 'flex', gap: 2, marginBottom: 36, borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: 0 }}>
-          {(['profile', 'orders', 'security'] as const).map((t) => (
+        <div style={{ display: 'flex', gap: 2, marginBottom: 36, borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: 0, flexWrap: 'wrap' }}>
+          {(['profile', 'orders', 'wishlist', 'security'] as const).map((tabKey) => (
             <button
-              key={t}
-              onClick={() => setTab(t)}
+              key={tabKey}
+              onClick={() => setTab(tabKey)}
               style={{
                 background: 'none',
                 border: 'none',
@@ -178,13 +185,26 @@ export default function AccountPage() {
                 fontWeight: 600,
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
-                color: tab === t ? '#c9a84c' : 'rgba(255,255,255,0.4)',
-                borderBottom: tab === t ? '2px solid #c9a84c' : '2px solid transparent',
+                color: tab === tabKey ? '#c9a84c' : 'rgba(255,255,255,0.4)',
+                borderBottom: tab === tabKey ? '2px solid #c9a84c' : '2px solid transparent',
                 marginBottom: -1,
                 transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
               }}
             >
-              {t === 'profile' ? 'Mon Profil' : t === 'orders' ? 'Mes Commandes' : 'Sécurité'}
+              {tabKey === 'profile' ? 'Mon Profil' : tabKey === 'orders' ? 'Mes Commandes' : tabKey === 'wishlist' ? (
+                <>
+                  <i className="ri-heart-line" style={{ fontSize: 13 }} />
+                  Favoris
+                  {wishlist.length > 0 && (
+                    <span style={{ background: '#dc3545', color: '#fff', borderRadius: '50%', width: 16, height: 16, fontSize: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
+                      {wishlist.length}
+                    </span>
+                  )}
+                </>
+              ) : 'Sécurité'}
             </button>
           ))}
         </div>
@@ -469,6 +489,86 @@ export default function AccountPage() {
               {pwSaving ? 'Modification...' : 'Modifier le mot de passe'}
             </button>
           </form>
+        )}
+
+        {/* Wishlist tab */}
+        {tab === 'wishlist' && (
+          <div>
+            {wishlist.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '64px 32px', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, background: 'rgba(255,255,255,0.02)' }}>
+                <i className="ri-heart-line" style={{ fontSize: 40, color: 'rgba(255,255,255,0.12)', display: 'block', marginBottom: 16 }} />
+                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.35)', margin: '0 0 6px' }}>
+                  Votre liste de souhaits est vide
+                </p>
+                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.2)', margin: 0 }}>
+                  Parcourez notre collection et sauvegardez vos huiles préférées
+                </p>
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+                {wishlist.map((productId) => {
+                  const product = allProducts.find((p) => p.id === productId);
+                  if (!product) return null;
+                  return (
+                    <div
+                      key={product.id}
+                      style={{
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        borderRadius: 12,
+                        overflow: 'hidden',
+                        background: 'rgba(255,255,255,0.03)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                      }}
+                    >
+                      <div style={{ background: 'linear-gradient(160deg, #1a2617 0%, #0e1a0d 100%)', padding: '20px', display: 'flex', justifyContent: 'center' }}>
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          style={{ height: 120, width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))' }}
+                        />
+                      </div>
+                      <div style={{ padding: '14px 16px', flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#c9a84c', letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>
+                          {product.volume}
+                        </p>
+                        <p style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 17, fontWeight: 700, color: '#fff', margin: 0, lineHeight: 1.2 }}>
+                          {product.name}
+                        </p>
+                        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#c9a84c', margin: 0 }}>
+                          {format(product.price)} <span style={{ fontSize: 12, fontWeight: 400, color: 'rgba(255,255,255,0.4)' }}>TND</span>
+                        </p>
+                        <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+                          <button
+                            onClick={() => { addToCart(product); openCart(); }}
+                            style={{
+                              flex: 1, padding: '8px 0', background: '#c9a84c', border: 'none', borderRadius: 8,
+                              color: '#1a2617', fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 700,
+                              letterSpacing: '0.08em', cursor: 'pointer', transition: 'all 0.2s',
+                            }}
+                          >
+                            <i className="ri-shopping-basket-2-line" style={{ marginRight: 5 }} />
+                            Commander
+                          </button>
+                          <button
+                            onClick={() => toggleWishlist(product.id)}
+                            style={{
+                              width: 34, height: 34, background: 'rgba(220,53,69,0.1)', border: '1px solid rgba(220,53,69,0.25)',
+                              borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              transition: 'all 0.2s', flexShrink: 0,
+                            }}
+                            title="Retirer des favoris"
+                          >
+                            <i className="ri-heart-fill" style={{ color: '#dc3545', fontSize: 14 }} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         )}
 
         {/* Orders tab */}

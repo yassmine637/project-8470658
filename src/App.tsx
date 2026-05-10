@@ -5,6 +5,7 @@ import i18n from "./i18n";
 import { CartProvider } from "@/hooks/useCart";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CurrencyProvider } from "@/context/CurrencyContext";
+import { WishlistProvider } from "@/hooks/useWishlist";
 import CartDrawer from "@/components/feature/CartDrawer";
 
 function App() {
@@ -13,10 +14,12 @@ function App() {
       <BrowserRouter basename={__BASE_PATH__}>
         <AuthProvider>
           <CurrencyProvider>
-            <CartProvider>
-              <AppRoutes />
-              <CartDrawer />
-            </CartProvider>
+            <WishlistProvider>
+              <CartProvider>
+                <AppRoutes />
+                <CartDrawer />
+              </CartProvider>
+            </WishlistProvider>
           </CurrencyProvider>
         </AuthProvider>
       </BrowserRouter>

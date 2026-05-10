@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Product } from '@/mocks/products';
 import { useCart } from '@/hooks/useCart';
 import { useCurrencyCtx } from '@/context/CurrencyContext';
+import { useWishlist } from '@/hooks/useWishlist';
 
 interface ProductCardProps {
   product: Product;
@@ -21,9 +22,11 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   const { t, i18n } = useTranslation();
   const { addToCart, openCart } = useCart();
   const { format, currencyInfo } = useCurrencyCtx();
+  const { toggleWishlist, isWishlisted } = useWishlist();
   const badgeStyle = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
   const accent = ACCENT_COLORS[index % ACCENT_COLORS.length];
   const isArabic = i18n.language === 'ar';
+  const wishlisted = isWishlisted(product.id);
   const volume = isArabic ? t({
     'Bidon vert 1L — Bio': 'product_bouteille_1l_volume',
     'Bouteille cylindrique 500ml': 'product_bouteille_500ml_volume',
@@ -49,6 +52,23 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             {product.badge}
           </div>
         )}
+
+        {/* Wishlist button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); toggleWishlist(product.id); }}
+          className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer border-none"
+          style={{
+            background: wishlisted ? 'rgba(220,53,69,0.1)' : 'rgba(255,255,255,0.85)',
+            backdropFilter: 'blur(4px)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          }}
+          title={t(wishlisted ? 'wishlist_remove' : 'wishlist_add')}
+        >
+          <i
+            className={wishlisted ? 'ri-heart-fill' : 'ri-heart-line'}
+            style={{ fontSize: '0.95rem', color: wishlisted ? '#dc3545' : '#9aaa96', transition: 'color 0.2s' }}
+          />
+        </button>
 
         <div
           className="relative flex items-center justify-center rounded-t-2xl overflow-hidden"
