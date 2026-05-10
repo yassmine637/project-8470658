@@ -242,6 +242,22 @@ const COUNTRY_CODES = [
   { code: '+61', flag: '🇦🇺', name: 'Australie', digits: 9, postalLen: 4, postalAlpha: false, postalExample: '2000' },
 ];
 
+const ARAB_COUNTRIES = new Set([
+  'Arabie Saoudite','Émirats Arabes Unis','Qatar','Koweït','Bahreïn','Oman',
+  'Jordanie','Liban','Syrie','Irak','Palestine','Égypte','Libye','Maroc','Algérie','Soudan','Yémen',
+]);
+const EU_COUNTRIES = new Set([
+  'France','Belgique','Suisse','Allemagne','Royaume-Uni','Italie','Espagne',
+  'Pays-Bas','Portugal','Autriche','Luxembourg','Irlande','Grèce',
+  'Suède','Norvège','Danemark','Finlande','Pologne','Tchéquie','Hongrie','Roumanie',
+]);
+const getShippingCostTND = (name: string): number => {
+  if (name === 'Tunisie') return 7;
+  if (ARAB_COUNTRIES.has(name)) return 25;
+  if (EU_COUNTRIES.has(name)) return 35;
+  return 50;
+};
+
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeFromCart, updateQuantity, totalPrice, totalCount, clearCart } = useCart();
   const { user, token } = useAuth();
@@ -280,6 +296,8 @@ export default function CartDrawer() {
   const discountAmount = totalPrice * discountRate;
   const discountedTotal = totalPrice - discountAmount;
   const nextTier = totalQuantity < 10 ? { qty: 10, pct: 5 } : totalQuantity < 50 ? { qty: 50, pct: 10 } : totalQuantity < 100 ? { qty: 100, pct: 15 } : null;
+  const shippingCostTND = items.length > 0 ? getShippingCostTND(countryName) : 0;
+  const grandTotalTND = discountedTotal + shippingCostTND;
 
   useEffect(() => {
     if (!isOpen) {
@@ -377,6 +395,9 @@ export default function CartDrawer() {
             currency: 'TND',
             shippingAddress,
             paymentMethod,
+            shippingCost: shippingCostTND,
+            discountRate,
+            grandTotal: grandTotalTND,
           }),
         });
       } else {
@@ -391,6 +412,9 @@ export default function CartDrawer() {
             currency: 'TND',
             shippingAddress,
             paymentMethod,
+            shippingCost: shippingCostTND,
+            discountRate,
+            grandTotal: grandTotalTND,
           }),
         });
       }
@@ -749,12 +773,11 @@ export default function CartDrawer() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 pt-3" style={{ borderTop: '1px solid rgba(201,168,76,0.2)' }}>
+                <div className="mt-3 pt-3 flex flex-col gap-1.5" style={{ borderTop: '1px solid rgba(201,168,76,0.2)' }}>
                   {discountRate > 0 && (
-                    <div className="flex justify-between items-center mb-1.5">
+                    <div className="flex justify-between items-center">
                       <span className="text-xs font-semibold flex items-center gap-1" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
-                        <i className="ri-price-tag-3-line" />
-                        Remise {Math.round(discountRate * 100)}% ({totalQuantity} unités)
+                        <i className="ri-price-tag-3-line" />Remise {Math.round(discountRate * 100)}%
                       </span>
                       <span className="text-xs font-bold" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
                         −{formatPrice(discountAmount)}
@@ -762,15 +785,19 @@ export default function CartDrawer() {
                     </div>
                   )}
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-bold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{t('cart_total')}</span>
-                    <div className="flex items-center gap-2">
-                      {discountRate > 0 && (
-                        <span className="text-sm line-through" style={{ color: '#9aaa96', fontFamily: "'Cormorant Garant', serif" }}>{formatPrice(totalPrice)}</span>
-                      )}
-                      <span className="text-lg font-bold" style={{ color: discountRate > 0 ? '#4a7c4e' : '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                        {formatPrice(discountedTotal)}
-                      </span>
-                    </div>
+                    <span className="text-xs flex items-center gap-1" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                      <i className="ri-truck-line" />{countryFlag} Livraison {countryName}
+                    </span>
+                    <span className="text-xs font-semibold" style={{ color: shippingCostTND === 0 ? '#4a7c4e' : '#6b7c68', fontFamily: "'Outfit', sans-serif" }}>
+                      {shippingCostTND === 0 ? 'Gratuite' : formatPrice(shippingCostTND)}
+                    </span>
+                  </div>
+                  <div style={{ borderTop: '1px dashed rgba(201,168,76,0.2)' }} />
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-bold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>Total TTC</span>
+                    <span className="text-lg font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
+                      {formatPrice(grandTotalTND)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1304,32 +1331,47 @@ export default function CartDrawer() {
 
             {/* Total + CTA */}
             <div className="px-6 pb-5">
-              <div className="flex flex-col gap-1 mb-3">
+              <div className="flex flex-col gap-1.5 mb-3">
+                {/* Sous-total */}
+                <div className="flex justify-between items-center">
+                  <span className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>Sous-total</span>
+                  <span className="text-xs font-semibold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                    {discountRate > 0
+                      ? <><s style={{ color: '#c4c4b8', marginRight: 4 }}>{formatPrice(totalPrice)}</s>{formatPrice(discountedTotal)}</>
+                      : formatPrice(totalPrice)
+                    }
+                  </span>
+                </div>
                 {discountRate > 0 && (
                   <div className="flex justify-between items-center">
                     <span className="text-xs font-semibold flex items-center gap-1" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
-                      <i className="ri-price-tag-3-line" />
-                      Remise {Math.round(discountRate * 100)}%
+                      <i className="ri-price-tag-3-line" />Remise {Math.round(discountRate * 100)}%
                     </span>
                     <span className="text-xs font-bold" style={{ color: '#4a7c4e', fontFamily: "'Outfit', sans-serif" }}>
                       −{formatPrice(discountAmount)}
                     </span>
                   </div>
                 )}
+                {/* Livraison */}
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#6b7c68', fontFamily: "'Outfit', sans-serif" }}>
-                    {t('cart_total')}
+                  <span className="text-xs flex items-center gap-1" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                    <i className="ri-truck-line" />
+                    Livraison · {countryFlag} {countryName}
                   </span>
-                  <div className="flex items-center gap-2">
-                    {discountRate > 0 && (
-                      <span className="text-sm line-through" style={{ color: '#9aaa96', fontFamily: "'Cormorant Garant', serif" }}>
-                        {formatPrice(totalPrice)}
-                      </span>
-                    )}
-                    <span className="text-2xl font-bold" style={{ color: discountRate > 0 ? '#4a7c4e' : '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
-                      {formatPrice(discountedTotal)}
-                    </span>
-                  </div>
+                  <span className="text-xs font-semibold" style={{ color: shippingCostTND === 0 ? '#4a7c4e' : '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                    {shippingCostTND === 0 ? 'Gratuite' : formatPrice(shippingCostTND)}
+                  </span>
+                </div>
+                {/* Séparateur */}
+                <div style={{ borderTop: '1px dashed rgba(0,0,0,0.08)', margin: '2px 0' }} />
+                {/* Total TTC */}
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                    Total TTC
+                  </span>
+                  <span className="text-2xl font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif" }}>
+                    {formatPrice(grandTotalTND)}
+                  </span>
                 </div>
               </div>
               <button
