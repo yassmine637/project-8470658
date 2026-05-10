@@ -53,6 +53,8 @@ src/
 | GET | /api/orders/my | Mes commandes (auth) |
 | POST | /api/configurator | Soumettre devis configurateur |
 | POST | /api/contact | Envoyer message contact |
+| POST | /api/checkout/clicktopay/init | Initier paiement Click to Pay (SMT) |
+| GET | /api/checkout/clicktopay/status/:smtOrderId | Vérifier statut paiement SMT |
 | POST | /api/checkout/konnect/init | Initier paiement Konnect |
 | POST | /api/checkout/paypal/init | Initier paiement PayPal |
 | POST | /api/checkout/create-session | Créer session Stripe |

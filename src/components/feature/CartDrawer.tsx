@@ -573,7 +573,7 @@ export default function CartDrawer() {
   const { t } = useTranslation();
   const [step, setStep] = useState<Step>('cart');
   const [submitting, setSubmitting] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'konnect' | 'paypal'>('cod');
+  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'konnect' | 'paypal' | 'clicktopay'>('cod');
   const [form, setForm] = useState({ name: '', email: '', street: '', city: '', postalCode: '' });
   const [postalError, setPostalError] = useState('');
   const [formError, setFormError] = useState('');
@@ -729,6 +729,35 @@ export default function CartDrawer() {
         postalCode: form.postalCode,
         country: countryName,
       };
+      const guestPhone = `${countryCode} ${phoneNumber}`;
+
+      // ── Click to Pay (SMT) ──
+      if (paymentMethod === 'clicktopay') {
+        const ctpRes = await fetch('/api/checkout/clicktopay/init', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: orderItems,
+            guestName: user ? user.name : form.name,
+            guestEmail: user ? user.email : form.email,
+            guestPhone: user ? '' : guestPhone,
+            currency: 'TND',
+            shippingAddress,
+            shippingCost: shippingCostTND,
+            discountRate,
+            grandTotal: grandTotalTND,
+          }),
+        });
+        const ctpData = await ctpRes.json();
+        if (!ctpRes.ok) {
+          setFormError(ctpData.message || 'Erreur Click to Pay');
+          return;
+        }
+        clearCart();
+        window.location.href = ctpData.payUrl;
+        return;
+      }
+
       let res: Response;
       if (user && token) {
         res = await fetch('/api/orders/authenticated', {
@@ -752,7 +781,7 @@ export default function CartDrawer() {
             items: orderItems,
             guestName: form.name,
             guestEmail: form.email,
-            guestPhone: `${countryCode} ${phoneNumber}`,
+            guestPhone,
             currency: 'TND',
             shippingAddress,
             paymentMethod,
@@ -1602,6 +1631,64 @@ export default function CartDrawer() {
                       </p>
                     </div>
                   </button>
+
+                  {/* Click to Pay (SMT) */}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('clicktopay')}
+                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left transition-all duration-200 cursor-pointer border-none"
+                    style={{
+                      background: paymentMethod === 'clicktopay' ? 'rgba(26,38,23,0.06)' : '#ffffff',
+                      border: `2px solid ${paymentMethod === 'clicktopay' ? '#1a2617' : 'rgba(0,0,0,0.1)'}`,
+                    }}
+                  >
+                    <div
+                      className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0"
+                      style={{ background: paymentMethod === 'clicktopay' ? '#1a2617' : 'rgba(0,0,0,0.06)' }}
+                    >
+                      <i
+                        className="ri-cursor-line text-sm"
+                        style={{ color: paymentMethod === 'clicktopay' ? '#c9a84c' : '#9aaa96' }}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                        Click to Pay
+                        <span
+                          className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                          style={{ background: 'rgba(255,107,0,0.1)', color: '#e05a00' }}
+                        >
+                          SMT
+                        </span>
+                      </p>
+                      <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                        Carte bancaire tunisienne · réseau monétique
+                      </p>
+                    </div>
+                    <div className="ml-auto flex-shrink-0">
+                      <div
+                        className="w-4 h-4 rounded-full border-2 flex items-center justify-center"
+                        style={{ borderColor: paymentMethod === 'clicktopay' ? '#1a2617' : 'rgba(0,0,0,0.2)' }}
+                      >
+                        {paymentMethod === 'clicktopay' && (
+                          <div className="w-2 h-2 rounded-full" style={{ background: '#1a2617' }} />
+                        )}
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Avertissement Click to Pay si sélectionné */}
+                  {paymentMethod === 'clicktopay' && (
+                    <div
+                      className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl"
+                      style={{ background: 'rgba(255,107,0,0.06)', border: '1px solid rgba(255,107,0,0.2)' }}
+                    >
+                      <i className="ri-information-line flex-shrink-0" style={{ color: '#e05a00', fontSize: '14px', marginTop: '1px' }} />
+                      <p className="text-xs leading-relaxed" style={{ color: '#7a4a1e', fontFamily: "'Outfit', sans-serif" }}>
+                        Vous serez redirigé vers la plateforme sécurisée <strong>Click to Pay SMT</strong> pour finaliser votre paiement par carte bancaire tunisienne.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 

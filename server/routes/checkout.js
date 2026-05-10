@@ -4,6 +4,125 @@ import Order from '../models/Order.js';
 
 const router = express.Router();
 
+// ─── Click to Pay (SMT — Société Monétique Tunisie) ────────────────────────
+router.post('/clicktopay/init', async (req, res) => {
+  try {
+    const merchantId  = process.env.SMT_MERCHANT_ID;
+    const terminalId  = process.env.SMT_TERMINAL_ID;
+    const secretKey   = process.env.SMT_SECRET_KEY;
+    const smtBaseUrl  = process.env.SMT_BASE_URL || 'https://payment.clictopay.com/payment/rest';
+
+    const { items, guestName, guestEmail, guestPhone, shippingAddress, discountRate, grandTotal } = req.body;
+    if (!items?.length) return res.status(400).json({ message: 'Panier vide' });
+    if (!guestName || !guestEmail) return res.status(400).json({ message: 'Nom et email requis' });
+
+    const totalHT  = items.reduce((s, i) => s + i.price * i.quantity, 0);
+    const tva      = Math.round(totalHT * 0.19);
+    const totalTTC = grandTotal ?? (totalHT + tva);
+    const amountMillimes = Math.round(totalTTC * 1000);
+
+    const order = await Order.create({
+      items,
+      guestName,
+      guestEmail,
+      guestPhone: guestPhone ? guestPhone.slice(0, 30) : '',
+      totalHT,
+      tva,
+      totalTTC,
+      currency: 'TND',
+      shippingAddress: shippingAddress || {},
+      paymentMethod: 'clicktopay',
+      discountRate: discountRate || 0,
+      status: 'pending',
+    });
+
+    const domain = process.env.REPLIT_DEV_DOMAIN
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}`
+      : 'http://localhost:5000';
+
+    // ── Si les clés SMT ne sont pas encore configurées → réponse de démonstration ──
+    if (!merchantId || !terminalId || !secretKey) {
+      return res.status(503).json({
+        message: 'Click to Pay SMT non configuré — clés marchandes manquantes (SMT_MERCHANT_ID, SMT_TERMINAL_ID, SMT_SECRET_KEY)',
+        orderId: order._id,
+        demo: true,
+      });
+    }
+
+    // ── Initiation du paiement sur la plateforme SMT ──
+    const orderNumber = `FND-${order._id.toString().slice(-8).toUpperCase()}-${Date.now().toString().slice(-4)}`;
+    const smtParams = new URLSearchParams({
+      userName:    merchantId,
+      password:    secretKey,
+      orderNumber,
+      amount:      String(amountMillimes),
+      currency:    '788',           // Code ISO 4217 numérique pour TND
+      returnUrl:   `${domain}/checkout/success?provider=clicktopay&order_id=${order._id}`,
+      failUrl:     `${domain}/checkout/cancel?order_id=${order._id}`,
+      language:    'fr',
+      description: `Commande Domaine Fendri — ${items.map(i => `${i.productName} x${i.quantity}`).join(', ')}`.slice(0, 512),
+      email:       guestEmail,
+      phone:       guestPhone || '',
+      terminalId,
+    });
+
+    const smtRes  = await fetch(`${smtBaseUrl}/register.do`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body:    smtParams.toString(),
+    });
+
+    const smtData = await smtRes.json();
+
+    if (smtData.errorCode && smtData.errorCode !== '0') {
+      return res.status(502).json({
+        message: smtData.errorMessage || 'Erreur plateforme Click to Pay',
+        errorCode: smtData.errorCode,
+      });
+    }
+
+    await Order.findByIdAndUpdate(order._id, { stripeSessionId: smtData.orderId });
+
+    res.json({
+      payUrl:   smtData.formUrl,
+      smtOrderId: smtData.orderId,
+      orderId:  order._id,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// ─── Click to Pay — vérification du statut ────────────────────────────────
+router.get('/clicktopay/status/:smtOrderId', async (req, res) => {
+  try {
+    const merchantId = process.env.SMT_MERCHANT_ID;
+    const secretKey  = process.env.SMT_SECRET_KEY;
+    const smtBaseUrl = process.env.SMT_BASE_URL || 'https://payment.clictopay.com/payment/rest';
+    if (!merchantId || !secretKey) return res.status(503).json({ message: 'Click to Pay non configuré' });
+
+    const params = new URLSearchParams({
+      userName: merchantId,
+      password: secretKey,
+      orderId:  req.params.smtOrderId,
+      language: 'fr',
+    });
+
+    const smtRes  = await fetch(`${smtBaseUrl}/getOrderStatus.do?${params.toString()}`);
+    const smtData = await smtRes.json();
+
+    // orderStatus 2 = approuvé/payé
+    if (smtData.orderStatus === 2) {
+      const order = await Order.findOne({ stripeSessionId: req.params.smtOrderId });
+      if (order) await Order.findByIdAndUpdate(order._id, { status: 'paid' });
+    }
+
+    res.json({ orderStatus: smtData.orderStatus, errorCode: smtData.errorCode });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // ─── Konnect ───────────────────────────────────────────────────────────────
 router.post('/konnect/init', async (req, res) => {
   try {
