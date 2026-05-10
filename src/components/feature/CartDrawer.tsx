@@ -190,6 +190,19 @@ const FR_COUNTRY_CURRENCY: Record<string, Currency> = {
   'Maroc': 'EUR', 'Algérie': 'EUR',
 };
 
+// Pays par défaut à sélectionner quand la devise change depuis le header
+const CURRENCY_DEFAULT_COUNTRY: Partial<Record<Currency, string>> = {
+  'TND': 'Tunisie',
+  'EUR': 'France',
+  'CHF': 'Suisse',
+  'GBP': 'Royaume-Uni',
+  'USD': 'États-Unis',
+  'CAD': 'Canada',
+  'AUD': 'Australie',
+  'SAR': 'Arabie Saoudite',
+  'AED': 'Émirats Arabes Unis',
+};
+
 // postalLen: exact digits required (0 = optional, no standard); postalAlpha: alphanumeric code
 const COUNTRY_CODES = [
   // ── Tunisie ──
@@ -286,6 +299,8 @@ export default function CartDrawer() {
   const [countryFlag, setCountryFlag] = useState('🇹🇳');
   const [countryName, setCountryName] = useState('Tunisie');
   const [countryDigits, setCountryDigits] = useState(8);
+  // Ref pour éviter la boucle infinie pays→devise→pays
+  const skipCurrencyEffectRef = useRef(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dropOpen, setDropOpen] = useState(false);
   const dropRef = useRef<HTMLDivElement>(null);
@@ -346,8 +361,33 @@ export default function CartDrawer() {
     setForm(prev => ({ ...prev, postalCode: '' }));
     setPostalError('');
     const autoC = FR_COUNTRY_CURRENCY[c.name];
-    if (autoC) setCurrency(autoC);
+    if (autoC) {
+      // Marquer que le prochain changement de devise vient du pays, pas du header
+      skipCurrencyEffectRef.current = true;
+      setCurrency(autoC);
+    }
   };
+
+  // Quand la devise change depuis le header, mettre à jour le pays par défaut
+  useEffect(() => {
+    if (skipCurrencyEffectRef.current) {
+      skipCurrencyEffectRef.current = false;
+      return;
+    }
+    const defaultCountryName = CURRENCY_DEFAULT_COUNTRY[currency];
+    if (!defaultCountryName) return;
+    const countryData = COUNTRY_CODES.find(c => c.name === defaultCountryName);
+    if (!countryData) return;
+    setCountryCode(countryData.code);
+    setCountryFlag(countryData.flag);
+    setCountryName(countryData.name);
+    setCountryDigits(countryData.digits);
+    setPostalLen(countryData.postalLen);
+    setPostalAlpha(countryData.postalAlpha);
+    setPostalExample(countryData.postalExample);
+    setForm(prev => ({ ...prev, postalCode: '' }));
+    setPostalError('');
+  }, [currency]);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
