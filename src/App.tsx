@@ -4,6 +4,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import { CartProvider } from "@/hooks/useCart";
 import { AuthProvider } from "@/hooks/useAuth";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 import CartDrawer from "@/components/feature/CartDrawer";
 
 function App() {
@@ -11,10 +12,12 @@ function App() {
     <I18nextProvider i18n={i18n}>
       <BrowserRouter basename={__BASE_PATH__}>
         <AuthProvider>
-          <CartProvider>
-            <AppRoutes />
-            <CartDrawer />
-          </CartProvider>
+          <CurrencyProvider>
+            <CartProvider>
+              <AppRoutes />
+              <CartDrawer />
+            </CartProvider>
+          </CurrencyProvider>
         </AuthProvider>
       </BrowserRouter>
     </I18nextProvider>

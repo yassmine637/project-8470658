@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/hooks/useAuth';
-import { useCurrency, CURRENCIES } from '@/hooks/useCurrency';
+import { CURRENCIES } from '@/hooks/useCurrency';
 import type { Currency } from '@/hooks/useCurrency';
+import { useCurrencyCtx } from '@/context/CurrencyContext';
 
 function QuantityInput({
   productId,
@@ -274,8 +275,8 @@ export default function CartDrawer() {
   const [postalAlpha, setPostalAlpha] = useState(false);
   const [postalExample, setPostalExample] = useState('1000');
 
-  // Currency selector
-  const { currency, setCurrency, currencyInfo, format: fmtCurrency } = useCurrency('TND');
+  // Currency selector (global context)
+  const { currency, setCurrency, currencyInfo, format: fmtCurrency } = useCurrencyCtx();
   const [currencyDropOpen, setCurrencyDropOpen] = useState(false);
   const currencyDropRef = useRef<HTMLDivElement>(null);
   const formatPrice = (amountTND: number) => `${fmtCurrency(amountTND)} ${currencyInfo.symbol}`;

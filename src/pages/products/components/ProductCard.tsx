@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Product } from '@/mocks/products';
 import { useCart } from '@/hooks/useCart';
+import { useCurrencyCtx } from '@/context/CurrencyContext';
 
 interface ProductCardProps {
   product: Product;
@@ -19,6 +20,7 @@ const ACCENT_COLORS: string[] = ['#4a7c4e', '#c9a84c', '#b8942a', '#8b6914'];
 export default function ProductCard({ product, index }: ProductCardProps) {
   const { t, i18n } = useTranslation();
   const { addToCart, openCart } = useCart();
+  const { format, currencyInfo } = useCurrencyCtx();
   const badgeStyle = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
   const accent = ACCENT_COLORS[index % ACCENT_COLORS.length];
   const isArabic = i18n.language === 'ar';
@@ -87,13 +89,20 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           <div className="h-px w-full mt-2" style={{ background: 'rgba(0,0,0,0.06)' }} />
 
           <div className="flex items-center justify-between gap-3">
-            <div className="flex items-baseline gap-1">
-              <span className="text-4xl font-bold" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
-                {product.price}
-              </span>
-              <span className="text-base font-semibold ml-1" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
-                {isArabic ? 'د.ت' : product.currency}
-              </span>
+            <div className="flex flex-col gap-0.5">
+              <div className="flex items-baseline gap-1">
+                <span className="text-4xl font-bold" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
+                  {format(product.price)}
+                </span>
+                <span className="text-base font-semibold ml-1" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
+                  {currencyInfo.symbol}
+                </span>
+              </div>
+              {currencyInfo.code !== 'TND' && (
+                <span className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                  ≈ {product.price} TND
+                </span>
+              )}
             </div>
 
             <div className="flex items-center gap-2">

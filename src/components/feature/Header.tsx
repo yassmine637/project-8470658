@@ -4,6 +4,8 @@ import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/api/auth';
 import { useTranslation } from 'react-i18next';
+import { useCurrencyCtx } from '@/context/CurrencyContext';
+import { CURRENCIES } from '@/hooks/useCurrency';
 
 const LANGS = [
   { code: 'fr', label: 'FR', dir: 'ltr' },
@@ -22,8 +24,11 @@ export default function Header() {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [currencyMenuOpen, setCurrencyMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
+  const currencyMenuRef = useRef<HTMLDivElement>(null);
+  const { currency, setCurrency, currencyInfo } = useCurrencyCtx();
   const location  = useLocation();
   const navigate  = useNavigate();
   const isHome    = location.pathname === '/';
@@ -68,6 +73,9 @@ export default function Header() {
       if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
         setLangMenuOpen(false);
       }
+      if (currencyMenuRef.current && !currencyMenuRef.current.contains(e.target as Node)) {
+        setCurrencyMenuOpen(false);
+      }
     };
     document.addEventListener('mousedown', handle);
     return () => document.removeEventListener('mousedown', handle);
@@ -109,6 +117,64 @@ export default function Header() {
     { type: 'anchor', sectionId: 'awards',  label: t('nav_recompenses') },
     { type: 'anchor', sectionId: 'contact', label: t('nav_contact') },
   ];
+
+  const CurrencySwitcher = () => (
+    <div ref={currencyMenuRef} style={{ position: 'relative' }}>
+      <button
+        onClick={() => setCurrencyMenuOpen(!currencyMenuOpen)}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 5,
+          background: 'none', border: 'none', cursor: 'pointer',
+          color: 'rgba(255,255,255,0.65)', fontFamily: "'Outfit', sans-serif",
+          fontSize: 11, fontWeight: 600, letterSpacing: '0.1em',
+          padding: '4px 2px', transition: 'color 0.2s',
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#fff'; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.65)'; }}
+        aria-label="Changer la devise"
+      >
+        <span style={{ fontSize: 13 }}>{currencyInfo.flag}</span>
+        <span>{currencyInfo.code}</span>
+        <i className="ri-arrow-down-s-line" style={{ fontSize: 10, opacity: 0.6, marginLeft: -3 }} />
+      </button>
+
+      {currencyMenuOpen && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 6px)', right: 0,
+          background: 'rgba(14,24,12,0.97)', border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: 8, overflow: 'hidden', backdropFilter: 'blur(20px)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.5)', minWidth: 150, zIndex: 100,
+          maxHeight: 300, overflowY: 'auto',
+        }}>
+          {Object.values(CURRENCIES).map((c) => {
+            const active = currency === c.code;
+            return (
+              <button
+                key={c.code}
+                onClick={() => { setCurrency(c.code); setCurrencyMenuOpen(false); }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 8, width: '100%',
+                  padding: '8px 14px', background: active ? 'rgba(201,168,76,0.1)' : 'none',
+                  border: 'none', borderBottom: '1px solid rgba(255,255,255,0.04)',
+                  cursor: 'pointer', color: active ? '#c9a84c' : 'rgba(255,255,255,0.65)',
+                  fontFamily: "'Outfit', sans-serif", fontSize: 12,
+                  fontWeight: active ? 600 : 400, textAlign: 'left',
+                  transition: 'all 0.15s', whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.background = 'none'; }}
+              >
+                <span style={{ fontSize: 14, flexShrink: 0 }}>{c.flag}</span>
+                <span style={{ flex: 1 }}>{c.code}</span>
+                <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 10 }}>{c.symbol}</span>
+                {active && <i className="ri-check-line" style={{ marginLeft: 4, fontSize: 11, color: '#c9a84c', flexShrink: 0 }} />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 
   const LangSwitcher = ({ mobile = false }: { mobile?: boolean }) => (
     <div ref={mobile ? undefined : langMenuRef} style={{ position: 'relative' }}>
@@ -305,7 +371,8 @@ export default function Header() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex">
+          <div className="hidden md:flex items-center gap-3">
+            <CurrencySwitcher />
             <LangSwitcher />
           </div>
 
