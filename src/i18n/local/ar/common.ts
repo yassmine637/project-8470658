@@ -1,4 +1,6 @@
 const translations = {
+  brand_name: 'دومين فندري',
+
   // Auth buttons & page
   auth_signup: 'إنشاء حساب',
   auth_login: 'تسجيل الدخول',

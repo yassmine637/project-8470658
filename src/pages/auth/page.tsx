@@ -136,7 +136,7 @@ export default function AuthPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/" className="inline-block mb-6" style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.5rem', fontWeight: 700, color: '#1a2617', letterSpacing: '0.08em' }}>
-            DOMAINE FENDRI
+            {t('brand_name')}
           </Link>
           <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
             {titles[mode]}

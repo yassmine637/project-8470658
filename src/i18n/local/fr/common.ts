@@ -1,4 +1,6 @@
 const translations = {
+  brand_name: 'DOMAINE FENDRI',
+
   // Auth buttons & page
   auth_signup: "S'inscrire",
   auth_login: 'Se connecter',
