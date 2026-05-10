@@ -42,7 +42,7 @@ const translations = {
   hero_badge: 'Maison Fendri · Sfax, Tunisie · Fondée en 1911',
   hero_title1: "L'excellence portée",
   hero_title2: 'au rang de patrimoine',
-  hero_subtitle: "L'or liquide de la Méditerranée · Sfax, Tunisie",
+  hero_subtitle: "Huile d'olive vierge extra bio · Sfax, Tunisie",
   hero_desc1: "Depuis 1911, la famille Fendri cultive en silence l'art de l'huile d'olive d'exception.",
   hero_desc2: 'Trois générations. Un terroir. Une exigence absolue.',
   hero_cta_collection: 'Notre Collection',
