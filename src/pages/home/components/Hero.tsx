@@ -21,7 +21,7 @@ export default function Hero() {
       <div className="relative z-10 flex flex-col items-center px-6 w-full max-w-5xl mx-auto">
 
         {/* Main title — two lines in one block */}
-        <h1 className="text-white leading-tight mb-6" style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 300, textShadow: '0 6px 40px rgba(0,0,0,0.55)' }}>
+        <h1 className="text-white leading-tight" style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 300, textShadow: '0 6px 40px rgba(0,0,0,0.55)', marginBottom: isAr ? '2.5rem' : '1.5rem' }}>
           <span style={{ display: 'block', fontSize: 'clamp(2.4rem, 5.5vw, 72px)', letterSpacing: '0.02em' }}>
             {t('hero_title1')}
           </span>
