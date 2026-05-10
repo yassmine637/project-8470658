@@ -212,6 +212,17 @@ const translations = {
   cart_free_shipping_unlocked: 'Free shipping unlocked!',
   cart_free_shipping_remaining: 'Only {{amount}} left for free shipping',
   cart_shipping: 'Shipping',
+  cart_payment_method: 'Payment method',
+  cart_cod_title: 'Cash on delivery',
+  cart_cod_sub: 'Pay in cash upon receiving your order',
+  cart_coming_soon: 'Soon',
+  cart_konnect_sub: 'Bank card · e-DINAR · mobile wallet',
+  cart_d17_title: 'D17 — Mobile payment',
+  cart_d17_sub: 'La Poste Tunisienne wallet · phone payment',
+  cart_paypal_sub: 'International payment · mobile & desktop',
+  cart_clicktopay_sub: 'Tunisian bank card · monetary network',
+  cart_clicktopay_info_1: 'You will be redirected to the secure',
+  cart_clicktopay_info_2: 'platform to complete your payment by Tunisian bank card.',
 
   // Configurator / EstimationModal
   config_estimate_title: 'Configuration estimate',

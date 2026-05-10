@@ -1533,7 +1533,7 @@ export default function CartDrawer() {
               {/* Payment method selector */}
               <div className="flex flex-col gap-2">
                 <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                  Mode de paiement
+                  {t('cart_payment_method')}
                 </label>
                 <div className="flex flex-col gap-2">
                   {/* Paiement à la livraison */}
@@ -1551,10 +1551,10 @@ export default function CartDrawer() {
                     </div>
                     <div>
                       <p className="text-sm font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                        Paiement à la livraison
+                        {t('cart_cod_title')}
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        Payez en cash à la réception de votre commande
+                        {t('cart_cod_sub')}
                       </p>
                     </div>
                     <div className="ml-auto flex-shrink-0">
@@ -1578,11 +1578,11 @@ export default function CartDrawer() {
                       <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                         Konnect
                         <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
-                          Bientôt
+                          {t('cart_coming_soon')}
                         </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        Carte bancaire · e-DINAR · wallet mobile
+                        {t('cart_konnect_sub')}
                       </p>
                     </div>
                   </button>
@@ -1599,13 +1599,13 @@ export default function CartDrawer() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                        D17 — Paiement mobile
+                        {t('cart_d17_title')}
                         <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
-                          Bientôt
+                          {t('cart_coming_soon')}
                         </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        Wallet La Poste Tunisienne · paiement par téléphone
+                        {t('cart_d17_sub')}
                       </p>
                     </div>
                   </button>
@@ -1624,11 +1624,11 @@ export default function CartDrawer() {
                       <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                         PayPal
                         <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
-                          Bientôt
+                          {t('cart_coming_soon')}
                         </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        Paiement international · mobile &amp; ordinateur
+                        {t('cart_paypal_sub')}
                       </p>
                     </div>
                   </button>
@@ -1663,7 +1663,7 @@ export default function CartDrawer() {
                         </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        Carte bancaire tunisienne · réseau monétique
+                        {t('cart_clicktopay_sub')}
                       </p>
                     </div>
                     <div className="ml-auto flex-shrink-0">
@@ -1686,7 +1686,7 @@ export default function CartDrawer() {
                     >
                       <i className="ri-information-line flex-shrink-0" style={{ color: '#e05a00', fontSize: '14px', marginTop: '1px' }} />
                       <p className="text-xs leading-relaxed" style={{ color: '#7a4a1e', fontFamily: "'Outfit', sans-serif" }}>
-                        Vous serez redirigé vers la plateforme sécurisée <strong>Click to Pay SMT</strong> pour finaliser votre paiement par carte bancaire tunisienne.
+                        {t('cart_clicktopay_info_1')} <strong>Click to Pay SMT</strong> {t('cart_clicktopay_info_2')}
                       </p>
                     </div>
                   )}

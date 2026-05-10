@@ -212,6 +212,17 @@ const translations = {
   cart_free_shipping_unlocked: 'Livraison offerte débloquée !',
   cart_free_shipping_remaining: 'Plus que {{amount}} pour la livraison offerte',
   cart_shipping: 'Livraison',
+  cart_payment_method: 'Mode de paiement',
+  cart_cod_title: 'Paiement à la livraison',
+  cart_cod_sub: 'Payez en cash à la réception de votre commande',
+  cart_coming_soon: 'Bientôt',
+  cart_konnect_sub: 'Carte bancaire · e-DINAR · wallet mobile',
+  cart_d17_title: 'D17 — Paiement mobile',
+  cart_d17_sub: 'Wallet La Poste Tunisienne · paiement par téléphone',
+  cart_paypal_sub: 'Paiement international · mobile & ordinateur',
+  cart_clicktopay_sub: 'Carte bancaire tunisienne · réseau monétique',
+  cart_clicktopay_info_1: 'Vous serez redirigé vers la plateforme sécurisée',
+  cart_clicktopay_info_2: 'pour finaliser votre paiement par carte bancaire tunisienne.',
 
   // Configurator / EstimationModal
   config_estimate_title: 'Estimation de configuration',

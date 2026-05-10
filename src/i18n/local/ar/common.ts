@@ -212,6 +212,17 @@ const translations = {
   cart_free_shipping_unlocked: 'تم فتح الشحن المجاني!',
   cart_free_shipping_remaining: '{{amount}} فقط للشحن المجاني',
   cart_shipping: 'التوصيل',
+  cart_payment_method: 'طريقة الدفع',
+  cart_cod_title: 'الدفع عند الاستلام',
+  cart_cod_sub: 'ادفع نقداً عند استلام طلبك',
+  cart_coming_soon: 'قريباً',
+  cart_konnect_sub: 'بطاقة بنكية · e-DINAR · محفظة موبايل',
+  cart_d17_title: 'D17 — دفع بالهاتف',
+  cart_d17_sub: 'محفظة البريد التونسي · دفع بالهاتف',
+  cart_paypal_sub: 'دفع دولي · موبايل وكمبيوتر',
+  cart_clicktopay_sub: 'بطاقة بنكية تونسية · شبكة الدفع',
+  cart_clicktopay_info_1: 'سيتم توجيهك إلى المنصة الآمنة',
+  cart_clicktopay_info_2: 'لإتمام دفعك بالبطاقة البنكية التونسية.',
 
   // Configurator / EstimationModal
   config_estimate_title: 'تقدير الإعداد',
