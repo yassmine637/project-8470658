@@ -99,7 +99,7 @@ export default function Hero() {
             fontWeight: 400,
           }}
         >
-          {t('hero_desc1')}<br />
+          <span style={{ whiteSpace: 'nowrap' }}>{t('hero_desc1')}</span><br />
           {t('hero_desc2')}
         </p>
 
