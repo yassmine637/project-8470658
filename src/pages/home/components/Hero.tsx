@@ -61,7 +61,7 @@ export default function Hero() {
             textAlign: 'center',
           }}
         >
-          {t('hero_desc1')}
+          <span style={isFr ? { whiteSpace: 'nowrap' } : {}}>{t('hero_desc1')}</span>
           {isAr && <><br /><br /></>}
           {!isAr && ' '}
           {t('hero_desc2')}
