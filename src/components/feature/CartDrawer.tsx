@@ -750,25 +750,28 @@ export default function CartDrawer() {
                           { qty: 50, pct: 10 },
                           { qty: 100, pct: 15 },
                         ].map(tier => {
-                          const active = totalQuantity >= tier.qty;
+                          const activeTierQty = discountRate === 0.15 ? 100 : discountRate === 0.10 ? 50 : discountRate === 0.05 ? 10 : null;
+                          const active = activeTierQty === tier.qty;
+                          const passed = activeTierQty !== null && tier.qty < activeTierQty;
                           const isNext = nextTier?.qty === tier.qty;
                           return (
                             <div
                               key={tier.qty}
                               className="flex items-center gap-3 px-3 py-2 rounded-lg"
                               style={{
-                                background: active ? 'rgba(74,124,78,0.07)' : isNext ? 'rgba(201,168,76,0.06)' : 'rgba(0,0,0,0.02)',
-                                border: `1px solid ${active ? 'rgba(74,124,78,0.25)' : isNext ? 'rgba(201,168,76,0.2)' : 'rgba(0,0,0,0.06)'}`,
+                                background: active ? 'rgba(74,124,78,0.07)' : passed ? 'rgba(74,124,78,0.03)' : isNext ? 'rgba(201,168,76,0.06)' : 'rgba(0,0,0,0.02)',
+                                border: `1px solid ${active ? 'rgba(74,124,78,0.25)' : passed ? 'rgba(74,124,78,0.12)' : isNext ? 'rgba(201,168,76,0.2)' : 'rgba(0,0,0,0.06)'}`,
+                                opacity: passed ? 0.6 : 1,
                               }}
                             >
-                              <div className="w-5 h-5 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: active ? '#4a7c4e' : isNext ? 'rgba(201,168,76,0.2)' : 'rgba(0,0,0,0.06)' }}>
-                                {active
+                              <div className="w-5 h-5 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: active ? '#4a7c4e' : passed ? 'rgba(74,124,78,0.3)' : isNext ? 'rgba(201,168,76,0.2)' : 'rgba(0,0,0,0.06)' }}>
+                                {active || passed
                                   ? <i className="ri-check-line" style={{ fontSize: '10px', color: '#ffffff' }} />
                                   : <i className="ri-lock-line" style={{ fontSize: '9px', color: isNext ? '#c9a84c' : '#9aaa96' }} />
                                 }
                               </div>
                               <div style={{ flex: 1, minWidth: 0 }}>
-                                <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', fontWeight: 600, color: active ? '#4a7c4e' : isNext ? '#c9a84c' : '#9aaa96' }}>
+                                <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.72rem', fontWeight: 600, color: active ? '#4a7c4e' : passed ? '#7aaa7e' : isNext ? '#c9a84c' : '#9aaa96' }}>
                                   {tier.pct}% de réduction
                                 </span>
                                 <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: '#9aaa96', marginLeft: 6 }}>
@@ -780,7 +783,12 @@ export default function CartDrawer() {
                                   Actif
                                 </span>
                               )}
-                              {isNext && !active && (
+                              {passed && (
+                                <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(74,124,78,0.08)', color: '#7aaa7e', fontFamily: "'Outfit', sans-serif" }}>
+                                  Dépassé
+                                </span>
+                              )}
+                              {isNext && !active && !passed && (
                                 <span className="text-xs font-semibold" style={{ color: '#c9a84c', fontFamily: "'Outfit', sans-serif", whiteSpace: 'nowrap' }}>
                                   +{tier.qty - totalQuantity} unité{tier.qty - totalQuantity > 1 ? 's' : ''}
                                 </span>
