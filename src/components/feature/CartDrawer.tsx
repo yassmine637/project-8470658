@@ -1224,7 +1224,7 @@ export default function CartDrawer() {
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                   <i className="ri-earth-line mr-1" style={{ color: '#c9a84c' }} />
-                  Pays de livraison
+                  {t('cart_country_label')}
                 </label>
                 <div ref={cartCountryDropRef} style={{ position: 'relative' }}>
                   <button

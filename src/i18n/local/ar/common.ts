@@ -212,6 +212,7 @@ const translations = {
   cart_free_shipping_unlocked: 'تم فتح الشحن المجاني!',
   cart_free_shipping_remaining: '{{amount}} فقط للشحن المجاني',
   cart_shipping: 'التوصيل',
+  cart_country_label: 'بلد التوصيل',
   cart_payment_method: 'طريقة الدفع',
   cart_cod_title: 'الدفع عند الاستلام',
   cart_cod_sub: 'ادفع نقداً عند استلام طلبك',

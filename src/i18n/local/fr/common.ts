@@ -212,6 +212,7 @@ const translations = {
   cart_free_shipping_unlocked: 'Livraison offerte débloquée !',
   cart_free_shipping_remaining: 'Plus que {{amount}} pour la livraison offerte',
   cart_shipping: 'Livraison',
+  cart_country_label: 'Pays de livraison',
   cart_payment_method: 'Mode de paiement',
   cart_cod_title: 'Paiement à la livraison',
   cart_cod_sub: 'Payez en cash à la réception de votre commande',

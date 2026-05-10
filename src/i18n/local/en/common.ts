@@ -212,6 +212,7 @@ const translations = {
   cart_free_shipping_unlocked: 'Free shipping unlocked!',
   cart_free_shipping_remaining: 'Only {{amount}} left for free shipping',
   cart_shipping: 'Shipping',
+  cart_country_label: 'Delivery country',
   cart_payment_method: 'Payment method',
   cart_cod_title: 'Cash on delivery',
   cart_cod_sub: 'Pay in cash upon receiving your order',
