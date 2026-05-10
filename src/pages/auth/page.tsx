@@ -173,7 +173,7 @@ export default function AuthPage() {
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 {mode === 'register' && (
                   <div>
-                    <label style={labelStyle}>Nom complet <span style={{ color: '#d4af37' }}>*</span></label>
+                    <label style={labelStyle}>{t('auth_field_fullname')} <span style={{ color: '#d4af37' }}>*</span></label>
                     <input
                       type="text"
                       value={form.name}
@@ -187,7 +187,7 @@ export default function AuthPage() {
                 )}
 
                 <div>
-                  <label style={labelStyle}>Email <span style={{ color: '#d4af37' }}>*</span></label>
+                  <label style={labelStyle}>{t('auth_field_email')} <span style={{ color: '#d4af37' }}>*</span></label>
                   <input
                     type="email"
                     value={form.email}
@@ -201,7 +201,7 @@ export default function AuthPage() {
 
                 <div>
                   <label style={labelStyle}>
-                    Mot de passe <span style={{ color: '#d4af37' }}>*</span>
+                    {t('auth_field_password')} <span style={{ color: '#d4af37' }}>*</span>
                   </label>
                   <div style={{ position: 'relative' }}>
                     <input
@@ -229,7 +229,7 @@ export default function AuthPage() {
                         onClick={() => switchMode('forgot')}
                         style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#d4af37', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontWeight: 600 }}
                       >
-                        Mot de passe oublié ?
+                        {t('auth_forgot_password')}
                       </button>
                     </div>
                   )}
@@ -237,7 +237,7 @@ export default function AuthPage() {
 
                 {mode === 'register' && (
                   <div>
-                    <label style={labelStyle}>Téléphone</label>
+                    <label style={labelStyle}>{t('auth_field_phone')}</label>
                     <input
                       type="tel"
                       value={form.phone}
@@ -265,7 +265,7 @@ export default function AuthPage() {
             {mode === 'forgot' && !success && (
               <form onSubmit={handleForgot} className="flex flex-col gap-5">
                 <div>
-                  <label style={labelStyle}>Votre adresse email <span style={{ color: '#d4af37' }}>*</span></label>
+                  <label style={labelStyle}>{t('auth_field_email_address')} <span style={{ color: '#d4af37' }}>*</span></label>
                   <input
                     type="email"
                     value={forgotEmail}
@@ -283,7 +283,7 @@ export default function AuthPage() {
                   className="w-full py-3 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer disabled:opacity-60"
                   style={{ background: 'linear-gradient(135deg, #1a2617 0%, #2f4229 100%)', color: '#d4af37', border: '1px solid rgba(212,175,55,0.2)', fontFamily: "'Outfit', sans-serif" }}
                 >
-                  {loading ? '...' : 'Envoyer le lien'}
+                  {loading ? '...' : t('auth_send_link')}
                 </button>
               </form>
             )}
@@ -292,7 +292,7 @@ export default function AuthPage() {
             {mode === 'reset' && !success && (
               <form onSubmit={handleReset} className="flex flex-col gap-5">
                 <div>
-                  <label style={labelStyle}>Nouveau mot de passe <span style={{ color: '#d4af37' }}>*</span></label>
+                  <label style={labelStyle}>{t('auth_field_new_password')} <span style={{ color: '#d4af37' }}>*</span></label>
                   <div style={{ position: 'relative' }}>
                     <input
                       type={showReset ? 'text' : 'password'}
@@ -300,7 +300,7 @@ export default function AuthPage() {
                       onChange={(e) => setResetPassword(e.target.value)}
                       required
                       autoComplete="new-password"
-                      placeholder="8 caractères minimum"
+                      placeholder={t('auth_placeholder_min_chars')}
                       style={{ ...inputBase, paddingRight: 42 }}
                       onFocus={(e) => (e.target.style.borderColor = '#d4af37')}
                       onBlur={(e) => (e.target.style.borderColor = '#e8e8e4')}
@@ -315,7 +315,7 @@ export default function AuthPage() {
                   </div>
                 </div>
                 <div>
-                  <label style={labelStyle}>Confirmer le mot de passe <span style={{ color: '#d4af37' }}>*</span></label>
+                  <label style={labelStyle}>{t('auth_field_confirm_password')} <span style={{ color: '#d4af37' }}>*</span></label>
                   <input
                     type="password"
                     value={resetConfirm}
@@ -328,7 +328,7 @@ export default function AuthPage() {
                   />
                   {resetConfirm && resetConfirm !== resetPassword && (
                     <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#b91c1c', marginTop: 6 }}>
-                      Les mots de passe ne correspondent pas.
+                      {t('auth_passwords_mismatch')}
                     </p>
                   )}
                 </div>
@@ -338,7 +338,7 @@ export default function AuthPage() {
                   className="w-full py-3 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer disabled:opacity-60"
                   style={{ background: 'linear-gradient(135deg, #1a2617 0%, #2f4229 100%)', color: '#d4af37', border: '1px solid rgba(212,175,55,0.2)', fontFamily: "'Outfit', sans-serif" }}
                 >
-                  {loading ? '...' : 'Réinitialiser le mot de passe'}
+                  {loading ? '...' : t('auth_reset_password')}
                 </button>
               </form>
             )}
@@ -373,7 +373,7 @@ export default function AuthPage() {
         </div>
 
         <p className="text-center text-sm mt-4">
-          <Link to="/" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>← Retour à l'accueil</Link>
+          <Link to="/" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('auth_back_home')}</Link>
         </p>
       </div>
     </div>
