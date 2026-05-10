@@ -2,7 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { HERO_IMAGES } from '@/assets/images';
 
 export default function Hero() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language === 'ar';
 
   return (
     <section
@@ -66,20 +67,22 @@ export default function Hero() {
         <div className="hero-cta flex flex-col sm:flex-row gap-5">
           <a
             href="/products"
-            className="inline-flex items-center justify-center gap-3 px-11 py-5 text-sm uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-3 uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 cursor-pointer whitespace-nowrap"
             style={{
               background: 'linear-gradient(135deg, #d4af37 0%, #b8962a 100%)',
               color: '#1a1a0e',
               fontFamily: "'Outfit', sans-serif",
               letterSpacing: '0.22em',
               fontWeight: 600,
+              padding: isAr ? '1.5rem 3.5rem' : '1.25rem 2.75rem',
+              fontSize: isAr ? '1.05rem' : '0.875rem',
             }}
           >
             {t('hero_cta_collection')}
           </a>
           <a
             href="/configurator"
-            className="inline-flex items-center justify-center gap-3 px-11 py-5 text-sm uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-3 uppercase tracking-widest transition-all duration-300 hover:-translate-y-1 cursor-pointer whitespace-nowrap"
             style={{
               border: '1px solid rgba(212,175,55,0.65)',
               color: '#e8d5a0',
@@ -88,6 +91,8 @@ export default function Hero() {
               letterSpacing: '0.22em',
               fontWeight: 500,
               backdropFilter: 'blur(10px)',
+              padding: isAr ? '1.5rem 3.5rem' : '1.25rem 2.75rem',
+              fontSize: isAr ? '1.05rem' : '0.875rem',
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(212,175,55,0.14)';
