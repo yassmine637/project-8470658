@@ -76,7 +76,7 @@ export default function Hero() {
           className="hero-subtitle font-normal mb-8"
           style={{
             fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(1.05rem, 2.4vw, 22px)',
+            fontSize: 'clamp(1.2rem, 2.8vw, 27px)',
             color: '#e8d5a0',
             textShadow: '0 2px 14px rgba(0,0,0,0.4)',
             letterSpacing: '0.18em',
@@ -95,7 +95,7 @@ export default function Hero() {
             color: 'rgba(240,228,200,0.82)',
             letterSpacing: '0.04em',
             lineHeight: '2',
-            fontSize: 'clamp(0.95rem, 1.6vw, 18px)',
+            fontSize: 'clamp(1.05rem, 1.9vw, 22px)',
             fontWeight: 400,
           }}
         >
