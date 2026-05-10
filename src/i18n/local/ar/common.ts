@@ -25,7 +25,7 @@ const translations = {
   auth_placeholder_min_chars: '8 أحرف على الأقل',
   auth_reset_password: 'إعادة تعيين كلمة المرور',
   auth_passwords_mismatch: 'كلمتا المرور غير متطابقتين.',
-  auth_back_home: '← العودة إلى الرئيسية',
+  auth_back_home: '← العودة إلى الصفحة الرئيسية',
 
   // Header nav
   nav_histoire: 'التاريخ',
