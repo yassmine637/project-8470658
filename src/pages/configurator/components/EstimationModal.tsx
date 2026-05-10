@@ -24,38 +24,173 @@ interface CountryEntry {
   name: string;
   currency: Currency;
   maxDigits: number;
+  iso: string;
 }
 
 const COUNTRIES: CountryEntry[] = [
-  { dialCode: '+216', flag: '🇹🇳', name: 'Tunisia',        currency: 'TND', maxDigits: 8  },
-  { dialCode: '+33',  flag: '🇫🇷', name: 'France',         currency: 'EUR', maxDigits: 9  },
-  { dialCode: '+32',  flag: '🇧🇪', name: 'Belgium',        currency: 'EUR', maxDigits: 9  },
-  { dialCode: '+41',  flag: '🇨🇭', name: 'Switzerland',    currency: 'CHF', maxDigits: 9  },
-  { dialCode: '+212', flag: '🇲🇦', name: 'Morocco',        currency: 'EUR', maxDigits: 9  },
-  { dialCode: '+213', flag: '🇩🇿', name: 'Algeria',        currency: 'EUR', maxDigits: 9  },
-  { dialCode: '+218', flag: '🇱🇾', name: 'Libya',          currency: 'USD', maxDigits: 9  },
-  { dialCode: '+20',  flag: '🇪🇬', name: 'Egypt',          currency: 'USD', maxDigits: 10 },
-  { dialCode: '+966', flag: '🇸🇦', name: 'Saudi Arabia',   currency: 'SAR', maxDigits: 9  },
-  { dialCode: '+971', flag: '🇦🇪', name: 'UAE',            currency: 'AED', maxDigits: 9  },
-  { dialCode: '+974', flag: '🇶🇦', name: 'Qatar',          currency: 'AED', maxDigits: 8  },
-  { dialCode: '+965', flag: '🇰🇼', name: 'Kuwait',         currency: 'AED', maxDigits: 8  },
-  { dialCode: '+973', flag: '🇧🇭', name: 'Bahrain',        currency: 'AED', maxDigits: 8  },
-  { dialCode: '+968', flag: '🇴🇲', name: 'Oman',           currency: 'AED', maxDigits: 8  },
-  { dialCode: '+962', flag: '🇯🇴', name: 'Jordan',         currency: 'USD', maxDigits: 9  },
-  { dialCode: '+961', flag: '🇱🇧', name: 'Lebanon',        currency: 'USD', maxDigits: 8  },
-  { dialCode: '+49',  flag: '🇩🇪', name: 'Germany',        currency: 'EUR', maxDigits: 11 },
-  { dialCode: '+44',  flag: '🇬🇧', name: 'United Kingdom', currency: 'GBP', maxDigits: 10 },
-  { dialCode: '+39',  flag: '🇮🇹', name: 'Italy',          currency: 'EUR', maxDigits: 10 },
-  { dialCode: '+34',  flag: '🇪🇸', name: 'Spain',          currency: 'EUR', maxDigits: 9  },
-  { dialCode: '+31',  flag: '🇳🇱', name: 'Netherlands',    currency: 'EUR', maxDigits: 9  },
-  { dialCode: '+1',   flag: '🇺🇸', name: 'United States',  currency: 'USD', maxDigits: 10 },
-  { dialCode: '+1',   flag: '🇨🇦', name: 'Canada',         currency: 'CAD', maxDigits: 10 },
-  { dialCode: '+61',  flag: '🇦🇺', name: 'Australia',      currency: 'AUD', maxDigits: 9  },
-  { dialCode: '+81',  flag: '🇯🇵', name: 'Japan',          currency: 'JPY', maxDigits: 11 },
-  { dialCode: '+86',  flag: '🇨🇳', name: 'China',          currency: 'CNY', maxDigits: 11 },
-  { dialCode: '+7',   flag: '🇷🇺', name: 'Russia',         currency: 'RUB', maxDigits: 10 },
-  { dialCode: '+55',  flag: '🇧🇷', name: 'Brazil',         currency: 'BRL', maxDigits: 11 },
+  { dialCode: '+216', flag: '🇹🇳', name: 'Tunisia',        currency: 'TND', maxDigits: 8,  iso: 'tn' },
+  { dialCode: '+33',  flag: '🇫🇷', name: 'France',         currency: 'EUR', maxDigits: 9,  iso: 'fr' },
+  { dialCode: '+32',  flag: '🇧🇪', name: 'Belgium',        currency: 'EUR', maxDigits: 9,  iso: 'be' },
+  { dialCode: '+41',  flag: '🇨🇭', name: 'Switzerland',    currency: 'CHF', maxDigits: 9,  iso: 'ch' },
+  { dialCode: '+212', flag: '🇲🇦', name: 'Morocco',        currency: 'EUR', maxDigits: 9,  iso: 'ma' },
+  { dialCode: '+213', flag: '🇩🇿', name: 'Algeria',        currency: 'EUR', maxDigits: 9,  iso: 'dz' },
+  { dialCode: '+218', flag: '🇱🇾', name: 'Libya',          currency: 'USD', maxDigits: 9,  iso: 'ly' },
+  { dialCode: '+20',  flag: '🇪🇬', name: 'Egypt',          currency: 'USD', maxDigits: 10, iso: 'eg' },
+  { dialCode: '+966', flag: '🇸🇦', name: 'Saudi Arabia',   currency: 'SAR', maxDigits: 9,  iso: 'sa' },
+  { dialCode: '+971', flag: '🇦🇪', name: 'UAE',            currency: 'AED', maxDigits: 9,  iso: 'ae' },
+  { dialCode: '+974', flag: '🇶🇦', name: 'Qatar',          currency: 'AED', maxDigits: 8,  iso: 'qa' },
+  { dialCode: '+965', flag: '🇰🇼', name: 'Kuwait',         currency: 'AED', maxDigits: 8,  iso: 'kw' },
+  { dialCode: '+973', flag: '🇧🇭', name: 'Bahrain',        currency: 'AED', maxDigits: 8,  iso: 'bh' },
+  { dialCode: '+968', flag: '🇴🇲', name: 'Oman',           currency: 'AED', maxDigits: 8,  iso: 'om' },
+  { dialCode: '+962', flag: '🇯🇴', name: 'Jordan',         currency: 'USD', maxDigits: 9,  iso: 'jo' },
+  { dialCode: '+961', flag: '🇱🇧', name: 'Lebanon',        currency: 'USD', maxDigits: 8,  iso: 'lb' },
+  { dialCode: '+49',  flag: '🇩🇪', name: 'Germany',        currency: 'EUR', maxDigits: 11, iso: 'de' },
+  { dialCode: '+44',  flag: '🇬🇧', name: 'United Kingdom', currency: 'GBP', maxDigits: 10, iso: 'gb' },
+  { dialCode: '+39',  flag: '🇮🇹', name: 'Italy',          currency: 'EUR', maxDigits: 10, iso: 'it' },
+  { dialCode: '+34',  flag: '🇪🇸', name: 'Spain',          currency: 'EUR', maxDigits: 9,  iso: 'es' },
+  { dialCode: '+31',  flag: '🇳🇱', name: 'Netherlands',    currency: 'EUR', maxDigits: 9,  iso: 'nl' },
+  { dialCode: '+1',   flag: '🇺🇸', name: 'United States',  currency: 'USD', maxDigits: 10, iso: 'us' },
+  { dialCode: '+1',   flag: '🇨🇦', name: 'Canada',         currency: 'CAD', maxDigits: 10, iso: 'ca' },
+  { dialCode: '+61',  flag: '🇦🇺', name: 'Australia',      currency: 'AUD', maxDigits: 9,  iso: 'au' },
+  { dialCode: '+81',  flag: '🇯🇵', name: 'Japan',          currency: 'JPY', maxDigits: 11, iso: 'jp' },
+  { dialCode: '+86',  flag: '🇨🇳', name: 'China',          currency: 'CNY', maxDigits: 11, iso: 'cn' },
+  { dialCode: '+7',   flag: '🇷🇺', name: 'Russia',         currency: 'RUB', maxDigits: 10, iso: 'ru' },
+  { dialCode: '+55',  flag: '🇧🇷', name: 'Brazil',         currency: 'BRL', maxDigits: 11, iso: 'br' },
 ];
+
+interface NominatimResult {
+  place_id: number;
+  display_name: string;
+  address: {
+    road?: string;
+    house_number?: string;
+    city?: string;
+    town?: string;
+    village?: string;
+    suburb?: string;
+    postcode?: string;
+    neighbourhood?: string;
+  };
+}
+
+function DarkStreetAutocomplete({
+  countryIso,
+  value,
+  onChange,
+  onCityChange,
+  onPostalChange,
+  style,
+}: {
+  countryIso: string;
+  value: string;
+  onChange: (v: string) => void;
+  onCityChange: (v: string) => void;
+  onPostalChange: (v: string) => void;
+  style: React.CSSProperties;
+}) {
+  const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dropRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (dropRef.current && !dropRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    if (open) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  const search = useCallback((query: string) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (abortRef.current) abortRef.current.abort();
+    if (query.trim().length < 3) { setSuggestions([]); setOpen(false); return; }
+    timerRef.current = setTimeout(async () => {
+      setLoading(true);
+      abortRef.current = new AbortController();
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=5&addressdetails=1${countryIso ? `&countrycodes=${countryIso}` : ''}`;
+      try {
+        const res = await fetch(url, { signal: abortRef.current.signal, headers: { 'Accept-Language': 'fr' } });
+        const data: NominatimResult[] = await res.json();
+        setSuggestions(data);
+        setOpen(data.length > 0);
+      } catch { /* aborted */ } finally { setLoading(false); }
+    }, 350);
+  }, [countryIso]);
+
+  const handleSelect = (result: NominatimResult) => {
+    const addr = result.address;
+    const road = [addr.house_number, addr.road].filter(Boolean).join(' ');
+    const street = road || result.display_name.split(',')[0].trim();
+    onChange(street);
+    const city = addr.city || addr.town || addr.village || addr.suburb || addr.neighbourhood || '';
+    if (city) onCityChange(city);
+    if (addr.postcode) onPostalChange(addr.postcode.replace(/\s/g, '').slice(0, 10));
+    setSuggestions([]);
+    setOpen(false);
+  };
+
+  return (
+    <div ref={dropRef} style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
+        <input
+          type="text"
+          placeholder="Numéro et nom de rue"
+          value={value}
+          autoComplete="off"
+          onChange={e => { onChange(e.target.value); search(e.target.value); }}
+          onFocus={() => { if (suggestions.length > 0) setOpen(true); }}
+          style={{ ...style, paddingRight: '36px' }}
+        />
+        <div style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+          {loading
+            ? <i className="ri-loader-4-line" style={{ color: '#d4af37', fontSize: '13px', animation: 'spin 0.8s linear infinite' }} />
+            : <i className="ri-search-line" style={{ color: 'rgba(212,175,55,0.4)', fontSize: '12px' }} />}
+        </div>
+      </div>
+      {open && suggestions.length > 0 && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 400,
+          maxHeight: '200px', overflowY: 'auto',
+          background: '#0d1a0b', border: '1px solid rgba(212,175,55,0.3)',
+          borderRadius: '10px', boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+          scrollbarWidth: 'thin', scrollbarColor: 'rgba(212,175,55,0.2) transparent',
+        }}>
+          {suggestions.map((s, idx) => {
+            const addr = s.address;
+            const road = [addr.house_number, addr.road].filter(Boolean).join(' ');
+            const city = addr.city || addr.town || addr.village || addr.suburb || '';
+            const main = road || s.display_name.split(',')[0].trim();
+            const sub = [city, addr.postcode].filter(Boolean).join(' · ');
+            return (
+              <button
+                key={s.place_id}
+                type="button"
+                onMouseDown={e => { e.preventDefault(); handleSelect(s); }}
+                className="cursor-pointer w-full flex items-start gap-2"
+                style={{
+                  padding: '10px 14px', background: 'transparent', border: 'none',
+                  borderBottom: idx < suggestions.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                  color: 'rgba(255,255,255,0.8)', fontFamily: "'Outfit', sans-serif", textAlign: 'left', transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.08)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+              >
+                <i className="ri-map-pin-2-line" style={{ color: '#d4af37', fontSize: '12px', flexShrink: 0, marginTop: '2px' }} />
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{main}</div>
+                  {sub && <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', marginTop: '1px' }}>{sub}</div>}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -96,6 +231,9 @@ export default function EstimationModal({
   const [countryDropOpen, setCountryDropOpen] = useState(false);
   const [showAllCountries, setShowAllCountries] = useState(false);
   const [message, setMessage] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const dropRef = useRef<HTMLDivElement>(null);
@@ -123,6 +261,9 @@ export default function EstimationModal({
     if (isOpen) {
       setFormStep('estimate');
       setShowAllCountries(false);
+      setStreet('');
+      setCity('');
+      setPostalCode('');
       if (currencyProp) {
         const match = COUNTRIES.find(c => c.currency === currencyProp);
         if (match) { setSelectedCountry(match); setPhoneNumber(''); }
@@ -177,6 +318,12 @@ export default function EstimationModal({
           country: selectedCountry.name,
           currency: currencyCode,
           message: message || '',
+          shippingAddress: {
+            street: street || '',
+            city: city || '',
+            postalCode: postalCode || '',
+            country: selectedCountry.name,
+          },
           configuration: {
             model: { id: model.id, name: model.name, basePrice: model.basePrice },
             size: { id: size.id, label: size.label, volume: size.volume, priceAdd: size.priceAdd },
@@ -676,6 +823,89 @@ export default function EstimationModal({
                     <span style={{ color: phoneNumber.length === selectedCountry.maxDigits ? 'rgba(212,175,55,0.7)' : 'rgba(255,255,255,0.2)' }}>
                       {phoneNumber.length}/{selectedCountry.maxDigits}
                     </span>
+                  </div>
+                </div>
+
+                {/* Address section */}
+                <div style={{ borderTop: '1px solid rgba(212,175,55,0.1)', paddingTop: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+                    <i className="ri-map-pin-2-line" style={{ color: 'rgba(212,175,55,0.55)', fontSize: '13px' }} />
+                    <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(212,175,55,0.6)', textTransform: 'uppercase' }}>
+                      Adresse de livraison
+                    </span>
+                  </div>
+
+                  {/* Country (read-only — derived from estimate step) */}
+                  <div style={{ marginBottom: '12px' }}>
+                    <label style={labelStyleCSS}>Pays</label>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', gap: '10px',
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(212,175,55,0.15)',
+                      borderRadius: '7px', padding: '11px 14px',
+                    }}>
+                      <span style={{ fontSize: '1.1rem' }}>{selectedCountry.flag}</span>
+                      <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', flex: 1 }}>{selectedCountry.name}</span>
+                      <span style={{
+                        padding: '2px 8px', borderRadius: '20px',
+                        background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.25)',
+                        fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', fontWeight: 700, color: 'rgba(212,175,55,0.7)',
+                      }}>
+                        {currencyInfo.flag} {currencyInfo.code}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setFormStep('estimate')}
+                        className="cursor-pointer"
+                        style={{ background: 'none', border: 'none', padding: 0, fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(212,175,55,0.5)', letterSpacing: '0.08em', textDecoration: 'underline', transition: 'color 0.2s' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#d4af37'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(212,175,55,0.5)'; }}
+                      >
+                        Modifier
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Street with Nominatim autocomplete */}
+                  <div style={{ marginBottom: '12px' }}>
+                    <label style={labelStyleCSS}>Rue / Adresse *</label>
+                    <DarkStreetAutocomplete
+                      countryIso={selectedCountry.iso}
+                      value={street}
+                      onChange={setStreet}
+                      onCityChange={setCity}
+                      onPostalChange={setPostalCode}
+                      style={inputStyle}
+                    />
+                  </div>
+
+                  {/* City + Postal code */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label style={labelStyleCSS}>Ville *</label>
+                      <input
+                        type="text"
+                        required
+                        value={city}
+                        onChange={e => setCity(e.target.value)}
+                        placeholder="Votre ville"
+                        style={inputStyle}
+                        onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.6)'; }}
+                        onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)'; }}
+                      />
+                    </div>
+                    <div>
+                      <label style={labelStyleCSS}>Code postal</label>
+                      <input
+                        type="text"
+                        value={postalCode}
+                        onChange={e => setPostalCode(e.target.value.slice(0, 10))}
+                        placeholder="Code postal"
+                        style={inputStyle}
+                        onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.6)'; }}
+                        onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)'; }}
+                      />
+                    </div>
                   </div>
                 </div>
 
