@@ -62,7 +62,7 @@ export default function Hero() {
           }}
         >
           <span style={isFr ? { whiteSpace: 'nowrap' } : {}}>{t('hero_desc1')}</span>
-          {isAr && <><br /><br /></>}
+          {isAr && <br />}
           {!isAr && ' '}
           {t('hero_desc2')}
         </p>
