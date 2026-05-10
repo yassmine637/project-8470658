@@ -15,7 +15,8 @@ const FEATURED_CURRENCIES: Currency[] = ['TND', 'EUR', 'USD', 'GBP', 'CHF', 'SAR
 
 export default function ConfiguratorPage() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language === 'ar';
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedModel, setSelectedModel] = useState<BottleModel>(bottleModels[0]);
   const [modelChosen, setModelChosen] = useState(false);
@@ -113,7 +114,20 @@ export default function ConfiguratorPage() {
         <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />
 
         <div style={{ flexShrink: 0 }}>
-          <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.3rem', fontWeight: 700, color: '#d4af37', letterSpacing: '0.18em', lineHeight: 1 }}>FENDRI</div>
+          {isAr ? (
+            <span style={{ fontFamily: "'Cairo', sans-serif", fontSize: '1.1rem', fontWeight: 700, color: '#d4af37', letterSpacing: '0.1em' }}>
+              ضيعة فندري
+            </span>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: 1 }}>
+              <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '0.45rem', letterSpacing: '0.45em', color: '#c9a84c', fontWeight: 600, textTransform: 'uppercase' }}>
+                {i18n.language === 'en' ? 'Estate' : 'Domaine'}
+              </span>
+              <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.3rem', fontWeight: 700, color: '#d4af37', letterSpacing: '0.18em', lineHeight: 1 }}>
+                FENDRI
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Step tabs — centered */}
