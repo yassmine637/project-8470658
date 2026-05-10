@@ -60,7 +60,10 @@ export default function Hero() {
             textAlign: 'center',
           }}
         >
-          {t('hero_desc1')} {t('hero_desc2')}
+          {t('hero_desc1')}
+          {isAr && <><br /><br /></>}
+          {!isAr && ' '}
+          {t('hero_desc2')}
         </p>
 
         {/* CTA buttons */}
