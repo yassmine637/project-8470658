@@ -272,7 +272,7 @@ export default function ConfigPanel({
                       }}
                     />
                     <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.78rem', color: isSel ? '#d4af37' : 'rgba(255,255,255,0.35)', transition: 'color 0.3s', letterSpacing: '0.04em' }}>
-                      {s.label}
+                      {s.volumeKey ? `${s.label.split(' ')[0]} ${t(s.volumeKey)}` : s.label}
                     </span>
                   </div>
                 );
