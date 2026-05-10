@@ -8,6 +8,7 @@ import VideoModal from './components/VideoModal';
 import { Product, getStockStatus, STOCK_DISPLAY } from '@/mocks/products';
 import { useProducts } from '@/hooks/useProducts';
 import { useCart } from '@/hooks/useCart';
+import { useCurrencyCtx } from '@/context/CurrencyContext';
 
 const PRODUCT_TRANSLATION_PREFIXES: Record<string, string> = {
   'bouteille-1l': 'product_bouteille_1l',
@@ -40,6 +41,7 @@ const BADGE_TRANSLATION_KEYS: Record<string, string> = {
 export default function ProductsPage() {
   const { t, i18n } = useTranslation();
   const { addToCart, openCart } = useCart();
+  const { format: fmtCurrency, currencyInfo } = useCurrencyCtx();
   const { products } = useProducts();
   const [selected, setSelected] = useState<Product | null>(null);
   const [videoProduct, setVideoProduct] = useState<Product | null>(null);
@@ -489,16 +491,23 @@ export default function ProductsPage() {
 
               {/* Price + Stock */}
               <div className="flex items-end gap-4 mb-5 flex-wrap">
-                <div className="flex items-baseline gap-2">
-                  <span
-                    className="font-bold"
-                    style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '3rem', color: '#1a2617', lineHeight: 1 }}
-                  >
-                    {selected.price}
-                  </span>
-                  <span className="text-base font-semibold" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
-                    {isArabic ? 'د.ت' : selected.currency}
-                  </span>
+                <div className="flex flex-col gap-0.5">
+                  <div className="flex items-baseline gap-2">
+                    <span
+                      className="font-bold"
+                      style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '3rem', color: '#1a2617', lineHeight: 1 }}
+                    >
+                      {fmtCurrency(selected.price)}
+                    </span>
+                    <span className="text-base font-semibold" style={{ color: accent, fontFamily: "'Outfit', sans-serif" }}>
+                      {currencyInfo.symbol}
+                    </span>
+                  </div>
+                  {currencyInfo.code !== 'TND' && (
+                    <span className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                      ≈ {selected.price} TND
+                    </span>
+                  )}
                 </div>
 
                 {/* Stock indicator */}
@@ -804,8 +813,13 @@ export default function ProductsPage() {
                           {t('config_price')}
                         </p>
                         <p className="font-bold" style={{ color: '#1a2617', fontFamily: "'Cormorant Garant', serif", fontSize: '2.2rem', lineHeight: 1 }}>
-                          {formatPrice(galleryProduct.price)} <span style={{ color: galleryAccent, fontSize: '1rem' }}>{isArabic ? 'د.ت' : galleryProduct.currency}</span>
+                          {fmtCurrency(galleryProduct.price)} <span style={{ color: galleryAccent, fontSize: '1rem' }}>{currencyInfo.symbol}</span>
                         </p>
+                        {currencyInfo.code !== 'TND' && (
+                          <p className="text-xs mt-0.5" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
+                            ≈ {galleryProduct.price} TND
+                          </p>
+                        )}
                       </div>
                       <button
                         onClick={handleGalleryOrder}
