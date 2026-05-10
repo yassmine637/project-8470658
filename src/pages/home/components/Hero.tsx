@@ -4,6 +4,7 @@ import { HERO_IMAGES } from '@/assets/images';
 export default function Hero() {
   const { t, i18n } = useTranslation();
   const isAr = i18n.language === 'ar';
+  const isFr = i18n.language === 'fr';
 
   return (
     <section
@@ -24,7 +25,7 @@ export default function Hero() {
           <span style={{ display: 'block', fontSize: 'clamp(2.4rem, 5.5vw, 72px)', letterSpacing: '0.02em' }}>
             {t('hero_title1')}
           </span>
-          <span style={{ display: 'block', fontSize: 'clamp(3rem, 7vw, 92px)', fontStyle: 'italic', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+          <span style={{ display: 'block', fontSize: isFr ? 'clamp(2.6rem, 6.2vw, 82px)' : 'clamp(3rem, 7vw, 92px)', fontStyle: 'italic', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
             {t('hero_title2')}
           </span>
         </h1>
