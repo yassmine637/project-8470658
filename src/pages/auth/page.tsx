@@ -3,10 +3,12 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/api/auth';
 import { Eye, EyeOff } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 type Mode = 'login' | 'register' | 'forgot' | 'reset';
 
 export default function AuthPage() {
+  const { t } = useTranslation();
   const { login, register } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -123,10 +125,10 @@ export default function AuthPage() {
   };
 
   const titles: Record<Mode, string> = {
-    login: 'Connexion',
-    register: 'Créer un compte',
-    forgot: 'Mot de passe oublié',
-    reset: 'Nouveau mot de passe',
+    login: t('auth_title_login'),
+    register: t('auth_title_register'),
+    forgot: t('auth_title_forgot'),
+    reset: t('auth_title_reset'),
   };
 
   return (
@@ -254,7 +256,7 @@ export default function AuthPage() {
                   className="w-full py-3 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer disabled:opacity-60"
                   style={{ background: 'linear-gradient(135deg, #1a2617 0%, #2f4229 100%)', color: '#d4af37', border: '1px solid rgba(212,175,55,0.2)', fontFamily: "'Outfit', sans-serif" }}
                 >
-                  {loading ? '...' : mode === 'login' ? 'Se connecter' : "S'inscrire"}
+                  {loading ? '...' : mode === 'login' ? t('auth_login') : t('auth_signup')}
                 </button>
               </form>
             )}
@@ -345,24 +347,24 @@ export default function AuthPage() {
             <div className="text-center mt-6" style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13, color: '#9ca3af' }}>
               {(mode === 'login' || mode === 'forgot') && (
                 <p>
-                  {mode === 'login' ? "Pas encore de compte ?" : "Vous vous souvenez ?"}{' '}
+                  {mode === 'login' ? t('auth_no_account') : t('auth_remember')}{' '}
                   <button onClick={() => switchMode(mode === 'login' ? 'register' : 'login')} className="cursor-pointer font-semibold" style={{ color: '#d4af37', background: 'none', border: 'none' }}>
-                    {mode === 'login' ? "S'inscrire" : 'Se connecter'}
+                    {mode === 'login' ? t('auth_signup') : t('auth_login')}
                   </button>
                 </p>
               )}
               {mode === 'register' && (
                 <p>
-                  Déjà un compte ?{' '}
+                  {t('auth_already_account')}{' '}
                   <button onClick={() => switchMode('login')} className="cursor-pointer font-semibold" style={{ color: '#d4af37', background: 'none', border: 'none' }}>
-                    Se connecter
+                    {t('auth_login')}
                   </button>
                 </p>
               )}
               {mode === 'forgot' && !success && (
                 <p className="mt-3">
                   <button onClick={() => switchMode('login')} style={{ color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12 }}>
-                    ← Retour à la connexion
+                    {t('auth_back_login')}
                   </button>
                 </p>
               )}

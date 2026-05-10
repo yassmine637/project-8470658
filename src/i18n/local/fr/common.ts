@@ -1,4 +1,19 @@
 const translations = {
+  // Auth buttons & page
+  auth_signup: "S'inscrire",
+  auth_login: 'Se connecter',
+  auth_logout: 'Se déconnecter',
+  auth_delete_account: 'Supprimer le compte',
+  auth_my_account: 'Mon compte',
+  auth_title_login: 'Connexion',
+  auth_title_register: 'Créer un compte',
+  auth_title_forgot: 'Mot de passe oublié',
+  auth_title_reset: 'Nouveau mot de passe',
+  auth_no_account: 'Pas encore de compte ?',
+  auth_remember: 'Vous vous souvenez ?',
+  auth_already_account: 'Déjà un compte ?',
+  auth_back_login: '← Retour à la connexion',
+
   // Header nav
   nav_histoire: 'Histoire',
   nav_huiles: 'Nos Huiles',

@@ -1,4 +1,19 @@
 const translations = {
+  // Auth buttons & page
+  auth_signup: 'إنشاء حساب',
+  auth_login: 'تسجيل الدخول',
+  auth_logout: 'تسجيل الخروج',
+  auth_delete_account: 'حذف الحساب',
+  auth_my_account: 'حسابي',
+  auth_title_login: 'تسجيل الدخول',
+  auth_title_register: 'إنشاء حساب',
+  auth_title_forgot: 'نسيت كلمة المرور',
+  auth_title_reset: 'كلمة مرور جديدة',
+  auth_no_account: 'ليس لديك حساب؟',
+  auth_remember: 'تذكرت كلمة المرور؟',
+  auth_already_account: 'لديك حساب بالفعل؟',
+  auth_back_login: '← العودة إلى تسجيل الدخول',
+
   // Header nav
   nav_histoire: 'التاريخ',
   nav_huiles: 'زيوتنا',

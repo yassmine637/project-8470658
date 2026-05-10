@@ -1,4 +1,19 @@
 const translations = {
+  // Auth buttons & page
+  auth_signup: 'Sign up',
+  auth_login: 'Log in',
+  auth_logout: 'Log out',
+  auth_delete_account: 'Delete account',
+  auth_my_account: 'My account',
+  auth_title_login: 'Log in',
+  auth_title_register: 'Create an account',
+  auth_title_forgot: 'Forgot password',
+  auth_title_reset: 'New password',
+  auth_no_account: 'No account yet?',
+  auth_remember: 'Remember your password?',
+  auth_already_account: 'Already have an account?',
+  auth_back_login: '← Back to login',
+
   // Header nav
   nav_histoire: 'Our Story',
   nav_huiles: 'Our Oils',

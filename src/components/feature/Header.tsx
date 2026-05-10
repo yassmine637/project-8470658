@@ -436,7 +436,7 @@ export default function Header() {
                         }}
                       >
                         <i className="ri-user-settings-line" />
-                        Mon compte
+                        {t('auth_my_account')}
                       </Link>
                     )}
                     {isAdmin && (
@@ -504,7 +504,7 @@ export default function Header() {
                 onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = '#b8942a'; el.style.borderColor = '#b8942a'; }}
                 onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = '#c9a84c'; el.style.borderColor = '#c9a84c'; }}
               >
-                S&apos;inscrire
+                {t('auth_signup')}
               </Link>
             )}
           </div>
@@ -617,13 +617,13 @@ export default function Header() {
                   onClick={() => { handleLogout(); setMenuOpen(false); }}
                   style={{ display: 'block', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontFamily: "'Outfit', sans-serif", padding: 0, marginBottom: 8 }}
                 >
-                  <i className="ri-logout-box-r-line" style={{ marginRight: 6 }} />Se déconnecter
+                  <i className="ri-logout-box-r-line" style={{ marginRight: 6 }} />{t('auth_logout')}
                 </button>
                 <button
                   onClick={() => { handleDeleteAccount(); setMenuOpen(false); }}
                   style={{ display: 'block', background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(200,60,60,0.75)', fontSize: 12, fontFamily: "'Outfit', sans-serif", padding: 0 }}
                 >
-                  <i className="ri-delete-bin-6-line" style={{ marginRight: 6 }} />Supprimer le compte
+                  <i className="ri-delete-bin-6-line" style={{ marginRight: 6 }} />{t('auth_delete_account')}
                 </button>
               </div>
             ) : (
@@ -640,7 +640,7 @@ export default function Header() {
                   fontFamily: "'Outfit', sans-serif", letterSpacing: '0.08em',
                 }}
               >
-                S&apos;inscrire
+                {t('auth_signup')}
               </Link>
             )}
           </li>
