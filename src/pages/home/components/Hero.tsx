@@ -17,24 +17,6 @@ export default function Hero() {
       <div className="absolute inset-x-0 top-0 h-36" style={{ background: 'linear-gradient(to bottom, rgba(8,18,6,0.65) 0%, transparent 100%)', zIndex: 1 }} />
 
       <div className="relative z-10 flex flex-col items-center px-6 w-full max-w-4xl mx-auto">
-        {/* Badge */}
-        <div
-          className="hero-badge flex items-center gap-3 mb-8 px-6 py-2.5 uppercase"
-          style={{
-            fontSize: '0.6rem',
-            border: '1px solid rgba(212,175,55,0.5)',
-            background: 'rgba(212,175,55,0.08)',
-            color: '#e8d5a0',
-            fontFamily: "'Outfit', sans-serif",
-            letterSpacing: '0.28em',
-            backdropFilter: 'blur(12px)',
-          }}
-        >
-          <span style={{ display: 'inline-block', width: 18, height: 1, background: 'rgba(212,175,55,0.7)' }} />
-          {t('hero_badge')}
-          <span style={{ display: 'inline-block', width: 18, height: 1, background: 'rgba(212,175,55,0.7)' }} />
-        </div>
-
         {/* Title line 1 */}
         <h1
           className="hero-title-1 font-light text-white mb-2 leading-none"
