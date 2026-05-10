@@ -384,7 +384,7 @@ const translations = {
   confirm_close: 'إغلاق',
 
   // Products page
-  products_lineup_subtitle: 'اختر الزجاجة التي تناسب أسلوب حياتك',
+  products_lineup_subtitle: 'اختر القارورة المناسبة لذوقك',
   product_bouteille_1l_volume: 'عبوة خضراء 1 لتر — عضوي',
   product_bouteille_500ml_volume: 'زجاجة أسطوانية 500 مل',
   product_bouteille_750ml_volume: 'زجاجة مربعة أنيقة 750 مل',
