@@ -16,75 +16,50 @@ export default function Hero() {
       <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, rgba(10,22,8,0.46) 0%, rgba(15,26,12,0.32) 50%, rgba(10,22,8,0.50) 100%)' }} />
       <div className="absolute inset-x-0 top-0 h-36" style={{ background: 'linear-gradient(to bottom, rgba(8,18,6,0.65) 0%, transparent 100%)', zIndex: 1 }} />
 
-      <div className="relative z-10 flex flex-col items-center px-6 w-full max-w-4xl mx-auto">
-        {/* Title line 1 */}
-        <h1
-          className="hero-title-1 font-light text-white mb-2 leading-none"
-          style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(2.4rem, 5.5vw, 72px)',
-            textShadow: '0 6px 40px rgba(0,0,0,0.55)',
-            letterSpacing: '0.02em',
-            fontWeight: 300,
-          }}
-        >
-          {t('hero_title1')}
-        </h1>
+      <div className="relative z-10 flex flex-col items-center px-6 w-full max-w-5xl mx-auto">
 
-        {/* Title line 2 */}
-        <h1
-          className="hero-title-2 font-light text-white mb-5 leading-none"
-          style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(3rem, 7vw, 92px)',
-            textShadow: '0 6px 40px rgba(0,0,0,0.55)',
-            letterSpacing: '0.02em',
-            fontStyle: 'italic',
-            fontWeight: 300,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {t('hero_title2')}
+        {/* Main title — two lines in one block */}
+        <h1 className="text-white leading-tight mb-6" style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 300, textShadow: '0 6px 40px rgba(0,0,0,0.55)' }}>
+          <span style={{ display: 'block', fontSize: 'clamp(2.4rem, 5.5vw, 72px)', letterSpacing: '0.02em' }}>
+            {t('hero_title1')}
+          </span>
+          <span style={{ display: 'block', fontSize: 'clamp(3rem, 7vw, 92px)', fontStyle: 'italic', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+            {t('hero_title2')}
+          </span>
         </h1>
-
-        {/* Divider */}
-        <div className="hero-divider flex items-center gap-4 mb-6">
-          <span style={{ display: 'inline-block', width: 48, height: 1, background: 'linear-gradient(to right, transparent, #d4af37)' }} />
-          <i className="ri-seedling-line" style={{ color: '#d4af37', fontSize: 13 }} />
-          <span style={{ display: 'inline-block', width: 48, height: 1, background: 'linear-gradient(to left, transparent, #d4af37)' }} />
-        </div>
 
         {/* Subtitle */}
-        <h2
-          className="hero-subtitle font-normal mb-8"
+        <p
+          className="mb-5"
           style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(1.2rem, 2.8vw, 27px)',
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: 'clamp(0.75rem, 1.4vw, 14px)',
             color: '#e8d5a0',
-            textShadow: '0 2px 14px rgba(0,0,0,0.4)',
-            letterSpacing: '0.18em',
-            fontStyle: 'italic',
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
             fontWeight: 400,
           }}
         >
           {t('hero_subtitle')}
-        </h2>
+        </p>
+
+        {/* Thin gold separator */}
+        <div style={{ width: 60, height: 1, background: 'linear-gradient(to right, transparent, #d4af37, transparent)', marginBottom: '1.5rem' }} />
 
         {/* Description */}
         <p
-          className="hero-desc max-w-2xl mb-11"
+          className="max-w-2xl mb-10"
           style={{
             fontFamily: "'Cormorant Garant', serif",
             color: 'rgba(240,228,200,0.82)',
             letterSpacing: '0.04em',
-            lineHeight: '2',
+            lineHeight: '1.8',
             fontSize: 'clamp(1.05rem, 1.9vw, 22px)',
             fontWeight: 400,
             textAlign: 'center',
           }}
         >
-          <span style={{ whiteSpace: 'nowrap' }}>{t('hero_desc1')}</span><br />
-          {t('hero_desc2')}
+          {t('hero_desc1')} {t('hero_desc2')}
         </p>
 
         {/* CTA buttons */}
@@ -127,8 +102,6 @@ export default function Hero() {
           </a>
         </div>
       </div>
-
-
     </section>
   );
 }
