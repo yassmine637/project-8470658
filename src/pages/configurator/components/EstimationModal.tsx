@@ -220,7 +220,8 @@ const labelStyleCSS: React.CSSProperties = {
 export default function EstimationModal({
   isOpen, model, size, label, customText, totalPrice, quantity: quantityProp = 1, currency: currencyProp, onClose,
 }: EstimationModalProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language === 'ar';
   const [visible, setVisible] = useState(false);
   const [formStep, setFormStep] = useState<FormStep>('estimate');
   const quantity = quantityProp;
@@ -399,8 +400,8 @@ export default function EstimationModal({
               <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.1rem', fontWeight: 700, color: 'rgba(255,255,255,0.9)', letterSpacing: '0.04em' }}>
                 {formStep === 'estimate' ? t('config_estimate_title') : formStep === 'contact' ? t('config_quote_title') : t('config_sent_title')}
               </div>
-              <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: 'rgba(212,175,55,0.55)', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '1px' }}>
-                Fendri · Premium Olive Oil
+              <div style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Outfit', sans-serif", fontSize: '0.6rem', color: 'rgba(212,175,55,0.55)', letterSpacing: isAr ? 0 : '0.15em', textTransform: isAr ? 'none' : 'uppercase', marginTop: '1px' }}>
+                {isAr ? 'فندري · زيت الزيتون الفاخر' : 'Fendri · Premium Olive Oil'}
               </div>
             </div>
           </div>
@@ -424,8 +425,12 @@ export default function EstimationModal({
               <div className="flex flex-wrap gap-4 justify-between mb-6">
                 <div>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '4px' }}>{t('config_issued_by')}</div>
-                  <div style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.2rem', fontWeight: 700, color: '#d4af37', letterSpacing: '0.1em' }}>FENDRI</div>
-                  <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', marginTop: '2px' }}>Domaine Fendri · Meknessi, Sfax, Tunisia</div>
+                  <div style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Cormorant Garant', serif", fontSize: '1.2rem', fontWeight: 700, color: '#d4af37', letterSpacing: isAr ? '0.05em' : '0.1em' }}>
+                    {isAr ? 'ضيعة فندري' : 'FENDRI'}
+                  </div>
+                  <div style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', marginTop: '2px' }}>
+                    {isAr ? 'ضيعة فندري · المكناسي، صفاقس، تونس' : 'Domaine Fendri · Meknessi, Sfax, Tunisia'}
+                  </div>
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)' }}>contact@fendri.tn</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
@@ -970,8 +975,8 @@ export default function EstimationModal({
                 </p>
               </div>
               <div style={{ height: '1px', width: '60px', background: 'rgba(212,175,55,0.3)' }} />
-              <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.25)', lineHeight: 1.6 }}>
-                Domaine Fendri · Meknessi, Sfax, Tunisia<br />contact@fendri.tn
+              <div style={{ fontFamily: isAr ? "'Cairo', sans-serif" : "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.25)', lineHeight: 1.6 }}>
+                {isAr ? 'ضيعة فندري · المكناسي، صفاقس، تونس' : 'Domaine Fendri · Meknessi, Sfax, Tunisia'}<br />contact@fendri.tn
               </div>
               <button
                 onClick={onClose}
