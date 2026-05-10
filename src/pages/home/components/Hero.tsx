@@ -40,7 +40,7 @@ export default function Hero() {
           className="hero-title-1 font-light text-white mb-2 leading-none"
           style={{
             fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(1.45rem, 3.2vw, 42px)',
+            fontSize: 'clamp(2.8rem, 7vw, 90px)',
             textShadow: '0 6px 40px rgba(0,0,0,0.55)',
             letterSpacing: '0.02em',
             fontWeight: 300,
@@ -54,7 +54,7 @@ export default function Hero() {
           className="hero-title-2 font-light text-white mb-5 leading-none"
           style={{
             fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(1.45rem, 3.2vw, 42px)',
+            fontSize: 'clamp(2.8rem, 7vw, 90px)',
             textShadow: '0 6px 40px rgba(0,0,0,0.55)',
             letterSpacing: '0.02em',
             fontStyle: 'italic',
