@@ -338,7 +338,7 @@ export default function ProductsPage() {
                         >
                           <i className={`${s.icon}`} style={{ color: s.color, fontSize: '0.6rem' }} />
                           <span style={{ color: s.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                            {status === 'low_stock' ? `${product.stock} restants` : s.label}
+                            {status === 'low_stock' ? t('cart_stock_remaining', { stock: product.stock }) : status === 'out_of_stock' ? t('product_out_of_stock') : t('product_in_stock')}
                           </span>
                         </span>
                       );
@@ -521,7 +521,7 @@ export default function ProductsPage() {
                     >
                       <i className={s.icon} style={{ color: s.color, fontSize: '0.75rem' }} />
                       <span style={{ color: s.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                        {status === 'low_stock' ? `${selected.stock} restants` : s.label}
+                        {status === 'low_stock' ? t('cart_stock_remaining', { stock: selected.stock }) : status === 'out_of_stock' ? t('product_out_of_stock') : t('product_in_stock')}
                       </span>
                     </span>
                   );
@@ -646,7 +646,7 @@ export default function ProductsPage() {
                     </button>
                   </div>
                   <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem', color: '#9aaa96' }}>
-                    ✏️ Tapez directement ou utilisez − + · max {selected.stock}
+                    {t('product_stock_hint', { max: selected.stock })}
                   </p>
                 </div>
 
@@ -682,7 +682,7 @@ export default function ProductsPage() {
                       }}
                     >
                       <i className={isOutOfStock ? 'ri-close-circle-line text-base' : 'ri-shopping-basket-2-line text-base'} />
-                      {isOutOfStock ? 'Rupture de stock' : t('card_order')}
+                      {isOutOfStock ? t('product_out_of_stock_btn') : t('card_order')}
                     </button>
                   );
                 })()}
