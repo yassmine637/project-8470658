@@ -268,28 +268,6 @@ export default function ProductDetailPage() {
                   {isOutOfStock ? t('product_out_of_stock_btn') : added ? t('detail_added') : t('card_add_cart')}
                 </button>
 
-                {/* B2B link */}
-                <Link
-                  to="/b2b"
-                  style={{
-                    height: 44, padding: '0 16px',
-                    background: 'transparent',
-                    border: `1px solid ${accent}50`,
-                    borderRadius: 40,
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: accent,
-                    textDecoration: 'none',
-                    display: 'flex', alignItems: 'center', gap: 6,
-                    whiteSpace: 'nowrap',
-                    transition: 'all 0.2s',
-                  }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = accent + '15'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
-                >
-                  <i className="ri-building-line" />
-                  {t('detail_b2b_btn')}
-                </Link>
               </div>
 
               {/* Trust badges */}
@@ -442,40 +420,6 @@ export default function ProductDetailPage() {
                 </p>
               </div>
 
-              {/* B2B CTA */}
-              <div style={{
-                marginTop: 24,
-                padding: '20px 24px',
-                background: `linear-gradient(135deg, #1a2617 0%, #2c3a23 100%)`,
-                borderRadius: 16,
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
-              }}>
-                <div>
-                  <p style={{ fontFamily: "'Cormorant Garant', serif", fontSize: 17, color: '#fff', margin: '0 0 4px', fontWeight: 600 }}>
-                    {t('detail_b2b_cta_title')}
-                  </p>
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.5)', margin: 0 }}>
-                    {t('detail_b2b_cta_sub')}
-                  </p>
-                </div>
-                <Link
-                  to="/b2b"
-                  style={{
-                    padding: '10px 20px',
-                    background: '#c9a84c',
-                    color: '#1a2617',
-                    borderRadius: 40,
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    whiteSpace: 'nowrap',
-                    display: 'flex', alignItems: 'center', gap: 6,
-                  }}
-                >
-                  <i className="ri-building-line" />
-                  {t('detail_b2b_btn')}
-                </Link>
-              </div>
             </div>
           </div>
         </section>
