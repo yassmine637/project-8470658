@@ -12,6 +12,7 @@ import configuratorRoutes from './routes/configurator.js';
 import contactRoutes from './routes/contact.js';
 import checkoutRoutes from './routes/checkout.js';
 import adminRoutes from './routes/admin.js';
+import b2bRoutes from './routes/b2b.js';
 
 const app = express();
 const PORT = process.env.API_PORT || 3001;
@@ -48,6 +49,7 @@ app.use('/api/configurator', configuratorRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/checkout', checkoutRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/b2b', b2bRoutes);
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 

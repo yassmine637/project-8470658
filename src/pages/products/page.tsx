@@ -753,6 +753,30 @@ export default function ProductsPage() {
                 </button>
               </div>
 
+              {/* View full product page */}
+              {selected && (
+                <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <Link
+                    to={`/products/${selected.id}`}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 6,
+                      fontFamily: "'Outfit', sans-serif", fontSize: '0.7rem',
+                      fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
+                      color: accent, textDecoration: 'none',
+                      borderBottom: `1px solid ${accent}40`,
+                      paddingBottom: 2,
+                      transition: 'border-color 0.2s',
+                    }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = accent; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.borderColor = `${accent}40`; }}
+                  >
+                    <i className="ri-file-list-3-line" style={{ fontSize: 13 }} />
+                    {t('detail_tab_specs')} · {t('detail_tab_certs')} · {t('detail_tab_awards')}
+                    <i className="ri-arrow-right-line" style={{ fontSize: 11 }} />
+                  </Link>
+                </div>
+              )}
+
               {/* Shipping estimator */}
               <div style={{ marginTop: 20 }}>
                 <button

@@ -123,6 +123,7 @@ export default function Header() {
     { type: 'anchor', sectionId: 'about',   label: t('nav_histoire') },
     { type: 'anchor', sectionId: 'product', label: t('nav_huiles') },
     { type: 'route',  href: '/products',    label: t('nav_collection') },
+    { type: 'route',  href: '/b2b',         label: t('nav_b2b') },
     { type: 'anchor', sectionId: 'factory', label: t('nav_usine') },
     { type: 'anchor', sectionId: 'values',  label: t('nav_engagements') },
     { type: 'anchor', sectionId: 'awards',  label: t('nav_recompenses') },
