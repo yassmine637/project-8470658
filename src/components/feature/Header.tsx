@@ -25,6 +25,9 @@ export default function Header() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [currencyMenuOpen, setCurrencyMenuOpen] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
   const userMenuRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const currencyMenuRef = useRef<HTMLDivElement>(null);
@@ -96,15 +99,23 @@ export default function Header() {
     setUserMenuOpen(false);
   };
 
-  const handleDeleteAccount = async () => {
-    if (!window.confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) return;
+  const handleDeleteAccount = () => {
+    setDeleteError('');
+    setShowDeleteModal(true);
+    setUserMenuOpen(false);
+  };
+
+  const confirmDeleteAccount = async () => {
+    setDeleteLoading(true);
+    setDeleteError('');
     try {
       await authApi.deleteAccount();
-      logout();
-      setUserMenuOpen(false);
+      setShowDeleteModal(false);
       navigate('/');
+      logout();
     } catch {
-      alert('Erreur lors de la suppression du compte. Veuillez réessayer.');
+      setDeleteError(t('delete_account_error'));
+      setDeleteLoading(false);
     }
   };
 
@@ -655,6 +666,100 @@ export default function Header() {
           </li>
         </ul>
       </div>
+      {showDeleteModal && (
+        <div
+          onClick={() => { if (!deleteLoading) setShowDeleteModal(false); }}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 9999,
+            background: 'rgba(0,0,0,0.7)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: 24,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#0e1a0d',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 16,
+              padding: '40px 36px',
+              maxWidth: 420,
+              width: '100%',
+              boxShadow: '0 24px 80px rgba(0,0,0,0.6)',
+              textAlign: 'center',
+            }}
+          >
+            <div style={{
+              width: 52, height: 52, borderRadius: '50%',
+              background: 'rgba(200,60,60,0.12)',
+              border: '1px solid rgba(200,60,60,0.3)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 20px',
+            }}>
+              <i className="ri-delete-bin-6-line" style={{ fontSize: 22, color: '#c83c3c' }} />
+            </div>
+            <h3 style={{
+              fontFamily: "'Georgia', serif",
+              fontSize: 20, fontWeight: 'normal',
+              color: '#fff', margin: '0 0 12px',
+            }}>
+              {t('delete_account_title')}
+            </h3>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: 13, color: 'rgba(255,255,255,0.5)',
+              lineHeight: 1.7, margin: '0 0 28px',
+            }}>
+              {t('delete_account_desc')}
+            </p>
+            {deleteError && (
+              <p style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: 12, color: '#c83c3c',
+                marginBottom: 16,
+              }}>
+                {deleteError}
+              </p>
+            )}
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                disabled={deleteLoading}
+                style={{
+                  flex: 1, padding: '11px 20px',
+                  background: 'transparent',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: 40, cursor: 'pointer',
+                  color: 'rgba(255,255,255,0.6)',
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: 13, fontWeight: 600,
+                  letterSpacing: '0.05em',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {t('delete_account_cancel')}
+              </button>
+              <button
+                onClick={confirmDeleteAccount}
+                disabled={deleteLoading}
+                style={{
+                  flex: 1, padding: '11px 20px',
+                  background: deleteLoading ? 'rgba(200,60,60,0.5)' : '#c83c3c',
+                  border: 'none',
+                  borderRadius: 40, cursor: deleteLoading ? 'not-allowed' : 'pointer',
+                  color: '#fff',
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: 13, fontWeight: 600,
+                  letterSpacing: '0.05em',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {deleteLoading ? t('delete_account_loading') : t('delete_account_confirm')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
