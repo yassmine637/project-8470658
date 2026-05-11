@@ -3,9 +3,14 @@ import { body, validationResult } from 'express-validator';
 import { Resend } from 'resend';
 
 const router = express.Router();
-const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const TO   = process.env.CONTACT_EMAIL      || 'contact@domainefendri.com';
+
+const getResend = () => {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error('RESEND_API_KEY non configuré');
+  return new Resend(key);
+};
 
 router.post(
   '/',
@@ -23,6 +28,7 @@ router.post(
     const { company, contact, email, phone, country, product, volume, incoterm, message } = req.body;
 
     try {
+      const resend = getResend();
       await resend.emails.send({
         from: FROM,
         to: TO,
