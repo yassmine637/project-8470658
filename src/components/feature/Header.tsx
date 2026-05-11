@@ -91,9 +91,9 @@ export default function Header() {
   };
 
   const handleLogout = () => {
+    navigate('/');
     logout();
     setUserMenuOpen(false);
-    navigate('/', { state: { loggedOut: true } });
   };
 
   const handleDeleteAccount = async () => {
