@@ -464,7 +464,7 @@ export default function Header() {
                       }}
                     >
                       <i className="ri-logout-box-r-line" />
-                      Se déconnecter
+                      {t('auth_logout')}
                     </button>
                     <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '2px 0' }} />
                     <button
@@ -479,7 +479,7 @@ export default function Header() {
                       onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(200,60,60,0.75)'; }}
                     >
                       <i className="ri-delete-bin-6-line" />
-                      Supprimer le compte
+                      {t('auth_delete_account')}
                     </button>
                   </div>
                 )}
