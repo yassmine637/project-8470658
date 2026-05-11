@@ -371,6 +371,29 @@ export default function ProductsPage() {
                     })()}
                   </div>
 
+                  {/* Wishlist heart button */}
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => { e.stopPropagation(); toggleWishlist(product.id); }}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); toggleWishlist(product.id); } }}
+                    className="absolute flex items-center justify-center w-8 h-8 rounded-full cursor-pointer transition-all duration-200"
+                    style={{
+                      top: 0,
+                      right: 0,
+                      background: isWishlisted(product.id) ? 'rgba(220,53,69,0.12)' : 'rgba(255,255,255,0.75)',
+                      backdropFilter: 'blur(4px)',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      opacity: hasSelection && !isActive ? 0.5 : 1,
+                    }}
+                    title={t(isWishlisted(product.id) ? 'wishlist_remove' : 'wishlist_add')}
+                  >
+                    <i
+                      className={isWishlisted(product.id) ? 'ri-heart-fill' : 'ri-heart-line'}
+                      style={{ fontSize: '0.85rem', color: isWishlisted(product.id) ? '#dc3545' : '#9aaa96' }}
+                    />
+                  </div>
+
                   {/* Active indicator dot */}
                   <div
                     className="mt-3 w-1.5 h-1.5 rounded-full transition-all duration-300"
