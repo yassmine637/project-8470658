@@ -74,7 +74,7 @@ export default function AccountPage() {
   const [pwError, setPwError] = useState('');
 
   useEffect(() => {
-    if (!isLoading && !user) navigate('/auth');
+    if (!isLoading && !user) navigate('/');
   }, [user, isLoading, navigate]);
 
   useEffect(() => {
