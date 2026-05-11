@@ -9,13 +9,14 @@ import { useWishlist } from '@/hooks/useWishlist';
 import { useCart } from '@/hooks/useCart';
 import { products as allProducts } from '@/mocks/products';
 import { useCurrencyCtx } from '@/context/CurrencyContext';
+import { useTranslation } from 'react-i18next';
 
-const STATUS_COLORS: Record<string, { bg: string; color: string; label: string }> = {
-  pending:   { bg: 'rgba(201,168,76,0.12)', color: '#c9a84c', label: 'En attente' },
-  paid:      { bg: 'rgba(76,160,76,0.12)',  color: '#4ca04c', label: 'Payée' },
-  shipped:   { bg: 'rgba(76,120,201,0.12)', color: '#4c78c9', label: 'Expédiée' },
-  delivered: { bg: 'rgba(76,160,76,0.18)',  color: '#3d9c3d', label: 'Livrée' },
-  cancelled: { bg: 'rgba(200,60,60,0.12)',  color: '#c83c3c', label: 'Annulée' },
+const STATUS_BG: Record<string, { bg: string; color: string }> = {
+  pending:   { bg: 'rgba(201,168,76,0.12)', color: '#c9a84c' },
+  paid:      { bg: 'rgba(76,160,76,0.12)',  color: '#4ca04c' },
+  shipped:   { bg: 'rgba(76,120,201,0.12)', color: '#4c78c9' },
+  delivered: { bg: 'rgba(76,160,76,0.18)',  color: '#3d9c3d' },
+  cancelled: { bg: 'rgba(200,60,60,0.12)',  color: '#c83c3c' },
 };
 
 const COUNTRIES = [
@@ -46,6 +47,7 @@ const inputStyle: React.CSSProperties = {
 };
 
 export default function AccountPage() {
+  const { t, i18n } = useTranslation();
   const { user, isLoading, logout, updateUser } = useAuth();
   const navigate = useNavigate();
   const { wishlist, toggleWishlist } = useWishlist();
@@ -113,9 +115,9 @@ export default function AccountPage() {
     try {
       const { user: updated } = await authApi.updateProfile({ name: form.name, phone: form.phone, country: form.country });
       updateUser(updated);
-      setSaveMsg('Profil mis à jour avec succès.');
+      setSaveMsg(t('account_save_success'));
     } catch {
-      setSaveError('Erreur lors de la mise à jour.');
+      setSaveError(t('account_save_error'));
     } finally {
       setSaving(false);
     }
@@ -126,21 +128,21 @@ export default function AccountPage() {
     setPwMsg('');
     setPwError('');
     if (pwForm.newPassword.length < 8) {
-      setPwError('Le nouveau mot de passe doit faire au moins 8 caractères.');
+      setPwError(t('account_pw_too_short'));
       return;
     }
     if (pwForm.newPassword !== pwForm.confirmPassword) {
-      setPwError('Les mots de passe ne correspondent pas.');
+      setPwError(t('account_pw_mismatch'));
       return;
     }
     setPwSaving(true);
     try {
       await authApi.changePassword({ currentPassword: pwForm.currentPassword, newPassword: pwForm.newPassword });
-      setPwMsg('Mot de passe modifié avec succès.');
+      setPwMsg(t('account_pw_success'));
       setPwForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err: unknown) {
       const msg = (err as { message?: string })?.message;
-      setPwError(msg || 'Erreur lors du changement de mot de passe.');
+      setPwError(msg || t('account_pw_error'));
     } finally {
       setPwSaving(false);
     }
@@ -149,7 +151,7 @@ export default function AccountPage() {
   if (isLoading || !user) return null;
 
   const formatDate = (iso: string) =>
-    new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+    new Date(iso).toLocaleDateString(i18n.language === 'ar' ? 'ar-TN' : i18n.language === 'en' ? 'en-GB' : 'fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
 
   const formatPrice = (amount: number, currency: string) => {
     const symbols: Record<string, string> = { TND: 'DT', EUR: '€', USD: '$' };
@@ -165,7 +167,7 @@ export default function AccountPage() {
         {/* Page title */}
         <div style={{ marginBottom: 40 }}>
           <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, letterSpacing: '0.3em', color: '#c9a84c', textTransform: 'uppercase', marginBottom: 8 }}>
-            Mon espace
+            {t('account_my_space')}
           </p>
         </div>
 
@@ -194,17 +196,17 @@ export default function AccountPage() {
                 gap: 6,
               }}
             >
-              {tabKey === 'profile' ? 'Mon Profil' : tabKey === 'orders' ? 'Mes Commandes' : tabKey === 'wishlist' ? (
+              {tabKey === 'profile' ? t('account_tab_profile') : tabKey === 'orders' ? t('account_tab_orders') : tabKey === 'wishlist' ? (
                 <>
                   <i className="ri-heart-line" style={{ fontSize: 13 }} />
-                  Favoris
+                  {t('wishlist_tab')}
                   {wishlist.length > 0 && (
                     <span style={{ background: '#dc3545', color: '#fff', borderRadius: '50%', width: 16, height: 16, fontSize: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
                       {wishlist.length}
                     </span>
                   )}
                 </>
-              ) : 'Sécurité'}
+              ) : t('account_tab_security')}
             </button>
           ))}
         </div>
@@ -215,7 +217,7 @@ export default function AccountPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 20 }}>
               <div>
                 <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
-                  Nom complet
+                  {t('account_label_name')}
                 </label>
                 <input
                   value={form.name}
@@ -238,7 +240,7 @@ export default function AccountPage() {
               </div>
               <div>
                 <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
-                  Téléphone
+                  {t('account_label_phone')}
                 </label>
                 <input
                   value={form.phone}
@@ -251,7 +253,7 @@ export default function AccountPage() {
               </div>
               <div>
                 <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
-                  Pays
+                  {t('account_label_country')}
                 </label>
                 <div ref={countryRef} style={{ position: 'relative' }}>
                   <button
@@ -269,7 +271,7 @@ export default function AccountPage() {
                     }}
                   >
                     <span style={{ color: form.country ? '#fff' : 'rgba(255,255,255,0.3)' }}>
-                      {form.country || '— Sélectionner —'}
+                      {form.country || t('account_select_country')}
                     </span>
                     <ChevronDown size={14} style={{ color: 'rgba(255,255,255,0.3)', flexShrink: 0, transform: countryOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
                   </button>
@@ -308,7 +310,7 @@ export default function AccountPage() {
                           onMouseEnter={(e) => { if (form.country !== c) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)'; }}
                           onMouseLeave={(e) => { if (form.country !== c) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
                         >
-                          {c || '— Sélectionner —'}
+                          {c || t('account_select_country')}
                         </button>
                       ))}
                     </div>
@@ -347,7 +349,7 @@ export default function AccountPage() {
                   transition: 'all 0.2s',
                 }}
               >
-                {saving ? 'Enregistrement...' : 'Sauvegarder'}
+                {saving ? t('account_saving') : t('account_save')}
               </button>
             </div>
           </form>
@@ -364,14 +366,14 @@ export default function AccountPage() {
               borderRadius: 10,
             }}>
               <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.6 }}>
-                Choisissez un mot de passe fort d'au moins 8 caractères. Il ne doit pas être réutilisé ailleurs.
+                {t('account_pw_hint')}
               </p>
             </div>
 
             {/* Current password */}
             <div style={{ marginBottom: 20 }}>
               <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
-                Mot de passe actuel
+                {t('account_label_current_pw')}
               </label>
               <div style={{ position: 'relative' }}>
                 <input
@@ -393,7 +395,7 @@ export default function AccountPage() {
             {/* New password */}
             <div style={{ marginBottom: 20 }}>
               <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
-                Nouveau mot de passe
+                {t('account_label_new_pw')}
               </label>
               <div style={{ position: 'relative' }}>
                 <input
@@ -402,7 +404,7 @@ export default function AccountPage() {
                   onChange={(e) => setPwForm({ ...pwForm, newPassword: e.target.value })}
                   required
                   autoComplete="new-password"
-                  placeholder="8 caractères minimum"
+                  placeholder={t('account_pw_placeholder')}
                   style={{ ...inputStyle, paddingRight: 42 }}
                   onFocus={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.5)')}
                   onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
@@ -416,7 +418,7 @@ export default function AccountPage() {
                 const len = pwForm.newPassword.length;
                 const strength = len >= 12 ? 3 : len >= 8 ? 2 : 1;
                 const colors = ['#c83c3c', '#c9a84c', '#4ca04c'];
-                const labels = ['Faible', 'Moyen', 'Fort'];
+                const labels = [t('account_pw_weak'), t('account_pw_medium'), t('account_pw_strong')];
                 return (
                   <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
                     <div style={{ display: 'flex', gap: 4, flex: 1 }}>
@@ -433,7 +435,7 @@ export default function AccountPage() {
             {/* Confirm password */}
             <div style={{ marginBottom: 24 }}>
               <label style={{ display: 'block', fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', marginBottom: 8 }}>
-                Confirmer le nouveau mot de passe
+                {t('account_label_confirm_pw')}
               </label>
               <div style={{ position: 'relative' }}>
                 <input
@@ -452,7 +454,7 @@ export default function AccountPage() {
               </div>
               {pwForm.confirmPassword && pwForm.confirmPassword !== pwForm.newPassword && (
                 <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#c83c3c', marginTop: 6, marginBottom: 0 }}>
-                  Les mots de passe ne correspondent pas.
+                  {t('account_pw_mismatch')}
                 </p>
               )}
             </div>
@@ -486,7 +488,7 @@ export default function AccountPage() {
                 transition: 'all 0.2s',
               }}
             >
-              {pwSaving ? 'Modification...' : 'Modifier le mot de passe'}
+              {pwSaving ? t('account_pw_saving') : t('account_pw_change_btn')}
             </button>
           </form>
         )}
@@ -498,10 +500,10 @@ export default function AccountPage() {
               <div style={{ textAlign: 'center', padding: '64px 32px', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, background: 'rgba(255,255,255,0.02)' }}>
                 <i className="ri-heart-line" style={{ fontSize: 40, color: 'rgba(255,255,255,0.12)', display: 'block', marginBottom: 16 }} />
                 <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.35)', margin: '0 0 6px' }}>
-                  Votre liste de souhaits est vide
+                  {t('wishlist_empty')}
                 </p>
                 <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.2)', margin: 0 }}>
-                  Parcourez notre collection et sauvegardez vos huiles préférées
+                  {t('wishlist_empty_sub')}
                 </p>
               </div>
             ) : (
@@ -548,7 +550,7 @@ export default function AccountPage() {
                             }}
                           >
                             <i className="ri-shopping-basket-2-line" style={{ marginRight: 5 }} />
-                            Commander
+                            {t('account_order_btn')}
                           </button>
                           <button
                             onClick={() => toggleWishlist(product.id)}
@@ -557,7 +559,7 @@ export default function AccountPage() {
                               borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                               transition: 'all 0.2s', flexShrink: 0,
                             }}
-                            title="Retirer des favoris"
+                            title={t('wishlist_remove')}
                           >
                             <i className="ri-heart-fill" style={{ color: '#dc3545', fontSize: 14 }} />
                           </button>
@@ -576,7 +578,7 @@ export default function AccountPage() {
           <div>
             {ordersLoading ? (
               <div style={{ textAlign: 'center', padding: '48px 0', color: 'rgba(255,255,255,0.3)', fontFamily: "'Outfit', sans-serif", fontSize: 13 }}>
-                Chargement de vos commandes...
+                {t('account_orders_loading')}
               </div>
             ) : orders.length === 0 ? (
               <div style={{
@@ -586,13 +588,14 @@ export default function AccountPage() {
               }}>
                 <i className="ri-shopping-bag-line" style={{ fontSize: 36, color: 'rgba(255,255,255,0.15)', display: 'block', marginBottom: 16 }} />
                 <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 14, color: 'rgba(255,255,255,0.35)', margin: 0 }}>
-                  Aucune commande pour le moment.
+                  {t('account_orders_empty')}
                 </p>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {orders.map((order) => {
-                  const status = STATUS_COLORS[order.status] || { bg: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)', label: order.status };
+                  const statusBg = STATUS_BG[order.status] || { bg: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' };
+                  const statusLabel = t(`account_status_${order.status}` as never, { defaultValue: order.status });
                   return (
                     <div
                       key={order._id}
@@ -606,7 +609,7 @@ export default function AccountPage() {
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
                         <div>
                           <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: 'rgba(255,255,255,0.35)', margin: '0 0 4px', letterSpacing: '0.05em' }}>
-                            Commande · {formatDate(order.createdAt)}
+                            {t('account_order_label')} · {formatDate(order.createdAt)}
                           </p>
                           <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 10, color: 'rgba(255,255,255,0.2)', margin: 0, letterSpacing: '0.03em' }}>
                             #{order._id.slice(-8).toUpperCase()}
@@ -615,14 +618,14 @@ export default function AccountPage() {
                         <span style={{
                           padding: '4px 12px',
                           borderRadius: 20,
-                          background: status.bg,
-                          color: status.color,
+                          background: statusBg.bg,
+                          color: statusBg.color,
                           fontFamily: "'Outfit', sans-serif",
                           fontSize: 11,
                           fontWeight: 600,
                           letterSpacing: '0.06em',
                         }}>
-                          {status.label}
+                          {statusLabel}
                         </span>
                       </div>
 
@@ -643,7 +646,7 @@ export default function AccountPage() {
 
                       <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                         <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 14, fontWeight: 700, color: '#fff' }}>
-                          Total : {formatPrice(order.totalTTC, order.currency)}
+                          {t('account_order_total')} : {formatPrice(order.totalTTC, order.currency)}
                         </span>
                       </div>
                     </div>
