@@ -124,6 +124,5 @@ publicDir = "out"
 [userenv.shared]
 NODE_ENV = "development"
 API_PORT = "3001"
-JWT_SECRET = "fendri_jwt_secret_replit_2025_secure_random_string_xyz789"
 RESEND_FROM_EMAIL = "onboarding@resend.dev"
 ADMIN_EMAIL = "admin@fendri.com"
