@@ -356,6 +356,47 @@ export const packagingOptions: PackagingOption[] = [
   },
 ];
 
+// ============================================================
+// PACKAGING IMAGES — Bouteilles photographiées dans leur emballage
+//
+// Convention de nommage :
+//   Clé  : "{packagingId}__{modelId}__{sizeId}"
+//   Fichier : public/images/emballages/{packagingId}/{modelId}-{sizeId}.png
+//
+// Exemples de clés :
+//   "sac-cadeau__cylindrique-500__500ml"
+//   "coffret-kraft__carree-750__750ml"
+//   "coffret-prestige__cylindrique-500__1l"
+//   "coffret-bois__bidon-vert-1l__1l"
+//
+// Pour ajouter une image :
+//   1. Dépose le fichier dans public/images/emballages/{packagingId}/
+//   2. Ajoute la ligne ci-dessous : 'sac-cadeau__cylindrique-500__500ml': '/images/emballages/sac-cadeau/cylindrique-500-500ml.png',
+// ============================================================
+export const PACKAGING_IMAGES: Record<string, string> = {
+  // Sac Cadeau
+  // 'sac-cadeau__cylindrique-500__500ml': '/images/emballages/sac-cadeau/cylindrique-500-500ml.png',
+  // 'sac-cadeau__cylindrique-500__750ml': '/images/emballages/sac-cadeau/cylindrique-500-750ml.png',
+  // 'sac-cadeau__cylindrique-500__1l':    '/images/emballages/sac-cadeau/cylindrique-500-1l.png',
+  // 'sac-cadeau__carree-750__750ml':      '/images/emballages/sac-cadeau/carree-750-750ml.png',
+
+  // Coffret Kraft
+  // 'coffret-kraft__cylindrique-500__500ml': '/images/emballages/coffret-kraft/cylindrique-500-500ml.png',
+  // 'coffret-kraft__carree-750__750ml':      '/images/emballages/coffret-kraft/carree-750-750ml.png',
+
+  // Coffret Prestige
+  // 'coffret-prestige__cylindrique-500__500ml': '/images/emballages/coffret-prestige/cylindrique-500-500ml.png',
+  // 'coffret-prestige__carree-750__750ml':      '/images/emballages/coffret-prestige/carree-750-750ml.png',
+
+  // Coffret Bois
+  // 'coffret-bois__cylindrique-500__500ml': '/images/emballages/coffret-bois/cylindrique-500-500ml.png',
+  // 'coffret-bois__bidon-vert-1l__1l':      '/images/emballages/coffret-bois/bidon-vert-1l-1l.png',
+};
+
+export function getPackagingImageKey(packagingId: string, modelId: string, sizeId: string): string {
+  return `${packagingId}__${modelId}__${sizeId}`;
+}
+
 export const labelStyles: LabelStyle[] = [
   {
     id: 'classique-ivoire',

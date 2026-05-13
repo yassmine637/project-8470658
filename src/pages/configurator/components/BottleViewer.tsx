@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { BottleModel, LabelStyle, PackagingOption } from '@/mocks/configurator';
-import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
+import { COMBO_IMAGES, getComboImageKey, PACKAGING_IMAGES, getPackagingImageKey } from '@/mocks/configurator';
 import PackagingOverlay from './PackagingOverlay';
 
 const loadedImageCache = new Set<string>();
@@ -73,6 +73,22 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
 
   const showPackaging = !!packaging && packaging.id !== 'none' && currentStep >= 4;
 
+  // Real packaging photo (composite bottle + packaging) — priority over SVG overlay
+  const packagingPhotoKey = showPackaging && sizeId
+    ? getPackagingImageKey(packaging!.id, model.id, sizeId)
+    : '';
+  const packagingPhoto = packagingPhotoKey ? PACKAGING_IMAGES[packagingPhotoKey] : undefined;
+
+  // Final image: packaging composite > normal bottle
+  const displayImage = showPackaging && packagingPhoto ? packagingPhoto : bottleImage;
+  const [packagingPhotoLoaded, setPackagingPhotoLoaded] = useState(false);
+
+  useEffect(() => {
+    if (packagingPhoto) {
+      setPackagingPhotoLoaded(loadedImageCache.has(packagingPhoto));
+    }
+  }, [packagingPhoto]);
+
   return (
     <div className="relative w-full h-full flex items-center justify-center select-none">
       {/* Floor glow */}
@@ -94,9 +110,9 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
         }}
       />
 
-      {/* Packaging back layer (behind bottle) */}
-      {showPackaging && (
-        <PackagingOverlay packagingId={packaging!.id} layer="back" visible={showPackaging} />
+      {/* Packaging back layer (SVG) — only when no real photo available */}
+      {showPackaging && !packagingPhoto && (
+        <PackagingOverlay packagingId={packaging!.id} layer="back" visible={true} />
       )}
 
       {/* Bottle container */}
@@ -105,20 +121,25 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
           opacity: transitioning ? 0 : 1,
           transition: 'opacity 0.35s ease',
           position: 'relative',
-          width: `${sizeScale * 100}%`,
-          height: `${sizeScale * 100}%`,
+          width: showPackaging && packagingPhoto ? '90%' : `${sizeScale * 100}%`,
+          height: showPackaging && packagingPhoto ? '90%' : `${sizeScale * 100}%`,
           zIndex: 1,
+          transition: 'opacity 0.35s ease, width 0.4s ease, height 0.4s ease',
         }}
       >
         <img
-          src={bottleImage}
+          src={displayImage}
           alt={model.name}
-          onLoad={() => { loadedImageCache.add(bottleImage); setIsLoaded(true); }}
+          onLoad={() => {
+            loadedImageCache.add(displayImage);
+            setIsLoaded(true);
+            if (packagingPhoto && displayImage === packagingPhoto) setPackagingPhotoLoaded(true);
+          }}
           className="w-full h-full object-contain object-center"
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 0.45s ease',
-            filter: showPackaging
+            filter: (showPackaging && !packagingPhoto)
               ? 'drop-shadow(0 18px 32px rgba(0,0,0,0.35))'
               : 'drop-shadow(0 28px 48px rgba(0,0,0,0.22))',
             pointerEvents: 'none',
@@ -127,7 +148,8 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
           draggable={false}
         />
 
-        {!isLoaded && (
+        {/* Shimmer skeleton */}
+        {(!isLoaded || (packagingPhoto && !packagingPhotoLoaded && displayImage === packagingPhoto)) && (
           <div
             className="absolute inset-0"
             style={{
@@ -140,9 +162,9 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
         )}
       </div>
 
-      {/* Packaging front layer (in front of bottle) */}
-      {showPackaging && (
-        <PackagingOverlay packagingId={packaging!.id} layer="front" visible={showPackaging} />
+      {/* Packaging front layer (SVG) — only when no real photo available */}
+      {showPackaging && !packagingPhoto && (
+        <PackagingOverlay packagingId={packaging!.id} layer="front" visible={true} />
       )}
 
       <style>{`
