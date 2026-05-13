@@ -237,12 +237,13 @@ export default function AuthPage() {
 
                 {mode === 'register' && (
                   <div>
-                    <label style={labelStyle}>{t('auth_field_phone')}</label>
+                    <label style={labelStyle}>{t('auth_field_phone')} <span style={{ color: '#d4af37' }}>*</span></label>
                     <input
                       type="tel"
                       value={form.phone}
                       onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                       placeholder="+216 XX XXX XXX"
+                      required
                       style={inputBase}
                       onFocus={(e) => (e.target.style.borderColor = '#d4af37')}
                       onBlur={(e) => (e.target.style.borderColor = '#e8e8e4')}

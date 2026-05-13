@@ -11,8 +11,8 @@ const router = express.Router();
 router.post('/register', authLimiter, validateAuth, async (req, res) => {
   try {
     const { name, email, password, phone, country } = req.body;
-    if (!name || !email || !password)
-      return res.status(400).json({ message: 'Nom, email et mot de passe requis' });
+    if (!name || !email || !password || !phone)
+      return res.status(400).json({ message: 'Nom, email, téléphone et mot de passe requis' });
     if (await User.findOne({ email }))
       return res.status(400).json({ message: 'Email déjà utilisé' });
     const user = await User.create({ name, email, password, phone, country });
