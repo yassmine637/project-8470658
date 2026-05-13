@@ -2,58 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Phone input international (react-phone-number-input) ──── */
-.fendri-phone-input {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1.5px solid #e8e8e4;
-  background: #fafaf8;
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  color: #1a2617;
-  box-sizing: border-box;
-  transition: border-color 0.2s;
-  gap: 8px;
-}
-.fendri-phone-input:focus-within {
-  border-color: #d4af37;
-  outline: none;
-}
-.fendri-phone-input .PhoneInputCountry {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-}
-.fendri-phone-input .PhoneInputCountrySelect {
-  appearance: none;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  color: #1a2617;
-  cursor: pointer;
-  padding: 0;
-  width: 28px;
-}
-.fendri-phone-input .PhoneInputInput {
-  flex: 1;
-  border: none;
-  background: transparent;
-  outline: none;
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  color: #1a2617;
-  min-width: 0;
-}
-.fendri-phone-input .PhoneInputInput::placeholder {
-  color: #b0b7ae;
-}
-
 /* ─── Hide number input spinners ────────────────────────────── */
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {

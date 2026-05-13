@@ -4,8 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/api/auth';
 import { Eye, EyeOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
+import PhoneField from '@/components/base/PhoneField';
 
 type Mode = 'login' | 'register' | 'forgot' | 'reset';
 
@@ -46,8 +45,8 @@ export default function AuthPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (mode === 'register' && form.phone && !isValidPhoneNumber(form.phone)) {
-      setError('Numéro de téléphone invalide. Veuillez inclure l\'indicatif pays.');
+    if (mode === 'register' && !form.phone) {
+      setError('Veuillez saisir un numéro de téléphone.');
       return;
     }
     setLoading(true);
@@ -244,13 +243,10 @@ export default function AuthPage() {
                 {mode === 'register' && (
                   <div>
                     <label style={labelStyle}>{t('auth_field_phone')} <span style={{ color: '#d4af37' }}>*</span></label>
-                    <PhoneInput
-                      international
-                      defaultCountry="TN"
+                    <PhoneField
                       value={form.phone}
-                      onChange={(value) => setForm((f) => ({ ...f, phone: value ?? '' }))}
-                      style={{ '--PhoneInput-color--focus': '#d4af37' } as React.CSSProperties}
-                      className="fendri-phone-input"
+                      onChange={(value) => setForm((f) => ({ ...f, phone: value }))}
+                      required
                     />
                   </div>
                 )}
