@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import type { BottleModel, LabelStyle } from '@/mocks/configurator';
+import type { BottleModel, LabelStyle, PackagingOption } from '@/mocks/configurator';
 import { COMBO_IMAGES, getComboImageKey } from '@/mocks/configurator';
+import PackagingOverlay from './PackagingOverlay';
 
 const loadedImageCache = new Set<string>();
 const cylindrique500SizeStepOverride = '/images/configurateur/cylindrique-500ml-etape.png';
@@ -19,6 +20,7 @@ interface BottleViewerProps {
   sizeId?: string;
   sizeChosen?: boolean;
   currentStep?: number;
+  packaging?: PackagingOption | null;
 }
 
 const SIZE_SCALE: Record<string, number> = {
@@ -28,7 +30,7 @@ const SIZE_SCALE: Record<string, number> = {
   '1 L': 0.95,
 };
 
-export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChosen = false, currentStep = 0 }: BottleViewerProps) {
+export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChosen = false, currentStep = 0, packaging }: BottleViewerProps) {
   const comboKey = sizeId && labelStyle ? getComboImageKey(model.id, sizeId, labelStyle.id) : '';
   const comboImage = comboKey && currentStep >= 2 ? COMBO_IMAGES[comboKey] : undefined;
   const sizeStepOverride = currentStep === 1 && sizeChosen && model.id === 'cylindrique-500'
@@ -69,6 +71,8 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
     }
   }, [model.id, prevModelId]);
 
+  const showPackaging = !!packaging && packaging.id !== 'none' && currentStep >= 4;
+
   return (
     <div className="relative w-full h-full flex items-center justify-center select-none">
       {/* Floor glow */}
@@ -81,12 +85,19 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
           width: '180px',
           height: '24px',
           borderRadius: '50%',
-          background: `radial-gradient(ellipse, ${labelStyle?.accentColor ?? '#c9a84c'}33 0%, transparent 70%)`,
+          background: showPackaging
+            ? `radial-gradient(ellipse, ${packaging!.accentColor}44 0%, transparent 70%)`
+            : `radial-gradient(ellipse, ${labelStyle?.accentColor ?? '#c9a84c'}33 0%, transparent 70%)`,
           filter: 'blur(16px)',
           transition: 'background 0.5s ease',
           pointerEvents: 'none',
         }}
       />
+
+      {/* Packaging back layer (behind bottle) */}
+      {showPackaging && (
+        <PackagingOverlay packagingId={packaging!.id} layer="back" visible={showPackaging} />
+      )}
 
       {/* Bottle container */}
       <div
@@ -96,6 +107,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
           position: 'relative',
           width: `${sizeScale * 100}%`,
           height: `${sizeScale * 100}%`,
+          zIndex: 1,
         }}
       >
         <img
@@ -106,7 +118,9 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 0.45s ease',
-            filter: 'drop-shadow(0 28px 48px rgba(0,0,0,0.22))',
+            filter: showPackaging
+              ? 'drop-shadow(0 18px 32px rgba(0,0,0,0.35))'
+              : 'drop-shadow(0 28px 48px rgba(0,0,0,0.22))',
             pointerEvents: 'none',
             display: 'block',
           }}
@@ -125,6 +139,11 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
           />
         )}
       </div>
+
+      {/* Packaging front layer (in front of bottle) */}
+      {showPackaging && (
+        <PackagingOverlay packagingId={packaging!.id} layer="front" visible={showPackaging} />
+      )}
 
       <style>{`
         @keyframes shimmer {

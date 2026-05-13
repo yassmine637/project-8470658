@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { BottleModel, BottleSize, LabelStyle } from '@/mocks/configurator';
+import type { BottleModel, BottleSize, LabelStyle, PackagingOption } from '@/mocks/configurator';
 
 const VOLUME_TIERS = [
   { min: 1,   max: 9,    rate: 0,    label: '< 10' },
@@ -20,6 +20,7 @@ interface ConfigSummaryProps {
   model: BottleModel;
   size: BottleSize;
   label: LabelStyle | null;
+  packaging: PackagingOption | null;
   customText: string;
   totalPrice: number;
   quantity?: number;
@@ -30,7 +31,7 @@ interface ConfigSummaryProps {
   onEstimation?: () => void;
 }
 
-export default function ConfigSummary({ model, size, label, customText, totalPrice, quantity = 1, onQuantityChange, formatPrice: externalFormatPrice, currencySymbol: externalSymbol, onOrder, onEstimation }: ConfigSummaryProps) {
+export default function ConfigSummary({ model, size, label, packaging, customText, totalPrice, quantity = 1, onQuantityChange, formatPrice: externalFormatPrice, currencySymbol: externalSymbol, onOrder, onEstimation }: ConfigSummaryProps) {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
   const [inputVal, setInputVal] = useState(String(quantity));
@@ -56,6 +57,7 @@ export default function ConfigSummary({ model, size, label, customText, totalPri
     { label: size.label, sub: t('config_step_size'), price: size.priceAdd, included: size.priceAdd === 0 },
     ...(label ? [{ label: t(label.nameKey), sub: t('config_step_label'), price: label.priceAdd, included: label.priceAdd === 0 }] : [{ label: t('config_no_label'), sub: t('config_step_label'), price: 0, included: true }]),
     ...(customText ? [{ label: `"${customText}"`, sub: t('config_personalization'), price: 0, included: true }] : []),
+    ...(packaging && packaging.id !== 'none' ? [{ label: t(packaging.nameKey), sub: t('config_step_packaging'), price: packaging.priceAdd, included: false }] : [{ label: t('config_packaging_none_name'), sub: t('config_step_packaging'), price: 0, included: true }]),
   ];
 
   return (

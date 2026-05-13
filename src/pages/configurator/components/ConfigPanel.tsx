@@ -1,34 +1,37 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { BottleModel, BottleSize, LabelStyle } from '@/mocks/configurator';
+import type { BottleModel, BottleSize, LabelStyle, PackagingOption } from '@/mocks/configurator';
 
 interface ConfigPanelProps {
   step: number;
   models: BottleModel[];
   sizes: BottleSize[];
   labels: LabelStyle[];
+  packagings: PackagingOption[];
   selectedModel: BottleModel;
   modelChosen?: boolean;
   selectedSize: BottleSize;
   sizeChosen?: boolean;
   selectedLabel: LabelStyle | null;
+  selectedPackaging: PackagingOption;
   customText: string;
   formatPrice?: (amount: number) => string;
   currencySymbol?: string;
   onModelChange: (m: BottleModel) => void;
   onSizeChange: (s: BottleSize) => void;
   onLabelChange: (l: LabelStyle) => void;
+  onPackagingChange: (p: PackagingOption) => void;
   onCustomTextChange: (t: string) => void;
   onValidate?: () => void;
 }
 
 export default function ConfigPanel({
   step,
-  models, sizes, labels,
-  selectedModel, modelChosen = true, selectedSize, sizeChosen = true, selectedLabel, customText,
+  models, sizes, labels, packagings,
+  selectedModel, modelChosen = true, selectedSize, sizeChosen = true, selectedLabel, selectedPackaging, customText,
   formatPrice: externalFormatPrice,
   currencySymbol: externalSymbol,
-  onModelChange, onSizeChange, onLabelChange, onCustomTextChange,
+  onModelChange, onSizeChange, onLabelChange, onPackagingChange, onCustomTextChange,
   onValidate,
 }: ConfigPanelProps) {
   const { t, i18n } = useTranslation();
@@ -384,8 +387,172 @@ export default function ConfigPanel({
         </div>
       )}
 
-      {/* ── STEP 3 — Custom text ── */}
+      {/* ── STEP 3 — Packaging ── */}
       {step === 3 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {packagings.map(p => {
+            const isSelected = selectedPackaging.id === p.id;
+            const isNone = p.id === 'none';
+            return (
+              <button
+                key={p.id}
+                onClick={() => onPackagingChange(p)}
+                className="cursor-pointer text-left w-full"
+                style={{
+                  padding: '16px 18px',
+                  borderRadius: '10px',
+                  border: isSelected
+                    ? `1px solid ${isNone ? 'rgba(255,255,255,0.22)' : p.accentColor + '88'}`
+                    : '1px solid rgba(255,255,255,0.05)',
+                  background: isSelected
+                    ? (isNone ? 'rgba(255,255,255,0.04)' : `${p.accentColor}10`)
+                    : 'rgba(255,255,255,0.02)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  transition: 'all 0.22s ease',
+                  position: 'relative',
+                  width: '100%',
+                  boxSizing: 'border-box',
+                }}
+                onMouseEnter={e => {
+                  if (!isSelected) {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = `${p.accentColor}44`;
+                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)';
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isSelected) {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.05)';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.02)';
+                  }
+                }}
+              >
+                {/* Packaging mini-preview */}
+                <div
+                  style={{
+                    width: '72px',
+                    height: '96px',
+                    borderRadius: '7px',
+                    flexShrink: 0,
+                    background: isNone ? 'rgba(255,255,255,0.04)' : `${p.bgHint}18`,
+                    border: isSelected
+                      ? `1px solid ${isNone ? 'rgba(255,255,255,0.18)' : p.accentColor + '66'}`
+                      : '1px solid rgba(255,255,255,0.06)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.22s',
+                    overflow: 'hidden',
+                    position: 'relative',
+                  }}
+                >
+                  {isNone ? (
+                    <svg viewBox="0 0 60 90" fill="none" style={{ width: '38px', height: '58px', opacity: 0.35 }}>
+                      <rect x="18" y="2" width="24" height="82" rx="5" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="none" strokeDasharray="4 2" />
+                    </svg>
+                  ) : p.id === 'sac-cadeau' ? (
+                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
+                      <rect x="8" y="18" width="44" height="58" rx="2" fill="#F5E6C8" opacity="0.9" />
+                      <path d="M22 18 Q22 6 30 6 Q38 6 38 18" stroke="#8B6233" strokeWidth="3" fill="none" strokeLinecap="round" />
+                      <path d="M8 22 Q22 14 30 18 Q38 14 52 22" fill="rgba(255,255,255,0.6)" />
+                      <text x="30" y="54" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#8B6233" letterSpacing="1" opacity="0.75">FENDRI</text>
+                    </svg>
+                  ) : p.id === 'coffret-kraft' ? (
+                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
+                      <rect x="6" y="20" width="46" height="56" rx="2" fill="#C4873E" opacity="0.9" />
+                      <path d="M6 20 Q30 8 54 20" fill="#D49A50" stroke="#A06830" strokeWidth="0.8" />
+                      <path d="M6 30 Q30 18 54 30" fill="#D4A55A" opacity="0.6" />
+                      {[35, 45, 55, 65].map(y => <line key={y} x1="6" y1={y} x2="52" y2={y} stroke="#8B5E22" strokeWidth="0.7" opacity="0.4" />)}
+                      <text x="30" y="55" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#5C3210" letterSpacing="1" opacity="0.85">FENDRI</text>
+                    </svg>
+                  ) : p.id === 'coffret-prestige' ? (
+                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
+                      <rect x="6" y="16" width="48" height="62" rx="2" fill="#0D0D1A" opacity="0.95" />
+                      <rect x="6" y="16" width="48" height="62" rx="2" fill="none" stroke="#C9A84C" strokeWidth="1" />
+                      <rect x="27" y="0" width="6" height="78" fill="#C9A84C" opacity="0.18" />
+                      <path d="M30 4 Q24 0 22 8 Q20 16 30 16 Q40 16 38 8 Q36 0 30 4 Z" fill="#C9A84C" opacity="0.85" />
+                      <circle cx="30" cy="10" r="3" fill="#d4af37" />
+                      <text x="30" y="54" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#d4af37" letterSpacing="1.5" opacity="0.9">FENDRI</text>
+                    </svg>
+                  ) : p.id === 'coffret-bois' ? (
+                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
+                      <rect x="6" y="16" width="48" height="62" rx="1" fill="#A8714A" opacity="0.9" />
+                      {[28, 38, 48, 58, 68].map(y => <line key={y} x1="6" y1={y} x2="54" y2={y} stroke="#5C3218" strokeWidth="0.9" opacity="0.5" />)}
+                      <rect x="4" y="14" width="6" height="8" rx="1" fill="#3A2010" opacity="0.8" />
+                      <rect x="50" y="14" width="6" height="8" rx="1" fill="#3A2010" opacity="0.8" />
+                      <rect x="4" y="68" width="6" height="8" rx="1" fill="#3A2010" opacity="0.8" />
+                      <rect x="50" y="68" width="6" height="8" rx="1" fill="#3A2010" opacity="0.8" />
+                      <text x="30" y="52" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#3A1C08" letterSpacing="1.5" opacity="0.9">FENDRI</text>
+                    </svg>
+                  ) : null}
+                </div>
+
+                {/* Text info */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      color: isSelected ? (isNone ? 'rgba(255,255,255,0.7)' : p.accentColor) : 'rgba(255,255,255,0.8)',
+                      transition: 'color 0.2s',
+                      marginBottom: '4px',
+                    }}
+                  >
+                    {t(p.nameKey)}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: '0.78rem',
+                      color: 'rgba(255,255,255,0.35)',
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {t(p.descriptionKey)}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: '8px',
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: '0.72rem',
+                      color: p.priceAdd > 0 ? 'rgba(212,175,55,0.75)' : 'rgba(255,255,255,0.25)',
+                      background: p.priceAdd > 0 ? 'rgba(212,175,55,0.08)' : 'rgba(255,255,255,0.04)',
+                      borderRadius: '4px',
+                      padding: '2px 8px',
+                      display: 'inline-block',
+                    }}
+                  >
+                    {p.priceAdd > 0 ? `+${formatPrice(p.priceAdd)}` : t('config_included_label')}
+                  </div>
+                </div>
+
+                {/* Check badge */}
+                {isSelected && (
+                  <div
+                    style={{
+                      width: '18px',
+                      height: '18px',
+                      borderRadius: '50%',
+                      background: isNone ? 'rgba(255,255,255,0.2)' : p.accentColor,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <i className="ri-check-line" style={{ fontSize: '9px', color: '#1a1a0e' }} />
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ── STEP 4 — Custom text ── */}
+      {step === 4 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           <div>
             <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.22em', color: 'rgba(212,175,55,0.6)', textTransform: 'uppercase', display: 'block', marginBottom: '22px' }}>

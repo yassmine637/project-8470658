@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { bottleModels, bottleSizes, labelStyles } from '@/mocks/configurator';
-import type { BottleModel, BottleSize, LabelStyle } from '@/mocks/configurator';
+import { bottleModels, bottleSizes, labelStyles, packagingOptions } from '@/mocks/configurator';
+import type { BottleModel, BottleSize, LabelStyle, PackagingOption } from '@/mocks/configurator';
 import BottleViewer from './components/BottleViewer';
 import ConfigPanel from './components/ConfigPanel';
 import ConfigSummary from './components/ConfigSummary';
@@ -23,6 +23,7 @@ export default function ConfiguratorPage() {
   const [selectedSize, setSelectedSize] = useState<BottleSize>(bottleSizes[0]);
   const [sizeChosen, setSizeChosen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState<LabelStyle | null>(null);
+  const [selectedPackaging, setSelectedPackaging] = useState<PackagingOption>(packagingOptions[0]);
   const [customText, setCustomText] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
@@ -47,6 +48,7 @@ export default function ConfiguratorPage() {
     { id: 'model', label: t('config_step_model'), icon: 'ri-flask-line', desc: t('config_step_desc_model') },
     { id: 'size', label: t('config_step_size'), icon: 'ri-scales-line', desc: t('config_step_desc_size') },
     { id: 'label', label: t('config_step_label'), icon: 'ri-palette-line', desc: t('config_step_desc_label') },
+    { id: 'packaging', label: t('config_step_packaging'), icon: 'ri-gift-line', desc: t('config_step_desc_packaging') },
     { id: 'text', label: t('config_step_text'), icon: 'ri-quill-pen-line', desc: t('config_step_desc_text') },
     { id: 'summary', label: t('config_step_summary'), icon: 'ri-file-list-3-line', desc: t('config_step_desc_summary') },
   ];
@@ -58,7 +60,7 @@ export default function ConfiguratorPage() {
     });
   }, []);
 
-  const totalPrice = selectedModel.basePrice + selectedSize.priceAdd + (selectedLabel?.priceAdd ?? 0);
+  const totalPrice = selectedModel.basePrice + selectedSize.priceAdd + (selectedLabel?.priceAdd ?? 0) + (selectedPackaging?.priceAdd ?? 0);
   const handleNext = () => { if (currentStep < STEPS.length - 1) setCurrentStep(s => s + 1); };
   const handlePrev = () => { if (currentStep > 0) setCurrentStep(s => s - 1); };
   const isSummaryStep = currentStep === STEPS.length - 1;
@@ -309,11 +311,13 @@ export default function ConfiguratorPage() {
                 models={bottleModels}
                 sizes={bottleSizes}
                 labels={labelStyles}
+                packagings={packagingOptions}
                 selectedModel={selectedModel}
                 modelChosen={modelChosen}
                 selectedSize={selectedSize}
                 sizeChosen={sizeChosen}
                 selectedLabel={selectedLabel}
+                selectedPackaging={selectedPackaging}
                 customText={customText}
                 formatPrice={fmtCurrency}
                 currencySymbol={configCurrencySymbol}
@@ -328,6 +332,7 @@ export default function ConfiguratorPage() {
                 }}
                 onSizeChange={s => { setSelectedSize(s); setSizeChosen(true); }}
                 onLabelChange={l => setSelectedLabel(l)}
+                onPackagingChange={p => setSelectedPackaging(p)}
                 onCustomTextChange={txt => setCustomText(txt)}
                 onValidate={handleNext}
               />
@@ -386,6 +391,7 @@ export default function ConfiguratorPage() {
                 sizeId={selectedSize.id}
                 sizeChosen={sizeChosen}
                 currentStep={currentStep}
+                packaging={selectedPackaging}
               />
             )}
           </div>
@@ -438,6 +444,7 @@ export default function ConfiguratorPage() {
               model={selectedModel}
               size={selectedSize}
               label={selectedLabel}
+              packaging={selectedPackaging}
               customText={customText}
               totalPrice={totalPrice}
               quantity={quantity}

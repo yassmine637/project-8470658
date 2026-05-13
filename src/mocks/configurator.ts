@@ -292,6 +292,70 @@ export const bottleSizes: BottleSize[] = [
   { id: '3l', label: '3 L', volume: '3L', volumeKey: 'config_volume_3l', priceAdd: 48 },
 ];
 
+export interface PackagingOption {
+  id: string;
+  name: string;
+  nameKey: string;
+  description: string;
+  descriptionKey: string;
+  priceAdd: number;
+  accentColor: string;
+  bgHint: string;
+}
+
+export const packagingOptions: PackagingOption[] = [
+  {
+    id: 'none',
+    name: 'Sans emballage',
+    nameKey: 'config_packaging_none_name',
+    description: 'Bouteille seule, sans emballage cadeau',
+    descriptionKey: 'config_packaging_none_desc',
+    priceAdd: 0,
+    accentColor: 'rgba(255,255,255,0.25)',
+    bgHint: 'transparent',
+  },
+  {
+    id: 'sac-cadeau',
+    name: 'Sac Cadeau',
+    nameKey: 'config_packaging_sac_name',
+    description: 'Sac en papier recyclé avec ruban doré',
+    descriptionKey: 'config_packaging_sac_desc',
+    priceAdd: 5,
+    accentColor: '#C8A97E',
+    bgHint: '#F5E6C8',
+  },
+  {
+    id: 'coffret-kraft',
+    name: 'Coffret Kraft',
+    nameKey: 'config_packaging_kraft_name',
+    description: 'Boîte cartonnée naturelle recyclée',
+    descriptionKey: 'config_packaging_kraft_desc',
+    priceAdd: 8,
+    accentColor: '#B5813E',
+    bgHint: '#D4A55A',
+  },
+  {
+    id: 'coffret-prestige',
+    name: 'Coffret Prestige',
+    nameKey: 'config_packaging_prestige_name',
+    description: 'Boîte rigide, fermeture magnétique, intérieur velours',
+    descriptionKey: 'config_packaging_prestige_desc',
+    priceAdd: 24,
+    accentColor: '#d4af37',
+    bgHint: '#0e0e18',
+  },
+  {
+    id: 'coffret-bois',
+    name: 'Coffret Bois',
+    nameKey: 'config_packaging_bois_name',
+    description: 'Caisse en bois gravée, esprit artisanal',
+    descriptionKey: 'config_packaging_bois_desc',
+    priceAdd: 35,
+    accentColor: '#8B5E3C',
+    bgHint: '#A8714A',
+  },
+];
+
 export const labelStyles: LabelStyle[] = [
   {
     id: 'classique-ivoire',
