@@ -4,6 +4,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { authApi } from '@/api/auth';
 import { Eye, EyeOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 type Mode = 'login' | 'register' | 'forgot' | 'reset';
 
@@ -44,6 +46,10 @@ export default function AuthPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    if (mode === 'register' && form.phone && !isValidPhoneNumber(form.phone)) {
+      setError('Numéro de téléphone invalide. Veuillez inclure l\'indicatif pays.');
+      return;
+    }
     setLoading(true);
     try {
       if (mode === 'login') {
@@ -238,15 +244,13 @@ export default function AuthPage() {
                 {mode === 'register' && (
                   <div>
                     <label style={labelStyle}>{t('auth_field_phone')} <span style={{ color: '#d4af37' }}>*</span></label>
-                    <input
-                      type="tel"
+                    <PhoneInput
+                      international
+                      defaultCountry="TN"
                       value={form.phone}
-                      onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-                      placeholder="+216 XX XXX XXX"
-                      required
-                      style={inputBase}
-                      onFocus={(e) => (e.target.style.borderColor = '#d4af37')}
-                      onBlur={(e) => (e.target.style.borderColor = '#e8e8e4')}
+                      onChange={(value) => setForm((f) => ({ ...f, phone: value ?? '' }))}
+                      style={{ '--PhoneInput-color--focus': '#d4af37' } as React.CSSProperties}
+                      className="fendri-phone-input"
                     />
                   </div>
                 )}
