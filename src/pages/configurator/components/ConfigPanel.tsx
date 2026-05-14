@@ -451,39 +451,50 @@ export default function ConfigPanel({
                     <svg viewBox="0 0 60 90" fill="none" style={{ width: '38px', height: '58px', opacity: 0.35 }}>
                       <rect x="18" y="2" width="24" height="82" rx="5" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="none" strokeDasharray="4 2" />
                     </svg>
-                  ) : p.id === 'sac-cadeau' ? (
+                  ) : p.id === 'coffret-tiroir' ? (
                     <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
-                      <rect x="8" y="18" width="44" height="58" rx="2" fill="#F5E6C8" opacity="0.9" />
-                      <path d="M22 18 Q22 6 30 6 Q38 6 38 18" stroke="#8B6233" strokeWidth="3" fill="none" strokeLinecap="round" />
-                      <path d="M8 22 Q22 14 30 18 Q38 14 52 22" fill="rgba(255,255,255,0.6)" />
-                      <text x="30" y="54" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#8B6233" letterSpacing="1" opacity="0.75">FENDRI</text>
+                      {/* Outer shell */}
+                      <rect x="4" y="10" width="52" height="66" rx="2" fill="#2C3E30" opacity="0.95" />
+                      {/* Drawer body slightly offset */}
+                      <rect x="7" y="36" width="46" height="36" rx="1" fill="#3A5240" opacity="0.9" />
+                      {/* EVA foam hint inside drawer */}
+                      <rect x="10" y="39" width="40" height="30" rx="1" fill="#5B8060" opacity="0.35" />
+                      {[44, 50, 56, 62].map(y => <line key={y} x1="10" y1={y} x2="50" y2={y} stroke="#2C3E30" strokeWidth="0.5" opacity="0.5" />)}
+                      {/* Gold pull handle */}
+                      <rect x="22" y="48" width="16" height="3" rx="1.5" fill="#C9A84C" opacity="0.85" />
+                      {/* Top shell rim */}
+                      <rect x="4" y="10" width="52" height="6" rx="2 2 0 0" fill="#4A6850" opacity="0.8" />
+                      <text x="30" y="26" textAnchor="middle" fontFamily="serif" fontSize="5" fill="#7A9E7E" letterSpacing="1" opacity="0.7">FENDRI</text>
                     </svg>
-                  ) : p.id === 'coffret-kraft' ? (
-                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
-                      <rect x="6" y="20" width="46" height="56" rx="2" fill="#C4873E" opacity="0.9" />
-                      <path d="M6 20 Q30 8 54 20" fill="#D49A50" stroke="#A06830" strokeWidth="0.8" />
-                      <path d="M6 30 Q30 18 54 30" fill="#D4A55A" opacity="0.6" />
-                      {[35, 45, 55, 65].map(y => <line key={y} x1="6" y1={y} x2="52" y2={y} stroke="#8B5E22" strokeWidth="0.7" opacity="0.4" />)}
-                      <text x="30" y="55" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#5C3210" letterSpacing="1" opacity="0.85">FENDRI</text>
-                    </svg>
-                  ) : p.id === 'coffret-prestige' ? (
+                  ) : p.id === 'coffret-magnetique' ? (
                     <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
                       <rect x="6" y="16" width="48" height="62" rx="2" fill="#0D0D1A" opacity="0.95" />
                       <rect x="6" y="16" width="48" height="62" rx="2" fill="none" stroke="#C9A84C" strokeWidth="1" />
-                      <rect x="27" y="0" width="6" height="78" fill="#C9A84C" opacity="0.18" />
-                      <path d="M30 4 Q24 0 22 8 Q20 16 30 16 Q40 16 38 8 Q36 0 30 4 Z" fill="#C9A84C" opacity="0.85" />
-                      <circle cx="30" cy="10" r="3" fill="#d4af37" />
-                      <text x="30" y="54" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#d4af37" letterSpacing="1.5" opacity="0.9">FENDRI</text>
+                      {/* Magnetic clasp */}
+                      <rect x="21" y="44" width="18" height="4" rx="2" fill="#1E1E38" stroke="#C9A84C" strokeWidth="0.8" />
+                      <circle cx="27" cy="46" r="1.5" fill="#C9A84C" opacity="0.9" />
+                      <circle cx="33" cy="46" r="1.5" fill="#C9A84C" opacity="0.9" />
+                      {/* Gold border top line */}
+                      <line x1="6" y1="22" x2="54" y2="22" stroke="#C9A84C" strokeWidth="0.6" opacity="0.4" />
+                      <text x="30" y="34" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#d4af37" letterSpacing="1.5" opacity="0.9">FENDRI</text>
+                      <text x="30" y="66" textAnchor="middle" fontFamily="sans-serif" fontSize="4" fill="#C9A84C" letterSpacing="0.5" opacity="0.55">MAGNÉTIQUE</text>
                     </svg>
-                  ) : p.id === 'coffret-bois' ? (
+                  ) : p.id === 'tube-cylindrique' ? (
                     <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
-                      <rect x="6" y="16" width="48" height="62" rx="1" fill="#A8714A" opacity="0.9" />
-                      {[28, 38, 48, 58, 68].map(y => <line key={y} x1="6" y1={y} x2="54" y2={y} stroke="#5C3218" strokeWidth="0.9" opacity="0.5" />)}
-                      <rect x="4" y="14" width="6" height="8" rx="1" fill="#3A2010" opacity="0.8" />
-                      <rect x="50" y="14" width="6" height="8" rx="1" fill="#3A2010" opacity="0.8" />
-                      <rect x="4" y="68" width="6" height="8" rx="1" fill="#3A2010" opacity="0.8" />
-                      <rect x="50" y="68" width="6" height="8" rx="1" fill="#3A2010" opacity="0.8" />
-                      <text x="30" y="52" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#3A1C08" letterSpacing="1.5" opacity="0.9">FENDRI</text>
+                      {/* Tube body */}
+                      <rect x="14" y="6" width="32" height="70" rx="16" fill="#2E2618" opacity="0.95" />
+                      {/* Left shadow */}
+                      <rect x="14" y="6" width="10" height="70" rx="16 0 0 16" fill="rgba(0,0,0,0.3)" />
+                      {/* Right highlight */}
+                      <rect x="36" y="6" width="10" height="70" rx="0 16 16 0" fill="rgba(255,255,255,0.04)" />
+                      {/* Gold ring bands */}
+                      <ellipse cx="30" cy="44" rx="16" ry="3" fill="none" stroke="#C9A84C" strokeWidth="1.5" opacity="0.85" />
+                      <ellipse cx="30" cy="48" rx="16" ry="3" fill="none" stroke="#C9A84C" strokeWidth="0.6" opacity="0.4" />
+                      {/* Top cap */}
+                      <ellipse cx="30" cy="6" rx="16" ry="4" fill="#3A3020" stroke="#C9A84C" strokeWidth="0.8" />
+                      {/* Bottom cap */}
+                      <ellipse cx="30" cy="76" rx="16" ry="4" fill="#2E2618" stroke="#C9A84C" strokeWidth="0.8" />
+                      <text x="30" y="30" textAnchor="middle" fontFamily="serif" fontSize="5" fill="#C9A84C" letterSpacing="1" opacity="0.85">FENDRI</text>
                     </svg>
                   ) : null}
                 </div>

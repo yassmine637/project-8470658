@@ -315,44 +315,34 @@ export const packagingOptions: PackagingOption[] = [
     bgHint: 'transparent',
   },
   {
-    id: 'sac-cadeau',
-    name: 'Sac Cadeau',
-    nameKey: 'config_packaging_sac_name',
-    description: 'Sac en papier recyclé avec ruban doré',
-    descriptionKey: 'config_packaging_sac_desc',
-    priceAdd: 5,
-    accentColor: '#C8A97E',
-    bgHint: '#F5E6C8',
+    id: 'coffret-tiroir',
+    name: 'Coffret Tiroir EVA',
+    nameKey: 'config_packaging_tiroir_name',
+    description: 'Coffret tiroir rigide avec insert mousse EVA',
+    descriptionKey: 'config_packaging_tiroir_desc',
+    priceAdd: 18,
+    accentColor: '#7A9E7E',
+    bgHint: '#2C3E30',
   },
   {
-    id: 'coffret-kraft',
-    name: 'Coffret Kraft',
-    nameKey: 'config_packaging_kraft_name',
-    description: 'Boîte cartonnée naturelle recyclée',
-    descriptionKey: 'config_packaging_kraft_desc',
-    priceAdd: 8,
-    accentColor: '#B5813E',
-    bgHint: '#D4A55A',
-  },
-  {
-    id: 'coffret-prestige',
-    name: 'Coffret Prestige',
-    nameKey: 'config_packaging_prestige_name',
-    description: 'Boîte rigide, fermeture magnétique, intérieur velours',
-    descriptionKey: 'config_packaging_prestige_desc',
+    id: 'coffret-magnetique',
+    name: 'Coffret Magnétique',
+    nameKey: 'config_packaging_magnetique_name',
+    description: 'Coffret rigide à fermeture magnétique',
+    descriptionKey: 'config_packaging_magnetique_desc',
     priceAdd: 24,
     accentColor: '#d4af37',
     bgHint: '#0e0e18',
   },
   {
-    id: 'coffret-bois',
-    name: 'Coffret Bois',
-    nameKey: 'config_packaging_bois_name',
-    description: 'Caisse en bois gravée, esprit artisanal',
-    descriptionKey: 'config_packaging_bois_desc',
-    priceAdd: 35,
-    accentColor: '#8B5E3C',
-    bgHint: '#A8714A',
+    id: 'tube-cylindrique',
+    name: 'Tube Cylindrique Premium',
+    nameKey: 'config_packaging_tube_name',
+    description: 'Tube cylindrique rigide premium',
+    descriptionKey: 'config_packaging_tube_desc',
+    priceAdd: 22,
+    accentColor: '#C0A882',
+    bgHint: '#1A1410',
   },
 ];
 
@@ -364,33 +354,26 @@ export const packagingOptions: PackagingOption[] = [
 //   Fichier : public/images/emballages/{packagingId}/{modelId}-{sizeId}.png
 //
 // Exemples de clés :
-//   "sac-cadeau__cylindrique-500__500ml"
-//   "coffret-kraft__carree-750__750ml"
-//   "coffret-prestige__cylindrique-500__1l"
-//   "coffret-bois__bidon-vert-1l__1l"
+//   "coffret-tiroir__cylindrique-500__500ml"
+//   "coffret-magnetique__carree-750__750ml"
+//   "tube-cylindrique__cylindrique-500__1l"
 //
 // Pour ajouter une image :
 //   1. Dépose le fichier dans public/images/emballages/{packagingId}/
-//   2. Ajoute la ligne ci-dessous : 'sac-cadeau__cylindrique-500__500ml': '/images/emballages/sac-cadeau/cylindrique-500-500ml.png',
+//   2. Ajoute la ligne ci-dessous : 'coffret-tiroir__cylindrique-500__500ml': '/images/emballages/coffret-tiroir/cylindrique-500-500ml.png',
 // ============================================================
 export const PACKAGING_IMAGES: Record<string, string> = {
-  // Sac Cadeau
-  // 'sac-cadeau__cylindrique-500__500ml': '/images/emballages/sac-cadeau/cylindrique-500-500ml.png',
-  // 'sac-cadeau__cylindrique-500__750ml': '/images/emballages/sac-cadeau/cylindrique-500-750ml.png',
-  // 'sac-cadeau__cylindrique-500__1l':    '/images/emballages/sac-cadeau/cylindrique-500-1l.png',
-  // 'sac-cadeau__carree-750__750ml':      '/images/emballages/sac-cadeau/carree-750-750ml.png',
+  // Coffret Tiroir EVA
+  // 'coffret-tiroir__cylindrique-500__500ml': '/images/emballages/coffret-tiroir/cylindrique-500-500ml.png',
+  // 'coffret-tiroir__carree-750__750ml':      '/images/emballages/coffret-tiroir/carree-750-750ml.png',
 
-  // Coffret Kraft
-  // 'coffret-kraft__cylindrique-500__500ml': '/images/emballages/coffret-kraft/cylindrique-500-500ml.png',
-  // 'coffret-kraft__carree-750__750ml':      '/images/emballages/coffret-kraft/carree-750-750ml.png',
+  // Coffret Magnétique
+  // 'coffret-magnetique__cylindrique-500__500ml': '/images/emballages/coffret-magnetique/cylindrique-500-500ml.png',
+  // 'coffret-magnetique__carree-750__750ml':      '/images/emballages/coffret-magnetique/carree-750-750ml.png',
 
-  // Coffret Prestige
-  // 'coffret-prestige__cylindrique-500__500ml': '/images/emballages/coffret-prestige/cylindrique-500-500ml.png',
-  // 'coffret-prestige__carree-750__750ml':      '/images/emballages/coffret-prestige/carree-750-750ml.png',
-
-  // Coffret Bois
-  // 'coffret-bois__cylindrique-500__500ml': '/images/emballages/coffret-bois/cylindrique-500-500ml.png',
-  // 'coffret-bois__bidon-vert-1l__1l':      '/images/emballages/coffret-bois/bidon-vert-1l-1l.png',
+  // Tube Cylindrique Premium
+  // 'tube-cylindrique__cylindrique-500__500ml': '/images/emballages/tube-cylindrique/cylindrique-500-500ml.png',
+  // 'tube-cylindrique__cylindrique-500__750ml': '/images/emballages/tube-cylindrique/cylindrique-500-750ml.png',
 };
 
 export function getPackagingImageKey(packagingId: string, modelId: string, sizeId: string): string {
