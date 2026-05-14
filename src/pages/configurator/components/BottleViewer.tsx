@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { BottleModel, LabelStyle, PackagingOption } from '@/mocks/configurator';
 import { COMBO_IMAGES, getComboImageKey, PACKAGING_IMAGES, getPackagingImageKey } from '@/mocks/configurator';
-import PackagingOverlay from './PackagingOverlay';
 
 const loadedImageCache = new Set<string>();
 const cylindrique500SizeStepOverride = '/images/configurateur/cylindrique-500ml-etape.png';
@@ -110,11 +109,6 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
         }}
       />
 
-      {/* Packaging back layer (SVG) — only when no real photo available */}
-      {showPackaging && !packagingPhoto && (
-        <PackagingOverlay packagingId={packaging!.id} layer="back" visible={true} />
-      )}
-
       {/* Bottle container */}
       <div
         style={{
@@ -161,11 +155,6 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
           />
         )}
       </div>
-
-      {/* Packaging front layer (SVG) — only when no real photo available */}
-      {showPackaging && !packagingPhoto && (
-        <PackagingOverlay packagingId={packaging!.id} layer="front" visible={true} />
-      )}
 
       <style>{`
         @keyframes shimmer {
