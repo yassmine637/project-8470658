@@ -393,6 +393,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-tiroir__cylindrique-500__500ml__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-recolte-limitee.png',
   'coffret-tiroir__cylindrique-500__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-recolte-limitee.png',
   'coffret-tiroir__cylindrique-500__1l__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-1l-recolte-limitee.png',
+  'coffret-tiroir__cylindrique-500__500ml__heritage': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-heritage.png',
   // 'coffret-tiroir__carree-750__750ml':      '/images/emballages/coffret-tiroir/carree-750-750ml.png',
 
   // Coffret Magnétique
