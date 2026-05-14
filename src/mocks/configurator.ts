@@ -409,6 +409,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'caisse-bois-premium__bidon-vert-1l__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-classique-ivoire.png',
   'caisse-bois-premium__bidon-vert-1l__3l__bio-moderne': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-bio-moderne.png',
   'caisse-bois-premium__bidon-vert-1l__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-recolte-limitee.png',
+  'caisse-bois-premium__bidon-vert-1l__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-luxe-noir-or.png',
 };
 
 export function getPackagingImageKey(packagingId: string, modelId: string, sizeId: string, labelId?: string): string {
