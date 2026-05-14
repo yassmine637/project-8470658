@@ -385,6 +385,7 @@ export function getPackagingsBySize(sizeId: string): PackagingOption[] {
 export const PACKAGING_IMAGES: Record<string, string> = {
   // Coffret Tiroir EVA
   'coffret-tiroir__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-classique-ivoire.png',
+  'coffret-tiroir__cylindrique-500__750ml__classique-ivoire': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-classique-ivoire.png',
   // 'coffret-tiroir__carree-750__750ml':      '/images/emballages/coffret-tiroir/carree-750-750ml.png',
 
   // Coffret Magnétique
