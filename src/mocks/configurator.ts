@@ -396,10 +396,12 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   // 'tube-cylindrique__cylindrique-500__750ml': '/images/emballages/tube-cylindrique/cylindrique-500-750ml.png',
 
   // Caisse Bois Premium
-  'caisse-bois-premium__cylindrique-500__3l': '/images/emballages/caisse-bois-premium/cylindrique-500-3l.png',
+  'caisse-bois-premium__cylindrique-500__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/cylindrique-500-3l.png',
+  'caisse-bois-premium__cylindrique-500__3l__bio-moderne': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-bio-moderne.png',
 };
 
-export function getPackagingImageKey(packagingId: string, modelId: string, sizeId: string): string {
+export function getPackagingImageKey(packagingId: string, modelId: string, sizeId: string, labelId?: string): string {
+  if (labelId) return `${packagingId}__${modelId}__${sizeId}__${labelId}`;
   return `${packagingId}__${modelId}__${sizeId}`;
 }
 

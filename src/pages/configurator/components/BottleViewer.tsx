@@ -73,10 +73,16 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
   const showPackaging = !!packaging && packaging.id !== 'none' && currentStep >= 3;
 
   // Real packaging photo (composite bottle + packaging) — priority over SVG overlay
+  // Try label-specific key first, then fall back to generic (no label) key
   const packagingPhotoKey = showPackaging && sizeId
+    ? getPackagingImageKey(packaging!.id, model.id, sizeId, labelStyle?.id)
+    : '';
+  const packagingPhotoKeyGeneric = showPackaging && sizeId
     ? getPackagingImageKey(packaging!.id, model.id, sizeId)
     : '';
-  const packagingPhoto = packagingPhotoKey ? PACKAGING_IMAGES[packagingPhotoKey] : undefined;
+  const packagingPhoto = packagingPhotoKey
+    ? (PACKAGING_IMAGES[packagingPhotoKey] ?? PACKAGING_IMAGES[packagingPhotoKeyGeneric])
+    : undefined;
 
   // Final image: packaging composite > normal bottle
   const displayImage = showPackaging && packagingPhoto ? packagingPhoto : bottleImage;
