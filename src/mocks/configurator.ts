@@ -400,6 +400,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'caisse-bois-premium__cylindrique-500__3l__bio-moderne': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-bio-moderne.png',
   'caisse-bois-premium__cylindrique-500__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-recolte-limitee.png',
   'caisse-bois-premium__cylindrique-500__3l__heritage': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-heritage.png',
+  'caisse-bois-premium__cylindrique-500__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-luxe-noir-or.png',
 };
 
 export function getPackagingImageKey(packagingId: string, modelId: string, sizeId: string, labelId?: string): string {
