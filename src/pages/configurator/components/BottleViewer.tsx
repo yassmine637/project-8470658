@@ -70,7 +70,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
     }
   }, [model.id, prevModelId]);
 
-  const showPackaging = !!packaging && packaging.id !== 'none' && currentStep >= 4;
+  const showPackaging = !!packaging && packaging.id !== 'none' && currentStep >= 3;
 
   // Real packaging photo (composite bottle + packaging) — priority over SVG overlay
   const packagingPhotoKey = showPackaging && sizeId

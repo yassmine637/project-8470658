@@ -394,6 +394,9 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   // Tube Cylindrique Premium
   // 'tube-cylindrique__cylindrique-500__500ml': '/images/emballages/tube-cylindrique/cylindrique-500-500ml.png',
   // 'tube-cylindrique__cylindrique-500__750ml': '/images/emballages/tube-cylindrique/cylindrique-500-750ml.png',
+
+  // Caisse Bois Premium
+  'caisse-bois-premium__cylindrique-500__3l': '/images/emballages/caisse-bois-premium/cylindrique-500-3l.png',
 };
 
 export function getPackagingImageKey(packagingId: string, modelId: string, sizeId: string): string {
