@@ -344,7 +344,27 @@ export const packagingOptions: PackagingOption[] = [
     accentColor: '#C0A882',
     bgHint: '#1A1410',
   },
+  {
+    id: 'caisse-bois-premium',
+    name: 'Caisse Bois Premium',
+    nameKey: 'config_packaging_caisse_bois_name',
+    description: 'Caisse bois premium renforcée pour format 3L',
+    descriptionKey: 'config_packaging_caisse_bois_desc',
+    priceAdd: 38,
+    accentColor: '#B07D4A',
+    bgHint: '#3A2410',
+  },
 ];
+
+/** Packagings disponibles selon le format sélectionné */
+export function getPackagingsBySize(sizeId: string): PackagingOption[] {
+  const none = packagingOptions.find(p => p.id === 'none')!;
+  if (sizeId === '3l') {
+    const bois = packagingOptions.find(p => p.id === 'caisse-bois-premium')!;
+    return [none, bois];
+  }
+  return packagingOptions.filter(p => p.id !== 'caisse-bois-premium');
+}
 
 // ============================================================
 // PACKAGING IMAGES — Bouteilles photographiées dans leur emballage

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { bottleModels, bottleSizes, labelStyles, packagingOptions } from '@/mocks/configurator';
+import { bottleModels, bottleSizes, labelStyles, packagingOptions, getPackagingsBySize } from '@/mocks/configurator';
 import type { BottleModel, BottleSize, LabelStyle, PackagingOption } from '@/mocks/configurator';
 import BottleViewer from './components/BottleViewer';
 import ConfigPanel from './components/ConfigPanel';
@@ -24,6 +24,7 @@ export default function ConfiguratorPage() {
   const [sizeChosen, setSizeChosen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState<LabelStyle | null>(null);
   const [selectedPackaging, setSelectedPackaging] = useState<PackagingOption>(packagingOptions[0]);
+  const availablePackagings = getPackagingsBySize(selectedSize.id);
   const [customText, setCustomText] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
@@ -311,7 +312,7 @@ export default function ConfiguratorPage() {
                 models={bottleModels}
                 sizes={bottleSizes}
                 labels={labelStyles}
-                packagings={packagingOptions}
+                packagings={availablePackagings}
                 selectedModel={selectedModel}
                 modelChosen={modelChosen}
                 selectedSize={selectedSize}
@@ -330,7 +331,14 @@ export default function ConfiguratorPage() {
                     if (ds) setSelectedSize(ds);
                   }
                 }}
-                onSizeChange={s => { setSelectedSize(s); setSizeChosen(true); }}
+                onSizeChange={s => {
+                  setSelectedSize(s);
+                  setSizeChosen(true);
+                  const compatible = getPackagingsBySize(s.id);
+                  if (!compatible.find(p => p.id === selectedPackaging.id)) {
+                    setSelectedPackaging(packagingOptions[0]);
+                  }
+                }}
                 onLabelChange={l => setSelectedLabel(l)}
                 onPackagingChange={p => setSelectedPackaging(p)}
                 onCustomTextChange={txt => setCustomText(txt)}

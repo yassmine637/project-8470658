@@ -257,5 +257,99 @@ export default function PackagingOverlay({ packagingId, layer, visible }: Packag
     );
   }
 
+  /* ── Caisse Bois Premium (3L) ── */
+  if (packagingId === 'caisse-bois-premium') {
+    if (layer === 'back') {
+      return (
+        <div style={style}>
+          <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+            <defs>
+              <linearGradient id="caisseBack" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#9C6430" />
+                <stop offset="100%" stopColor="#6B3E18" />
+              </linearGradient>
+              <linearGradient id="caisseSide" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#4A2810" />
+                <stop offset="100%" stopColor="#6B3E18" />
+              </linearGradient>
+            </defs>
+            {/* Crate back panel — wider and taller for 3L */}
+            <rect x="18" y="48" width="200" height="192" rx="2" fill="url(#caisseBack)" />
+            {/* Right side 3D panel */}
+            <path d="M218 48 L240 30 L240 218 L218 240 Z" fill="url(#caisseSide)" />
+            {/* Horizontal plank divisions */}
+            {[80, 108, 136, 164, 192, 218].map(y => (
+              <line key={y} x1="18" y1={y} x2="218" y2={y} stroke="#4A2810" strokeWidth="1.6" opacity="0.55" />
+            ))}
+            {/* Wood grain on back */}
+            {[40, 80, 120, 160, 200].map(x => (
+              <path key={x} d={`M${x} 48 Q${x + 10} 110 ${x + 5} 240`} stroke="#7A4C20" strokeWidth="0.5" opacity="0.2" />
+            ))}
+            {/* Corner metal brackets — all four corners */}
+            <rect x="14" y="44" width="12" height="18" rx="1" fill="#2A1408" opacity="0.9" />
+            <rect x="212" y="44" width="12" height="18" rx="1" fill="#2A1408" opacity="0.9" />
+            <rect x="14" y="226" width="12" height="16" rx="1" fill="#2A1408" opacity="0.9" />
+            <rect x="212" y="226" width="12" height="16" rx="1" fill="#2A1408" opacity="0.9" />
+            {/* Metal band reinforcement across middle */}
+            <rect x="18" y="128" width="200" height="6" fill="#1E1008" opacity="0.35" />
+            <line x1="18" y1="128" x2="218" y2="128" stroke="#C9A84C" strokeWidth="0.8" opacity="0.3" />
+            <line x1="18" y1="134" x2="218" y2="134" stroke="#C9A84C" strokeWidth="0.8" opacity="0.3" />
+          </svg>
+        </div>
+      );
+    }
+    return (
+      <div style={style}>
+        <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+          <defs>
+            <linearGradient id="caisseFront" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#A87040" />
+              <stop offset="100%" stopColor="#7A4C24" />
+            </linearGradient>
+            <linearGradient id="caisseGold" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#C9A84C" />
+              <stop offset="50%" stopColor="#F0D070" />
+              <stop offset="100%" stopColor="#C9A84C" />
+            </linearGradient>
+          </defs>
+          {/* Front face — covers lower portion of bottle */}
+          <rect x="18" y="148" width="200" height="92" rx="0 0 2 2" fill="url(#caisseFront)" />
+          {/* Plank lines on front */}
+          {[163, 182, 201, 220].map(y => (
+            <line key={y} x1="22" y1={y} x2="214" y2={y} stroke="#4A2810" strokeWidth="1.4" opacity="0.45" />
+          ))}
+          {/* Plank grain highlights */}
+          {[172, 191, 210].map(y => (
+            <line key={`h${y}`} x1="22" y1={y} x2="214" y2={y} stroke="#C48840" strokeWidth="0.5" opacity="0.15" />
+          ))}
+          {/* Corner brackets front */}
+          <rect x="14" y="144" width="12" height="18" rx="1" fill="#1C0E06" opacity="0.9" />
+          <rect x="212" y="144" width="12" height="18" rx="1" fill="#1C0E06" opacity="0.9" />
+          <rect x="14" y="226" width="12" height="16" rx="1" fill="#1C0E06" opacity="0.9" />
+          <rect x="212" y="226" width="12" height="16" rx="1" fill="#1C0E06" opacity="0.9" />
+          {/* Nail dots at brackets */}
+          {[[17,148],[223,148],[17,234],[223,234]].map(([x,y]) => (
+            <circle key={`${x}-${y}`} cx={x} cy={y} r="2.2" fill="#0E0804" opacity="0.75" />
+          ))}
+          {/* Metal reinforcement band */}
+          <rect x="18" y="148" width="200" height="5" fill="#1C0E06" opacity="0.4" />
+          <line x1="18" y1="149" x2="218" y2="149" stroke="url(#caisseGold)" strokeWidth="0.8" opacity="0.35" />
+          {/* Engraved label plate */}
+          <rect x="62" y="172" width="116" height="36" rx="2" fill="rgba(0,0,0,0.15)" />
+          <text x="120" y="186" textAnchor="middle"
+            fontFamily="'Cormorant Garant', Georgia, serif"
+            fontSize="10" fontWeight="700"
+            fill="#3E1E08" letterSpacing="4" opacity="0.9">FENDRI</text>
+          <line x1="76" y1="191" x2="164" y2="191" stroke="#5C3218" strokeWidth="0.7" opacity="0.55" />
+          <text x="120" y="201" textAnchor="middle"
+            fontFamily="'Outfit', sans-serif"
+            fontSize="5.5" fill="#5C3218" letterSpacing="1.5" opacity="0.55">HUILE D'OLIVE · 3L</text>
+          {/* Bottom crate edge */}
+          <rect x="18" y="234" width="200" height="5" rx="0 0 2 2" fill="#4A2810" opacity="0.7" />
+        </svg>
+      </div>
+    );
+  }
+
   return null;
 }

@@ -496,6 +496,29 @@ export default function ConfigPanel({
                       <ellipse cx="30" cy="76" rx="16" ry="4" fill="#2E2618" stroke="#C9A84C" strokeWidth="0.8" />
                       <text x="30" y="30" textAnchor="middle" fontFamily="serif" fontSize="5" fill="#C9A84C" letterSpacing="1" opacity="0.85">FENDRI</text>
                     </svg>
+                  ) : p.id === 'caisse-bois-premium' ? (
+                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
+                      {/* Crate body — wider for 3L */}
+                      <rect x="2" y="12" width="56" height="64" rx="1" fill="#9C6430" opacity="0.9" />
+                      {/* Plank lines */}
+                      {[22, 32, 42, 52, 62].map(y => <line key={y} x1="2" y1={y} x2="58" y2={y} stroke="#4A2810" strokeWidth="1.2" opacity="0.5" />)}
+                      {/* Plank grain */}
+                      {[14, 30, 46].map(y => <line key={`g${y}`} x1="2" y1={y} x2="58" y2={y} stroke="#C48840" strokeWidth="0.4" opacity="0.12" />)}
+                      {/* Metal reinforcement band */}
+                      <rect x="2" y="38" width="56" height="5" fill="#1C0E06" opacity="0.3" />
+                      <line x1="2" y1="38" x2="58" y2="38" stroke="#C9A84C" strokeWidth="0.7" opacity="0.4" />
+                      <line x1="2" y1="43" x2="58" y2="43" stroke="#C9A84C" strokeWidth="0.7" opacity="0.4" />
+                      {/* Corner brackets */}
+                      <rect x="0" y="10" width="7" height="10" rx="1" fill="#2A1408" opacity="0.85" />
+                      <rect x="53" y="10" width="7" height="10" rx="1" fill="#2A1408" opacity="0.85" />
+                      <rect x="0" y="68" width="7" height="10" rx="1" fill="#2A1408" opacity="0.85" />
+                      <rect x="53" y="68" width="7" height="10" rx="1" fill="#2A1408" opacity="0.85" />
+                      {/* Engraved label */}
+                      <rect x="12" y="50" width="36" height="16" rx="1" fill="rgba(0,0,0,0.15)" />
+                      <text x="30" y="60" textAnchor="middle" fontFamily="serif" fontSize="5.5" fill="#3E1E08" letterSpacing="1.5" opacity="0.9">FENDRI</text>
+                      <text x="30" y="63" textAnchor="middle" fontFamily="sans-serif" fontSize="3.5" fill="#5C3218" letterSpacing="0.5" opacity="0.5"> </text>
+                      <text x="30" y="63" textAnchor="middle" fontFamily="sans-serif" fontSize="3.5" fill="#5C3218" letterSpacing="0.5" opacity="0.55">3L</text>
+                    </svg>
                   ) : null}
                 </div>
 
