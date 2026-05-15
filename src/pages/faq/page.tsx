@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Header from '@/components/feature/Header';
+import Footer from '@/components/feature/Footer';
 
 const GOLD = '#c9a84c';
-const DARK = '#0f1409';
 const GREEN = '#1a2617';
 const CREAM = '#f7f5f0';
-const MUTED = '#6b7c68';
+const MUTED = '#7a8c77';
+const TEXT = '#2a3527';
 
 interface FaqItem {
   q: string;
@@ -15,7 +17,6 @@ interface FaqItem {
 
 interface FaqCategory {
   id: string;
-  icon: string;
   label: string;
   items: FaqItem[];
 }
@@ -23,7 +24,6 @@ interface FaqCategory {
 const FAQ_DATA: FaqCategory[] = [
   {
     id: 'produit',
-    icon: '🫒',
     label: 'Le Produit',
     items: [
       {
@@ -46,7 +46,6 @@ const FAQ_DATA: FaqCategory[] = [
   },
   {
     id: 'livraison',
-    icon: '📦',
     label: 'Livraison',
     items: [
       {
@@ -58,14 +57,13 @@ const FAQ_DATA: FaqCategory[] = [
         a: "Les commandes sont préparées sous 48 h ouvrables. La livraison en Tunisie prend ensuite 2 à 4 jours. Pour l'Europe, comptez 5 à 8 jours ouvrables. Pour les livraisons en dehors de ces zones, les délais varient selon la destination — vous en serez informé précisément lors du passage en caisse.",
       },
       {
-        q: "Puis-je modifier le cap d'une commande déjà validée ?",
+        q: "Puis-je modifier une commande déjà validée ?",
         a: "Toute commande peut être modifiée ou annulée dans les 2 heures suivant sa validation, avant que notre équipe ne commence sa préparation. Passé ce délai, si la commande n'est pas encore expédiée, contactez-nous rapidement à contact@domainefendri.com — nous faisons notre possible. Une fois le colis parti, nous ne pouvons plus intervenir sur son contenu ou sa destination.",
       },
     ],
   },
   {
     id: 'configurateur',
-    icon: '🎨',
     label: 'Configurateur',
     items: [
       {
@@ -84,7 +82,6 @@ const FAQ_DATA: FaqCategory[] = [
   },
   {
     id: 'paiement',
-    icon: '💳',
     label: 'Paiement',
     items: [
       {
@@ -103,7 +100,6 @@ const FAQ_DATA: FaqCategory[] = [
   },
   {
     id: 'retours',
-    icon: '↩️',
     label: 'Retours',
     items: [
       {
@@ -122,7 +118,6 @@ const FAQ_DATA: FaqCategory[] = [
   },
   {
     id: 'maison',
-    icon: '🏡',
     label: 'La Maison',
     items: [
       {
@@ -148,98 +143,85 @@ export default function FaqPage() {
   const isAr = i18n.language === 'ar';
 
   const category = FAQ_DATA.find((c) => c.id === activeCategory)!;
-
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
 
   return (
     <div style={{ background: CREAM, minHeight: '100vh', fontFamily: "'Outfit', sans-serif" }}>
+      <Header />
 
-      {/* ── Hero ── */}
-      <div
-        style={{
-          background: DARK,
-          paddingTop: '120px',
-          paddingBottom: '80px',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Ambient glow */}
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '600px', height: '300px',
-          background: `radial-gradient(ellipse, ${GOLD}0d 0%, transparent 70%)`,
-          pointerEvents: 'none',
-        }} />
-
-        <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 40px', textAlign: 'center', position: 'relative' }}>
+      {/* ── Page header ── */}
+      <div style={{
+        background: CREAM,
+        borderBottom: `1px solid rgba(26,38,23,0.08)`,
+        paddingTop: '100px',
+        paddingBottom: '40px',
+      }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 40px' }}>
           <Link
             to="/"
             style={{
-              fontFamily: "'Outfit', sans-serif",
               fontSize: '0.65rem',
-              letterSpacing: '0.3em',
-              color: GOLD,
+              letterSpacing: '0.2em',
+              color: MUTED,
               textDecoration: 'none',
               textTransform: 'uppercase',
-              opacity: 0.7,
-              display: 'inline-block',
-              marginBottom: '2rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              marginBottom: '28px',
             }}
           >
-            ← Retour à l'accueil
+            ← Accueil
           </Link>
 
-          <p style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(0.6rem, 1.5vw, 0.75rem)',
-            letterSpacing: '0.4em',
-            color: GOLD,
-            textTransform: 'uppercase',
-            marginBottom: '1rem',
-          }}>
-            Maison Fendri · Sfax, Tunisie · Fondée en 1911
-          </p>
-
-          <h1 style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-            color: '#ffffff',
-            fontWeight: 300,
-            lineHeight: 1.1,
-            marginBottom: '1.5rem',
-            letterSpacing: '-0.01em',
-          }}>
-            Questions &<br />
-            <em style={{ color: GOLD, fontStyle: 'italic' }}>Réponses</em>
-          </h1>
-
-          <div style={{ width: '48px', height: '1px', background: GOLD, margin: '0 auto 1.5rem' }} />
-
-          <p style={{
-            color: 'rgba(255,255,255,0.45)',
-            fontSize: '0.9rem',
-            lineHeight: 1.8,
-            maxWidth: '480px',
-            margin: '0 auto',
-            letterSpacing: '0.02em',
-          }}>
-            Ce que vous voulez savoir sur notre huile, notre domaine, et notre façon de travailler.
-          </p>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <p style={{
+                fontSize: '0.6rem',
+                letterSpacing: '0.3em',
+                color: GOLD,
+                textTransform: 'uppercase',
+                marginBottom: '10px',
+                fontWeight: 500,
+              }}>
+                Questions fréquentes
+              </p>
+              <h1 style={{
+                fontFamily: "'Cormorant Garant', serif",
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
+                color: GREEN,
+                fontWeight: 500,
+                margin: 0,
+                lineHeight: 1.15,
+                letterSpacing: '-0.01em',
+              }}>
+                Tout ce que vous voulez savoir
+              </h1>
+            </div>
+            <p style={{
+              fontSize: '0.82rem',
+              color: MUTED,
+              maxWidth: '260px',
+              lineHeight: 1.7,
+              margin: 0,
+              textAlign: isAr ? 'right' : 'left',
+            }}>
+              Sur notre huile, notre domaine,<br />et notre façon de travailler.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* ── Category tabs ── */}
+      {/* ── Category tabs — light background ── */}
       <div style={{
-        background: GREEN,
+        background: CREAM,
+        borderBottom: `1px solid rgba(26,38,23,0.08)`,
         position: 'sticky',
-        top: 0,
-        zIndex: 40,
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        top: 64,
+        zIndex: 30,
       }}>
         <div style={{
-          maxWidth: '1000px',
+          maxWidth: '960px',
           margin: '0 auto',
           padding: '0 40px',
           display: 'flex',
@@ -257,24 +239,20 @@ export default function FaqPage() {
                   background: 'none',
                   border: 'none',
                   borderBottom: active ? `2px solid ${GOLD}` : '2px solid transparent',
-                  padding: '18px 20px 16px',
+                  padding: '14px 18px 12px',
                   cursor: 'pointer',
-                  color: active ? GOLD : 'rgba(255,255,255,0.45)',
+                  color: active ? GREEN : MUTED,
                   fontFamily: "'Outfit', sans-serif",
-                  fontSize: '0.65rem',
-                  fontWeight: active ? 700 : 400,
-                  letterSpacing: '0.15em',
+                  fontSize: '0.7rem',
+                  fontWeight: active ? 600 : 400,
+                  letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                   whiteSpace: 'nowrap',
-                  transition: 'all 0.25s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '7px',
+                  transition: 'all 0.2s ease',
                 }}
-                onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.75)'; }}
-                onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.45)'; }}
+                onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = TEXT; }}
+                onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLButtonElement).style.color = MUTED; }}
               >
-                <span style={{ fontSize: '0.85rem' }}>{cat.icon}</span>
                 {cat.label}
               </button>
             );
@@ -282,39 +260,38 @@ export default function FaqPage() {
         </div>
       </div>
 
-      {/* ── FAQ Items ── */}
-      <div style={{ maxWidth: '820px', margin: '0 auto', padding: '64px 40px 120px' }}>
+      {/* ── FAQ content ── */}
+      <div style={{ maxWidth: '960px', margin: '0 auto', padding: '56px 40px 100px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '64px' }}>
 
-        {/* Category heading */}
-        <div style={{ marginBottom: '56px' }}>
-          <span style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(5rem, 12vw, 9rem)',
-            color: 'rgba(26,38,23,0.05)',
-            fontWeight: 700,
-            lineHeight: 1,
-            display: 'block',
-            marginBottom: '-1.5rem',
-            letterSpacing: '-0.03em',
-            userSelect: 'none',
+        {/* Sidebar label */}
+        <div style={{ paddingTop: '8px' }}>
+          <p style={{
+            fontSize: '0.6rem',
+            letterSpacing: '0.2em',
+            color: GOLD,
+            textTransform: 'uppercase',
+            marginBottom: '8px',
           }}>
-            {String(FAQ_DATA.findIndex((c) => c.id === activeCategory) + 1).padStart(2, '0')}
-          </span>
-          <h2 style={{
+            Catégorie
+          </p>
+          <p style={{
             fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(1.6rem, 3vw, 2.2rem)',
+            fontSize: '1.4rem',
             color: GREEN,
-            fontWeight: 600,
-            marginBottom: '4px',
-            letterSpacing: '0.02em',
+            fontWeight: 500,
+            marginBottom: '16px',
+            lineHeight: 1.2,
           }}>
             {category.label}
-          </h2>
-          <div style={{ width: '32px', height: '2px', background: GOLD, borderRadius: '1px' }} />
+          </p>
+          <div style={{ width: '24px', height: '1.5px', background: GOLD }} />
+          <p style={{ fontSize: '0.75rem', color: MUTED, marginTop: '12px', lineHeight: 1.6 }}>
+            {category.items.length} question{category.items.length > 1 ? 's' : ''}
+          </p>
         </div>
 
-        {/* Questions */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {/* Accordion list */}
+        <div>
           {category.items.map((item, i) => {
             const isOpen = openIndex === i;
             return (
@@ -332,174 +309,124 @@ export default function FaqPage() {
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    padding: '28px 0',
+                    padding: '24px 0',
                     display: 'flex',
                     alignItems: 'flex-start',
-                    gap: '24px',
+                    justifyContent: 'space-between',
+                    gap: '20px',
                     textAlign: isAr ? 'right' : 'left',
                   }}
                 >
-                  {/* Number */}
                   <span style={{
                     fontFamily: "'Cormorant Garant', serif",
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    color: GOLD,
-                    letterSpacing: '0.1em',
-                    paddingTop: '4px',
-                    minWidth: '28px',
-                    opacity: isOpen ? 1 : 0.5,
-                    transition: 'opacity 0.25s',
-                  }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-
-                  {/* Question text */}
-                  <span style={{
+                    fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+                    color: isOpen ? GREEN : TEXT,
+                    fontWeight: isOpen ? 600 : 400,
+                    lineHeight: 1.45,
+                    transition: 'color 0.2s',
                     flex: 1,
-                    fontFamily: "'Cormorant Garant', serif",
-                    fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
-                    color: isOpen ? GREEN : '#2d3a2a',
-                    fontWeight: isOpen ? 600 : 500,
-                    lineHeight: 1.4,
-                    transition: 'color 0.25s',
                   }}>
                     {item.q}
                   </span>
 
-                  {/* Toggle icon */}
+                  {/* Plus / minus */}
                   <span style={{
-                    width: '28px',
-                    height: '28px',
+                    width: '22px',
+                    height: '22px',
                     borderRadius: '50%',
-                    border: `1px solid ${isOpen ? GOLD : 'rgba(26,38,23,0.15)'}`,
+                    border: `1px solid ${isOpen ? GOLD : 'rgba(26,38,23,0.18)'}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    marginTop: '2px',
-                    transition: 'all 0.3s ease',
+                    marginTop: '3px',
+                    transition: 'all 0.25s ease',
                     background: isOpen ? GOLD : 'transparent',
+                    color: isOpen ? GREEN : MUTED,
+                    fontSize: '14px',
+                    fontWeight: 300,
+                    lineHeight: 1,
                   }}>
-                    <span style={{
-                      display: 'block',
-                      width: '10px',
-                      height: '1px',
-                      background: isOpen ? GREEN : MUTED,
-                      position: 'relative',
-                      transition: 'background 0.25s',
-                    }}>
-                      <span style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '10px',
-                        height: '1px',
-                        background: isOpen ? GREEN : MUTED,
-                        transform: isOpen ? 'rotate(0deg)' : 'rotate(90deg)',
-                        transition: 'transform 0.3s ease',
-                        transformOrigin: 'center',
-                      }} />
-                    </span>
+                    {isOpen ? '−' : '+'}
                   </span>
                 </button>
 
-                {/* Answer — animated reveal */}
-                <div
-                  style={{
-                    maxHeight: isOpen ? '600px' : '0',
-                    overflow: 'hidden',
-                    transition: 'max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
-                  }}
-                >
-                  <div style={{
-                    paddingLeft: '52px',
-                    paddingBottom: '32px',
-                    paddingRight: '52px',
+                {/* Answer */}
+                <div style={{
+                  maxHeight: isOpen ? '400px' : '0',
+                  overflow: 'hidden',
+                  transition: 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}>
+                  <p style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: '0.875rem',
+                    color: MUTED,
+                    lineHeight: 1.85,
+                    margin: '0 0 28px',
+                    letterSpacing: '0.01em',
+                    borderLeft: `2px solid ${GOLD}`,
+                    paddingLeft: '16px',
                   }}>
-                    <div style={{
-                      width: '24px',
-                      height: '1px',
-                      background: GOLD,
-                      marginBottom: '16px',
-                    }} />
-                    <p style={{
-                      fontFamily: "'Outfit', sans-serif",
-                      fontSize: '0.9rem',
-                      color: MUTED,
-                      lineHeight: 1.85,
-                      margin: 0,
-                      letterSpacing: '0.01em',
-                    }}>
-                      {item.a}
-                    </p>
-                  </div>
+                    {item.a}
+                  </p>
                 </div>
               </div>
             );
           })}
-        </div>
 
-        {/* ── CTA ── */}
-        <div style={{
-          marginTop: '80px',
-          padding: '48px',
-          background: GREEN,
-          borderRadius: '2px',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
+          {/* Contact nudge */}
           <div style={{
-            position: 'absolute', inset: 0,
-            background: `radial-gradient(ellipse at center, ${GOLD}0d 0%, transparent 70%)`,
-            pointerEvents: 'none',
-          }} />
-          <p style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(0.55rem, 1.2vw, 0.7rem)',
-            letterSpacing: '0.35em',
-            color: GOLD,
-            textTransform: 'uppercase',
-            marginBottom: '12px',
+            marginTop: '48px',
+            padding: '28px 32px',
+            border: `1px solid rgba(201,168,76,0.3)`,
+            borderRadius: '2px',
+            background: 'rgba(201,168,76,0.04)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '24px',
+            flexWrap: 'wrap',
           }}>
-            Vous n'avez pas trouvé votre réponse ?
-          </p>
-          <h3 style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: 'clamp(1.6rem, 3vw, 2rem)',
-            color: '#ffffff',
-            fontWeight: 400,
-            marginBottom: '24px',
-            letterSpacing: '0.01em',
-          }}>
-            Notre équipe est à votre écoute
-          </h3>
-          <div style={{ width: '32px', height: '1px', background: GOLD, margin: '0 auto 28px' }} />
-          <Link
-            to="/#contact"
-            style={{
-              display: 'inline-block',
-              padding: '12px 36px',
-              background: GOLD,
-              color: GREEN,
-              fontFamily: "'Outfit', sans-serif",
-              fontSize: '0.65rem',
-              fontWeight: 700,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              borderRadius: '1px',
-              transition: 'all 0.25s',
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = '#b8942a'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = GOLD; }}
-          >
-            Nous écrire
-          </Link>
+            <div>
+              <p style={{
+                fontFamily: "'Cormorant Garant', serif",
+                fontSize: '1.1rem',
+                color: GREEN,
+                fontWeight: 500,
+                marginBottom: '4px',
+              }}>
+                Vous n'avez pas trouvé votre réponse ?
+              </p>
+              <p style={{ fontSize: '0.8rem', color: MUTED, margin: 0 }}>
+                Notre équipe répond en moins de 12 heures.
+              </p>
+            </div>
+            <Link
+              to="/#contact"
+              style={{
+                display: 'inline-block',
+                padding: '10px 28px',
+                background: GREEN,
+                color: CREAM,
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: '0.65rem',
+                fontWeight: 600,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                transition: 'background 0.2s',
+                flexShrink: 0,
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = '#0f1409'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = GREEN; }}
+            >
+              Nous écrire
+            </Link>
+          </div>
         </div>
-
       </div>
+
+      <Footer />
     </div>
   );
 }
