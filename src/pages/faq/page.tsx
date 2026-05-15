@@ -187,7 +187,7 @@ export default function FaqPage() {
             </p>
             <h1 style={{
               fontFamily: "'Cormorant Garant', serif",
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              fontSize: 'clamp(1.5rem, 3vw, 2.2rem)',
               color: GREEN,
               fontWeight: 500,
               margin: '0 0 12px',
