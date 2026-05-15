@@ -19,7 +19,7 @@ export default function ConfiguratorPage() {
   const isAr = i18n.language === 'ar';
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedModel, setSelectedModel] = useState<BottleModel>(bottleModels[0]);
-  const [modelChosen, setModelChosen] = useState(false);
+  const [modelChosen, setModelChosen] = useState(true);
   const [selectedSize, setSelectedSize] = useState<BottleSize>(bottleSizes[0]);
   const [sizeChosen, setSizeChosen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState<LabelStyle | null>(null);
