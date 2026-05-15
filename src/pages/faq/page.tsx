@@ -328,8 +328,8 @@ export default function FaqPage() {
                 {t('faq_team_response')}
               </p>
             </div>
-            <Link
-              to="/#contact"
+            <a
+              href="/#contact"
               style={{
                 display: 'inline-block',
                 padding: '10px 28px',
@@ -348,7 +348,7 @@ export default function FaqPage() {
               onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = GREEN; }}
             >
               {t('faq_write_us')}
-            </Link>
+            </a>
           </div>
         </div>
       </div>
