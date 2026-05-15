@@ -285,9 +285,6 @@ export default function FaqPage() {
             {category.label}
           </p>
           <div style={{ width: '24px', height: '1.5px', background: GOLD }} />
-          <p style={{ fontSize: '0.75rem', color: MUTED, marginTop: '12px', lineHeight: 1.6 }}>
-            {category.items.length} question{category.items.length > 1 ? 's' : ''}
-          </p>
         </div>
 
         {/* Accordion list */}
