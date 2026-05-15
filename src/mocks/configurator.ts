@@ -407,6 +407,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-magnetique__cylindrique-500__1l__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-1l-classique-ivoire.png',
   'coffret-magnetique__cylindrique-500__500ml__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-bio-moderne.png',
   'coffret-magnetique__cylindrique-500__750ml__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-bio-moderne.png',
+  'coffret-magnetique__cylindrique-500__1l__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-1l-bio-moderne.png',
   // 'coffret-magnetique__carree-750__750ml':      '/images/emballages/coffret-magnetique/carree-750-750ml.png',
 
   // Tube Cylindrique Premium
