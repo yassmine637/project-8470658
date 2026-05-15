@@ -118,7 +118,7 @@ const FAQ_DATA: FaqCategory[] = [
   },
   {
     id: 'maison',
-    label: 'La Maison',
+    label: 'Domaine Fendri',
     items: [
       {
         q: "Depuis quand la famille Fendri cultive-t-elle l'olive ?",
