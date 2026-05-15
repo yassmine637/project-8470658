@@ -22,7 +22,7 @@ export default function Hero() {
 
         {/* Main title — two lines in one block */}
         <h1 className="text-white leading-tight" style={{ fontFamily: "'Cormorant Garant', serif", fontWeight: 300, textShadow: '0 6px 40px rgba(0,0,0,0.55)', marginBottom: isAr ? '2.5rem' : '1.5rem' }}>
-          <span style={{ display: 'block', fontSize: 'clamp(2.4rem, 5.5vw, 72px)', letterSpacing: '0.02em' }}>
+          <span style={{ display: 'block', fontSize: isFr ? 'clamp(1.9rem, 4.2vw, 58px)' : 'clamp(2.4rem, 5.5vw, 72px)', letterSpacing: '0.02em' }}>
             {t('hero_title1')}
           </span>
           <span style={{ display: 'block', fontSize: isFr ? 'clamp(1.9rem, 4.4vw, 60px)' : 'clamp(3rem, 7vw, 92px)', fontStyle: 'italic', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
