@@ -452,23 +452,14 @@ export default function ConfigPanel({
                       <rect x="18" y="2" width="24" height="82" rx="5" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="none" strokeDasharray="4 2" />
                     </svg>
                   ) : p.id === 'coffret-tiroir' ? (
-                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
-                      {/* Outer shell */}
-                      <rect x="4" y="10" width="52" height="66" rx="2" fill="#2C3E30" opacity="0.95" />
-                      {/* Drawer body slightly offset */}
-                      <rect x="7" y="36" width="46" height="36" rx="1" fill="#3A5240" opacity="0.9" />
-                      {/* EVA foam hint inside drawer */}
-                      <rect x="10" y="39" width="40" height="30" rx="1" fill="#5B8060" opacity="0.35" />
-                      {[44, 50, 56, 62].map(y => <line key={y} x1="10" y1={y} x2="50" y2={y} stroke="#2C3E30" strokeWidth="0.5" opacity="0.5" />)}
-                      {/* Gold pull handle */}
-                      <rect x="22" y="48" width="16" height="3" rx="1.5" fill="#C9A84C" opacity="0.85" />
-                      {/* Top shell rim */}
-                      <rect x="4" y="10" width="52" height="6" rx="2 2 0 0" fill="#4A6850" opacity="0.8" />
-                      <text x="30" y="26" textAnchor="middle" fontFamily="serif" fontSize="5" fill="#7A9E7E" letterSpacing="1" opacity="0.7">FENDRI</text>
-                    </svg>
-                  ) : p.id === 'coffret-magnetique' ? (
                     <img
                       src="/images/packaging/coffret-tiroir-eva.png"
+                      alt="Coffret Tiroir EVA"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
+                    />
+                  ) : p.id === 'coffret-magnetique' ? (
+                    <img
+                      src="/images/packaging/coffret-magnetique.png"
                       alt="Coffret Magnétique"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
                     />
