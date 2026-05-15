@@ -146,7 +146,7 @@ export default function FaqPage() {
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
 
   return (
-    <div style={{ background: CREAM, minHeight: '100vh', fontFamily: "'Outfit', sans-serif" }}>
+    <div style={{ background: CREAM, minHeight: '100vh', fontFamily: "'Outfit', sans-serif", display: 'flex', flexDirection: 'column' }}>
       <Header />
 
       {/* ── Page header ── */}
@@ -257,7 +257,7 @@ export default function FaqPage() {
       </div>
 
       {/* ── FAQ content ── */}
-      <div style={{ maxWidth: '960px', margin: '0 auto', padding: '56px 40px 100px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '64px' }}>
+      <div style={{ flex: 1, maxWidth: '960px', width: '100%', margin: '0 auto', padding: '56px 40px 100px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '64px' }}>
 
         {/* Sidebar label */}
         <div style={{ paddingTop: '8px' }}>
