@@ -401,6 +401,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-tiroir__cylindrique-500__1l__luxe-noir-or': '/images/emballages/coffret-tiroir/cylindrique-500-1l-luxe-noir-or.png',
   'coffret-tiroir__carree-750__500ml__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-500ml-classique-ivoire.png',
   'coffret-tiroir__carree-750__750ml__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-750ml-classique-ivoire.png',
+  'coffret-tiroir__carree-750__1l__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-1l-classique-ivoire.png',
   // 'coffret-tiroir__carree-750__750ml':      '/images/emballages/coffret-tiroir/carree-750-750ml.png',
 
   // Coffret Magnétique
