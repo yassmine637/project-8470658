@@ -452,24 +452,26 @@ export default function ConfigPanel({
                       <rect x="18" y="2" width="24" height="82" rx="5" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="none" strokeDasharray="4 2" />
                     </svg>
                   ) : p.id === 'coffret-tiroir' ? (
+                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
+                      {/* Outer shell */}
+                      <rect x="4" y="10" width="52" height="66" rx="2" fill="#2C3E30" opacity="0.95" />
+                      {/* Drawer body slightly offset */}
+                      <rect x="7" y="36" width="46" height="36" rx="1" fill="#3A5240" opacity="0.9" />
+                      {/* EVA foam hint inside drawer */}
+                      <rect x="10" y="39" width="40" height="30" rx="1" fill="#5B8060" opacity="0.35" />
+                      {[44, 50, 56, 62].map(y => <line key={y} x1="10" y1={y} x2="50" y2={y} stroke="#2C3E30" strokeWidth="0.5" opacity="0.5" />)}
+                      {/* Gold pull handle */}
+                      <rect x="22" y="48" width="16" height="3" rx="1.5" fill="#C9A84C" opacity="0.85" />
+                      {/* Top shell rim */}
+                      <rect x="4" y="10" width="52" height="6" rx="2 2 0 0" fill="#4A6850" opacity="0.8" />
+                      <text x="30" y="26" textAnchor="middle" fontFamily="serif" fontSize="5" fill="#7A9E7E" letterSpacing="1" opacity="0.7">FENDRI</text>
+                    </svg>
+                  ) : p.id === 'coffret-magnetique' ? (
                     <img
                       src="/images/packaging/coffret-tiroir-eva.png"
-                      alt="Coffret Tiroir EVA"
+                      alt="Coffret Magnétique"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
                     />
-                  ) : p.id === 'coffret-magnetique' ? (
-                    <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
-                      <rect x="6" y="16" width="48" height="62" rx="2" fill="#0D0D1A" opacity="0.95" />
-                      <rect x="6" y="16" width="48" height="62" rx="2" fill="none" stroke="#C9A84C" strokeWidth="1" />
-                      {/* Magnetic clasp */}
-                      <rect x="21" y="44" width="18" height="4" rx="2" fill="#1E1E38" stroke="#C9A84C" strokeWidth="0.8" />
-                      <circle cx="27" cy="46" r="1.5" fill="#C9A84C" opacity="0.9" />
-                      <circle cx="33" cy="46" r="1.5" fill="#C9A84C" opacity="0.9" />
-                      {/* Gold border top line */}
-                      <line x1="6" y1="22" x2="54" y2="22" stroke="#C9A84C" strokeWidth="0.6" opacity="0.4" />
-                      <text x="30" y="34" textAnchor="middle" fontFamily="serif" fontSize="6" fill="#d4af37" letterSpacing="1.5" opacity="0.9">FENDRI</text>
-                      <text x="30" y="66" textAnchor="middle" fontFamily="sans-serif" fontSize="4" fill="#C9A84C" letterSpacing="0.5" opacity="0.55">MAGNÉTIQUE</text>
-                    </svg>
                   ) : p.id === 'tube-cylindrique' ? (
                     <svg viewBox="0 0 60 80" fill="none" style={{ width: '52px', height: '70px' }}>
                       {/* Tube body */}
