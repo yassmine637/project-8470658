@@ -415,6 +415,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-magnetique__cylindrique-500__750ml__heritage': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-heritage.png',
   'coffret-magnetique__cylindrique-500__1l__heritage': '/images/emballages/coffret-magnetique/cylindrique-500-1l-heritage.png',
   'coffret-magnetique__cylindrique-500__500ml__luxe-noir-or': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-luxe-noir-or.png',
+  'coffret-magnetique__cylindrique-500__750ml__luxe-noir-or': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-luxe-noir-or.png',
   // 'coffret-magnetique__carree-750__750ml':      '/images/emballages/coffret-magnetique/carree-750-750ml.png',
 
   // Tube Cylindrique Premium
