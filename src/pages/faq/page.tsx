@@ -197,7 +197,7 @@ export default function FaqPage() {
               Tout ce que vous voulez savoir
             </h1>
             <p style={{
-              fontSize: '0.82rem',
+              fontSize: '1rem',
               color: MUTED,
               lineHeight: 1.7,
               margin: 0,
