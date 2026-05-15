@@ -174,39 +174,35 @@ export default function FaqPage() {
             ← Accueil
           </Link>
 
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-            <div>
-              <p style={{
-                fontSize: '0.6rem',
-                letterSpacing: '0.3em',
-                color: GOLD,
-                textTransform: 'uppercase',
-                marginBottom: '10px',
-                fontWeight: 500,
-              }}>
-                Questions fréquentes
-              </p>
-              <h1 style={{
-                fontFamily: "'Cormorant Garant', serif",
-                fontSize: 'clamp(2rem, 4vw, 3rem)',
-                color: GREEN,
-                fontWeight: 500,
-                margin: 0,
-                lineHeight: 1.15,
-                letterSpacing: '-0.01em',
-              }}>
-                Tout ce que vous voulez savoir
-              </h1>
-            </div>
+          <div>
+            <p style={{
+              fontSize: '0.6rem',
+              letterSpacing: '0.3em',
+              color: GOLD,
+              textTransform: 'uppercase',
+              marginBottom: '10px',
+              fontWeight: 500,
+            }}>
+              Questions fréquentes
+            </p>
+            <h1 style={{
+              fontFamily: "'Cormorant Garant', serif",
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              color: GREEN,
+              fontWeight: 500,
+              margin: '0 0 12px',
+              lineHeight: 1.15,
+              letterSpacing: '-0.01em',
+            }}>
+              Tout ce que vous voulez savoir
+            </h1>
             <p style={{
               fontSize: '0.82rem',
               color: MUTED,
-              maxWidth: '260px',
               lineHeight: 1.7,
               margin: 0,
-              textAlign: isAr ? 'right' : 'left',
             }}>
-              Sur notre huile, notre domaine,<br />et notre façon de travailler.
+              Sur notre huile, notre domaine, et notre façon de travailler.
             </p>
           </div>
         </div>
