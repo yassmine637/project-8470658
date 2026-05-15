@@ -10,143 +10,78 @@ const CREAM = '#f7f5f0';
 const MUTED = '#7a8c77';
 const TEXT = '#2a3527';
 
-interface FaqItem {
-  q: string;
-  a: string;
-}
-
-interface FaqCategory {
-  id: string;
-  label: string;
-  items: FaqItem[];
-}
-
-const FAQ_DATA: FaqCategory[] = [
-  {
-    id: 'produit',
-    label: 'Le Produit',
-    items: [
-      {
-        q: "Qu'est-ce qui fait d'une huile d'olive extra vierge un produit d'exception ?",
-        a: "L'extra vierge est la catégorie la plus haute qui soit. Elle est obtenue par première pression à froid, sans aucun traitement chimique ni thermique — l'olive pressée, rien d'autre. Notre taux d'acidité libre est inférieur à 0,4 %, bien en dessous du seuil légal de 0,8 %. C'est cette pureté qui préserve tous les polyphénols, antioxydants et arômes que la nature a mis dans l'olive.",
-      },
-      {
-        q: "Comment distinguer vos quatre formats, et lequel me correspond ?",
-        a: "Le 500 ml est notre format cadeau par excellence — élégant, précis, parfait pour les fins palais. Le 750 ml, notre best-seller, accompagne quotidiennement les tables exigeantes. Le 1 L répond aux familles gourmandes qui refusent de transiger sur la qualité. Le 3 L, enfin, est notre format de chef — pensé pour les cuisines professionnelles et les maisons qui consomment beaucoup sans jamais vouloir manquer.",
-      },
-      {
-        q: "Comment conserver l'or de votre bouteille une fois ouverte ?",
-        a: "Trois ennemis à tenir à distance : la lumière, la chaleur et l'air. Après ouverture, rebouchez hermétiquement, placez à l'abri de la lumière directe, entre 14 et 18 °C idéalement. Un placard de cuisine, loin des fourneaux, est parfait. Évitez le réfrigérateur — le froid trouble l'huile sans l'améliorer. Une bouteille ouverte se consomme idéalement dans les six semaines.",
-      },
-      {
-        q: "Quelle est la durée de vie de votre huile ?",
-        a: "Nos bouteilles affichent une date limite d'utilisation optimale de 18 mois à compter de la mise en bouteille. Mais l'huile ne \"se périme\" pas au sens strict — elle s'oxyde progressivement et perd ses arômes. Une huile stockée correctement, non ouverte, reste de bonne qualité bien au-delà. L'odeur et la saveur sont vos meilleurs indicateurs.",
-      },
-    ],
-  },
-  {
-    id: 'livraison',
-    label: 'Livraison',
-    items: [
-      {
-        q: "Jusqu'où voyage votre or liquide ?",
-        a: "Nous livrons en Tunisie, dans toute l'Europe, ainsi que dans les pays du Golfe et d'Afrique du Nord. Si votre pays ne figure pas dans les options de livraison lors de votre commande, contactez-nous directement — nous trouvons toujours une solution pour les amateurs d'huile d'olive qui savent ce qu'ils cherchent.",
-      },
-      {
-        q: "En combien de temps ma commande m'atteindra-t-elle ?",
-        a: "Les commandes sont préparées sous 48 h ouvrables. La livraison en Tunisie prend ensuite 2 à 4 jours. Pour l'Europe, comptez 5 à 8 jours ouvrables. Pour les livraisons en dehors de ces zones, les délais varient selon la destination — vous en serez informé précisément lors du passage en caisse.",
-      },
-      {
-        q: "Puis-je modifier une commande déjà validée ?",
-        a: "Toute commande peut être modifiée ou annulée dans les 2 heures suivant sa validation, avant que notre équipe ne commence sa préparation. Passé ce délai, si la commande n'est pas encore expédiée, contactez-nous rapidement à contact@domainefendri.com — nous faisons notre possible. Une fois le colis parti, nous ne pouvons plus intervenir sur son contenu ou sa destination.",
-      },
-    ],
-  },
-  {
-    id: 'configurateur',
-    label: 'Configurateur',
-    items: [
-      {
-        q: "Comment fonctionne la personnalisation de bouteille ?",
-        a: "Notre configurateur vous guide en six étapes : le modèle de bouteille, le volume, le style d'étiquette, l'emballage, votre message personnalisé, puis la commande. Chaque choix se reflète en temps réel dans l'aperçu visuel. Ce n'est pas une simulation — ce que vous voyez est exactement ce que vous recevrez.",
-      },
-      {
-        q: "Est-il possible de commander en volume pour un événement ou une entreprise ?",
-        a: "Absolument. Nos bouteilles personnalisées sont très prisées pour les mariages, les cadeaux d'entreprise, les événements de prestige et les coffrets séminaires. Pour toute commande de 20 bouteilles et plus, notre équipe B2B vous accompagne avec des conditions dédiées. Contactez-nous via le formulaire ou directement à contact@domainefendri.com.",
-      },
-      {
-        q: "Quel délai pour une création sur-mesure ?",
-        a: "Les commandes configurées nécessitent un délai de production supplémentaire de 5 à 10 jours ouvrables, en fonction du volume et du type de personnalisation. Pour les événements, nous vous recommandons de commander au minimum 3 semaines à l'avance. Nous ne faisons jamais de compromis sur la qualité de finition.",
-      },
-    ],
-  },
-  {
-    id: 'paiement',
-    label: 'Paiement',
-    items: [
-      {
-        q: "Quels sont les modes de règlement acceptés ?",
-        a: "Nous acceptons le paiement à la livraison (espèces ou chèque) pour la Tunisie. Les paiements par carte bancaire internationale sont disponibles via Stripe pour nos clients en Europe et dans le reste du monde. Konnect est également disponible pour les virements en dinars tunisiens.",
-      },
-      {
-        q: "Mes données bancaires transitent-elles par vos serveurs ?",
-        a: "Non. Vos données de paiement ne transitent jamais par nos serveurs. Nous utilisons Stripe, certifié PCI DSS niveau 1 — le standard de sécurité le plus élevé pour les paiements en ligne. Nous ne voyons jamais vos numéros de carte. Chaque transaction est chiffrée de bout en bout.",
-      },
-      {
-        q: "Le paiement à la livraison est-il possible partout ?",
-        a: "Le paiement à la livraison est disponible uniquement pour les livraisons en Tunisie. Pour les commandes internationales, un paiement en ligne est requis à la validation de la commande. Cette contrainte est liée à nos partenaires logistiques à l'international.",
-      },
-    ],
-  },
-  {
-    id: 'retours',
-    label: 'Retours',
-    items: [
-      {
-        q: "Puis-je changer d'avis après réception de ma commande ?",
-        a: "Les produits alimentaires ne peuvent légalement pas faire l'objet d'un retour une fois livrés, sauf défaut avéré. Si vous avez reçu un produit différent de celui commandé, ou si la qualité ne correspond pas à nos standards habituels, nous vous remboursons ou remplaçons le produit sans discussion. Votre confiance est notre engagement le plus précieux.",
-      },
-      {
-        q: "Ma livraison est arrivée endommagée. Que faire ?",
-        a: "Prenez des photos du colis et des produits dès réception, avant toute manipulation. Envoyez-les à contact@domainefendri.com avec votre numéro de commande dans les 48 heures suivant la livraison. Nous traitons chaque réclamation dans les 24 h ouvrables et procédons systématiquement au remplacement ou remboursement.",
-      },
-      {
-        q: "Comment joindre notre équipe ?",
-        a: "Par email à contact@domainefendri.com — notre délai de réponse moyen est inférieur à 12 heures. Via le formulaire de contact sur notre site pour toute demande détaillée. Pour les urgences ou les grosses commandes B2B, précisez-le dans l'objet de votre message et nous vous répondrons en priorité.",
-      },
-    ],
-  },
-  {
-    id: 'maison',
-    label: 'Domaine Fendri',
-    items: [
-      {
-        q: "Depuis quand la famille Fendri cultive-t-elle l'olive ?",
-        a: "Depuis 1911. Notre domaine a traversé plus d'un siècle, quatre générations, deux guerres mondiales et d'innombrables récoltes. Ce que nous savons faire, nous l'avons appris lentement, avec patience, en écoutant la terre de Sfax. Chaque bouteille porte le poids de cette histoire.",
-      },
-      {
-        q: "Vos certifications garantissent-elles un produit réellement bio ?",
-        a: "Oui. Notre certification bio est délivrée par un organisme tiers indépendant, qui inspecte nos pratiques agricoles chaque année. Cela signifie : aucun pesticide chimique, aucun engrais synthétique, aucun OGM. Les olives poussent comme elles l'ont toujours fait — avec l'eau de pluie, le soleil de Sfax et le travail de nos équipes.",
-      },
-      {
-        q: "Où se trouve exactement votre domaine ?",
-        a: "À Sfax, dans le centre-est de la Tunisie — capitale mondiale de l'huile d'olive, berceau de l'olivier méditerranéen. Notre domaine s'étend sur les plaines argilo-calcaires de la région, un terroir unique qui donne à notre huile ses notes herbacées et son léger piquant caractéristique. Une invitation permanente à venir nous rendre visite.",
-      },
-    ],
-  },
-];
+interface FaqItem { q: string; a: string; }
+interface FaqCategory { id: string; label: string; items: FaqItem[]; }
 
 export default function FaqPage() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('produit');
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const isAr = i18n.language === 'ar';
+
+  const FAQ_DATA: FaqCategory[] = [
+    {
+      id: 'produit',
+      label: t('faq_cat_produit'),
+      items: [
+        { q: t('faq_produit_q1'), a: t('faq_produit_a1') },
+        { q: t('faq_produit_q2'), a: t('faq_produit_a2') },
+        { q: t('faq_produit_q3'), a: t('faq_produit_a3') },
+        { q: t('faq_produit_q4'), a: t('faq_produit_a4') },
+      ],
+    },
+    {
+      id: 'livraison',
+      label: t('faq_cat_livraison'),
+      items: [
+        { q: t('faq_livraison_q1'), a: t('faq_livraison_a1') },
+        { q: t('faq_livraison_q2'), a: t('faq_livraison_a2') },
+        { q: t('faq_livraison_q3'), a: t('faq_livraison_a3') },
+      ],
+    },
+    {
+      id: 'configurateur',
+      label: t('faq_cat_configurateur'),
+      items: [
+        { q: t('faq_configurateur_q1'), a: t('faq_configurateur_a1') },
+        { q: t('faq_configurateur_q2'), a: t('faq_configurateur_a2') },
+        { q: t('faq_configurateur_q3'), a: t('faq_configurateur_a3') },
+      ],
+    },
+    {
+      id: 'paiement',
+      label: t('faq_cat_paiement'),
+      items: [
+        { q: t('faq_paiement_q1'), a: t('faq_paiement_a1') },
+        { q: t('faq_paiement_q2'), a: t('faq_paiement_a2') },
+        { q: t('faq_paiement_q3'), a: t('faq_paiement_a3') },
+      ],
+    },
+    {
+      id: 'retours',
+      label: t('faq_cat_retours'),
+      items: [
+        { q: t('faq_retours_q1'), a: t('faq_retours_a1') },
+        { q: t('faq_retours_q2'), a: t('faq_retours_a2') },
+        { q: t('faq_retours_q3'), a: t('faq_retours_a3') },
+      ],
+    },
+    {
+      id: 'maison',
+      label: t('faq_cat_maison'),
+      items: [
+        { q: t('faq_maison_q1'), a: t('faq_maison_a1') },
+        { q: t('faq_maison_q2'), a: t('faq_maison_a2') },
+        { q: t('faq_maison_q3'), a: t('faq_maison_a3') },
+      ],
+    },
+  ];
 
   const category = FAQ_DATA.find((c) => c.id === activeCategory)!;
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i);
 
   return (
-    <div style={{ background: CREAM, minHeight: '100vh', fontFamily: "'Outfit', sans-serif", display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: CREAM, minHeight: '100vh', fontFamily: "'Outfit', sans-serif", display: 'flex', flexDirection: 'column' }} dir={isAr ? 'rtl' : 'ltr'}>
       <Header />
 
       {/* ── Page header ── */}
@@ -171,7 +106,7 @@ export default function FaqPage() {
               marginBottom: '28px',
             }}
           >
-            ← Accueil
+            {t('faq_back')}
           </Link>
 
           <div>
@@ -183,7 +118,7 @@ export default function FaqPage() {
               marginBottom: '10px',
               fontWeight: 500,
             }}>
-              Questions fréquentes
+              {t('faq_label')}
             </p>
             <h1 style={{
               fontFamily: "'Cormorant Garant', serif",
@@ -194,7 +129,7 @@ export default function FaqPage() {
               lineHeight: 1.15,
               letterSpacing: '-0.01em',
             }}>
-              Tout ce que vous voulez savoir
+              {t('faq_title')}
             </h1>
             <p style={{
               fontSize: '1rem',
@@ -202,13 +137,13 @@ export default function FaqPage() {
               lineHeight: 1.7,
               margin: 0,
             }}>
-              Sur notre huile, notre domaine, et notre façon de travailler.
+              {t('faq_subtitle')}
             </p>
           </div>
         </div>
       </div>
 
-      {/* ── Category tabs — light background ── */}
+      {/* ── Category tabs ── */}
       <div style={{
         background: CREAM,
         borderBottom: `1px solid rgba(26,38,23,0.08)`,
@@ -259,7 +194,7 @@ export default function FaqPage() {
       {/* ── FAQ content ── */}
       <div style={{ flex: 1, maxWidth: '960px', width: '100%', margin: '0 auto', padding: '56px 40px 100px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '64px' }}>
 
-        {/* Sidebar label */}
+        {/* Sidebar */}
         <div style={{ paddingTop: '8px' }}>
           <p style={{
             fontSize: '0.6rem',
@@ -268,7 +203,7 @@ export default function FaqPage() {
             textTransform: 'uppercase',
             marginBottom: '8px',
           }}>
-            Catégorie
+            {t('faq_sidebar_label')}
           </p>
           <p style={{
             fontFamily: "'Cormorant Garant', serif",
@@ -283,7 +218,7 @@ export default function FaqPage() {
           <div style={{ width: '24px', height: '1.5px', background: GOLD }} />
         </div>
 
-        {/* Accordion list */}
+        {/* Accordion */}
         <div>
           {category.items.map((item, i) => {
             const isOpen = openIndex === i;
@@ -321,8 +256,6 @@ export default function FaqPage() {
                   }}>
                     {item.q}
                   </span>
-
-                  {/* Plus / minus */}
                   <span style={{
                     width: '22px',
                     height: '22px',
@@ -344,7 +277,6 @@ export default function FaqPage() {
                   </span>
                 </button>
 
-                {/* Answer */}
                 <div style={{
                   maxHeight: isOpen ? '400px' : '0',
                   overflow: 'hidden',
@@ -357,8 +289,10 @@ export default function FaqPage() {
                     lineHeight: 1.85,
                     margin: '0 0 28px',
                     letterSpacing: '0.01em',
-                    borderLeft: `2px solid ${GOLD}`,
-                    paddingLeft: '16px',
+                    borderLeft: isAr ? 'none' : `2px solid ${GOLD}`,
+                    borderRight: isAr ? `2px solid ${GOLD}` : 'none',
+                    paddingLeft: isAr ? 0 : '16px',
+                    paddingRight: isAr ? '16px' : 0,
                   }}>
                     {item.a}
                   </p>
@@ -388,10 +322,10 @@ export default function FaqPage() {
                 fontWeight: 500,
                 marginBottom: '4px',
               }}>
-                Vous n'avez pas trouvé votre réponse ?
+                {t('faq_no_answer')}
               </p>
               <p style={{ fontSize: '0.8rem', color: MUTED, margin: 0 }}>
-                Notre équipe répond en moins de 12 heures.
+                {t('faq_team_response')}
               </p>
             </div>
             <Link
@@ -413,7 +347,7 @@ export default function FaqPage() {
               onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = '#0f1409'; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = GREEN; }}
             >
-              Nous écrire
+              {t('faq_write_us')}
             </Link>
           </div>
         </div>
