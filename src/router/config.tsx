@@ -9,6 +9,7 @@ import AdminPage from '@/pages/admin/page';
 import AccountPage from '@/pages/account/page';
 import CheckoutSuccess from '@/pages/checkout/success';
 import CheckoutCancel from '@/pages/checkout/cancel';
+import FaqPage from '@/pages/faq/page';
 const routes: RouteObject[] = [
   { path: '/', element: <HomePage /> },
   { path: '/products', element: <ProductsPage /> },
@@ -19,6 +20,7 @@ const routes: RouteObject[] = [
   { path: '/account', element: <AccountPage /> },
   { path: '/checkout/success', element: <CheckoutSuccess /> },
   { path: '/checkout/cancel', element: <CheckoutCancel /> },
+  { path: '/faq', element: <FaqPage /> },
   { path: '*', element: <NotFound /> },
 ];
 
