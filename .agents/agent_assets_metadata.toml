@@ -35,3 +35,9 @@ id = "XTj2pHnUof--nQgxM2E4r"
 uri = "file://public/bidon-metal-1l.png"
 type = "image"
 title = "Bidon métallique 1L"
+
+[[outputs]]
+id = "lI0M_of8k1ZbQBzoArikL"
+uri = "file://attached_assets/schema_mongodb_fendri.jpg"
+type = "image"
+title = "Figure X — Schéma Base de Données MongoDB FENDRI"

@@ -6,184 +6,144 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #f8f6f0;
+    background: #f5f2eb;
     font-family: 'Segoe UI', Arial, sans-serif;
-    padding: 40px;
-    min-width: 1300px;
+    padding: 24px 30px 20px;
+    width: 1280px;
   }
-
   h1 {
     text-align: center;
-    font-size: 18px;
+    font-size: 15px;
     color: #2c1a0e;
-    margin-bottom: 6px;
+    margin-bottom: 3px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
   }
   .subtitle {
     text-align: center;
-    font-size: 12px;
+    font-size: 10px;
     color: #7a6a55;
-    margin-bottom: 36px;
+    margin-bottom: 18px;
     font-style: italic;
   }
-
   .diagram {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    align-items: start;
   }
-
   .collection {
     background: #fff;
-    border-radius: 8px;
+    border-radius: 7px;
     border: 2px solid #c9a84c;
-    min-width: 210px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
     overflow: hidden;
-    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.09);
   }
-
-  .collection.central {
-    border-color: #2c6e3f;
-    order: 0;
-  }
-
+  .collection.user { border-color: #2c6e3f; }
   .collection-header {
     background: #c9a84c;
     color: #fff;
-    padding: 10px 14px;
+    padding: 7px 10px;
     font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.5px;
+    font-size: 11px;
+    letter-spacing: 0.4px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
   }
-  .collection.central .collection-header {
-    background: #2c6e3f;
-  }
-  .collection-icon {
-    font-size: 15px;
-  }
-
-  .collection-body {
-    padding: 0;
-  }
-
+  .collection.user .collection-header { background: #2c6e3f; }
   .field {
     display: flex;
     align-items: center;
-    padding: 5px 12px;
+    padding: 3px 8px;
     border-bottom: 1px solid #f0ebe0;
-    font-size: 11.5px;
-    gap: 6px;
+    font-size: 10px;
+    gap: 4px;
   }
   .field:last-child { border-bottom: none; }
-
   .field-name {
     font-weight: 600;
     color: #2c1a0e;
-    min-width: 110px;
+    min-width: 105px;
+    font-size: 10px;
     flex-shrink: 0;
   }
   .field-type {
     color: #7a6a55;
     font-style: italic;
-    font-size: 10.5px;
+    font-size: 9.5px;
+    flex: 1;
   }
   .badge {
-    font-size: 9px;
-    padding: 1px 5px;
-    border-radius: 10px;
+    font-size: 8px;
+    padding: 1px 4px;
+    border-radius: 8px;
     font-weight: 700;
-    letter-spacing: 0.3px;
     flex-shrink: 0;
   }
-  .badge-pk { background: #fff3cd; color: #856404; border: 1px solid #ffc107; }
-  .badge-fk { background: #d1ecf1; color: #0c5460; border: 1px solid #17a2b8; }
-  .badge-req { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-  .badge-enum { background: #e2d9f3; color: #4a2c7e; border: 1px solid #c3adf0; }
-  .badge-emb { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-
-  .section-label {
+  .pk { background: #fff3cd; color: #856404; border: 1px solid #ffc107; }
+  .fk { background: #d1ecf1; color: #0c5460; border: 1px solid #17a2b8; }
+  .req { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+  .en { background: #e2d9f3; color: #4a2c7e; border: 1px solid #c3adf0; }
+  .em { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+  .un { background: #fff3cd; color: #856404; border: 1px solid #fd7e14; }
+  .section-lbl {
     background: #f8f4ec;
-    font-size: 10px;
+    font-size: 8.5px;
     color: #a08040;
-    padding: 3px 12px;
-    font-weight: 600;
+    padding: 2px 8px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
     border-bottom: 1px solid #f0ebe0;
+    border-top: 1px solid #f0ebe0;
   }
-
-  .relations-area {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    flex-wrap: wrap;
+  .bottom {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
   }
-
-  .relation-box {
+  .box {
     background: #fff;
     border: 1.5px dashed #c9a84c;
-    border-radius: 8px;
-    padding: 14px 20px;
-    text-align: center;
-    min-width: 280px;
+    border-radius: 7px;
+    padding: 10px 14px;
   }
-  .relation-box h3 {
-    font-size: 12px;
-    color: #2c1a0e;
+  .box h3 {
+    font-size: 10.5px;
     font-weight: 700;
-    margin-bottom: 10px;
+    color: #2c1a0e;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 7px;
   }
-  .relation-item {
+  .rel-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 11.5px;
-    color: #5a4a35;
-    margin-bottom: 6px;
-    justify-content: center;
+    gap: 7px;
+    font-size: 10px;
+    color: #2c1a0e;
+    margin-bottom: 5px;
   }
-  .arrow { color: #c9a84c; font-weight: 700; font-size: 16px; }
-  .arrow-green { color: #2c6e3f; }
-
+  .arr { color: #2c6e3f; font-weight: 700; font-size: 14px; }
+  .note { color: #888; font-size: 9px; font-style: italic; }
+  .enum-row { font-size: 9.5px; color: #3a2a15; margin-bottom: 4px; line-height: 1.5; }
   .legend {
-    margin-top: 22px;
+    margin-top: 12px;
     display: flex;
+    gap: 16px;
     justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
   }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 10.5px;
-    color: #5a4a35;
-  }
-
+  .leg { display: flex; align-items: center; gap: 5px; font-size: 9.5px; color: #5a4a35; }
   .footer {
     text-align: center;
-    margin-top: 28px;
-    font-size: 10px;
+    margin-top: 10px;
+    font-size: 9.5px;
     color: #b0a090;
     font-style: italic;
-  }
-
-  /* Layout columns */
-  .col {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
   }
 </style>
 </head>
@@ -194,376 +154,128 @@
 
 <div class="diagram">
 
-  <!-- Colonne gauche -->
-  <div class="col">
-    <!-- Product -->
-    <div class="collection">
-      <div class="collection-header">
-        <span class="collection-icon">📦</span> Collection : Product
-      </div>
-      <div class="collection-body">
-        <div class="field">
-          <span class="field-name">_id</span>
-          <span class="field-type">ObjectId</span>
-          <span class="badge badge-pk">PK</span>
-        </div>
-        <div class="field">
-          <span class="field-name">slug</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">unique</span>
-        </div>
-        <div class="field">
-          <span class="field-name">name</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">volume</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">price</span>
-          <span class="field-type">Number</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">currency</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-enum">TND</span>
-        </div>
-        <div class="field">
-          <span class="field-name">description</span>
-          <span class="field-type">String</span>
-        </div>
-        <div class="field">
-          <span class="field-name">details</span>
-          <span class="field-type">[String]</span>
-        </div>
-        <div class="field">
-          <span class="field-name">stock</span>
-          <span class="field-type">Number</span>
-        </div>
-        <div class="field">
-          <span class="field-name">active</span>
-          <span class="field-type">Boolean</span>
-        </div>
-        <div class="field">
-          <span class="field-name">createdAt</span>
-          <span class="field-type">Date (auto)</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ContactMessage -->
-    <div class="collection">
-      <div class="collection-header">
-        <span class="collection-icon">✉️</span> Collection : ContactMessage
-      </div>
-      <div class="collection-body">
-        <div class="field">
-          <span class="field-name">_id</span>
-          <span class="field-type">ObjectId</span>
-          <span class="badge badge-pk">PK</span>
-        </div>
-        <div class="field">
-          <span class="field-name">nom</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">prenom</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">email</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">telephone</span>
-          <span class="field-type">String</span>
-        </div>
-        <div class="field">
-          <span class="field-name">pays</span>
-          <span class="field-type">String</span>
-        </div>
-        <div class="field">
-          <span class="field-name">sujet</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">message</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">read</span>
-          <span class="field-type">Boolean</span>
-        </div>
-        <div class="field">
-          <span class="field-name">createdAt</span>
-          <span class="field-type">Date (auto)</span>
-        </div>
-      </div>
-    </div>
+  <div class="collection user">
+    <div class="collection-header">👤 User</div>
+    <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><span class="badge pk">PK</span></div>
+    <div class="field"><span class="field-name">name</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">email</span><span class="field-type">String</span><span class="badge un">unique</span></div>
+    <div class="field"><span class="field-name">password</span><span class="field-type">String (bcryptjs)</span><span class="badge req">haché</span></div>
+    <div class="field"><span class="field-name">phone</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">country</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">role</span><span class="field-type">String</span><span class="badge en">user|admin</span></div>
+    <div class="field"><span class="field-name">resetPasswordToken</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">resetPasswordExpires</span><span class="field-type">Date</span></div>
+    <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span></div>
   </div>
 
-  <!-- Colonne centrale : User -->
-  <div class="col">
-    <div class="collection central">
-      <div class="collection-header">
-        <span class="collection-icon">👤</span> Collection : User
-      </div>
-      <div class="collection-body">
-        <div class="field">
-          <span class="field-name">_id</span>
-          <span class="field-type">ObjectId</span>
-          <span class="badge badge-pk">PK</span>
-        </div>
-        <div class="field">
-          <span class="field-name">name</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">email</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">unique</span>
-        </div>
-        <div class="field">
-          <span class="field-name">password</span>
-          <span class="field-type">String (bcryptjs)</span>
-          <span class="badge badge-req">haché</span>
-        </div>
-        <div class="field">
-          <span class="field-name">phone</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">country</span>
-          <span class="field-type">String</span>
-        </div>
-        <div class="field">
-          <span class="field-name">role</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-enum">user | admin</span>
-        </div>
-        <div class="field">
-          <span class="field-name">resetPasswordToken</span>
-          <span class="field-type">String</span>
-        </div>
-        <div class="field">
-          <span class="field-name">resetPasswordExpires</span>
-          <span class="field-type">Date</span>
-        </div>
-        <div class="field">
-          <span class="field-name">createdAt</span>
-          <span class="field-type">Date (auto)</span>
-        </div>
-      </div>
-    </div>
+  <div class="collection">
+    <div class="collection-header">📦 Product</div>
+    <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><span class="badge pk">PK</span></div>
+    <div class="field"><span class="field-name">slug</span><span class="field-type">String</span><span class="badge un">unique</span></div>
+    <div class="field"><span class="field-name">name</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">volume</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">price</span><span class="field-type">Number</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">currency</span><span class="field-type">String</span><span class="badge en">TND</span></div>
+    <div class="field"><span class="field-name">description</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">details</span><span class="field-type">[String]</span></div>
+    <div class="field"><span class="field-name">badge / accentColor</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">stock</span><span class="field-type">Number</span></div>
+    <div class="field"><span class="field-name">active</span><span class="field-type">Boolean</span></div>
+    <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span></div>
   </div>
 
-  <!-- Colonne droite -->
-  <div class="col">
-
-    <!-- Order -->
-    <div class="collection">
-      <div class="collection-header">
-        <span class="collection-icon">🛒</span> Collection : Order
-      </div>
-      <div class="collection-body">
-        <div class="field">
-          <span class="field-name">_id</span>
-          <span class="field-type">ObjectId</span>
-          <span class="badge badge-pk">PK</span>
-        </div>
-        <div class="field">
-          <span class="field-name">user</span>
-          <span class="field-type">ObjectId</span>
-          <span class="badge badge-fk">FK → User</span>
-        </div>
-        <div class="field">
-          <span class="field-name">guestName</span>
-          <span class="field-type">String</span>
-        </div>
-        <div class="field">
-          <span class="field-name">guestEmail</span>
-          <span class="field-type">String</span>
-        </div>
-        <div class="section-label">Sous-document : OrderItem [ ]</div>
-        <div class="field">
-          <span class="field-name">  productId</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="field">
-          <span class="field-name">  productName</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="field">
-          <span class="field-name">  price / qty</span>
-          <span class="field-type">Number</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="section-label">Champs financiers</div>
-        <div class="field">
-          <span class="field-name">totalHT / tva</span>
-          <span class="field-type">Number</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">totalTTC</span>
-          <span class="field-type">Number</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">status</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-enum">6 valeurs</span>
-        </div>
-        <div class="field">
-          <span class="field-name">paymentMethod</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-enum">4 valeurs</span>
-        </div>
-        <div class="section-label">Adresse de livraison (imbriquée)</div>
-        <div class="field">
-          <span class="field-name">  country / city</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="field">
-          <span class="field-name">  street / postalCode</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="field">
-          <span class="field-name">trackingNumber</span>
-          <span class="field-type">String</span>
-        </div>
-        <div class="field">
-          <span class="field-name">createdAt</span>
-          <span class="field-type">Date (auto)</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ConfiguratorOrder -->
-    <div class="collection">
-      <div class="collection-header">
-        <span class="collection-icon">⚙️</span> Collection : ConfiguratorOrder
-      </div>
-      <div class="collection-body">
-        <div class="field">
-          <span class="field-name">_id</span>
-          <span class="field-type">ObjectId</span>
-          <span class="badge badge-pk">PK</span>
-        </div>
-        <div class="field">
-          <span class="field-name">devisNumber</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">unique</span>
-        </div>
-        <div class="field">
-          <span class="field-name">user</span>
-          <span class="field-type">ObjectId</span>
-          <span class="badge badge-fk">FK → User</span>
-        </div>
-        <div class="field">
-          <span class="field-name">name / email</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="section-label">Sous-document : configuration</div>
-        <div class="field">
-          <span class="field-name">  model</span>
-          <span class="field-type">{ id, name, basePrice }</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="field">
-          <span class="field-name">  size</span>
-          <span class="field-type">{ id, label, volume }</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="field">
-          <span class="field-name">  label</span>
-          <span class="field-type">{ id, name, priceAdd }</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="field">
-          <span class="field-name">  customText</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-emb">emb.</span>
-        </div>
-        <div class="field">
-          <span class="field-name">quantity</span>
-          <span class="field-type">Number</span>
-        </div>
-        <div class="field">
-          <span class="field-name">totalHT / totalTTC</span>
-          <span class="field-type">Number</span>
-          <span class="badge badge-req">requis</span>
-        </div>
-        <div class="field">
-          <span class="field-name">status</span>
-          <span class="field-type">String</span>
-          <span class="badge badge-enum">5 valeurs</span>
-        </div>
-        <div class="field">
-          <span class="field-name">createdAt</span>
-          <span class="field-type">Date (auto)</span>
-        </div>
-      </div>
-    </div>
-
+  <div class="collection">
+    <div class="collection-header">🛒 Order</div>
+    <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><span class="badge pk">PK</span></div>
+    <div class="field"><span class="field-name">user</span><span class="field-type">ObjectId</span><span class="badge fk">FK → User</span></div>
+    <div class="field"><span class="field-name">guestName</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">guestEmail / guestPhone</span><span class="field-type">String</span></div>
+    <div class="section-lbl">OrderItem [ ] — sous-document</div>
+    <div class="field"><span class="field-name">  productId</span><span class="field-type">String</span><span class="badge em">emb.</span></div>
+    <div class="field"><span class="field-name">  productName</span><span class="field-type">String</span><span class="badge em">emb.</span></div>
+    <div class="field"><span class="field-name">  price / quantity</span><span class="field-type">Number</span><span class="badge em">emb.</span></div>
+    <div class="section-lbl">Champs financiers</div>
+    <div class="field"><span class="field-name">totalHT / tva</span><span class="field-type">Number</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">totalTTC / currency</span><span class="field-type">Number / String</span></div>
+    <div class="field"><span class="field-name">status</span><span class="field-type">String</span><span class="badge en">6 valeurs</span></div>
+    <div class="field"><span class="field-name">paymentMethod</span><span class="field-type">String</span><span class="badge en">4 valeurs</span></div>
+    <div class="section-lbl">shippingAddress — imbriqué</div>
+    <div class="field"><span class="field-name">  country / city</span><span class="field-type">String</span><span class="badge em">emb.</span></div>
+    <div class="field"><span class="field-name">  street / postalCode</span><span class="field-type">String</span><span class="badge em">emb.</span></div>
+    <div class="field"><span class="field-name">trackingNumber / carrier</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span></div>
   </div>
+
+  <div class="collection">
+    <div class="collection-header">⚙️ ConfiguratorOrder</div>
+    <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><span class="badge pk">PK</span></div>
+    <div class="field"><span class="field-name">devisNumber</span><span class="field-type">String</span><span class="badge un">unique</span></div>
+    <div class="field"><span class="field-name">user</span><span class="field-type">ObjectId</span><span class="badge fk">FK → User</span></div>
+    <div class="field"><span class="field-name">name / email</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">phone / country</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">currency</span><span class="field-type">String</span><span class="badge en">TND</span></div>
+    <div class="section-lbl">configuration — sous-document</div>
+    <div class="field"><span class="field-name">  model</span><span class="field-type">{ id, name, basePrice }</span><span class="badge em">emb.</span></div>
+    <div class="field"><span class="field-name">  size</span><span class="field-type">{ id, label, volume }</span><span class="badge em">emb.</span></div>
+    <div class="field"><span class="field-name">  label</span><span class="field-type">{ id, name, priceAdd }</span><span class="badge em">emb.</span></div>
+    <div class="field"><span class="field-name">  customText</span><span class="field-type">String</span><span class="badge em">emb.</span></div>
+    <div class="field"><span class="field-name">quantity</span><span class="field-type">Number</span></div>
+    <div class="field"><span class="field-name">totalHT / totalTTC</span><span class="field-type">Number</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">message</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">status</span><span class="field-type">String</span><span class="badge en">5 valeurs</span></div>
+    <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span></div>
+  </div>
+
+  <div class="collection">
+    <div class="collection-header">✉️ ContactMessage</div>
+    <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><span class="badge pk">PK</span></div>
+    <div class="field"><span class="field-name">nom / prenom</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">email</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">telephone</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">pays</span><span class="field-type">String</span></div>
+    <div class="field"><span class="field-name">sujet</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">message</span><span class="field-type">String</span><span class="badge req">requis</span></div>
+    <div class="field"><span class="field-name">read</span><span class="field-type">Boolean</span></div>
+    <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span></div>
+  </div>
+
 </div>
 
-<!-- Relations -->
-<div class="relations-area">
-  <div class="relation-box">
+<div class="bottom">
+  <div class="box">
     <h3>🔗 Relations entre collections</h3>
-    <div class="relation-item">
+    <div class="rel-row">
       <strong>Order.user</strong>
-      <span class="arrow arrow-green">──▶</span>
+      <span class="arr">──▶</span>
       <strong>User._id</strong>
-      <span style="color:#7a6a55;font-size:10px;">(nullable — invité)</span>
+      <span class="note">(optionnel — null si commande invité)</span>
     </div>
-    <div class="relation-item">
+    <div class="rel-row">
       <strong>ConfiguratorOrder.user</strong>
-      <span class="arrow arrow-green">──▶</span>
+      <span class="arr">──▶</span>
       <strong>User._id</strong>
-      <span style="color:#7a6a55;font-size:10px;">(nullable — invité)</span>
+      <span class="note">(optionnel — null si devis invité)</span>
     </div>
-    <div class="relation-item" style="margin-top:6px;color:#888;font-size:10px;">
-      Product et ContactMessage sont des collections indépendantes
+    <div class="rel-row" style="margin-top:4px;">
+      <span class="note" style="font-size:9.5px;">📌 Product et ContactMessage sont des collections indépendantes sans référence externe.</span>
     </div>
   </div>
-
-  <div class="relation-box">
-    <h3>📊 Valeurs énumérées</h3>
-    <div class="relation-item" style="flex-direction:column;gap:4px;align-items:flex-start;">
-      <span><strong>Order.status :</strong> pending · paid · processing · shipped · delivered · cancelled</span>
-      <span><strong>Order.paymentMethod :</strong> cod · paypal · stripe · konnect</span>
-      <span><strong>ConfiguratorOrder.status :</strong> new · reviewing · quoted · accepted · rejected</span>
-      <span><strong>User.role :</strong> user · admin</span>
-    </div>
+  <div class="box">
+    <h3>📊 Valeurs énumérées (enum)</h3>
+    <div class="enum-row"><strong>Order.status :</strong> pending · paid · processing · shipped · delivered · cancelled</div>
+    <div class="enum-row"><strong>Order.paymentMethod :</strong> cod · paypal · stripe · konnect</div>
+    <div class="enum-row"><strong>ConfiguratorOrder.status :</strong> new · reviewing · quoted · accepted · rejected</div>
+    <div class="enum-row"><strong>User.role :</strong> user · admin</div>
   </div>
 </div>
 
-<!-- Légende -->
 <div class="legend">
-  <div class="legend-item"><span class="badge badge-pk">PK</span> Clé primaire (ObjectId auto-généré)</div>
-  <div class="legend-item"><span class="badge badge-fk">FK</span> Référence vers une autre collection</div>
-  <div class="legend-item"><span class="badge badge-req">requis</span> Champ obligatoire</div>
-  <div class="legend-item"><span class="badge badge-enum">enum</span> Valeurs énumérées</div>
-  <div class="legend-item"><span class="badge badge-emb">emb.</span> Document imbriqué (embedded)</div>
+  <div class="leg"><span class="badge pk">PK</span> Clé primaire (ObjectId auto)</div>
+  <div class="leg"><span class="badge fk">FK</span> Référence externe</div>
+  <div class="leg"><span class="badge req">requis</span> Champ obligatoire</div>
+  <div class="leg"><span class="badge un">unique</span> Valeur unique</div>
+  <div class="leg"><span class="badge en">enum</span> Valeurs énumérées</div>
+  <div class="leg"><span class="badge em">emb.</span> Document imbriqué</div>
 </div>
 
 <p class="footer">Figure X : Schéma de la base de données MongoDB — Domaine FENDRI · 5 collections · ODM Mongoose</p>
