@@ -1,0 +1,12 @@
+Logo	Technologie	Description
+![React]	React 19	Bibliothèque JavaScript pour la construction d'interfaces utilisateur basées sur des composants réutilisables. Utilisée pour développer l'ensemble des pages et composants interactifs de la plateforme FENDRI.
+![TS]	TypeScript	Sur-ensemble statiquement typé de JavaScript développé par Microsoft. Il renforce la fiabilité du code en détectant les erreurs à la compilation et facilite la maintenance de l'application.
+![Vite]	Vite	Outil de build ultra-rapide pour les applications web modernes. Il offre un démarrage instantané du serveur de développement et une compilation optimisée pour la production grâce au bundling ESM natif.
+![Tailwind]	TailwindCSS	Framework CSS utilitaire permettant de construire des interfaces responsives et personnalisées directement dans le balisage. Utilisé pour concevoir l'ensemble du design en cohérence avec la charte graphique premium de FENDRI.
+![Node]	Node.js	"Environnement d'exécution JavaScript côté serveur basé sur le moteur V8. Il permet de développer des applications réseau performantes, idéales pour les API REST du backend FENDRI."
+![Express]	Express.js	"Framework minimaliste pour Node.js permettant de créer des serveurs web et des API REST. Il structure l'ensemble des routes de la plateforme : authentification, produits, commandes, configurateur et administration."
+![MongoDB]	MongoDB + Mongoose	Système de gestion de bases de données NoSQL orienté documents. Mongoose fournit un ODM permettant de définir des schémas structurés pour les cinq collections de l'application.
+![JWT]	JWT + bcryptjs	"JSON Web Token assure l'authentification sécurisée des utilisateurs. bcryptjs effectue le hachage des mots de passe avant leur stockage en base de données, garantissant la confidentialité des données sensibles."
+![i18n]	i18next	"Bibliothèque d'internationalisation pour JavaScript. Utilisée pour implémenter le support multilingue FR/EN/AR de la plateforme, incluant la gestion du mode RTL pour la langue arabe."
+![Resend]	Resend API	Service d'envoi d'emails transactionnels utilisé pour les confirmations de commandes et les notifications aux utilisateurs.
+![Vitest]	Vitest + Testing Library	"Framework de tests unitaires natif pour Vite. Utilisé pour valider les fonctionnalités critiques : 10 tests useCart et 8 tests useAuth, soit 18 tests au total."

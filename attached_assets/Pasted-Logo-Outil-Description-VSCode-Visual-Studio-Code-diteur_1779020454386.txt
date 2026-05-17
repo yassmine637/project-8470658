@@ -1,0 +1,14 @@
+Logo	Outil	Description
+![VSCode]	Visual Studio Code	"Éditeur de code gratuit développé par Microsoft, utilisé pour l'intégralité du développement frontend et backend. Il offre une autocomplétion intelligente, un débogueur intégré et une prise en charge native de TypeScript et ESLint."
+![Blender]	Blender 5.0.1	"Logiciel de modélisation, d'animation et de rendu 3D open source. Utilisé pour créer les quatre modèles 3D des contenants d'huile d'olive FENDRI avec des shaders PBR photoréalistes et le moteur de rendu Cycles."
+![Git]	Git	"Système de contrôle de version décentralisé permettant de suivre les modifications du code source, de gérer les branches de développement et d'assurer une traçabilité complète des évolutions du projet."
+![GitHub]	GitHub	"Plateforme d'hébergement de code source basée sur Git. Utilisée pour la sauvegarde du dépôt, la gestion des versions et le suivi de l'avancement du projet tout au long du développement."
+![Postman]	Postman	"Outil de test des API REST permettant d'envoyer des requêtes HTTP (GET, POST, PUT, DELETE), de vérifier les réponses et de valider le bon fonctionnement de l'ensemble des routes de l'API backend FENDRI."
+![MongoDB]	MongoDB Compass	"Interface graphique officielle de MongoDB, utilisée pour visualiser, interroger et administrer les collections de la base de données durant le développement et les phases de test."
+
+2.4.2 Processus de conception et de production
+2.4.3 Choix techniques et technologies utilisées
+La démarche de conception adoptée s'articule autour de trois phases complémentaires et successives.
+La phase d'analyse a permis d'identifier les besoins des différents acteurs et de formaliser les interactions du système à travers les diagrammes UML (cas d'utilisation, séquence et classe).
+La phase de conception a défini l'architecture technique de la solution selon un modèle trois tiers, séparant clairement la couche de présentation (React/TypeScript), la couche logique (Express.js/Node.js) et la couche de données (MongoDB Atlas). Les choix graphiques de l'interface ont également été établis lors de cette phase, en cohérence avec le positionnement premium de la marque.
+Enfin, la phase de production a assuré l'intégration progressive des fonctionnalités développées au fil des quatre sprints Scrum, en garantissant une livraison continue et validée à chaque étape du projet.
