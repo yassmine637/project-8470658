@@ -1,0 +1,185 @@
+Chapitre 2 : Analyse et Conception (Pages 24-47)
+Table
+Section Qualité du
+Contenu
+
+Exhaustivité Problèmes
+
+Introduction ✅ Bonne ✅ Complète Aperçu clair du chapitre
+
+2.1 Identification des
+acteurs
+
+✅ Bonne ✅ Complète 3 acteurs bien définis
+
+2.2 Spécification des
+besoins
+
+✅ Bonne ✅ Complète Fonctionnels et non-
+fonctionnels
+
+2.2.1 Besoins
+fonctionnels
+
+✅ Bonne ✅ Complète Déclinaison par acteur
+
+2.2.2 Besoins non-
+fonctionnels
+
+✅ Bonne ✅ Complète 9 catégories
+
+(performance, sécurité,
+etc.)
+
+2.3 Conception
+fonctionnelle
+
+⚠️ Acceptable ⚠️
+Incomplète
+
+Diagrammes UML
+présents mais
+imparfaits
+
+2.3.1 Diagramme de
+cas d&#39;utilisation
+
+⚠️ Acceptable ⚠️
+Incomplète
+
+Voir analyse UML
+
+2.3.2 Description des
+cas d&#39;utilisation
+
+✅ Bonne ✅ Complète 4 cas détaillés
+
+2.3.3 Diagrammes de
+séquence
+
+⚠️ Acceptable ⚠️
+Incomplète
+
+Fragments combinés
+manquants
+
+2.3.4 Diagramme de
+classe
+
+❌ Faible ❌ Incomplète Illisible
+
+2.4 Conception
+générale
+
+✅ Bonne ✅ Complète Architecture bien
+expliquée
+
+2.4.1 Architecture
+générale
+
+✅ Bonne ✅ Complète Architecture 3-tiers
+(Figure 15)
+
+2.4.2 Processus de
+conception
+
+⚠️ Faible ❌ Incomplète En-tête seul, aucun
+contenu (Page 38)
+
+2.4.3 Choix
+techniques
+
+❌ Manquant ❌ Incomplète En-tête seul, contenu
+
+tronqué
+
+2.5 Modélisation 3D
+des produits
+
+✅ Excellente ✅ Complète Profondeur technique
+
+remarquable
+
+2.5.1 Justification des
+contenants
+
+✅ Bonne ✅ Complète Analyse de marché
+
+2.5.2 Élargissement
+de la gamme
+
+✅ Bonne ✅ Complète Rationale stratégique
+
+2.5.3 Méthodologie
+de modélisation
+
+✅ Excellente ✅ Complète Workflow Blender
+
+détaillé
+
+2.5.4 Pipeline de
+production
+
+✅ Bonne ✅ Complète Phases A, B, C
+
+2.5.5 Intégration web ✅ Bonne ✅ Complète Techniques
+d&#39;optimisation
+
+2.5.6 Validation
+technique
+
+✅ Bonne ✅ Complète 4 tableaux de validation
+
+2.5.7 Impact
+stratégique
+
+✅ Bonne ✅ Complète Analyse marketing
+
+2.6 Conception
+graphique
+
+✅ Bonne ✅ Complète Système d&#39;identité
+
+visuelle
+
+2.6.1 Charte
+graphique
+
+✅ Bonne ✅ Complète Figure 21 complète
+
+2.6.2 Typographie ✅ Bonne ✅ Complète Cinzel + Montserrat
+
+2.6.3 Palette
+chromatique
+
+✅ Bonne ✅ Complète 4 couleurs avec
+sémantique
+
+2.6.4 Moodboard ✅ Bonne ✅ Complète 4 dimensions
+thématiques
+
+Conclusion ✅ Bonne ✅ Complète Transitoire
+Forces du Chapitre 2 :
+ Section modélisation 3D exceptionnelle — rare profondeur pour un PFE de
+Licence
+ Lien fort entre choix techniques et stratégie commerciale
+ Méthodologie de validation professionnelle (Tableaux 3-6)
+ Cohérence du système d&#39;identité visuelle
+Faiblesses du Chapitre 2 :
+Table
+
+Problème Gravité Pag
+e
+Explication
+
+Section 2.4.2 vide �� Élevée 38 En-tête présent, zéro contenu
+
+Section 2.4.3 tronquée �� Élevée 38 Choix techniques coupés en
+
+plein document
+
+Schéma de base de
+données absent
+
+�� Élevée — Aucun ERD ou schéma
+MongoDB visualisé
