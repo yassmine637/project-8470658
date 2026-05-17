@@ -13,11 +13,10 @@ router.use(protect, admin);
 
 router.get('/stats', async (req, res) => {
   try {
-    const [totalOrders, totalUsers, pendingConfigs, unreadMessages, totalProducts] = await Promise.all([
+    const [totalOrders, totalUsers, pendingConfigs, totalProducts] = await Promise.all([
       Order.countDocuments(),
       User.countDocuments(),
       ConfiguratorOrder.countDocuments({ status: 'new' }),
-      ContactMessage.countDocuments({ read: false }),
       Product.countDocuments({ active: true }),
     ]);
 
@@ -27,7 +26,7 @@ router.get('/stats', async (req, res) => {
     ]);
     const revenue = revenueResult[0]?.total || 0;
 
-    res.json({ totalOrders, totalUsers, pendingConfigs, unreadMessages, totalProducts, revenue });
+    res.json({ totalOrders, totalUsers, pendingConfigs, totalProducts, revenue });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -112,14 +111,6 @@ router.get('/messages', async (req, res) => {
   }
 });
 
-router.put('/messages/:id/read', async (req, res) => {
-  try {
-    const msg = await ContactMessage.findByIdAndUpdate(req.params.id, { read: true }, { new: true });
-    res.json(msg);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
 router.get('/users', async (req, res) => {
   try {

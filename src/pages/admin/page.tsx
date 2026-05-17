@@ -287,7 +287,6 @@ export default function AdminPage() {
                   { label: 'Commandes totales', value: stats.totalOrders, icon: 'ri-shopping-bag-line', color: '#3b82f6' },
                   { label: 'Utilisateurs', value: stats.totalUsers, icon: 'ri-team-line', color: '#8b5cf6' },
                   { label: 'Devis en attente', value: stats.pendingConfigs, icon: 'ri-flask-line', color: '#f59e0b' },
-                  { label: 'Messages non lus', value: stats.unreadMessages, icon: 'ri-mail-line', color: '#ef4444' },
                   { label: 'Produits actifs', value: stats.totalProducts, icon: 'ri-leaf-line', color: '#10b981' },
                   { label: 'Revenu payé (TND)', value: `${stats.revenue} TND`, icon: 'ri-money-dollar-circle-line', color: '#d4af37' },
                 ].map((s) => (
@@ -421,12 +420,11 @@ export default function AdminPage() {
               <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Messages de contact</h2>
               <div className="flex flex-col gap-3">
                 {(messages as Record<string, unknown>[]).map((m) => (
-                  <div key={m._id as string} className="rounded-2xl p-5" style={{ background: '#ffffff', border: `1px solid ${m.read ? '#e8e8e4' : 'rgba(212,175,55,0.3)'}` }}>
+                  <div key={m._id as string} className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <div className="font-bold text-sm mb-1" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                           {m.nom as string} {m.prenom as string}
-                          {!m.read && <span className="ml-2 px-2 py-0.5 rounded-full text-xs" style={{ background: 'rgba(212,175,55,0.15)', color: '#d4af37' }}>Nouveau</span>}
                         </div>
                         <div className="text-xs mb-3" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
                           {m.email as string} · {m.telephone as string} · {m.pays as string}
@@ -434,20 +432,9 @@ export default function AdminPage() {
                         <div className="text-sm font-semibold mb-1" style={{ color: '#3a6040', fontFamily: "'Outfit', sans-serif" }}>{m.sujet as string}</div>
                         <div className="text-sm" style={{ color: '#4b5563', fontFamily: "'Outfit', sans-serif" }}>{m.message as string}</div>
                       </div>
-                      <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                        <span className="text-xs" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-                          {new Date(m.createdAt as string).toLocaleDateString('fr-FR')}
-                        </span>
-                        {!m.read && (
-                          <button
-                            onClick={() => adminApi.markMessageRead(m._id as string).then(() => setMessages((ms) => ms.map((x) => (x as Record<string, unknown>)._id === m._id ? { ...x, read: true } : x)))}
-                            className="cursor-pointer px-3 py-1 rounded-full text-xs font-bold"
-                            style={{ background: '#1a2617', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}
-                          >
-                            Marquer lu
-                          </button>
-                        )}
-                      </div>
+                      <span className="text-xs flex-shrink-0" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
+                        {new Date(m.createdAt as string).toLocaleDateString('fr-FR')}
+                      </span>
                     </div>
                   </div>
                 ))}

@@ -6,7 +6,6 @@ export const adminApi = {
       totalOrders: number;
       totalUsers: number;
       pendingConfigs: number;
-      unreadMessages: number;
       totalProducts: number;
       revenue: number;
     }>('/admin/stats'),
@@ -36,8 +35,6 @@ export const adminApi = {
     if (params?.page) q.set('page', String(params.page));
     return api.get<{ messages: unknown[]; total: number; pages: number }>(`/admin/messages?${q}`);
   },
-
-  markMessageRead: (id: string) => api.put(`/admin/messages/${id}/read`, {}),
 
   users: () => api.get<unknown[]>('/admin/users'),
 
