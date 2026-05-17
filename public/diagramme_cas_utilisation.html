@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Diagramme de cas d'utilisation — FENDRI</title>
+<style>
+  body { margin: 0; padding: 0; background: white; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<svg width="1280" height="710" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+
+  <defs>
+    <marker id="arr-open" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polyline points="0 0, 8 3.5, 0 7" fill="none" stroke="#444" stroke-width="1.2"/>
+    </marker>
+    <marker id="arr-gen" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto">
+      <polygon points="10 0, 0 5, 10 10" fill="white" stroke="#444" stroke-width="1.2"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="710" fill="white"/>
+
+  <!-- TITRE -->
+  <text x="640" y="16" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1a1a1a">
+    Diagramme de cas d'utilisation — Plateforme Domaine FENDRI
+  </text>
+
+  <!-- FRONTIÈRE SYSTÈME -->
+  <rect x="148" y="23" width="980" height="645" fill="none" stroke="#333" stroke-width="2" rx="3"/>
+  <text x="638" y="37" text-anchor="middle" font-size="10" fill="#666" font-style="italic">Système — Plateforme FENDRI</text>
+
+  <!-- Séparateur zone Admin -->
+  <line x1="715" y1="43" x2="715" y2="660" stroke="#bbb" stroke-width="1" stroke-dasharray="5,4"/>
+  <text x="720" y="52" font-size="8" fill="#bbb" font-style="italic">Zone Admin</text>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- ACTEURS                                     -->
+  <!-- ════════════════════════════════════════════ -->
+
+  <!-- Visiteur -->
+  <circle cx="72" cy="218" r="13" fill="none" stroke="#333" stroke-width="1.5"/>
+  <line x1="72" y1="231" x2="72" y2="264" stroke="#333" stroke-width="1.5"/>
+  <line x1="53" y1="248" x2="91" y2="248" stroke="#333" stroke-width="1.5"/>
+  <line x1="72" y1="264" x2="53" y2="292" stroke="#333" stroke-width="1.5"/>
+  <line x1="72" y1="264" x2="91" y2="292" stroke="#333" stroke-width="1.5"/>
+  <text x="72" y="308" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#222">Visiteur</text>
+
+  <!-- Client authentifié -->
+  <circle cx="72" cy="555" r="13" fill="none" stroke="#333" stroke-width="1.5"/>
+  <line x1="72" y1="568" x2="72" y2="601" stroke="#333" stroke-width="1.5"/>
+  <line x1="53" y1="585" x2="91" y2="585" stroke="#333" stroke-width="1.5"/>
+  <line x1="72" y1="601" x2="53" y2="629" stroke="#333" stroke-width="1.5"/>
+  <line x1="72" y1="601" x2="91" y2="629" stroke="#333" stroke-width="1.5"/>
+  <text x="72" y="645" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#222">Client</text>
+  <text x="72" y="658" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#222">authentifié</text>
+
+  <!-- Généralisation Client auth ──▷ Visiteur -->
+  <line x1="72" y1="542" x2="72" y2="322" stroke="#333" stroke-width="1.5" marker-end="url(#arr-gen)"/>
+
+  <!-- Administrateur -->
+  <circle cx="1210" cy="360" r="13" fill="none" stroke="#333" stroke-width="1.5"/>
+  <line x1="1210" y1="373" x2="1210" y2="406" stroke="#333" stroke-width="1.5"/>
+  <line x1="1191" y1="390" x2="1229" y2="390" stroke="#333" stroke-width="1.5"/>
+  <line x1="1210" y1="406" x2="1191" y2="434" stroke="#333" stroke-width="1.5"/>
+  <line x1="1210" y1="406" x2="1229" y2="434" stroke="#333" stroke-width="1.5"/>
+  <text x="1210" y="450" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#222">Administrateur</text>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- CAS D'UTILISATION — ZONE VISITEUR                      -->
+  <!-- ════════════════════════════════════════════════════════ -->
+
+  <!-- UC1: Consulter les produits -->
+  <ellipse cx="292" cy="78" rx="97" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="292" y="82" text-anchor="middle" font-size="9.5">Consulter les produits</text>
+
+  <!-- sub: Consulter une fiche produit -->
+  <ellipse cx="545" cy="58" rx="105" ry="20" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="545" y="55" text-anchor="middle" font-size="9">Consulter une</text>
+  <text x="545" y="66" text-anchor="middle" font-size="9">fiche produit</text>
+  <line x1="390" y1="70" x2="439" y2="61" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="415" y="59" text-anchor="middle" font-size="7.5" fill="#555">«include»</text>
+
+  <!-- UC2: Passer une commande -->
+  <ellipse cx="292" cy="162" rx="97" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="292" y="166" text-anchor="middle" font-size="9.5">Passer une commande</text>
+
+  <!-- sub: Ajouter au panier -->
+  <ellipse cx="545" cy="142" rx="88" ry="19" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="545" y="146" text-anchor="middle" font-size="9">Ajouter au panier</text>
+  <line x1="390" y1="155" x2="456" y2="145" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="422" y="143" text-anchor="middle" font-size="7.5" fill="#555">«include»</text>
+
+  <!-- sub: Choisir le mode de paiement -->
+  <ellipse cx="545" cy="190" rx="100" ry="19" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="545" y="187" text-anchor="middle" font-size="9">Choisir le mode</text>
+  <text x="545" y="198" text-anchor="middle" font-size="9">de paiement</text>
+  <line x1="390" y1="170" x2="444" y2="185" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="416" y="185" text-anchor="middle" font-size="7.5" fill="#555">«include»</text>
+
+  <!-- UC3: Utiliser le configurateur -->
+  <ellipse cx="292" cy="265" rx="106" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="292" y="269" text-anchor="middle" font-size="9.5">Utiliser le configurateur</text>
+
+  <!-- sub: Soumettre un devis — EXTEND -->
+  <ellipse cx="545" cy="265" rx="94" ry="20" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="545" y="262" text-anchor="middle" font-size="9">Soumettre</text>
+  <text x="545" y="273" text-anchor="middle" font-size="9">un devis</text>
+  <!-- flèche extend : du sub vers le cas de base -->
+  <line x1="450" y1="265" x2="399" y2="265" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="424" y="257" text-anchor="middle" font-size="8" fill="#a04000" font-weight="bold">«extend»</text>
+
+  <!-- UC4: Envoyer un message -->
+  <ellipse cx="292" cy="347" rx="95" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="292" y="351" text-anchor="middle" font-size="9.5">Envoyer un message</text>
+
+  <!-- UC5: Créer un compte -->
+  <ellipse cx="292" cy="415" rx="87" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="292" y="419" text-anchor="middle" font-size="9.5">Créer un compte</text>
+
+  <!-- UC6: Se connecter -->
+  <ellipse cx="292" cy="483" rx="82" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="292" y="487" text-anchor="middle" font-size="9.5">Se connecter</text>
+
+  <!-- Associations Visiteur → UC1..6 -->
+  <line x1="136" y1="240" x2="195" y2="88" stroke="#777" stroke-width="1"/>
+  <line x1="136" y1="244" x2="195" y2="165" stroke="#777" stroke-width="1"/>
+  <line x1="136" y1="249" x2="185" y2="268" stroke="#777" stroke-width="1"/>
+  <line x1="136" y1="254" x2="196" y2="349" stroke="#777" stroke-width="1"/>
+  <line x1="136" y1="259" x2="204" y2="417" stroke="#777" stroke-width="1"/>
+  <line x1="136" y1="264" x2="209" y2="485" stroke="#777" stroke-width="1"/>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- CAS D'UTILISATION — ZONE CLIENT AUTHENTIFIÉ            -->
+  <!-- ════════════════════════════════════════════════════════ -->
+
+  <!-- UC7: Accéder à Mon Compte -->
+  <ellipse cx="292" cy="575" rx="105" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="292" y="572" text-anchor="middle" font-size="9.5">Accéder à</text>
+  <text x="292" y="583" text-anchor="middle" font-size="9.5">« Mon Compte »</text>
+
+  <!-- sub: Consulter l'historique -->
+  <ellipse cx="545" cy="545" rx="108" ry="19" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="545" y="542" text-anchor="middle" font-size="9">Consulter l'historique</text>
+  <text x="545" y="553" text-anchor="middle" font-size="9">des commandes</text>
+  <line x1="397" y1="568" x2="436" y2="552" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="415" y="553" text-anchor="middle" font-size="7.5" fill="#555">«include»</text>
+
+  <!-- sub: Suivre le statut -->
+  <ellipse cx="545" cy="593" rx="108" ry="19" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="545" y="590" text-anchor="middle" font-size="9">Suivre le statut</text>
+  <text x="545" y="601" text-anchor="middle" font-size="9">des commandes</text>
+  <line x1="397" y1="575" x2="436" y2="590" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="415" y="591" text-anchor="middle" font-size="7.5" fill="#555">«include»</text>
+
+  <!-- sub: Modifier le mot de passe -->
+  <ellipse cx="545" cy="638" rx="108" ry="19" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="545" y="635" text-anchor="middle" font-size="9">Modifier le</text>
+  <text x="545" y="646" text-anchor="middle" font-size="9">mot de passe</text>
+  <line x1="397" y1="583" x2="436" y2="632" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="414" y="622" text-anchor="middle" font-size="7.5" fill="#555">«include»</text>
+
+  <!-- Association Client auth → UC7 -->
+  <line x1="136" y1="575" x2="186" y2="577" stroke="#777" stroke-width="1"/>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- CAS D'UTILISATION — ZONE ADMINISTRATEUR                -->
+  <!-- ════════════════════════════════════════════════════════ -->
+
+  <!-- A1: S'authentifier -->
+  <ellipse cx="795" cy="78" rx="87" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="795" y="82" text-anchor="middle" font-size="9.5">S'authentifier</text>
+
+  <!-- A2: Gérer les commandes -->
+  <ellipse cx="795" cy="167" rx="99" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="795" y="171" text-anchor="middle" font-size="9.5">Gérer les commandes</text>
+  <!-- sub A2 -->
+  <ellipse cx="993" cy="150" rx="80" ry="18" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="993" y="147" text-anchor="middle" font-size="8.5">Consulter</text>
+  <text x="993" y="158" text-anchor="middle" font-size="8.5">les commandes</text>
+  <ellipse cx="993" cy="192" rx="80" ry="18" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="993" y="189" text-anchor="middle" font-size="8.5">Modifier le statut</text>
+  <text x="993" y="200" text-anchor="middle" font-size="8.5">de la commande</text>
+  <line x1="894" y1="160" x2="912" y2="154" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="902" y="151" text-anchor="middle" font-size="7" fill="#555">«include»</text>
+  <line x1="894" y1="174" x2="912" y2="190" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="902" y="190" text-anchor="middle" font-size="7" fill="#555">«include»</text>
+
+  <!-- A3: Gérer le stock -->
+  <ellipse cx="795" cy="270" rx="90" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="795" y="274" text-anchor="middle" font-size="9.5">Gérer le stock</text>
+  <!-- sub A3 -->
+  <ellipse cx="993" cy="270" rx="80" ry="18" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="993" y="267" text-anchor="middle" font-size="8.5">Mettre à jour</text>
+  <text x="993" y="278" text-anchor="middle" font-size="8.5">le stock</text>
+  <line x1="886" y1="270" x2="912" y2="270" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="898" y="262" text-anchor="middle" font-size="7" fill="#555">«include»</text>
+
+  <!-- A4: Gérer les devis -->
+  <ellipse cx="795" cy="366" rx="90" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="795" y="370" text-anchor="middle" font-size="9.5">Gérer les devis</text>
+  <!-- sub A4 -->
+  <ellipse cx="993" cy="348" rx="80" ry="18" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="993" y="345" text-anchor="middle" font-size="8.5">Consulter</text>
+  <text x="993" y="356" text-anchor="middle" font-size="8.5">les devis</text>
+  <ellipse cx="993" cy="388" rx="80" ry="18" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="993" y="385" text-anchor="middle" font-size="8.5">Modifier le statut</text>
+  <text x="993" y="396" text-anchor="middle" font-size="8.5">du devis</text>
+  <line x1="886" y1="358" x2="912" y2="352" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="898" y="349" text-anchor="middle" font-size="7" fill="#555">«include»</text>
+  <line x1="886" y1="374" x2="912" y2="386" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="898" y="387" text-anchor="middle" font-size="7" fill="#555">«include»</text>
+
+  <!-- A5: Gérer les messages -->
+  <ellipse cx="795" cy="466" rx="98" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="795" y="470" text-anchor="middle" font-size="9.5">Gérer les messages</text>
+  <!-- sub A5 -->
+  <ellipse cx="993" cy="448" rx="80" ry="18" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="993" y="445" text-anchor="middle" font-size="8.5">Consulter</text>
+  <text x="993" y="456" text-anchor="middle" font-size="8.5">les messages</text>
+  <ellipse cx="993" cy="488" rx="80" ry="18" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="993" y="485" text-anchor="middle" font-size="8.5">Marquer message</text>
+  <text x="993" y="496" text-anchor="middle" font-size="8.5">comme lu</text>
+  <line x1="893" y1="458" x2="912" y2="452" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="901" y="450" text-anchor="middle" font-size="7" fill="#555">«include»</text>
+  <line x1="893" y1="474" x2="912" y2="486" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="901" y="487" text-anchor="middle" font-size="7" fill="#555">«include»</text>
+
+  <!-- A6: Gérer les utilisateurs -->
+  <ellipse cx="795" cy="566" rx="103" ry="20" fill="white" stroke="#333" stroke-width="1.5"/>
+  <text x="795" y="570" text-anchor="middle" font-size="9.5">Gérer les utilisateurs</text>
+  <!-- sub A6 -->
+  <ellipse cx="993" cy="566" rx="85" ry="18" fill="#fafafa" stroke="#666" stroke-width="1.2"/>
+  <text x="993" y="563" text-anchor="middle" font-size="8.5">Consulter</text>
+  <text x="993" y="574" text-anchor="middle" font-size="8.5">les utilisateurs</text>
+  <line x1="898" y1="566" x2="907" y2="566" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="902" y="558" text-anchor="middle" font-size="7" fill="#555">«include»</text>
+
+  <!-- Associations Admin → A1..A6 -->
+  <line x1="1197" y1="348" x2="883" y2="86" stroke="#777" stroke-width="1"/>
+  <line x1="1197" y1="353" x2="894" y2="170" stroke="#777" stroke-width="1"/>
+  <line x1="1197" y1="358" x2="885" y2="272" stroke="#777" stroke-width="1"/>
+  <line x1="1197" y1="363" x2="885" y2="368" stroke="#777" stroke-width="1"/>
+  <line x1="1197" y1="368" x2="893" y2="468" stroke="#777" stroke-width="1"/>
+  <line x1="1197" y1="373" x2="898" y2="568" stroke="#777" stroke-width="1"/>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <!-- LÉGENDE                                                 -->
+  <!-- ════════════════════════════════════════════════════════ -->
+  <rect x="148" y="672" width="980" height="36" fill="#f7f5f0" stroke="#ccc" stroke-width="1" rx="3"/>
+  <text x="638" y="684" text-anchor="middle" font-size="9" font-weight="bold" fill="#333">Légende</text>
+
+  <line x1="168" y1="696" x2="208" y2="696" stroke="#666" stroke-width="1" stroke-dasharray="5,3" marker-end="url(#arr-open)"/>
+  <text x="295" y="699" text-anchor="middle" font-size="8.5" fill="#333">«include» / «extend»</text>
+
+  <text x="345" y="699" font-size="15" fill="#333" text-anchor="middle">—</text>
+  <text x="345" y="696" font-size="15" fill="#333">▷</text>
+  <line x1="368" y1="696" x2="408" y2="696" stroke="#333" stroke-width="1.5" marker-end="url(#arr-gen)"/>
+  <text x="490" y="699" text-anchor="middle" font-size="8.5" fill="#333">Généralisation (héritage acteur)</text>
+
+  <line x1="575" y1="696" x2="615" y2="696" stroke="#777" stroke-width="1"/>
+  <text x="695" y="699" text-anchor="middle" font-size="8.5" fill="#333">Association acteur → cas d'utilisation</text>
+
+  <text x="638" y="701" text-anchor="middle" font-size="0"/>
+  <text x="780" y="699" font-size="8.5" fill="#a04000" font-style="italic">  «extend» = comportement optionnel (non obligatoire)</text>
+
+</svg>
+</body>
+</html>

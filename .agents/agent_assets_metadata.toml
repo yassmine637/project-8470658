@@ -41,3 +41,9 @@ id = "lI0M_of8k1ZbQBzoArikL"
 uri = "file://attached_assets/schema_mongodb_fendri.jpg"
 type = "image"
 title = "Figure X — Schéma Base de Données MongoDB FENDRI"
+
+[[outputs]]
+id = "SwsT_DgYOYP1Rd2AC2vCW"
+uri = "file://attached_assets/diagramme_cas_utilisation.jpg"
+type = "image"
+title = "Figure 11 — Diagramme de cas d’utilisation FENDRI (corrigé)"
