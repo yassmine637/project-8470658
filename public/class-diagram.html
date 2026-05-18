@@ -1,194 +1,161 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"/>
-<style>
-  body { margin: 0; padding: 0; background: #fff; }
-  svg { display: block; }
-</style>
+<style>body { margin: 0; padding: 0; background: #fff; } svg { display: block; }</style>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="1060" height="720" font-family="Courier New, monospace" font-size="11.5">
 
-  <!-- ══ TITLE ══ -->
-  <text x="530" y="28" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" letter-spacing="1">DIAGRAMME DE CLASSE — Plateforme FENDRI</text>
+  <!-- TITLE -->
+  <text x="530" y="26" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" letter-spacing="1">DIAGRAMME DE CLASSE — Plateforme FENDRI</text>
 
-  <!-- ══════════════════════════════════════════
-       ROW 1
-  ══════════════════════════════════════════ -->
+  <!-- ══════════ ROW 1 ══════════
+       User | ConfiguratorOrder | Product
+  ════════════════════════════════ -->
 
-  <!-- ── USER (x=15, y=42) ── -->
-  <g id="User">
-    <!-- Title -->
-    <rect x="15" y="42" width="305" height="36" fill="#dae8fc" stroke="#000" stroke-width="2"/>
-    <text x="167" y="58" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity»</text>
-    <text x="167" y="72" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">User</text>
-    <!-- Attributes -->
-    <rect x="15" y="78" width="305" height="168" fill="#fff" stroke="#000" stroke-width="2"/>
-    <text x="23" y="93">- name : String</text>
-    <text x="23" y="109">- email : String</text>
-    <text x="23" y="125">- password : String</text>
-    <text x="23" y="141">- phone : String</text>
-    <text x="23" y="157">- country : String</text>
-    <text x="23" y="173">- role : String = "user"</text>
-    <text x="23" y="189">- resetPasswordToken : String</text>
-    <text x="23" y="205">- resetPasswordExpires : Date</text>
-    <text x="23" y="221">- createdAt : Date</text>
-    <text x="23" y="237">- updatedAt : Date</text>
-    <!-- Operations -->
-    <rect x="15" y="246" width="305" height="44" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
-    <text x="23" y="261" fill="#1a6b1a">+ matchPassword(entered:String) : Boolean</text>
-    <text x="23" y="277" fill="#1a6b1a">+ toSafeObject() : Object</text>
-  </g>
+  <!-- USER (x=15) -->
+  <rect x="15" y="40" width="295" height="36" fill="#dae8fc" stroke="#000" stroke-width="2"/>
+  <text x="162" y="55" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity»</text>
+  <text x="162" y="70" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">User</text>
+  <rect x="15" y="76" width="295" height="164" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="23" y="91">- name : String</text>
+  <text x="23" y="107">- email : String</text>
+  <text x="23" y="123">- password : String</text>
+  <text x="23" y="139">- phone : String</text>
+  <text x="23" y="155">- country : String</text>
+  <text x="23" y="171">- role : String = "user"</text>
+  <text x="23" y="187">- resetPasswordToken : String</text>
+  <text x="23" y="203">- resetPasswordExpires : Date</text>
+  <text x="23" y="219">- createdAt : Date</text>
+  <text x="23" y="235">- updatedAt : Date</text>
+  <rect x="15" y="240" width="295" height="42" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
+  <text x="23" y="256" fill="#1a6b1a">+ matchPassword(entered:String) : Boolean</text>
+  <text x="23" y="274" fill="#1a6b1a">+ toSafeObject() : Object</text>
 
-  <!-- ── PRODUCT (x=368, y=42) ── -->
-  <g id="Product">
-    <rect x="368" y="42" width="280" height="36" fill="#d5e8d4" stroke="#000" stroke-width="2"/>
-    <text x="508" y="58" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity»</text>
-    <text x="508" y="72" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">Product</text>
-    <rect x="368" y="78" width="280" height="152" fill="#fff" stroke="#000" stroke-width="2"/>
-    <text x="376" y="93">- slug : String {unique}</text>
-    <text x="376" y="109">- name : String</text>
-    <text x="376" y="125">- volume : String</text>
-    <text x="376" y="141">- price : Number</text>
-    <text x="376" y="157">- currency : String = "TND"</text>
-    <text x="376" y="173">- description : String</text>
-    <text x="376" y="189">- stock : Number = 100</text>
-    <text x="376" y="205">- active : Boolean = true</text>
-    <text x="376" y="221">- createdAt : Date</text>
-    <rect x="368" y="230" width="280" height="28" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
-    <text x="376" y="248" fill="#999" font-style="italic">  </text>
-  </g>
+  <!-- CONFIGURATORORDER (x=328) -->
+  <rect x="328" y="40" width="330" height="36" fill="#f8cecc" stroke="#000" stroke-width="2"/>
+  <text x="493" y="55" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity»</text>
+  <text x="493" y="70" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">ConfiguratorOrder</text>
+  <rect x="328" y="76" width="330" height="180" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="336" y="91">- devisNumber : String {unique}</text>
+  <text x="336" y="107">- name : String</text>
+  <text x="336" y="123">- email : String</text>
+  <text x="336" y="139">- phone : String</text>
+  <text x="336" y="155">- country : String</text>
+  <text x="336" y="171">- configuration : Object</text>
+  <text x="336" y="187">- quantity : Number = 1</text>
+  <text x="336" y="203">- totalHT : Number</text>
+  <text x="336" y="219">- totalTTC : Number</text>
+  <text x="336" y="235">- status : String = "new"</text>
+  <text x="336" y="251">- createdAt : Date</text>
+  <rect x="328" y="256" width="330" height="26" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
 
-  <!-- ── CONFIGURATORORDER (x=696, y=42) ── -->
-  <g id="ConfigOrder">
-    <rect x="696" y="42" width="348" height="36" fill="#f8cecc" stroke="#000" stroke-width="2"/>
-    <text x="870" y="58" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity»</text>
-    <text x="870" y="72" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">ConfiguratorOrder</text>
-    <rect x="696" y="78" width="348" height="184" fill="#fff" stroke="#000" stroke-width="2"/>
-    <text x="704" y="93">- devisNumber : String {unique}</text>
-    <text x="704" y="109">- name : String</text>
-    <text x="704" y="125">- email : String</text>
-    <text x="704" y="141">- phone : String</text>
-    <text x="704" y="157">- country : String</text>
-    <text x="704" y="173">- configuration : Object</text>
-    <text x="704" y="189">- quantity : Number = 1</text>
-    <text x="704" y="205">- totalHT : Number</text>
-    <text x="704" y="221">- totalTTC : Number</text>
-    <text x="704" y="237">- status : String = "new"</text>
-    <text x="704" y="253">- createdAt : Date</text>
-    <rect x="696" y="262" width="348" height="28" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
-  </g>
+  <!-- PRODUCT (x=676) -->
+  <rect x="676" y="40" width="368" height="36" fill="#d5e8d4" stroke="#000" stroke-width="2"/>
+  <text x="860" y="55" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity» — indépendant</text>
+  <text x="860" y="70" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">Product</text>
+  <rect x="676" y="76" width="368" height="148" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="684" y="91">- slug : String {unique}</text>
+  <text x="684" y="107">- name : String</text>
+  <text x="684" y="123">- volume : String</text>
+  <text x="684" y="139">- price : Number</text>
+  <text x="684" y="155">- currency : String = "TND"</text>
+  <text x="684" y="171">- description : String</text>
+  <text x="684" y="187">- stock : Number = 100</text>
+  <text x="684" y="203">- active : Boolean = true</text>
+  <text x="684" y="219">- createdAt : Date</text>
+  <rect x="676" y="224" width="368" height="26" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
 
-  <!-- ══════════════════════════════════════════
-       ROW 2  (y start = 330)
-  ══════════════════════════════════════════ -->
+  <!-- ══════════ ROW 2 ══════════
+       Order | OrderItem | ContactMessage
+  ════════════════════════════════ -->
 
-  <!-- ── ORDER (x=15, y=330) ── -->
-  <g id="Order">
-    <rect x="15" y="330" width="305" height="36" fill="#fff2cc" stroke="#000" stroke-width="2"/>
-    <text x="167" y="346" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity»</text>
-    <text x="167" y="360" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">Order</text>
-    <rect x="15" y="366" width="305" height="200" fill="#fff" stroke="#000" stroke-width="2"/>
-    <text x="23" y="381">- guestName : String</text>
-    <text x="23" y="397">- guestEmail : String</text>
-    <text x="23" y="413">- items : OrderItem [1..*]</text>
-    <text x="23" y="429">- totalHT : Number</text>
-    <text x="23" y="445">- tva : Number</text>
-    <text x="23" y="461">- totalTTC : Number</text>
-    <text x="23" y="477">- currency : String = "TND"</text>
-    <text x="23" y="493">- status : String = "pending"</text>
-    <text x="23" y="509">- paymentMethod : String = "cod"</text>
-    <text x="23" y="525">- shippingAddress : Object</text>
-    <text x="23" y="541">- trackingNumber : String</text>
-    <text x="23" y="557">- createdAt : Date</text>
-    <rect x="15" y="566" width="305" height="28" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
-  </g>
+  <!-- ORDER (x=15) -->
+  <rect x="15" y="335" width="295" height="36" fill="#fff2cc" stroke="#000" stroke-width="2"/>
+  <text x="162" y="350" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity»</text>
+  <text x="162" y="365" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">Order</text>
+  <rect x="15" y="371" width="295" height="196" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="23" y="386">- guestName : String</text>
+  <text x="23" y="402">- guestEmail : String</text>
+  <text x="23" y="418">- items : OrderItem [1..*]</text>
+  <text x="23" y="434">- totalHT : Number</text>
+  <text x="23" y="450">- tva : Number</text>
+  <text x="23" y="466">- totalTTC : Number</text>
+  <text x="23" y="482">- currency : String = "TND"</text>
+  <text x="23" y="498">- status : String = "pending"</text>
+  <text x="23" y="514">- paymentMethod : String = "cod"</text>
+  <text x="23" y="530">- shippingAddress : Object</text>
+  <text x="23" y="546">- trackingNumber : String</text>
+  <text x="23" y="562">- createdAt : Date</text>
+  <rect x="15" y="567" width="295" height="26" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
 
-  <!-- ── ORDERITEM (x=368, y=330) ── -->
-  <g id="OrderItem">
-    <rect x="368" y="330" width="280" height="36" fill="#ffe6b3" stroke="#000" stroke-width="2"/>
-    <text x="508" y="346" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«valueObject»</text>
-    <text x="508" y="360" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">OrderItem</text>
-    <rect x="368" y="366" width="280" height="88" fill="#fff" stroke="#000" stroke-width="2"/>
-    <text x="376" y="381">- productId : String</text>
-    <text x="376" y="397">- productName : String</text>
-    <text x="376" y="413">- volume : String</text>
-    <text x="376" y="429">- price : Number</text>
-    <text x="376" y="445">- quantity : Number {min=1}</text>
-    <rect x="368" y="454" width="280" height="28" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
-  </g>
+  <!-- ORDERITEM (x=328) -->
+  <rect x="328" y="335" width="295" height="36" fill="#ffe6b3" stroke="#000" stroke-width="2"/>
+  <text x="475" y="350" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«valueObject»</text>
+  <text x="475" y="365" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">OrderItem</text>
+  <rect x="328" y="371" width="295" height="88" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="336" y="386">- productId : String</text>
+  <text x="336" y="402">- productName : String</text>
+  <text x="336" y="418">- volume : String</text>
+  <text x="336" y="434">- price : Number</text>
+  <text x="336" y="450">- quantity : Number {min=1}</text>
+  <rect x="328" y="459" width="295" height="26" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
 
-  <!-- ── CONTACTMESSAGE (x=696, y=330) ── -->
-  <g id="ContactMsg">
-    <rect x="696" y="330" width="348" height="36" fill="#e1d5e7" stroke="#000" stroke-width="2"/>
-    <text x="870" y="346" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity»</text>
-    <text x="870" y="360" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">ContactMessage</text>
-    <rect x="696" y="366" width="348" height="152" fill="#fff" stroke="#000" stroke-width="2"/>
-    <text x="704" y="381">- nom : String</text>
-    <text x="704" y="397">- prenom : String</text>
-    <text x="704" y="413">- email : String</text>
-    <text x="704" y="429">- telephone : String</text>
-    <text x="704" y="445">- pays : String</text>
-    <text x="704" y="461">- sujet : String</text>
-    <text x="704" y="477">- message : String</text>
-    <text x="704" y="493">- read : Boolean = false</text>
-    <text x="704" y="509">- createdAt : Date</text>
-    <rect x="696" y="518" width="348" height="28" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
-  </g>
+  <!-- CONTACTMESSAGE (x=641) -->
+  <rect x="641" y="335" width="403" height="36" fill="#e1d5e7" stroke="#000" stroke-width="2"/>
+  <text x="842" y="350" text-anchor="middle" font-family="Arial" font-size="10" fill="#444">«entity» — indépendant</text>
+  <text x="842" y="365" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" font-style="italic">ContactMessage</text>
+  <rect x="641" y="371" width="403" height="148" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="649" y="386">- nom : String</text>
+  <text x="649" y="402">- prenom : String</text>
+  <text x="649" y="418">- email : String</text>
+  <text x="649" y="434">- telephone : String</text>
+  <text x="649" y="450">- pays : String</text>
+  <text x="649" y="466">- sujet : String</text>
+  <text x="649" y="482">- message : String</text>
+  <text x="649" y="498">- read : Boolean = false</text>
+  <text x="649" y="514">- createdAt : Date</text>
+  <rect x="641" y="519" width="403" height="26" fill="#f9f9f9" stroke="#000" stroke-width="2"/>
 
-  <!-- ══════════════════════════════════════════
-       RELATIONS
-  ══════════════════════════════════════════ -->
+  <!-- ══════════ RELATIONS ══════════ -->
   <defs>
-    <!-- Open arrowhead -->
     <marker id="open-arrow" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto">
       <path d="M0,0.5 L11,4.5 L0,8.5" fill="none" stroke="#000" stroke-width="2"/>
     </marker>
-    <!-- Filled diamond -->
     <marker id="filled-diamond" markerWidth="16" markerHeight="12" refX="1" refY="6" orient="auto">
-      <polygon points="1,6 8,1 15,6 8,11" fill="#000" stroke="#000" stroke-width="1"/>
+      <polygon points="1,6 8,1 15,6 8,11" fill="#000" stroke="#000"/>
     </marker>
   </defs>
 
-  <!-- 1. User → Order : Association (1 → 0..*) -->
-  <line x1="167" y1="290" x2="167" y2="328" stroke="#000" stroke-width="2" marker-end="url(#open-arrow)"/>
-  <text x="174" y="303" font-family="Arial" font-size="12" font-weight="bold">1</text>
-  <text x="174" y="322" font-family="Arial" font-size="12" font-weight="bold">0..*</text>
-  <text x="185" y="313" font-family="Arial" font-size="11" fill="#555" font-style="italic">passe</text>
+  <!-- 1. User → ConfiguratorOrder : Association (1 → 0..*) — horizontal courte -->
+  <line x1="310" y1="155" x2="326" y2="155" stroke="#000" stroke-width="2" marker-end="url(#open-arrow)"/>
+  <text x="280" y="148" font-family="Arial" font-size="12" font-weight="bold">1</text>
+  <text x="280" y="170" font-family="Arial" font-size="12" font-weight="bold">0..*</text>
+  <text x="300" y="145" font-family="Arial" font-size="10" fill="#555" font-style="italic">soumet</text>
 
-  <!-- 2. User → ConfiguratorOrder : Association (1 → 0..*) -->
-  <line x1="320" y1="165" x2="694" y2="165" stroke="#000" stroke-width="2" marker-end="url(#open-arrow)"/>
-  <text x="330" y="158" font-family="Arial" font-size="12" font-weight="bold">1</text>
-  <text x="658" y="158" font-family="Arial" font-size="12" font-weight="bold">0..*</text>
-  <text x="480" y="158" font-family="Arial" font-size="11" fill="#555" font-style="italic">soumet</text>
+  <!-- 2. User → Order : Association (1 → 0..*) — verticale -->
+  <line x1="162" y1="282" x2="162" y2="333" stroke="#000" stroke-width="2" marker-end="url(#open-arrow)"/>
+  <text x="170" y="296" font-family="Arial" font-size="12" font-weight="bold">1</text>
+  <text x="170" y="325" font-family="Arial" font-size="12" font-weight="bold">0..*</text>
+  <text x="178" y="311" font-family="Arial" font-size="11" fill="#555" font-style="italic">passe</text>
 
   <!-- 3. Order ◆→ OrderItem : Composition (1 → 1..*) -->
-  <line x1="337" y1="470" x2="366" y2="470" stroke="#000" stroke-width="2" marker-start="url(#filled-diamond)" marker-end="url(#open-arrow)"/>
-  <text x="310" y="462" font-family="Arial" font-size="12" font-weight="bold">1</text>
-  <text x="310" y="486" font-family="Arial" font-size="12" font-weight="bold">1..*</text>
+  <line x1="327" y1="460" x2="326" y2="460" stroke="#000" stroke-width="2" marker-start="url(#filled-diamond)" marker-end="url(#open-arrow)"/>
+  <text x="298" y="452" font-family="Arial" font-size="12" font-weight="bold">1</text>
+  <text x="298" y="474" font-family="Arial" font-size="12" font-weight="bold">1..*</text>
 
-  <!-- ══════════════════════════════════════════
-       LEGEND
-  ══════════════════════════════════════════ -->
+  <!-- ══════════ LEGEND ══════════ -->
   <rect x="15" y="615" width="1028" height="88" fill="#f5f5f5" stroke="#aaa" stroke-width="1"/>
-  <text x="25" y="632" font-family="Arial" font-size="12" font-weight="bold">Légende :</text>
-
-  <!-- Association -->
-  <line x1="110" y1="628" x2="160" y2="628" stroke="#000" stroke-width="2" marker-end="url(#open-arrow)"/>
-  <text x="168" y="633" font-family="Arial" font-size="11">Association</text>
-
-  <!-- Composition -->
-  <line x1="310" y1="628" x2="360" y2="628" stroke="#000" stroke-width="2" marker-start="url(#filled-diamond)" marker-end="url(#open-arrow)"/>
-  <text x="368" y="633" font-family="Arial" font-size="11">Composition (◆)</text>
-
-  <!-- Visibility -->
+  <text x="25" y="633" font-family="Arial" font-size="12" font-weight="bold">Légende :</text>
+  <line x1="110" y1="628" x2="155" y2="628" stroke="#000" stroke-width="2" marker-end="url(#open-arrow)"/>
+  <text x="164" y="633" font-family="Arial" font-size="11">Association</text>
+  <line x1="310" y1="628" x2="355" y2="628" stroke="#000" stroke-width="2" marker-start="url(#filled-diamond)" marker-end="url(#open-arrow)"/>
+  <text x="364" y="633" font-family="Arial" font-size="11">Composition (◆)</text>
   <text x="530" y="633" font-family="Arial" font-size="11"><tspan font-weight="bold">-</tspan> privé   <tspan font-weight="bold">+</tspan> public   <tspan font-weight="bold">#</tspan> protégé</text>
-
-  <!-- Multiplicities -->
-  <text x="25" y="660" font-family="Arial" font-size="11">Multiplicités :  <tspan font-weight="bold">1</tspan> = exactement un   <tspan font-weight="bold">0..*</tspan> = zéro ou plusieurs   <tspan font-weight="bold">1..*</tspan> = un ou plusieurs</text>
-  <text x="25" y="680" font-family="Arial" font-size="11">Stéréotypes :  <tspan font-style="italic">«entity»</tspan> = entité persistante en base de données   <tspan font-style="italic">«valueObject»</tspan> = objet embarqué sans identité propre</text>
-  <text x="25" y="698" font-family="Arial" font-size="11">Contraintes :  {unique} = valeur unique   {min=1} = valeur minimale   = valeur par défaut</text>
-
+  <text x="750" y="633" font-family="Arial" font-size="11" font-style="italic">«entity»</text><text x="810" y="633" font-family="Arial" font-size="11"> = entité BD   </text><text x="900" y="633" font-family="Arial" font-size="11" font-style="italic">«valueObject»</text><text x="1000" y="633" font-family="Arial" font-size="11"> = embarqué</text>
+  <text x="25" y="655" font-family="Arial" font-size="11">Multiplicités :  <tspan font-weight="bold">1</tspan> = exactement un   <tspan font-weight="bold">0..*</tspan> = zéro ou plusieurs   <tspan font-weight="bold">1..*</tspan> = un ou plusieurs</text>
+  <text x="25" y="673" font-family="Arial" font-size="11">Contraintes :  {unique} = valeur unique en base   {min=1} = valeur minimale   = ... = valeur par défaut</text>
+  <text x="25" y="695" font-family="Arial" font-size="11" fill="#555">Classes indépendantes :  <tspan font-style="italic">Product</tspan> et <tspan font-style="italic">ContactMessage</tspan> n'ont pas de relation directe avec les autres classes.</text>
 </svg>
 </body>
 </html>
