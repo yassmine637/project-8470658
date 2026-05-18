@@ -301,6 +301,13 @@ export async function sendPasswordResetEmail({ name, email, resetUrl }) {
 }
 
 const STATUS_CONFIG = {
+  pending: {
+    label: 'En attente',
+    icon: '⏳',
+    color: '#A8884A',
+    message: 'Votre commande est en attente de traitement. Notre équipe va la prendre en charge très prochainement.',
+    subject: 'Votre commande est en attente',
+  },
   paid: {
     label: 'Paiement confirmé',
     icon: '✓',
