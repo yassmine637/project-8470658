@@ -122,7 +122,7 @@ export default function AccountPage() {
   };
 
   const canCancel = (order: Order) => {
-    return ['pending', 'paid'].includes(order.status);
+    return ['pending', 'paid', 'processing'].includes(order.status);
   };
 
   useEffect(() => {
