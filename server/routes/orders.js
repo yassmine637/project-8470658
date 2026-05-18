@@ -5,7 +5,7 @@ import User from '../models/User.js';
 import { protect } from '../middleware/auth.js';
 import { orderLimiter } from '../middleware/rateLimit.js';
 import { validateOrder } from '../middleware/validate.js';
-import { sendOrderConfirmation, sendOrderNotificationToAdmin } from '../services/email.js';
+import { sendOrderConfirmation, sendOrderNotificationToAdmin, sendOrderStatusUpdate } from '../services/email.js';
 
 const router = express.Router();
 
@@ -142,6 +142,36 @@ router.get('/:id', protect, async (req, res) => {
     res.json(order);
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la récupération de la commande' });
+  }
+});
+
+router.patch('/:id/cancel', protect, async (req, res) => {
+  try {
+    const id = req.params.id.replace(/[^a-f0-9]/gi, '').slice(0, 24);
+    const order = await Order.findById(id);
+
+    if (!order) return res.status(404).json({ message: 'Commande introuvable' });
+    if (order.user?.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: 'Accès refusé' });
+
+    if (!['pending', 'paid'].includes(order.status))
+      return res.status(400).json({ message: 'Cette commande ne peut plus être annulée (déjà en préparation ou expédiée).' });
+
+    const TWO_HOURS = 2 * 60 * 60 * 1000;
+    if (Date.now() - new Date(order.createdAt).getTime() > TWO_HOURS)
+      return res.status(400).json({ message: 'Le délai d\'annulation de 2 heures est dépassé. Contactez-nous à contact@domainefendri.com.' });
+
+    order.status = 'cancelled';
+    await order.save();
+
+    const user = await User.findById(req.user._id).select('name email');
+    if (user) {
+      await sendOrderStatusUpdate({ order, customerName: user.name, customerEmail: user.email });
+    }
+
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de l\'annulation de la commande' });
   }
 });
 

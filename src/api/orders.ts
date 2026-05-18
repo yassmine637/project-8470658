@@ -37,4 +37,5 @@ export const ordersApi = {
     api.post<Order>('/orders/authenticated', payload),
   myOrders: () => api.get<Order[]>('/orders/my'),
   getById: (id: string) => api.get<Order>(`/orders/${id}`),
+  cancel: (id: string) => api.patch<Order>(`/orders/${id}/cancel`, {}),
 };

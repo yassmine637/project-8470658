@@ -57,6 +57,9 @@ export default function AccountPage() {
   const [tab, setTab] = useState<'profile' | 'orders' | 'security' | 'wishlist'>('profile');
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
+  const [confirmCancelId, setConfirmCancelId] = useState<string | null>(null);
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [cancelError, setCancelError] = useState('');
 
   const [form, setForm] = useState({ name: '', phone: '', country: '' });
   const [countryOpen, setCountryOpen] = useState(false);
@@ -102,6 +105,27 @@ export default function AccountPage() {
       setOrdersLoading(false);
     }
   }, []);
+
+  const handleCancelOrder = async (orderId: string) => {
+    setCancellingId(orderId);
+    setCancelError('');
+    try {
+      const updated = await ordersApi.cancel(orderId);
+      setOrders((prev) => prev.map((o) => (o._id === orderId ? updated : o)));
+      setConfirmCancelId(null);
+    } catch (err: unknown) {
+      const msg = (err as { message?: string })?.message;
+      setCancelError(msg || 'Erreur lors de l\'annulation.');
+    } finally {
+      setCancellingId(null);
+    }
+  };
+
+  const canCancel = (order: Order) => {
+    if (!['pending', 'paid'].includes(order.status)) return false;
+    const TWO_HOURS = 2 * 60 * 60 * 1000;
+    return Date.now() - new Date(order.createdAt).getTime() <= TWO_HOURS;
+  };
 
   useEffect(() => {
     if (tab === 'orders' && user) fetchOrders();
@@ -644,10 +668,81 @@ export default function AccountPage() {
                         ))}
                       </div>
 
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.05)', flexWrap: 'wrap', gap: 10 }}>
                         <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 14, fontWeight: 700, color: '#fff' }}>
                           {t('account_order_total')} : {formatPrice(order.totalTTC, order.currency)}
                         </span>
+                        {canCancel(order) && confirmCancelId !== order._id && (
+                          <button
+                            onClick={() => { setConfirmCancelId(order._id); setCancelError(''); }}
+                            style={{
+                              padding: '6px 16px',
+                              background: 'transparent',
+                              border: '1px solid rgba(200,60,60,0.4)',
+                              borderRadius: 20,
+                              color: '#c83c3c',
+                              fontFamily: "'Outfit', sans-serif",
+                              fontSize: 11,
+                              fontWeight: 600,
+                              letterSpacing: '0.06em',
+                              cursor: 'pointer',
+                              transition: 'all 0.2s',
+                            }}
+                            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(200,60,60,0.1)'; }}
+                            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                          >
+                            <i className="ri-close-circle-line" style={{ marginRight: 5 }} />
+                            Annuler la commande
+                          </button>
+                        )}
+                        {confirmCancelId === order._id && (
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+                            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.6)', margin: 0, textAlign: 'right' }}>
+                              Confirmer l'annulation de cette commande ?
+                            </p>
+                            {cancelError && (
+                              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#c83c3c', margin: 0, textAlign: 'right' }}>
+                                <i className="ri-error-warning-line" style={{ marginRight: 4 }} />{cancelError}
+                              </p>
+                            )}
+                            <div style={{ display: 'flex', gap: 8 }}>
+                              <button
+                                onClick={() => { setConfirmCancelId(null); setCancelError(''); }}
+                                style={{
+                                  padding: '6px 14px',
+                                  background: 'transparent',
+                                  border: '1px solid rgba(255,255,255,0.15)',
+                                  borderRadius: 20,
+                                  color: 'rgba(255,255,255,0.45)',
+                                  fontFamily: "'Outfit', sans-serif",
+                                  fontSize: 11,
+                                  fontWeight: 600,
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                Garder
+                              </button>
+                              <button
+                                onClick={() => handleCancelOrder(order._id)}
+                                disabled={cancellingId === order._id}
+                                style={{
+                                  padding: '6px 14px',
+                                  background: 'rgba(200,60,60,0.15)',
+                                  border: '1px solid rgba(200,60,60,0.5)',
+                                  borderRadius: 20,
+                                  color: '#c83c3c',
+                                  fontFamily: "'Outfit', sans-serif",
+                                  fontSize: 11,
+                                  fontWeight: 700,
+                                  cursor: cancellingId === order._id ? 'not-allowed' : 'pointer',
+                                  opacity: cancellingId === order._id ? 0.6 : 1,
+                                }}
+                              >
+                                {cancellingId === order._id ? 'Annulation...' : 'Oui, annuler'}
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
