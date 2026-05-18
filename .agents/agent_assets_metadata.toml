@@ -59,3 +59,9 @@ id = "UXO25IpBrqa3_a6AUTA2K"
 uri = "file://public/diagramme-etats-commande-v2.png"
 type = "image"
 title = "Diagramme états-transitions — Cycle de vie d'une commande (v2 mise à jour)"
+
+[[outputs]]
+id = "lvj9lWzophvtiHiIIUGls"
+uri = "file://screenshots/architecture_corrigee.jpg"
+type = "image"
+title = "Architecture générale — corrigée (Mongoose ODM)"
