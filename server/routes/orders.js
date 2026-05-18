@@ -154,8 +154,8 @@ router.patch('/:id/cancel', protect, async (req, res) => {
     if (order.user?.toString() !== req.user._id.toString())
       return res.status(403).json({ message: 'Accès refusé' });
 
-    if (!['pending', 'paid', 'processing'].includes(order.status))
-      return res.status(400).json({ message: 'Cette commande ne peut plus être annulée (déjà expédiée ou livrée).' });
+    if (!['pending', 'paid'].includes(order.status))
+      return res.status(400).json({ message: 'Cette commande ne peut plus être annulée (déjà en préparation, expédiée ou livrée).' });
 
     order.status = 'cancelled';
     await order.save();
