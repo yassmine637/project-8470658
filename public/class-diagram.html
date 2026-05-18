@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f5f5; font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; }
+  h1 { text-align: center; font-size: 18px; color: #333; margin-bottom: 30px; letter-spacing: 1px; }
+
+  .diagram { position: relative; width: 980px; margin: 0 auto; }
+
+  .class-box { position: absolute; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 12px; min-width: 200px; }
+  .class-title { font-weight: bold; font-size: 13px; text-align: center; padding: 8px 10px; border-radius: 4px 4px 0 0; border-bottom: 1px solid rgba(0,0,0,0.15); }
+  .class-attrs { padding: 8px 10px; border-bottom: 1px solid rgba(0,0,0,0.1); line-height: 1.8; background: #fff; }
+  .class-methods { padding: 8px 10px; line-height: 1.8; background: #fff; border-radius: 0 0 4px 4px; }
+  .attr { color: #444; }
+  .method { color: #1a6b1a; font-style: italic; }
+  .type { color: #888; font-size: 11px; }
+
+  /* User - bleu */
+  #user { top: 20px; left: 20px; width: 220px; }
+  #user .class-title { background: #dae8fc; color: #1a3a6b; border-color: #6c8ebf; border: 1px solid #6c8ebf; }
+  #user .class-attrs, #user .class-methods { border: 1px solid #6c8ebf; border-top: none; }
+
+  /* Product - vert */
+  #product { top: 20px; left: 280px; width: 210px; }
+  #product .class-title { background: #d5e8d4; color: #1a4a1a; border: 1px solid #82b366; }
+  #product .class-attrs { border: 1px solid #82b366; border-top: none; border-radius: 0 0 4px 4px; }
+
+  /* Order - jaune */
+  #order { top: 340px; left: 20px; width: 220px; }
+  #order .class-title { background: #fff2cc; color: #5a4a00; border: 1px solid #d6b656; }
+  #order .class-attrs { border: 1px solid #d6b656; border-top: none; border-radius: 0 0 4px 4px; }
+
+  /* OrderItem - jaune clair */
+  #orderitem { top: 340px; left: 280px; width: 210px; }
+  #orderitem .class-title { background: #ffeaa0; color: #5a4a00; border: 1px solid #d6b656; }
+  #orderitem .class-attrs { border: 1px solid #d6b656; border-top: none; border-radius: 0 0 4px 4px; }
+
+  /* ConfiguratorOrder - rouge */
+  #config { top: 20px; left: 530px; width: 230px; }
+  #config .class-title { background: #f8cecc; color: #6b0000; border: 1px solid #b85450; }
+  #config .class-attrs { border: 1px solid #b85450; border-top: none; border-radius: 0 0 4px 4px; }
+
+  /* ContactMessage - violet */
+  #contact { top: 340px; left: 530px; width: 230px; }
+  #contact .class-title { background: #e1d5e7; color: #3d1a5e; border: 1px solid #9673a6; }
+  #contact .class-attrs { border: 1px solid #9673a6; border-top: none; border-radius: 0 0 4px 4px; }
+
+  svg.arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+
+  .canvas-wrap { position: relative; width: 980px; height: 740px; margin: 0 auto; }
+
+  .legend { display: flex; gap: 20px; justify-content: center; margin-top: 20px; font-size: 12px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<h1>Diagramme de classe — Plateforme FENDRI</h1>
+<div class="canvas-wrap">
+
+  <!-- User -->
+  <div class="class-box" id="user">
+    <div class="class-title">User</div>
+    <div class="class-attrs">
+      <div class="attr">- name : <span class="type">String</span></div>
+      <div class="attr">- email : <span class="type">String</span></div>
+      <div class="attr">- password : <span class="type">String</span></div>
+      <div class="attr">- phone : <span class="type">String</span></div>
+      <div class="attr">- country : <span class="type">String</span></div>
+      <div class="attr">- role : <span class="type">String</span></div>
+      <div class="attr">- resetPasswordToken : <span class="type">String</span></div>
+      <div class="attr">- resetPasswordExpires : <span class="type">Date</span></div>
+      <div class="attr">- createdAt : <span class="type">Date</span></div>
+    </div>
+    <div class="class-methods">
+      <div class="method">+ matchPassword() : Boolean</div>
+      <div class="method">+ toSafeObject() : Object</div>
+    </div>
+  </div>
+
+  <!-- Product -->
+  <div class="class-box" id="product">
+    <div class="class-title">Product</div>
+    <div class="class-attrs">
+      <div class="attr">- slug : <span class="type">String</span></div>
+      <div class="attr">- name : <span class="type">String</span></div>
+      <div class="attr">- volume : <span class="type">String</span></div>
+      <div class="attr">- price : <span class="type">Number</span></div>
+      <div class="attr">- currency : <span class="type">String</span></div>
+      <div class="attr">- description : <span class="type">String</span></div>
+      <div class="attr">- stock : <span class="type">Number</span></div>
+      <div class="attr">- active : <span class="type">Boolean</span></div>
+      <div class="attr">- createdAt : <span class="type">Date</span></div>
+    </div>
+  </div>
+
+  <!-- Order -->
+  <div class="class-box" id="order">
+    <div class="class-title">Order</div>
+    <div class="class-attrs">
+      <div class="attr">- guestName : <span class="type">String</span></div>
+      <div class="attr">- guestEmail : <span class="type">String</span></div>
+      <div class="attr">- status : <span class="type">String</span></div>
+      <div class="attr">- paymentMethod : <span class="type">String</span></div>
+      <div class="attr">- totalHT : <span class="type">Number</span></div>
+      <div class="attr">- tva : <span class="type">Number</span></div>
+      <div class="attr">- totalTTC : <span class="type">Number</span></div>
+      <div class="attr">- shippingAddress : <span class="type">Object</span></div>
+      <div class="attr">- trackingNumber : <span class="type">String</span></div>
+      <div class="attr">- createdAt : <span class="type">Date</span></div>
+    </div>
+  </div>
+
+  <!-- OrderItem -->
+  <div class="class-box" id="orderitem">
+    <div class="class-title">OrderItem</div>
+    <div class="class-attrs">
+      <div class="attr">- productId : <span class="type">String</span></div>
+      <div class="attr">- productName : <span class="type">String</span></div>
+      <div class="attr">- volume : <span class="type">String</span></div>
+      <div class="attr">- price : <span class="type">Number</span></div>
+      <div class="attr">- quantity : <span class="type">Number</span></div>
+    </div>
+  </div>
+
+  <!-- ConfiguratorOrder -->
+  <div class="class-box" id="config">
+    <div class="class-title">ConfiguratorOrder</div>
+    <div class="class-attrs">
+      <div class="attr">- devisNumber : <span class="type">String</span></div>
+      <div class="attr">- name : <span class="type">String</span></div>
+      <div class="attr">- email : <span class="type">String</span></div>
+      <div class="attr">- phone : <span class="type">String</span></div>
+      <div class="attr">- country : <span class="type">String</span></div>
+      <div class="attr">- configuration : <span class="type">Object</span></div>
+      <div class="attr">- quantity : <span class="type">Number</span></div>
+      <div class="attr">- totalHT : <span class="type">Number</span></div>
+      <div class="attr">- totalTTC : <span class="type">Number</span></div>
+      <div class="attr">- status : <span class="type">String</span></div>
+      <div class="attr">- createdAt : <span class="type">Date</span></div>
+    </div>
+  </div>
+
+  <!-- ContactMessage -->
+  <div class="class-box" id="contact">
+    <div class="class-title">ContactMessage</div>
+    <div class="class-attrs">
+      <div class="attr">- nom : <span class="type">String</span></div>
+      <div class="attr">- prenom : <span class="type">String</span></div>
+      <div class="attr">- email : <span class="type">String</span></div>
+      <div class="attr">- telephone : <span class="type">String</span></div>
+      <div class="attr">- pays : <span class="type">String</span></div>
+      <div class="attr">- sujet : <span class="type">String</span></div>
+      <div class="attr">- message : <span class="type">String</span></div>
+      <div class="attr">- read : <span class="type">Boolean</span></div>
+      <div class="attr">- createdAt : <span class="type">Date</span></div>
+    </div>
+  </div>
+
+  <!-- SVG Arrows -->
+  <svg class="arrows">
+    <defs>
+      <marker id="arrow-open" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L9,3 z" fill="none" stroke="#555" stroke-width="1.5"/>
+      </marker>
+      <marker id="diamond-filled" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+        <polygon points="0,6 6,0 12,6 6,12" fill="#555"/>
+      </marker>
+      <marker id="arrow-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+        <path d="M0,0 L9,3 L0,6" fill="none" stroke="#555" stroke-width="1.5"/>
+      </marker>
+    </defs>
+
+    <!-- User → Order  (1 --- 0..*) -->
+    <line x1="130" y1="260" x2="130" y2="338" stroke="#6c8ebf" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrow-end)"/>
+    <text x="136" y="285" font-size="11" fill="#555">1</text>
+    <text x="136" y="328" font-size="11" fill="#555">0..*</text>
+
+    <!-- User → ConfiguratorOrder (1 --- 0..*) -->
+    <line x1="645" y1="20" x2="240" y2="90" stroke="#b85450" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrow-end)"/>
+    <text x="430" y="45" font-size="11" fill="#555">0..*</text>
+    <text x="248" y="90" font-size="11" fill="#555">1</text>
+
+    <!-- Order → OrderItem (composition 1 --- 1..*) -->
+    <line x1="240" y1="440" x2="278" y2="440" stroke="#555" stroke-width="1.5" marker-start="url(#diamond-filled)" marker-end="url(#arrow-end)"/>
+    <text x="246" y="432" font-size="11" fill="#555">1</text>
+    <text x="258" y="458" font-size="11" fill="#555">1..*</text>
+  </svg>
+
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#dae8fc;border:1px solid #6c8ebf"></div>User</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d5e8d4;border:1px solid #82b366"></div>Product</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fff2cc;border:1px solid #d6b656"></div>Order / OrderItem</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f8cecc;border:1px solid #b85450"></div>ConfiguratorOrder</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e1d5e7;border:1px solid #9673a6"></div>ContactMessage</div>
+  <div class="legend-item">— — → Association &nbsp; ◆── Composition</div>
+</div>
+</body>
+</html>
