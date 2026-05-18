@@ -71,3 +71,9 @@ id = "fpEaONBfgC7o0tvBNPsZO"
 uri = "file://screenshots/schema_db_corrige.jpg"
 type = "image"
 title = "Schéma BDD complet et corrigé — Domaine Fendri"
+
+[[outputs]]
+id = "hBdf6r9TGLW7gkMUn0IqZ"
+uri = "file://screenshots/class-diagram.jpg"
+type = "image"
+title = "Diagramme de classe — Plateforme FENDRI"
