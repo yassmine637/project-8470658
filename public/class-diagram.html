@@ -3,201 +3,268 @@
 <head>
 <meta charset="UTF-8"/>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #f5f5f5; font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; }
-  h1 { text-align: center; font-size: 18px; color: #333; margin-bottom: 30px; letter-spacing: 1px; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #ffffff;
+  font-family: 'Courier New', monospace;
+  padding: 28px 30px 30px 30px;
+}
+h1 {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 
-  .diagram { position: relative; width: 980px; margin: 0 auto; }
+.uml-class {
+  position: absolute;
+  border: 2px solid #000;
+  background: #fff;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.name-compartment {
+  background: #dce8f8;
+  border-bottom: 2px solid #000;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  padding: 4px 8px;
+  font-style: italic;
+}
+.name-compartment .st {
+  font-size: 9.5px;
+  font-style: normal;
+  font-weight: normal;
+  display: block;
+  color: #444;
+}
+.attr-comp {
+  border-bottom: 2px solid #000;
+  padding: 4px 8px;
+}
+.op-comp {
+  padding: 4px 8px;
+  background: #fafafa;
+}
+.attr-comp div, .op-comp div { padding: 0; white-space: nowrap; }
+.op-comp div { color: #1a5c1a; }
 
-  .class-box { position: absolute; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 12px; min-width: 200px; }
-  .class-title { font-weight: bold; font-size: 13px; text-align: center; padding: 8px 10px; border-radius: 4px 4px 0 0; border-bottom: 1px solid rgba(0,0,0,0.15); }
-  .class-attrs { padding: 8px 10px; border-bottom: 1px solid rgba(0,0,0,0.1); line-height: 1.8; background: #fff; }
-  .class-methods { padding: 8px 10px; line-height: 1.8; background: #fff; border-radius: 0 0 4px 4px; }
-  .attr { color: #444; }
-  .method { color: #1a6b1a; font-style: italic; }
-  .type { color: #888; font-size: 11px; }
+/* positions */
+#User       { top:14px;  left:10px;  width:295px; }
+#Product    { top:14px;  left:328px; width:265px; }
+#ConfiguratorOrder { top:14px; left:618px; width:295px; }
+#Order      { top:390px; left:10px;  width:295px; }
+#OrderItem  { top:390px; left:328px; width:265px; }
+#ContactMessage { top:390px; left:618px; width:295px; }
 
-  /* User - bleu */
-  #user { top: 20px; left: 20px; width: 220px; }
-  #user .class-title { background: #dae8fc; color: #1a3a6b; border-color: #6c8ebf; border: 1px solid #6c8ebf; }
-  #user .class-attrs, #user .class-methods { border: 1px solid #6c8ebf; border-top: none; }
+.canvas {
+  position: relative;
+  width: 930px;
+  height: 780px;
+  margin: 0 auto;
+}
 
-  /* Product - vert */
-  #product { top: 20px; left: 280px; width: 210px; }
-  #product .class-title { background: #d5e8d4; color: #1a4a1a; border: 1px solid #82b366; }
-  #product .class-attrs { border: 1px solid #82b366; border-top: none; border-radius: 0 0 4px 4px; }
+svg.rel {
+  position: absolute; top:0; left:0;
+  width:100%; height:100%;
+  overflow:visible; pointer-events:none;
+}
 
-  /* Order - jaune */
-  #order { top: 340px; left: 20px; width: 220px; }
-  #order .class-title { background: #fff2cc; color: #5a4a00; border: 1px solid #d6b656; }
-  #order .class-attrs { border: 1px solid #d6b656; border-top: none; border-radius: 0 0 4px 4px; }
-
-  /* OrderItem - jaune clair */
-  #orderitem { top: 340px; left: 280px; width: 210px; }
-  #orderitem .class-title { background: #ffeaa0; color: #5a4a00; border: 1px solid #d6b656; }
-  #orderitem .class-attrs { border: 1px solid #d6b656; border-top: none; border-radius: 0 0 4px 4px; }
-
-  /* ConfiguratorOrder - rouge */
-  #config { top: 20px; left: 530px; width: 230px; }
-  #config .class-title { background: #f8cecc; color: #6b0000; border: 1px solid #b85450; }
-  #config .class-attrs { border: 1px solid #b85450; border-top: none; border-radius: 0 0 4px 4px; }
-
-  /* ContactMessage - violet */
-  #contact { top: 340px; left: 530px; width: 230px; }
-  #contact .class-title { background: #e1d5e7; color: #3d1a5e; border: 1px solid #9673a6; }
-  #contact .class-attrs { border: 1px solid #9673a6; border-top: none; border-radius: 0 0 4px 4px; }
-
-  svg.arrows { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-
-  .canvas-wrap { position: relative; width: 980px; height: 740px; margin: 0 auto; }
-
-  .legend { display: flex; gap: 20px; justify-content: center; margin-top: 20px; font-size: 12px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; }
-  .legend-dot { width: 14px; height: 14px; border-radius: 2px; }
+.legend {
+  width: 930px;
+  margin: 8px auto 0;
+  border: 1px solid #aaa;
+  padding: 8px 16px;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #f5f5f5;
+}
 </style>
 </head>
 <body>
-<h1>Diagramme de classe — Plateforme FENDRI</h1>
-<div class="canvas-wrap">
+<h1>Diagramme de Classe — Plateforme FENDRI</h1>
 
-  <!-- User -->
-  <div class="class-box" id="user">
-    <div class="class-title">User</div>
-    <div class="class-attrs">
-      <div class="attr">- name : <span class="type">String</span></div>
-      <div class="attr">- email : <span class="type">String</span></div>
-      <div class="attr">- password : <span class="type">String</span></div>
-      <div class="attr">- phone : <span class="type">String</span></div>
-      <div class="attr">- country : <span class="type">String</span></div>
-      <div class="attr">- role : <span class="type">String</span></div>
-      <div class="attr">- resetPasswordToken : <span class="type">String</span></div>
-      <div class="attr">- resetPasswordExpires : <span class="type">Date</span></div>
-      <div class="attr">- createdAt : <span class="type">Date</span></div>
-    </div>
-    <div class="class-methods">
-      <div class="method">+ matchPassword() : Boolean</div>
-      <div class="method">+ toSafeObject() : Object</div>
-    </div>
-  </div>
+<div class="canvas">
 
-  <!-- Product -->
-  <div class="class-box" id="product">
-    <div class="class-title">Product</div>
-    <div class="class-attrs">
-      <div class="attr">- slug : <span class="type">String</span></div>
-      <div class="attr">- name : <span class="type">String</span></div>
-      <div class="attr">- volume : <span class="type">String</span></div>
-      <div class="attr">- price : <span class="type">Number</span></div>
-      <div class="attr">- currency : <span class="type">String</span></div>
-      <div class="attr">- description : <span class="type">String</span></div>
-      <div class="attr">- stock : <span class="type">Number</span></div>
-      <div class="attr">- active : <span class="type">Boolean</span></div>
-      <div class="attr">- createdAt : <span class="type">Date</span></div>
+  <!-- USER -->
+  <div class="uml-class" id="User">
+    <div class="name-compartment"><span class="st">«entity»</span>User</div>
+    <div class="attr-comp">
+      <div>- name : String</div>
+      <div>- email : String</div>
+      <div>- password : String</div>
+      <div>- phone : String</div>
+      <div>- country : String</div>
+      <div>- role : String = "user"</div>
+      <div>- resetPasswordToken : String</div>
+      <div>- resetPasswordExpires : Date</div>
+      <div>- createdAt : Date</div>
+      <div>- updatedAt : Date</div>
+    </div>
+    <div class="op-comp">
+      <div>+ matchPassword(entered:String) : Boolean</div>
+      <div>+ toSafeObject() : Object</div>
     </div>
   </div>
 
-  <!-- Order -->
-  <div class="class-box" id="order">
-    <div class="class-title">Order</div>
-    <div class="class-attrs">
-      <div class="attr">- guestName : <span class="type">String</span></div>
-      <div class="attr">- guestEmail : <span class="type">String</span></div>
-      <div class="attr">- status : <span class="type">String</span></div>
-      <div class="attr">- paymentMethod : <span class="type">String</span></div>
-      <div class="attr">- totalHT : <span class="type">Number</span></div>
-      <div class="attr">- tva : <span class="type">Number</span></div>
-      <div class="attr">- totalTTC : <span class="type">Number</span></div>
-      <div class="attr">- shippingAddress : <span class="type">Object</span></div>
-      <div class="attr">- trackingNumber : <span class="type">String</span></div>
-      <div class="attr">- createdAt : <span class="type">Date</span></div>
+  <!-- PRODUCT -->
+  <div class="uml-class" id="Product">
+    <div class="name-compartment"><span class="st">«entity»</span>Product</div>
+    <div class="attr-comp">
+      <div>- slug : String {unique}</div>
+      <div>- name : String</div>
+      <div>- volume : String</div>
+      <div>- price : Number</div>
+      <div>- currency : String = "TND"</div>
+      <div>- description : String</div>
+      <div>- stock : Number = 100</div>
+      <div>- active : Boolean = true</div>
+      <div>- createdAt : Date</div>
     </div>
+    <div class="op-comp"><div>&nbsp;</div></div>
   </div>
 
-  <!-- OrderItem -->
-  <div class="class-box" id="orderitem">
-    <div class="class-title">OrderItem</div>
-    <div class="class-attrs">
-      <div class="attr">- productId : <span class="type">String</span></div>
-      <div class="attr">- productName : <span class="type">String</span></div>
-      <div class="attr">- volume : <span class="type">String</span></div>
-      <div class="attr">- price : <span class="type">Number</span></div>
-      <div class="attr">- quantity : <span class="type">Number</span></div>
+  <!-- CONFIGURATORORDER -->
+  <div class="uml-class" id="ConfiguratorOrder">
+    <div class="name-compartment"><span class="st">«entity»</span>ConfiguratorOrder</div>
+    <div class="attr-comp">
+      <div>- devisNumber : String {unique}</div>
+      <div>- name : String</div>
+      <div>- email : String</div>
+      <div>- phone : String</div>
+      <div>- country : String</div>
+      <div>- configuration : Object</div>
+      <div>- quantity : Number = 1</div>
+      <div>- totalHT : Number</div>
+      <div>- totalTTC : Number</div>
+      <div>- status : String = "new"</div>
+      <div>- createdAt : Date</div>
     </div>
+    <div class="op-comp"><div>&nbsp;</div></div>
   </div>
 
-  <!-- ConfiguratorOrder -->
-  <div class="class-box" id="config">
-    <div class="class-title">ConfiguratorOrder</div>
-    <div class="class-attrs">
-      <div class="attr">- devisNumber : <span class="type">String</span></div>
-      <div class="attr">- name : <span class="type">String</span></div>
-      <div class="attr">- email : <span class="type">String</span></div>
-      <div class="attr">- phone : <span class="type">String</span></div>
-      <div class="attr">- country : <span class="type">String</span></div>
-      <div class="attr">- configuration : <span class="type">Object</span></div>
-      <div class="attr">- quantity : <span class="type">Number</span></div>
-      <div class="attr">- totalHT : <span class="type">Number</span></div>
-      <div class="attr">- totalTTC : <span class="type">Number</span></div>
-      <div class="attr">- status : <span class="type">String</span></div>
-      <div class="attr">- createdAt : <span class="type">Date</span></div>
+  <!-- ORDER -->
+  <div class="uml-class" id="Order">
+    <div class="name-compartment"><span class="st">«entity»</span>Order</div>
+    <div class="attr-comp">
+      <div>- guestName : String</div>
+      <div>- guestEmail : String</div>
+      <div>- items : OrderItem [1..*]</div>
+      <div>- totalHT : Number</div>
+      <div>- tva : Number</div>
+      <div>- totalTTC : Number</div>
+      <div>- currency : String = "TND"</div>
+      <div>- status : String = "pending"</div>
+      <div>- paymentMethod : String = "cod"</div>
+      <div>- shippingAddress : Object</div>
+      <div>- trackingNumber : String</div>
+      <div>- createdAt : Date</div>
     </div>
+    <div class="op-comp"><div>&nbsp;</div></div>
   </div>
 
-  <!-- ContactMessage -->
-  <div class="class-box" id="contact">
-    <div class="class-title">ContactMessage</div>
-    <div class="class-attrs">
-      <div class="attr">- nom : <span class="type">String</span></div>
-      <div class="attr">- prenom : <span class="type">String</span></div>
-      <div class="attr">- email : <span class="type">String</span></div>
-      <div class="attr">- telephone : <span class="type">String</span></div>
-      <div class="attr">- pays : <span class="type">String</span></div>
-      <div class="attr">- sujet : <span class="type">String</span></div>
-      <div class="attr">- message : <span class="type">String</span></div>
-      <div class="attr">- read : <span class="type">Boolean</span></div>
-      <div class="attr">- createdAt : <span class="type">Date</span></div>
+  <!-- ORDERITEM -->
+  <div class="uml-class" id="OrderItem">
+    <div class="name-compartment"><span class="st">«valueObject»</span>OrderItem</div>
+    <div class="attr-comp">
+      <div>- productId : String</div>
+      <div>- productName : String</div>
+      <div>- volume : String</div>
+      <div>- price : Number</div>
+      <div>- quantity : Number {min=1}</div>
     </div>
+    <div class="op-comp"><div>&nbsp;</div></div>
   </div>
 
-  <!-- SVG Arrows -->
-  <svg class="arrows">
+  <!-- CONTACTMESSAGE -->
+  <div class="uml-class" id="ContactMessage">
+    <div class="name-compartment"><span class="st">«entity»</span>ContactMessage</div>
+    <div class="attr-comp">
+      <div>- nom : String</div>
+      <div>- prenom : String</div>
+      <div>- email : String</div>
+      <div>- telephone : String</div>
+      <div>- pays : String</div>
+      <div>- sujet : String</div>
+      <div>- message : String</div>
+      <div>- read : Boolean = false</div>
+      <div>- createdAt : Date</div>
+    </div>
+    <div class="op-comp"><div>&nbsp;</div></div>
+  </div>
+
+  <!-- RELATIONS SVG -->
+  <svg class="rel">
     <defs>
-      <marker id="arrow-open" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-        <path d="M0,0 L0,6 L9,3 z" fill="none" stroke="#555" stroke-width="1.5"/>
+      <marker id="arr-open" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+        <path d="M0,1 L11,5 L0,9" fill="none" stroke="#000" stroke-width="2"/>
       </marker>
-      <marker id="diamond-filled" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-        <polygon points="0,6 6,0 12,6 6,12" fill="#555"/>
+      <marker id="diamond-full" markerWidth="16" markerHeight="12" refX="15" refY="6" orient="auto">
+        <polygon points="0,6 7,0 14,6 7,12" fill="#000" stroke="#000"/>
       </marker>
-      <marker id="arrow-end" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-        <path d="M0,0 L9,3 L0,6" fill="none" stroke="#555" stroke-width="1.5"/>
+      <marker id="arr-dash" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+        <path d="M0,1 L11,5 L0,9" fill="none" stroke="#000" stroke-width="2"/>
       </marker>
     </defs>
 
-    <!-- User → Order  (1 --- 0..*) -->
-    <line x1="130" y1="260" x2="130" y2="338" stroke="#6c8ebf" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrow-end)"/>
-    <text x="136" y="285" font-size="11" fill="#555">1</text>
-    <text x="136" y="328" font-size="11" fill="#555">0..*</text>
+    <!-- 1. User → Order : Association (1 → 0..*) -->
+    <line x1="157" y1="344" x2="157" y2="384" stroke="#000" stroke-width="2" marker-end="url(#arr-open)"/>
+    <text x="164" y="356" font-size="12" font-family="Arial" font-weight="bold">1</text>
+    <text x="164" y="378" font-size="12" font-family="Arial" font-weight="bold">0..*</text>
+    <text x="172" y="367" font-size="11" font-family="Arial" fill="#555">passe</text>
 
-    <!-- User → ConfiguratorOrder (1 --- 0..*) -->
-    <line x1="645" y1="20" x2="240" y2="90" stroke="#b85450" stroke-width="1.5" stroke-dasharray="6,3" marker-end="url(#arrow-end)"/>
-    <text x="430" y="45" font-size="11" fill="#555">0..*</text>
-    <text x="248" y="90" font-size="11" fill="#555">1</text>
+    <!-- 2. User → ConfiguratorOrder : Association (1 → 0..*) -->
+    <line x1="305" y1="108" x2="616" y2="108" stroke="#000" stroke-width="2" marker-end="url(#arr-open)"/>
+    <text x="314" y="101" font-size="12" font-family="Arial" font-weight="bold">1</text>
+    <text x="576" y="101" font-size="12" font-family="Arial" font-weight="bold">0..*</text>
+    <text x="430" y="101" font-size="11" font-family="Arial" fill="#555">soumet</text>
 
-    <!-- Order → OrderItem (composition 1 --- 1..*) -->
-    <line x1="240" y1="440" x2="278" y2="440" stroke="#555" stroke-width="1.5" marker-start="url(#diamond-filled)" marker-end="url(#arrow-end)"/>
-    <text x="246" y="432" font-size="11" fill="#555">1</text>
-    <text x="258" y="458" font-size="11" fill="#555">1..*</text>
+    <!-- 3. Order ◆→ OrderItem : Composition (1 → 1..*) -->
+    <line x1="307" y1="540" x2="326" y2="540" stroke="#000" stroke-width="2" marker-start="url(#diamond-full)" marker-end="url(#arr-open)"/>
+    <text x="308" y="530" font-size="12" font-family="Arial" font-weight="bold">1</text>
+    <text x="308" y="558" font-size="12" font-family="Arial" font-weight="bold">1..*</text>
+
   </svg>
-
 </div>
 
+<!-- Légende UML -->
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#dae8fc;border:1px solid #6c8ebf"></div>User</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#d5e8d4;border:1px solid #82b366"></div>Product</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#fff2cc;border:1px solid #d6b656"></div>Order / OrderItem</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f8cecc;border:1px solid #b85450"></div>ConfiguratorOrder</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#e1d5e7;border:1px solid #9673a6"></div>ContactMessage</div>
-  <div class="legend-item">— — → Association &nbsp; ◆── Composition</div>
+  <strong>Légende :</strong>
+  <span>
+    <svg width="46" height="14" style="vertical-align:middle">
+      <line x1="0" y1="7" x2="34" y2="7" stroke="#000" stroke-width="2"/>
+      <path d="M26,3 L38,7 L26,11" fill="none" stroke="#000" stroke-width="1.5"/>
+    </svg>
+    Association
+  </span>
+  <span>
+    <svg width="56" height="14" style="vertical-align:middle">
+      <polygon points="0,7 7,1 14,7 7,13" fill="#000"/>
+      <line x1="14" y1="7" x2="44" y2="7" stroke="#000" stroke-width="2"/>
+      <path d="M36,3 L48,7 L36,11" fill="none" stroke="#000" stroke-width="1.5"/>
+    </svg>
+    Composition (◆)
+  </span>
+  <span>
+    <svg width="46" height="14" style="vertical-align:middle">
+      <line x1="0" y1="7" x2="34" y2="7" stroke="#000" stroke-width="2" stroke-dasharray="5,3"/>
+      <path d="M26,3 L38,7 L26,11" fill="none" stroke="#000" stroke-width="1.5"/>
+    </svg>
+    Dépendance
+  </span>
+  <span><b>-</b> = privé &nbsp;|&nbsp; <b>+</b> = public &nbsp;|&nbsp; <b>#</b> = protégé</span>
+  <span><i>«entity»</i> = stéréotype UML 2.5</span>
+  <span>[1..*] = multiplicité &nbsp;|&nbsp; {unique} = contrainte</span>
 </div>
 </body>
 </html>
