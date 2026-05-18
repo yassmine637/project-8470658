@@ -47,3 +47,9 @@ id = "SwsT_DgYOYP1Rd2AC2vCW"
 uri = "file://attached_assets/diagramme_cas_utilisation.jpg"
 type = "image"
 title = "Figure 11 — Diagramme de cas d’utilisation FENDRI (corrigé)"
+
+[[outputs]]
+id = "Iwl9CffA860h_mh3rvhr2"
+uri = "file://public/diagramme-etats-commande.png"
+type = "image"
+title = "Diagramme états-transitions — Cycle de vie d'une commande"
