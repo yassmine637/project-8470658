@@ -53,3 +53,9 @@ id = "Iwl9CffA860h_mh3rvhr2"
 uri = "file://public/diagramme-etats-commande.png"
 type = "image"
 title = "Diagramme états-transitions — Cycle de vie d'une commande"
+
+[[outputs]]
+id = "UXO25IpBrqa3_a6AUTA2K"
+uri = "file://public/diagramme-etats-commande-v2.png"
+type = "image"
+title = "Diagramme états-transitions — Cycle de vie d'une commande (v2 mise à jour)"
