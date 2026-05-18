@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:#f8f9fa;
+    font-family:'Segoe UI', Arial, sans-serif;
+    padding:28px 24px 36px;
+    font-size:11px;
+    color:#222;
+  }
+  h1 {
+    text-align:center;
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:1px;
+    margin-bottom:4px;
+    color:#111;
+  }
+  .subtitle {
+    text-align:center;
+    font-size:11px;
+    color:#555;
+    margin-bottom:20px;
+    font-style:italic;
+  }
+
+  .tables-row {
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-bottom:16px;
+  }
+
+  .table {
+    border-radius:10px;
+    overflow:hidden;
+    border:2px solid #ccc;
+    flex:1;
+    min-width:0;
+  }
+
+  .table-header {
+    padding:8px 10px;
+    font-weight:700;
+    font-size:12px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+
+  .table-body { background:white; }
+
+  .field {
+    display:grid;
+    grid-template-columns: 1fr auto auto;
+    align-items:center;
+    gap:4px;
+    padding:3px 8px;
+    border-top:1px solid #eee;
+    min-height:22px;
+  }
+  .field:first-child { border-top:none; }
+
+  .field-name { font-weight:600; font-size:10.5px; color:#1a1a1a; }
+  .field-type { font-size:9.5px; color:#555; text-align:right; }
+  .tags { display:flex; gap:3px; justify-content:flex-end; flex-wrap:wrap; }
+
+  .tag {
+    font-size:8.5px;
+    font-weight:700;
+    padding:1px 5px;
+    border-radius:4px;
+    white-space:nowrap;
+  }
+  .pk  { background:#fde68a; color:#78350f; border:1px solid #f59e0b; }
+  .fk  { background:#bfdbfe; color:#1e3a8a; border:1px solid #3b82f6; }
+  .req { background:#fca5a5; color:#7f1d1d; border:1px solid #ef4444; }
+  .unq { background:#6ee7b7; color:#064e3b; border:1px solid #10b981; }
+  .enm { background:#c4b5fd; color:#3b0764; border:1px solid #7c3aed; }
+  .emb { background:#fdba74; color:#7c2d12; border:1px solid #f97316; }
+  .hsh { background:#f9a8d4; color:#831843; border:1px solid #ec4899; }
+  .opt { background:#e5e7eb; color:#374151; border:1px solid #9ca3af; }
+
+  .section-label {
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:0.5px;
+    padding:3px 8px;
+    background:#f3f4f6;
+    color:#374151;
+    border-top:1px solid #d1d5db;
+    text-transform:uppercase;
+  }
+
+  /* User */
+  .t-user   { border-color:#3b82f6; }
+  .t-user .table-header { background:#dbeafe; color:#1e3a8a; }
+
+  /* Product */
+  .t-product { border-color:#10b981; }
+  .t-product .table-header { background:#d1fae5; color:#065f46; }
+
+  /* Order */
+  .t-order  { border-color:#f59e0b; }
+  .t-order .table-header { background:#fef3c7; color:#78350f; }
+
+  /* ConfiguratorOrder */
+  .t-config { border-color:#ef4444; }
+  .t-config .table-header { background:#fee2e2; color:#7f1d1d; }
+
+  /* ContactMessage */
+  .t-contact { border-color:#8b5cf6; }
+  .t-contact .table-header { background:#ede9fe; color:#4c1d95; }
+
+  /* Bottom panels */
+  .bottom-row {
+    display:flex;
+    gap:12px;
+    margin-top:4px;
+  }
+  .panel {
+    border:1.5px solid #d1d5db;
+    border-radius:10px;
+    background:white;
+    padding:12px 14px;
+    flex:1;
+  }
+  .panel h3 {
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:8px;
+    letter-spacing:0.3px;
+    color:#111;
+  }
+  .rel-item {
+    font-size:10px;
+    margin-bottom:5px;
+    display:flex;
+    align-items:center;
+    gap:5px;
+  }
+  .arrow-icon { color:#16a34a; font-weight:900; font-size:13px; }
+  .rel-note { font-size:9px; color:#6b7280; }
+  .independent { font-size:9.5px; color:#dc2626; margin-top:6px; font-style:italic; }
+
+  .enum-item {
+    font-size:9.5px;
+    margin-bottom:4px;
+    line-height:1.5;
+  }
+  .enum-key { font-weight:700; }
+
+  .legend {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:14px;
+    justify-content:center;
+  }
+  .legend-item {
+    display:flex;
+    align-items:center;
+    gap:4px;
+    font-size:9.5px;
+    color:#444;
+  }
+
+  .figure-caption {
+    text-align:center;
+    font-size:9.5px;
+    color:#6b7280;
+    font-style:italic;
+    margin-top:12px;
+  }
+</style>
+</head>
+<body>
+
+<h1>SCHÉMA DE LA BASE DE DONNÉES — DOMAINE FENDRI</h1>
+<div class="subtitle">MongoDB Atlas · 5 collections · ODM Mongoose · Architecture NoSQL orientée documents</div>
+
+<div class="tables-row">
+
+  <!-- USER -->
+  <div class="table t-user">
+    <div class="table-header">👤 User</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><div class="tags"><span class="tag pk">PK</span></div></div>
+      <div class="field"><span class="field-name">name</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">email</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span><span class="tag unq">unique</span></div></div>
+      <div class="field"><span class="field-name">password</span><span class="field-type">String</span><div class="tags"><span class="tag hsh">haché (bcryptjs)</span></div></div>
+      <div class="field"><span class="field-name">phone</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">country</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">role</span><span class="field-type">String</span><div class="tags"><span class="tag enm">enum (user|admin)</span></div></div>
+      <div class="field"><span class="field-name">resetPasswordToken</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">resetPasswordExpires</span><span class="field-type">Date</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span><div class="tags"></div></div>
+    </div>
+  </div>
+
+  <!-- PRODUCT -->
+  <div class="table t-product">
+    <div class="table-header">📦 Product</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><div class="tags"><span class="tag pk">PK</span></div></div>
+      <div class="field"><span class="field-name">slug</span><span class="field-type">String</span><div class="tags"><span class="tag unq">unique</span></div></div>
+      <div class="field"><span class="field-name">name</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">volume</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">price</span><span class="field-type">Number</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">currency</span><span class="field-type">String</span><div class="tags"><span class="tag enm">enum (TND)</span></div></div>
+      <div class="field"><span class="field-name">tagline</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">description</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">details</span><span class="field-type">String[]</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">badge / accentColor</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">imageScale</span><span class="field-type">Number</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">stock</span><span class="field-type">Number</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">active</span><span class="field-type">Boolean</span><div class="tags"><span class="tag opt">default: true</span></div></div>
+      <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span><div class="tags"></div></div>
+    </div>
+  </div>
+
+  <!-- ORDER -->
+  <div class="table t-order">
+    <div class="table-header">🛒 Order</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><div class="tags"><span class="tag pk">PK</span></div></div>
+      <div class="field"><span class="field-name">user</span><span class="field-type">ObjectId</span><div class="tags"><span class="tag fk">FK → User</span></div></div>
+      <div class="field"><span class="field-name">guestName</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">guestEmail / guestPhone</span><span class="field-type">String</span><div class="tags"></div></div>
+
+      <div class="section-label">ORDERITEMS [] — SOUS-DOCUMENT</div>
+      <div class="field"><span class="field-name">productId</span><span class="field-type">String</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+      <div class="field"><span class="field-name">productName</span><span class="field-type">String</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+      <div class="field"><span class="field-name">volume</span><span class="field-type">String</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+      <div class="field"><span class="field-name">price / quantity</span><span class="field-type">Number</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+
+      <div class="section-label">CHAMPS FINANCIERS</div>
+      <div class="field"><span class="field-name">totalHT / tva</span><span class="field-type">Number</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">totalTTC / currency</span><span class="field-type">Number / String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">status</span><span class="field-type">String</span><div class="tags"><span class="tag enm">enum (6 val.)</span></div></div>
+      <div class="field"><span class="field-name">paymentMethod</span><span class="field-type">String</span><div class="tags"><span class="tag enm">enum (4 val.)</span></div></div>
+      <div class="field"><span class="field-name">stripeSessionId</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">stripePaymentIntentId</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">notes</span><span class="field-type">String</span><div class="tags"></div></div>
+
+      <div class="section-label">SHIPPINGADDRESS — EMBARQUÉ</div>
+      <div class="field"><span class="field-name">country / city</span><span class="field-type">String</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+      <div class="field"><span class="field-name">street / postalCode</span><span class="field-type">String</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+      <div class="field"><span class="field-name">trackingNumber / carrier</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span><div class="tags"></div></div>
+    </div>
+  </div>
+
+  <!-- CONFIGURATOR ORDER -->
+  <div class="table t-config">
+    <div class="table-header">⚙️ ConfiguratorOrder</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><div class="tags"><span class="tag pk">PK</span></div></div>
+      <div class="field"><span class="field-name">devisNumber</span><span class="field-type">String</span><div class="tags"><span class="tag unq">unique</span></div></div>
+      <div class="field"><span class="field-name">user</span><span class="field-type">ObjectId</span><div class="tags"><span class="tag fk">FK → User</span></div></div>
+      <div class="field"><span class="field-name">name / email</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">phone</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">country</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">currency</span><span class="field-type">String</span><div class="tags"><span class="tag opt">default: TND</span></div></div>
+
+      <div class="section-label">CONFIGURATION — SOUS-DOCUMENT</div>
+      <div class="field"><span class="field-name">model</span><span class="field-type">{ id, name, basePrice }</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+      <div class="field"><span class="field-name">size</span><span class="field-type">{ id, label, volume, priceAdd }</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+      <div class="field"><span class="field-name">label</span><span class="field-type">{ id, name, priceAdd }</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+      <div class="field"><span class="field-name">customText</span><span class="field-type">String</span><div class="tags"><span class="tag emb">emb.</span></div></div>
+
+      <div class="section-label"></div>
+      <div class="field"><span class="field-name">quantity</span><span class="field-type">Number</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">totalHT / totalTTC</span><span class="field-type">Number</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">message</span><span class="field-type">String</span><div class="tags"></div></div>
+      <div class="field"><span class="field-name">status</span><span class="field-type">String</span><div class="tags"><span class="tag enm">enum (5 val.)</span></div></div>
+      <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span><div class="tags"></div></div>
+    </div>
+  </div>
+
+  <!-- CONTACT MESSAGE -->
+  <div class="table t-contact">
+    <div class="table-header">✉️ ContactMessage</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name">_id</span><span class="field-type">ObjectId</span><div class="tags"><span class="tag pk">PK</span></div></div>
+      <div class="field"><span class="field-name">nom</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">prenom</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">email</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">telephone</span><span class="field-type">String</span><div class="tags"><span class="tag opt">optionnel</span></div></div>
+      <div class="field"><span class="field-name">pays</span><span class="field-type">String</span><div class="tags"><span class="tag opt">optionnel</span></div></div>
+      <div class="field"><span class="field-name">sujet</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">message</span><span class="field-type">String</span><div class="tags"><span class="tag req">requis</span></div></div>
+      <div class="field"><span class="field-name">read</span><span class="field-type">Boolean</span><div class="tags"><span class="tag opt">default: false</span></div></div>
+      <div class="field"><span class="field-name">createdAt / updatedAt</span><span class="field-type">Date (auto)</span><div class="tags"></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM PANELS -->
+<div class="bottom-row">
+
+  <div class="panel">
+    <h3>🔗 RELATIONS ENTRE COLLECTIONS</h3>
+    <div class="rel-item">
+      <span style="font-weight:700;">Order.user</span>
+      <span class="arrow-icon">→</span>
+      <span>User._id</span>
+      <span class="tag fk">FK</span>
+    </div>
+    <div class="rel-note" style="margin-left:16px;margin-bottom:6px;">(optionnel — null si commande invité)</div>
+    <div class="rel-item">
+      <span style="font-weight:700;">ConfiguratorOrder.user</span>
+      <span class="arrow-icon">→</span>
+      <span>User._id</span>
+      <span class="tag fk">FK</span>
+    </div>
+    <div class="rel-note" style="margin-left:16px;">(optionnel — null si devis invité)</div>
+    <div class="independent">★ Product et ContactMessage sont des collections indépendantes sans référence externe.</div>
+  </div>
+
+  <div class="panel">
+    <h3>📊 VALEURS ÉNUMÉRÉES (ENUM)</h3>
+    <div class="enum-item"><span class="enum-key">Order.status :</span> pending · paid · processing · shipped · delivered · cancelled</div>
+    <div class="enum-item"><span class="enum-key">Order.paymentMethod :</span> cod · paypal · stripe · konnect</div>
+    <div class="enum-item"><span class="enum-key">ConfiguratorOrder.status :</span> new · reviewing · quoted · accepted · rejected</div>
+    <div class="enum-item"><span class="enum-key">User.role :</span> user · admin</div>
+    <div class="enum-item"><span class="enum-key">ConfiguratorOrder.currency :</span> TND (défaut)</div>
+    <div class="enum-item"><span class="enum-key">Product.currency :</span> TND (défaut)</div>
+  </div>
+
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><span class="tag pk">PK</span> Clé primaire (ObjectId auto)</div>
+  <div class="legend-item"><span class="tag fk">FK</span> Référence externe</div>
+  <div class="legend-item"><span class="tag req">requis</span> Champ obligatoire</div>
+  <div class="legend-item"><span class="tag unq">unique</span> Valeur unique</div>
+  <div class="legend-item"><span class="tag enm">enum</span> Valeurs énumérées</div>
+  <div class="legend-item"><span class="tag emb">emb.</span> Document imbriqué</div>
+  <div class="legend-item"><span class="tag hsh">haché</span> Hashé bcryptjs</div>
+  <div class="legend-item"><span class="tag opt">optionnel</span> Champ optionnel</div>
+</div>
+
+<div class="figure-caption">Figure X : Schéma de la base de données MongoDB — Domaine FENDRI — 5 collections — ODM Mongoose</div>
+
+</body>
+</html>
