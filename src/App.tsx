@@ -7,6 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import { WishlistProvider } from "@/hooks/useWishlist";
 import CartDrawer from "@/components/feature/CartDrawer";
+import ChatBot from "@/components/feature/ChatBot";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <CartProvider>
                 <AppRoutes />
                 <CartDrawer />
+                <ChatBot />
               </CartProvider>
             </WishlistProvider>
           </CurrencyProvider>
