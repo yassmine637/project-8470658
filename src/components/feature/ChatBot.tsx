@@ -210,7 +210,7 @@ export default function ChatBot() {
         >
           {open
             ? <i className="ri-close-line" style={{ color: '#c9a84c', fontSize: 22 }} />
-            : <i className="ri-plant-line" style={{ color: '#c9a84c', fontSize: 22 }} />
+            : <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 22 }} />
           }
           {unread > 0 && !open && (
             <span style={{
@@ -271,7 +271,7 @@ export default function ChatBot() {
               justifyContent: 'center',
               flexShrink: 0,
             }}>
-              <i className="ri-plant-line" style={{ color: '#c9a84c', fontSize: 18 }} />
+              <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 18 }} />
             </div>
             <div style={{ flex: 1 }}>
               <p style={{ margin: 0, fontFamily: "'Cormorant Garant', serif", fontSize: 15, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>
@@ -354,7 +354,7 @@ export default function ChatBot() {
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}>
-                    <i className="ri-plant-line" style={{ color: '#c9a84c', fontSize: 13 }} />
+                    <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 13 }} />
                   </div>
                 )}
                 <div style={{ maxWidth: '78%' }}>
@@ -406,7 +406,7 @@ export default function ChatBot() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0,
                 }}>
-                  <i className="ri-plant-line" style={{ color: '#c9a84c', fontSize: 13 }} />
+                  <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 13 }} />
                 </div>
                 <div style={{
                   padding: '12px 16px',
