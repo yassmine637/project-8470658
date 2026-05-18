@@ -122,9 +122,7 @@ export default function AccountPage() {
   };
 
   const canCancel = (order: Order) => {
-    if (!['pending', 'paid'].includes(order.status)) return false;
-    const TWO_HOURS = 2 * 60 * 60 * 1000;
-    return Date.now() - new Date(order.createdAt).getTime() <= TWO_HOURS;
+    return ['pending', 'paid'].includes(order.status);
   };
 
   useEffect(() => {

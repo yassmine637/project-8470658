@@ -157,10 +157,6 @@ router.patch('/:id/cancel', protect, async (req, res) => {
     if (!['pending', 'paid'].includes(order.status))
       return res.status(400).json({ message: 'Cette commande ne peut plus être annulée (déjà en préparation ou expédiée).' });
 
-    const TWO_HOURS = 2 * 60 * 60 * 1000;
-    if (Date.now() - new Date(order.createdAt).getTime() > TWO_HOURS)
-      return res.status(400).json({ message: 'Le délai d\'annulation de 2 heures est dépassé. Contactez-nous à contact@domainefendri.com.' });
-
     order.status = 'cancelled';
     await order.save();
 
