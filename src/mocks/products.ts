@@ -61,7 +61,7 @@ export const products: Product[] = [
     id: 'bouteille-1l',
     name: "Huile d'olive FENDRI",
     volume: 'Bidon vert 1L — Bio',
-    price: 42,
+    price: 28,
     currency: 'TND',
     tagline: "L'authenticité biologique dans un flacon pensé pour la nature.",
     description:
@@ -104,7 +104,7 @@ export const products: Product[] = [
     id: 'bouteille-500ml',
     name: "Huile d'olive FENDRI",
     volume: 'Bouteille cylindrique 500ml',
-    price: 26,
+    price: 18,
     currency: 'TND',
     tagline: 'Le format du quotidien — accessible, raffiné, tunisien.',
     description:
@@ -147,7 +147,7 @@ export const products: Product[] = [
     id: 'bouteille-250ml',
     name: "Huile d'olive FENDRI",
     volume: 'Bouteille carrée élancée 750ml',
-    price: 58,
+    price: 42,
     currency: 'TND',
     tagline: "L'art de l'huile d'olive pour une clientèle urbaine et exigeante.",
     description:
@@ -190,7 +190,7 @@ export const products: Product[] = [
     id: 'bouteille-speciale',
     name: "Huile d'olive FENDRI",
     volume: 'Bidon métallique 3L',
-    price: 89,
+    price: 68,
     currency: 'TND',
     tagline: 'La référence familiale — économique, robuste, fiable.',
     description:

@@ -25,10 +25,10 @@ function getResponse(input: string): string {
     return "Bienvenue chez **Domaine Fendri** 🫒\nJe suis votre assistant personnel. Comment puis-je vous aider aujourd'hui ?";
 
   if (/produit|huile|collection|gamme|bouteille|bidon/.test(q))
-    return `Notre collection comprend **4 références** :\n\n🟢 **Bidon vert 1L — Bio** · 42 TND\nCertifié agriculture biologique, zéro pesticide.\n\n✨ **Bouteille cylindrique 500ml** · 26 TND\nBest-seller — format quotidien raffiné.\n\n🏆 **Bouteille carrée 750ml Premium** · 58 TND\nTOP 100 EVOOLEUM — segment prestige.\n\n🥫 **Bidon métallique 3L Familial** · 89 TND\nProtection optimale, économique, longue durée.\n\nVisitez la page **Our Oils** pour les détails.`;
+    return `Notre collection comprend **4 références** :\n\n🟢 **Bidon vert 1L — Bio** · 28 TND\nCertifié agriculture biologique, zéro pesticide.\n\n✨ **Bouteille cylindrique 500ml** · 18 TND\nBest-seller — format quotidien raffiné.\n\n🏆 **Bouteille carrée 750ml Premium** · 42 TND\nTOP 100 EVOOLEUM — segment prestige.\n\n🥫 **Bidon métallique 3L Familial** · 68 TND\nProtection optimale, économique, longue durée.\n\nVisitez la page **Our Oils** pour les détails.`;
 
   if (/prix|tarif|cout|combien|tnd|dinar/.test(q))
-    return `Voici nos prix :\n\n• Bidon vert 1L Bio → **42 TND**\n• Bouteille cylindrique 500ml → **26 TND**\n• Bouteille carrée 750ml Premium → **58 TND**\n• Bidon métallique 3L Familial → **89 TND**\n\nTous nos prix sont en dinars tunisiens (TND) et incluent la TVA.`;
+    return `Voici nos prix :\n\n• Bidon vert 1L Bio → **28 TND**\n• Bouteille cylindrique 500ml → **18 TND**\n• Bouteille carrée 750ml Premium → **42 TND**\n• Bidon métallique 3L Familial → **68 TND**\n\nTous nos prix sont en dinars tunisiens (TND) et incluent la TVA.`;
 
   if (/livraison|expedition|expedi|frais|zone|pays|transport|shipping/.test(q))
     return `Frais de livraison selon votre pays :\n\n🇹🇳 **Tunisie** → 7 TND\n🌍 **Pays arabes** → 25 TND\n🇪🇺 **Europe** → 35 TND\n🌐 **International** → 50 TND\n\nLa livraison est assurée depuis Sfax, Tunisie.`;
