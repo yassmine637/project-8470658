@@ -132,6 +132,8 @@ function StatusDropdown({
 type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users' | 'stocks' | 'security';
 
 type ShippingModal = { orderId: string; trackingNumber: string; carrier: string } | null;
+type OrderModal = Record<string, unknown> | null;
+type MessageModal = Record<string, unknown> | null;
 
 const STATUS_COLORS: Record<string, string> = {
   pending: '#f59e0b', paid: '#10b981', processing: '#3b82f6',
@@ -158,6 +160,8 @@ export default function AdminPage() {
   const [pwStatus, setPwStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [pwError, setPwError] = useState('');
   const [shippingModal, setShippingModal] = useState<ShippingModal>(null);
+  const [orderModal, setOrderModal] = useState<OrderModal>(null);
+  const [messageModal, setMessageModal] = useState<MessageModal>(null);
 
   useEffect(() => {
     if (!isLoading && (!user || !isAdmin)) navigate('/auth');
@@ -311,7 +315,7 @@ export default function AdminPage() {
                 <table className="w-full">
                   <thead style={{ background: '#f9f9f7', borderBottom: '1px solid #e8e8e4' }}>
                     <tr>
-                      {['ID', 'Client', 'Total TTC', 'Statut', 'Date', 'Action'].map((h) => (
+                      {['ID', 'Client', 'Total TTC', 'Statut', 'Date', 'Détail', 'Action'].map((h) => (
                         <th key={h} className={headCell} style={{ color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>{h}</th>
                       ))}
                     </tr>
@@ -332,6 +336,14 @@ export default function AdminPage() {
                         </td>
                         <td className={cell} style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem' }}>
                           {new Date(o.createdAt as string).toLocaleDateString('fr-FR')}
+                        </td>
+                        <td className={cell}>
+                          <button
+                            onClick={() => setOrderModal(o as Record<string, unknown>)}
+                            style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', padding: '5px 12px', borderRadius: '8px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                          >
+                            Voir détail
+                          </button>
                         </td>
                         <td className={cell}>
                           <StatusDropdown
@@ -422,19 +434,26 @@ export default function AdminPage() {
                 {(messages as Record<string, unknown>[]).map((m) => (
                   <div key={m._id as string} className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
                     <div className="flex items-start justify-between gap-4">
-                      <div>
+                      <div className="flex-1 min-w-0">
                         <div className="font-bold text-sm mb-1" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                           {m.nom as string} {m.prenom as string}
                         </div>
-                        <div className="text-xs mb-3" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
+                        <div className="text-xs mb-2" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
                           {m.email as string} · {m.telephone as string} · {m.pays as string}
                         </div>
-                        <div className="text-sm font-semibold mb-1" style={{ color: '#3a6040', fontFamily: "'Outfit', sans-serif" }}>{m.sujet as string}</div>
-                        <div className="text-sm" style={{ color: '#4b5563', fontFamily: "'Outfit', sans-serif" }}>{m.message as string}</div>
+                        <div className="text-sm font-semibold" style={{ color: '#3a6040', fontFamily: "'Outfit', sans-serif" }}>{m.sujet as string}</div>
                       </div>
-                      <span className="text-xs flex-shrink-0" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-                        {new Date(m.createdAt as string).toLocaleDateString('fr-FR')}
-                      </span>
+                      <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                        <span className="text-xs" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
+                          {new Date(m.createdAt as string).toLocaleDateString('fr-FR')}
+                        </span>
+                        <button
+                          onClick={() => setMessageModal(m as Record<string, unknown>)}
+                          style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', padding: '5px 12px', borderRadius: '8px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                        >
+                          Voir détail
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -658,6 +677,129 @@ export default function AdminPage() {
           )}
         </main>
       </div>
+
+      {/* Modal détail commande */}
+      {orderModal && (
+        <div onClick={() => setOrderModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ background: '#ffffff', borderRadius: '16px', padding: '36px', maxWidth: '580px', width: '100%', boxShadow: '0 24px 60px rgba(0,0,0,0.2)', maxHeight: '90vh', overflowY: 'auto' }}>
+            <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)', borderRadius: 2, marginBottom: 24 }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
+              <div>
+                <p style={{ margin: '0 0 2px', fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}>Commande</p>
+                <h3 style={{ margin: 0, fontSize: '18px', fontFamily: "'Cormorant Garant', serif", color: '#1a2617', fontWeight: 700 }}>
+                  #{(orderModal._id as string).slice(-10).toUpperCase()}
+                </h3>
+              </div>
+              <span style={{ padding: '4px 12px', borderRadius: '999px', fontSize: '12px', fontWeight: 700, background: `${STATUS_COLORS[orderModal.status as string] || '#9ca3af'}18`, color: STATUS_COLORS[orderModal.status as string] || '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
+                {ORDER_STATUSES.find(s => s.value === orderModal.status)?.label ?? orderModal.status as string}
+              </span>
+            </div>
+
+            <div style={{ background: '#f9f9f7', borderRadius: '10px', padding: '14px 16px', marginBottom: '14px' }}>
+              <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Client</p>
+              <p style={{ margin: '0 0 3px', fontSize: '14px', fontWeight: 600, color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                {(orderModal.guestName as string) || ((orderModal.user as Record<string, string>)?.name) || 'Utilisateur'}
+              </p>
+              <p style={{ margin: '0 0 2px', fontSize: '13px', color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>
+                {(orderModal.guestEmail as string) || ((orderModal.user as Record<string, string>)?.email) || '—'}
+              </p>
+              {orderModal.guestPhone && <p style={{ margin: 0, fontSize: '13px', color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>{orderModal.guestPhone as string}</p>}
+            </div>
+
+            {orderModal.shippingAddress && (
+              <div style={{ background: '#f9f9f7', borderRadius: '10px', padding: '14px 16px', marginBottom: '14px' }}>
+                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Adresse de livraison</p>
+                {(() => { const a = orderModal.shippingAddress as Record<string, string>; return (
+                  <p style={{ margin: 0, fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif", lineHeight: 1.7 }}>
+                    {a.street && <>{a.street}<br /></>}{a.postalCode && <>{a.postalCode} </>}{a.city && <>{a.city}<br /></>}{a.country}
+                  </p>
+                ); })()}
+              </div>
+            )}
+
+            {Array.isArray(orderModal.items) && (orderModal.items as Record<string, unknown>[]).length > 0 && (
+              <div style={{ marginBottom: '14px' }}>
+                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Articles commandés</p>
+                <div style={{ border: '1px solid #e8e8e4', borderRadius: '10px', overflow: 'hidden' }}>
+                  {(orderModal.items as Record<string, unknown>[]).map((item, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', borderBottom: i < (orderModal.items as unknown[]).length - 1 ? '1px solid #f3f3f0' : 'none', fontFamily: "'Outfit', sans-serif" }}>
+                      <span style={{ fontSize: '13px', color: '#1a2617' }}>{item.productName as string} <span style={{ color: '#9ca3af' }}>× {item.quantity as number}</span></span>
+                      <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a2617' }}>{((item.price as number) * (item.quantity as number)).toFixed(2)} {orderModal.currency as string}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div style={{ background: '#f9f9f7', borderRadius: '10px', padding: '14px 16px', marginBottom: '14px' }}>
+              <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Récapitulatif financier</p>
+              {[
+                { label: 'Total HT', value: `${orderModal.totalHT} ${orderModal.currency}` },
+                { label: `TVA (${orderModal.tva}%)`, value: `${((orderModal.totalTTC as number) - (orderModal.totalHT as number)).toFixed(2)} ${orderModal.currency}` },
+                { label: 'Total TTC', value: `${orderModal.totalTTC} ${orderModal.currency}`, bold: true },
+                { label: 'Mode de paiement', value: orderModal.paymentMethod as string },
+              ].map(({ label, value, bold }) => (
+                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontFamily: "'Outfit', sans-serif", fontSize: '13px' }}>
+                  <span style={{ color: '#6b7280' }}>{label}</span>
+                  <span style={{ color: '#1a2617', fontWeight: bold ? 700 : 500 }}>{value}</span>
+                </div>
+              ))}
+            </div>
+
+            {(orderModal.trackingNumber || orderModal.carrier) && (
+              <div style={{ background: '#f0f7f1', borderRadius: '10px', padding: '14px 16px', marginBottom: '14px' }}>
+                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#3a6040', fontFamily: "'Outfit', sans-serif" }}>Suivi de livraison</p>
+                {orderModal.carrier && <p style={{ margin: '0 0 3px', fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>Transporteur : <strong>{orderModal.carrier as string}</strong></p>}
+                {orderModal.trackingNumber && <p style={{ margin: 0, fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>N° suivi : <strong style={{ letterSpacing: '1px' }}>{orderModal.trackingNumber as string}</strong></p>}
+              </div>
+            )}
+
+            <p style={{ margin: '0 0 20px', fontSize: '12px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
+              Créée le {new Date(orderModal.createdAt as string).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+            </p>
+            <button onClick={() => setOrderModal(null)} style={{ width: '100%', padding: '12px', borderRadius: '999px', border: '1.5px solid #e8e8e4', background: 'transparent', color: '#6b7280', fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal détail message */}
+      {messageModal && (
+        <div onClick={() => setMessageModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ background: '#ffffff', borderRadius: '16px', padding: '36px', maxWidth: '520px', width: '100%', boxShadow: '0 24px 60px rgba(0,0,0,0.2)' }}>
+            <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)', borderRadius: 2, marginBottom: 24 }} />
+            <p style={{ margin: '0 0 2px', fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}>Message de contact</p>
+            <h3 style={{ margin: '0 0 20px', fontSize: '18px', fontFamily: "'Cormorant Garant', serif", color: '#1a2617', fontWeight: 700 }}>
+              {messageModal.nom as string} {messageModal.prenom as string}
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '16px' }}>
+              {[
+                { label: 'Email', value: messageModal.email as string },
+                { label: 'Téléphone', value: (messageModal.telephone as string) || '—' },
+                { label: 'Pays', value: (messageModal.pays as string) || '—' },
+                { label: 'Date', value: new Date(messageModal.createdAt as string).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) },
+              ].map(({ label, value }) => (
+                <div key={label} style={{ background: '#f9f9f7', borderRadius: '8px', padding: '10px 12px' }}>
+                  <p style={{ margin: '0 0 2px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{label}</p>
+                  <p style={{ margin: 0, fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif", wordBreak: 'break-all' }}>{value}</p>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginBottom: '16px' }}>
+              <p style={{ margin: '0 0 6px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Sujet</p>
+              <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: '#3a6040', fontFamily: "'Outfit', sans-serif" }}>{messageModal.sujet as string}</p>
+            </div>
+            <div style={{ marginBottom: '24px' }}>
+              <p style={{ margin: '0 0 6px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Message</p>
+              <p style={{ margin: 0, fontSize: '14px', color: '#4b5563', fontFamily: "'Outfit', sans-serif", lineHeight: 1.7, whiteSpace: 'pre-wrap', background: '#f9f9f7', borderRadius: '10px', padding: '14px 16px' }}>{messageModal.message as string}</p>
+            </div>
+            <button onClick={() => setMessageModal(null)} style={{ width: '100%', padding: '12px', borderRadius: '999px', border: '1.5px solid #e8e8e4', background: 'transparent', color: '#6b7280', fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Modal numéro de suivi */}
       {shippingModal && (
