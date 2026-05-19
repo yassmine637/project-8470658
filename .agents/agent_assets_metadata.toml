@@ -77,3 +77,9 @@ id = "hBdf6r9TGLW7gkMUn0IqZ"
 uri = "file://screenshots/class-diagram.jpg"
 type = "image"
 title = "Diagramme de classe — Plateforme FENDRI"
+
+[[outputs]]
+id = "XlHBMr-ZfAi3zhHLBVsJy"
+uri = "file://attached_assets/diagramme_classe_fendri.png"
+type = "image"
+title = "Diagramme de classe UML — Projet FENDRI"
