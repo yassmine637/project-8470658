@@ -453,13 +453,13 @@ export default function ConfigPanel({
                     </svg>
                   ) : p.id === 'coffret-tiroir' ? (
                     <img
-                      src="/images/packaging/coffret-tiroir-eva.png"
+                      src="/images/packaging/coffret-tiroir-eva.webp"
                       alt="Coffret Tiroir EVA"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
                     />
                   ) : p.id === 'coffret-magnetique' ? (
                     <img
-                      src="/images/packaging/coffret-magnetique.png"
+                      src="/images/packaging/coffret-magnetique.webp"
                       alt="Coffret Magnétique"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
                     />

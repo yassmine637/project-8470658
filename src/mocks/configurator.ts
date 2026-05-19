@@ -6,100 +6,100 @@ import { PRODUCT_IMAGES } from '@/assets/images';
 // ============================================================
 
 // --- Images de base (sans étiquette) ---
-const cylindriqueOriginale = '/images/configurateur/cylindrique-originale.png';
+const cylindriqueOriginale = '/images/configurateur/cylindrique-originale.webp';
 
 // --- Combinaisons : Classique Ivoire ---
-const cylindrique500ClassiqueIvoire = '/images/configurateur/cylindrique-500ml-classique-ivoire.png';
-const cylindrique750ClassiqueIvoire = '/images/configurateur/cylindrique-750ml-classique-ivoire.png';
-const cylindrique1LClassiqueIvoire = '/images/configurateur/cylindrique-1l-classique-ivoire.png';
-const cylindrique3LClassiqueIvoire = '/images/configurateur/cylindrique-3l-classique-ivoire.png';
-const carree500ClassiqueIvoire = '/images/configurateur/carree-500ml-classique-ivoire.png';
-const carree750ClassiqueIvoire = '/images/configurateur/carree-750ml-classique-ivoire.png';
-const carree1LClassiqueIvoire = '/images/configurateur/carree-1l-classique-ivoire.png';
-const carree3LClassiqueIvoire = '/images/configurateur/carree-3l-classique-ivoire.png';
-const bidonMetal500ClassiqueIvoire = '/images/configurateur/bidon-metal-500ml-classique-ivoire.png';
-const bidonMetal750ClassiqueIvoire = '/images/configurateur/bidon-metal-750ml-classique-ivoire.png';
-const bidonMetal1LClassiqueIvoire = '/images/configurateur/bidon-metal-1l-classique-ivoire.png';
-const bidonMetal3LClassiqueIvoire = '/images/configurateur/bidon-metal-3l-classique-ivoire.png';
-const bidonVert500ClassiqueIvoire = '/images/configurateur/bidon-vert-500ml-classique-ivoire.png';
-const bidonVert750ClassiqueIvoire = '/images/configurateur/bidon-vert-750ml-classique-ivoire.png';
-const bidonVert1LClassiqueIvoire = '/images/configurateur/bidon-vert-1l-classique-ivoire.png';
-const bidonVert3LClassiqueIvoire = '/images/configurateur/bidon-vert-3l-classique-ivoire.png';
+const cylindrique500ClassiqueIvoire = '/images/configurateur/cylindrique-500ml-classique-ivoire.webp';
+const cylindrique750ClassiqueIvoire = '/images/configurateur/cylindrique-750ml-classique-ivoire.webp';
+const cylindrique1LClassiqueIvoire = '/images/configurateur/cylindrique-1l-classique-ivoire.webp';
+const cylindrique3LClassiqueIvoire = '/images/configurateur/cylindrique-3l-classique-ivoire.webp';
+const carree500ClassiqueIvoire = '/images/configurateur/carree-500ml-classique-ivoire.webp';
+const carree750ClassiqueIvoire = '/images/configurateur/carree-750ml-classique-ivoire.webp';
+const carree1LClassiqueIvoire = '/images/configurateur/carree-1l-classique-ivoire.webp';
+const carree3LClassiqueIvoire = '/images/configurateur/carree-3l-classique-ivoire.webp';
+const bidonMetal500ClassiqueIvoire = '/images/configurateur/bidon-metal-500ml-classique-ivoire.webp';
+const bidonMetal750ClassiqueIvoire = '/images/configurateur/bidon-metal-750ml-classique-ivoire.webp';
+const bidonMetal1LClassiqueIvoire = '/images/configurateur/bidon-metal-1l-classique-ivoire.webp';
+const bidonMetal3LClassiqueIvoire = '/images/configurateur/bidon-metal-3l-classique-ivoire.webp';
+const bidonVert500ClassiqueIvoire = '/images/configurateur/bidon-vert-500ml-classique-ivoire.webp';
+const bidonVert750ClassiqueIvoire = '/images/configurateur/bidon-vert-750ml-classique-ivoire.webp';
+const bidonVert1LClassiqueIvoire = '/images/configurateur/bidon-vert-1l-classique-ivoire.webp';
+const bidonVert3LClassiqueIvoire = '/images/configurateur/bidon-vert-3l-classique-ivoire.webp';
 
 // --- Combinaisons : Bio Moderne ---
-const labelBioModerne = '/images/etiquettes/label-bio-moderne.png';
-const cylindrique500BioModerne = '/images/configurateur/cylindrique-500ml-bio-moderne.png';
-const cylindrique750BioModerne = '/images/configurateur/cylindrique-750ml-bio-moderne.png';
-const cylindrique1LBioModerne = '/images/configurateur/cylindrique-1l-bio-moderne.png';
-const cylindrique3LBioModerne = '/images/configurateur/cylindrique-3l-bio-moderne.png';
-const carree500BioModerne = '/images/configurateur/carree-500ml-bio-moderne.png';
-const carree750BioModerne = '/images/configurateur/carree-750ml-bio-moderne.png';
-const carree1LBioModerne = '/images/configurateur/carree-1l-bio-moderne.png';
-const carree3LBioModerne = '/images/configurateur/carree-3l-bio-moderne.png';
-const bidonVert500BioModerne = '/images/configurateur/bidon-vert-500ml-bio-moderne.png';
-const bidonVert750BioModerne = '/images/configurateur/bidon-vert-750ml-bio-moderne.png';
-const bidonVert1LBioModerne = '/images/configurateur/bidon-vert-1l-bio-moderne.png';
-const bidonVert3LBioModerne = '/images/configurateur/bidon-vert-3l-bio-moderne.png';
-const bidonMetal500BioModerne = '/images/configurateur/bidon-metal-500ml-bio-moderne.png';
-const bidonMetal750BioModerne = '/images/configurateur/bidon-metal-750ml-bio-moderne.png';
-const bidonMetal1LBioModerne = '/images/configurateur/bidon-metal-1l-bio-moderne.png';
-const bidonMetal3LBioModerne = '/images/configurateur/bidon-metal-3l-bio-moderne.png';
+const labelBioModerne = '/images/etiquettes/label-bio-moderne.webp';
+const cylindrique500BioModerne = '/images/configurateur/cylindrique-500ml-bio-moderne.webp';
+const cylindrique750BioModerne = '/images/configurateur/cylindrique-750ml-bio-moderne.webp';
+const cylindrique1LBioModerne = '/images/configurateur/cylindrique-1l-bio-moderne.webp';
+const cylindrique3LBioModerne = '/images/configurateur/cylindrique-3l-bio-moderne.webp';
+const carree500BioModerne = '/images/configurateur/carree-500ml-bio-moderne.webp';
+const carree750BioModerne = '/images/configurateur/carree-750ml-bio-moderne.webp';
+const carree1LBioModerne = '/images/configurateur/carree-1l-bio-moderne.webp';
+const carree3LBioModerne = '/images/configurateur/carree-3l-bio-moderne.webp';
+const bidonVert500BioModerne = '/images/configurateur/bidon-vert-500ml-bio-moderne.webp';
+const bidonVert750BioModerne = '/images/configurateur/bidon-vert-750ml-bio-moderne.webp';
+const bidonVert1LBioModerne = '/images/configurateur/bidon-vert-1l-bio-moderne.webp';
+const bidonVert3LBioModerne = '/images/configurateur/bidon-vert-3l-bio-moderne.webp';
+const bidonMetal500BioModerne = '/images/configurateur/bidon-metal-500ml-bio-moderne.webp';
+const bidonMetal750BioModerne = '/images/configurateur/bidon-metal-750ml-bio-moderne.webp';
+const bidonMetal1LBioModerne = '/images/configurateur/bidon-metal-1l-bio-moderne.webp';
+const bidonMetal3LBioModerne = '/images/configurateur/bidon-metal-3l-bio-moderne.webp';
 
 // --- Combinaisons : Récolte Limitée ---
-const cylindrique500RecolteLimitee = '/images/configurateur/cylindrique-500ml-recolte-limitee.png';
-const cylindrique750RecolteLimitee = '/images/configurateur/cylindrique-750ml-recolte-limitee.png';
-const cylindrique1LRecolteLimitee = '/images/configurateur/cylindrique-1l-recolte-limitee.png';
-const cylindrique3LRecolteLimitee = '/images/configurateur/cylindrique-3l-recolte-limitee.png';
-const carree1LRecolteLimitee = '/images/configurateur/carree-1l-recolte-limitee.png';
-const carree3LRecolteLimitee = '/images/configurateur/carree-3l-recolte-limitee.png';
-const carree500RecolteLimitee = '/images/configurateur/carree-500ml-recolte-limitee.png';
-const carree750RecolteLimitee = '/images/configurateur/carree-750ml-recolte-limitee.png';
-const bidonMetal500RecolteLimitee = '/images/configurateur/bidon-metal-500ml-recolte-limitee.png';
-const bidonMetal750RecolteLimitee = '/images/configurateur/bidon-metal-750ml-recolte-limitee.png';
-const bidonMetal1LRecolteLimitee = '/images/configurateur/bidon-metal-1l-recolte-limitee.png';
-const bidonMetal3LRecolteLimitee = '/images/configurateur/bidon-metal-3l-recolte-limitee.png';
-const bidonVert500RecolteLimitee = '/images/configurateur/bidon-vert-500ml-recolte-limitee.png';
-const bidonVert3LRecolteLimitee = '/images/configurateur/bidon-vert-3l-recolte-limitee.png';
-const bidonVert750RecolteLimitee = '/images/configurateur/bidon-vert-750ml-recolte-limitee.png';
-const bidonVert1LRecolteLimitee = '/images/configurateur/bidon-vert-1l-recolte-limitee.png';
+const cylindrique500RecolteLimitee = '/images/configurateur/cylindrique-500ml-recolte-limitee.webp';
+const cylindrique750RecolteLimitee = '/images/configurateur/cylindrique-750ml-recolte-limitee.webp';
+const cylindrique1LRecolteLimitee = '/images/configurateur/cylindrique-1l-recolte-limitee.webp';
+const cylindrique3LRecolteLimitee = '/images/configurateur/cylindrique-3l-recolte-limitee.webp';
+const carree1LRecolteLimitee = '/images/configurateur/carree-1l-recolte-limitee.webp';
+const carree3LRecolteLimitee = '/images/configurateur/carree-3l-recolte-limitee.webp';
+const carree500RecolteLimitee = '/images/configurateur/carree-500ml-recolte-limitee.webp';
+const carree750RecolteLimitee = '/images/configurateur/carree-750ml-recolte-limitee.webp';
+const bidonMetal500RecolteLimitee = '/images/configurateur/bidon-metal-500ml-recolte-limitee.webp';
+const bidonMetal750RecolteLimitee = '/images/configurateur/bidon-metal-750ml-recolte-limitee.webp';
+const bidonMetal1LRecolteLimitee = '/images/configurateur/bidon-metal-1l-recolte-limitee.webp';
+const bidonMetal3LRecolteLimitee = '/images/configurateur/bidon-metal-3l-recolte-limitee.webp';
+const bidonVert500RecolteLimitee = '/images/configurateur/bidon-vert-500ml-recolte-limitee.webp';
+const bidonVert3LRecolteLimitee = '/images/configurateur/bidon-vert-3l-recolte-limitee.webp';
+const bidonVert750RecolteLimitee = '/images/configurateur/bidon-vert-750ml-recolte-limitee.webp';
+const bidonVert1LRecolteLimitee = '/images/configurateur/bidon-vert-1l-recolte-limitee.webp';
 
 // --- Combinaisons : Héritage ---
-const labelHeritage = '/images/etiquettes/label-heritage.png';
-const cylindrique500Heritage = '/images/configurateur/cylindrique-500ml-heritage.png';
-const cylindrique750Heritage = '/images/configurateur/cylindrique-750ml-heritage.png';
-const cylindrique1LHeritage = '/images/configurateur/cylindrique-1l-heritage.png';
-const cylindrique3LHeritage = '/images/configurateur/cylindrique-3l-heritage.png';
-const carree500Heritage = '/images/configurateur/carree-500ml-heritage.png';
-const carree750Heritage = '/images/configurateur/carree-750ml-heritage.png';
-const carree1LHeritage = '/images/configurateur/carree-1l-heritage.png';
-const carree3LHeritage = '/images/configurateur/carree-3l-heritage.png';
-const bidonMetal500Heritage = '/images/configurateur/bidon-metal-500ml-heritage.png';
-const bidonMetal750Heritage = '/images/configurateur/bidon-metal-750ml-heritage.png';
-const bidonMetal1LHeritage = '/images/configurateur/bidon-metal-1l-heritage.png';
-const bidonMetal3LHeritage = '/images/configurateur/bidon-metal-3l-heritage.png';
-const bidonVert500Heritage = '/images/configurateur/bidon-vert-500ml-heritage.png';
-const bidonVert750Heritage = '/images/configurateur/bidon-vert-750ml-heritage.png';
-const bidonVert3LHeritage = '/images/configurateur/bidon-vert-3l-heritage.png';
-const bidonVert1LHeritage = '/images/configurateur/bidon-vert-1l-heritage.png';
+const labelHeritage = '/images/etiquettes/label-heritage.webp';
+const cylindrique500Heritage = '/images/configurateur/cylindrique-500ml-heritage.webp';
+const cylindrique750Heritage = '/images/configurateur/cylindrique-750ml-heritage.webp';
+const cylindrique1LHeritage = '/images/configurateur/cylindrique-1l-heritage.webp';
+const cylindrique3LHeritage = '/images/configurateur/cylindrique-3l-heritage.webp';
+const carree500Heritage = '/images/configurateur/carree-500ml-heritage.webp';
+const carree750Heritage = '/images/configurateur/carree-750ml-heritage.webp';
+const carree1LHeritage = '/images/configurateur/carree-1l-heritage.webp';
+const carree3LHeritage = '/images/configurateur/carree-3l-heritage.webp';
+const bidonMetal500Heritage = '/images/configurateur/bidon-metal-500ml-heritage.webp';
+const bidonMetal750Heritage = '/images/configurateur/bidon-metal-750ml-heritage.webp';
+const bidonMetal1LHeritage = '/images/configurateur/bidon-metal-1l-heritage.webp';
+const bidonMetal3LHeritage = '/images/configurateur/bidon-metal-3l-heritage.webp';
+const bidonVert500Heritage = '/images/configurateur/bidon-vert-500ml-heritage.webp';
+const bidonVert750Heritage = '/images/configurateur/bidon-vert-750ml-heritage.webp';
+const bidonVert3LHeritage = '/images/configurateur/bidon-vert-3l-heritage.webp';
+const bidonVert1LHeritage = '/images/configurateur/bidon-vert-1l-heritage.webp';
 
 // --- Combinaisons : Luxe Noir & Or ---
-const labelLuxeNoirOr = '/images/etiquettes/label-luxe-noir-or.png';
-const cylindrique500LuxeNoirOr = '/images/configurateur/cylindrique-500ml-luxe-noir-or.png';
-const cylindrique750LuxeNoirOr = '/images/configurateur/cylindrique-750ml-luxe-noir-or.png';
-const cylindrique1LLuxeNoirOr = '/images/configurateur/cylindrique-1l-luxe-noir-or.png';
-const cylindrique3LLuxeNoirOr = '/images/configurateur/cylindrique-3l-luxe-noir-or.png';
-const carree500LuxeNoirOr = '/images/configurateur/carree-500ml-luxe-noir-or.png';
-const carree750LuxeNoirOr = '/images/configurateur/carree-750ml-luxe-noir-or.png';
-const carree1LLuxeNoirOr = '/images/configurateur/carree-1l-luxe-noir-or.png';
-const carree3LLuxeNoirOr = '/images/configurateur/carree-3l-luxe-noir-or.png';
-const bidonMetal500LuxeNoirOr = '/images/configurateur/bidon-metal-500ml-luxe-noir-or.png';
-const bidonMetal750LuxeNoirOr = '/images/configurateur/bidon-metal-750ml-luxe-noir-or.png';
-const bidonMetal1LLuxeNoirOr = '/images/configurateur/bidon-metal-1l-luxe-noir-or.png';
-const bidonMetal3LLuxeNoirOr = '/images/configurateur/bidon-metal-3l-luxe-noir-or.png';
-const bidonVert500LuxeNoirOr = '/images/configurateur/bidon-vert-500ml-luxe-noir-or.png';
-const bidonVert750LuxeNoirOr = '/images/configurateur/bidon-vert-750ml-luxe-noir-or.png';
-const bidonVert3LLuxeNoirOr = '/images/configurateur/bidon-vert-3l-luxe-noir-or.png';
-const bidonVert1LLuxeNoirOr = '/images/configurateur/bidon-vert-1l-luxe-noir-or.png';
+const labelLuxeNoirOr = '/images/etiquettes/label-luxe-noir-or.webp';
+const cylindrique500LuxeNoirOr = '/images/configurateur/cylindrique-500ml-luxe-noir-or.webp';
+const cylindrique750LuxeNoirOr = '/images/configurateur/cylindrique-750ml-luxe-noir-or.webp';
+const cylindrique1LLuxeNoirOr = '/images/configurateur/cylindrique-1l-luxe-noir-or.webp';
+const cylindrique3LLuxeNoirOr = '/images/configurateur/cylindrique-3l-luxe-noir-or.webp';
+const carree500LuxeNoirOr = '/images/configurateur/carree-500ml-luxe-noir-or.webp';
+const carree750LuxeNoirOr = '/images/configurateur/carree-750ml-luxe-noir-or.webp';
+const carree1LLuxeNoirOr = '/images/configurateur/carree-1l-luxe-noir-or.webp';
+const carree3LLuxeNoirOr = '/images/configurateur/carree-3l-luxe-noir-or.webp';
+const bidonMetal500LuxeNoirOr = '/images/configurateur/bidon-metal-500ml-luxe-noir-or.webp';
+const bidonMetal750LuxeNoirOr = '/images/configurateur/bidon-metal-750ml-luxe-noir-or.webp';
+const bidonMetal1LLuxeNoirOr = '/images/configurateur/bidon-metal-1l-luxe-noir-or.webp';
+const bidonMetal3LLuxeNoirOr = '/images/configurateur/bidon-metal-3l-luxe-noir-or.webp';
+const bidonVert500LuxeNoirOr = '/images/configurateur/bidon-vert-500ml-luxe-noir-or.webp';
+const bidonVert750LuxeNoirOr = '/images/configurateur/bidon-vert-750ml-luxe-noir-or.webp';
+const bidonVert3LLuxeNoirOr = '/images/configurateur/bidon-vert-3l-luxe-noir-or.webp';
+const bidonVert1LLuxeNoirOr = '/images/configurateur/bidon-vert-1l-luxe-noir-or.webp';
 
 export const COMBO_IMAGES: Record<string, string> = {
   'cylindrique-500__500ml__classique-ivoire': cylindrique500ClassiqueIvoire,
@@ -371,7 +371,7 @@ export function getPackagingsBySize(sizeId: string): PackagingOption[] {
 //
 // Convention de nommage :
 //   Clé  : "{packagingId}__{modelId}__{sizeId}"
-//   Fichier : public/images/emballages/{packagingId}/{modelId}-{sizeId}.png
+//   Fichier : public/images/emballages/{packagingId}/{modelId}-{sizeId}.webp
 //
 // Exemples de clés :
 //   "coffret-tiroir__cylindrique-500__500ml"
@@ -380,85 +380,85 @@ export function getPackagingsBySize(sizeId: string): PackagingOption[] {
 //
 // Pour ajouter une image :
 //   1. Dépose le fichier dans public/images/emballages/{packagingId}/
-//   2. Ajoute la ligne ci-dessous : 'coffret-tiroir__cylindrique-500__500ml': '/images/emballages/coffret-tiroir/cylindrique-500-500ml.png',
+//   2. Ajoute la ligne ci-dessous : 'coffret-tiroir__cylindrique-500__500ml': '/images/emballages/coffret-tiroir/cylindrique-500-500ml.webp',
 // ============================================================
 export const PACKAGING_IMAGES: Record<string, string> = {
   // Coffret Tiroir EVA
-  'coffret-tiroir__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-classique-ivoire.png',
-  'coffret-tiroir__cylindrique-500__750ml__classique-ivoire': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-classique-ivoire.png',
-  'coffret-tiroir__cylindrique-500__1l__classique-ivoire': '/images/emballages/coffret-tiroir/cylindrique-500-1l-classique-ivoire.png',
-  'coffret-tiroir__cylindrique-500__500ml__bio-moderne': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-bio-moderne.png',
-  'coffret-tiroir__cylindrique-500__750ml__bio-moderne': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-bio-moderne.png',
-  'coffret-tiroir__cylindrique-500__1l__bio-moderne': '/images/emballages/coffret-tiroir/cylindrique-500-1l-bio-moderne.png',
-  'coffret-tiroir__cylindrique-500__500ml__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-recolte-limitee.png',
-  'coffret-tiroir__cylindrique-500__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-recolte-limitee.png',
-  'coffret-tiroir__cylindrique-500__1l__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-1l-recolte-limitee.png',
-  'coffret-tiroir__cylindrique-500__500ml__heritage': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-heritage.png',
-  'coffret-tiroir__cylindrique-500__750ml__heritage': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-heritage.png',
-  'coffret-tiroir__cylindrique-500__1l__heritage': '/images/emballages/coffret-tiroir/cylindrique-500-1l-heritage.png',
-  'coffret-tiroir__cylindrique-500__500ml__luxe-noir-or': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-luxe-noir-or.png',
-  'coffret-tiroir__cylindrique-500__750ml__luxe-noir-or': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-luxe-noir-or.png',
-  'coffret-tiroir__cylindrique-500__1l__luxe-noir-or': '/images/emballages/coffret-tiroir/cylindrique-500-1l-luxe-noir-or.png',
-  'coffret-tiroir__carree-750__500ml__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-500ml-classique-ivoire.png',
-  'coffret-tiroir__carree-750__750ml__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-750ml-classique-ivoire.png',
-  'coffret-tiroir__carree-750__1l__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-1l-classique-ivoire.png',
-  'coffret-tiroir__carree-750__500ml__bio-moderne': '/images/emballages/coffret-tiroir/carree-750-500ml-bio-moderne.png',
-  'coffret-tiroir__carree-750__750ml__bio-moderne': '/images/emballages/coffret-tiroir/carree-750-750ml-bio-moderne.png',
-  'coffret-tiroir__carree-750__1l__bio-moderne': '/images/emballages/coffret-tiroir/carree-750-1l-bio-moderne.png',
-  'coffret-tiroir__carree-750__500ml__recolte-limitee': '/images/emballages/coffret-tiroir/carree-750-500ml-recolte-limitee.png',
-  'coffret-tiroir__carree-750__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/carree-750-750ml-recolte-limitee.png',
-  'coffret-tiroir__carree-750__1l__recolte-limitee': '/images/emballages/coffret-tiroir/carree-750-1l-recolte-limitee.png',
-  'coffret-tiroir__carree-750__500ml__heritage': '/images/emballages/coffret-tiroir/carree-750-500ml-heritage.png',
-  'coffret-tiroir__carree-750__750ml__heritage': '/images/emballages/coffret-tiroir/carree-750-750ml-heritage.png',
-  'coffret-tiroir__carree-750__1l__heritage': '/images/emballages/coffret-tiroir/carree-750-1l-heritage.png',
-  'coffret-tiroir__carree-750__500ml__luxe-noir-or': '/images/emballages/coffret-tiroir/carree-750-500ml-luxe-noir-or.png',
-  'coffret-tiroir__carree-750__750ml__luxe-noir-or': '/images/emballages/coffret-tiroir/carree-750-750ml-luxe-noir-or.png',
-  'coffret-tiroir__carree-750__1l__luxe-noir-or': '/images/emballages/coffret-tiroir/carree-750-1l-luxe-noir-or.png',
-  // 'coffret-tiroir__carree-750__750ml':      '/images/emballages/coffret-tiroir/carree-750-750ml.png',
+  'coffret-tiroir__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-classique-ivoire.webp',
+  'coffret-tiroir__cylindrique-500__750ml__classique-ivoire': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-classique-ivoire.webp',
+  'coffret-tiroir__cylindrique-500__1l__classique-ivoire': '/images/emballages/coffret-tiroir/cylindrique-500-1l-classique-ivoire.webp',
+  'coffret-tiroir__cylindrique-500__500ml__bio-moderne': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-bio-moderne.webp',
+  'coffret-tiroir__cylindrique-500__750ml__bio-moderne': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-bio-moderne.webp',
+  'coffret-tiroir__cylindrique-500__1l__bio-moderne': '/images/emballages/coffret-tiroir/cylindrique-500-1l-bio-moderne.webp',
+  'coffret-tiroir__cylindrique-500__500ml__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-recolte-limitee.webp',
+  'coffret-tiroir__cylindrique-500__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-recolte-limitee.webp',
+  'coffret-tiroir__cylindrique-500__1l__recolte-limitee': '/images/emballages/coffret-tiroir/cylindrique-500-1l-recolte-limitee.webp',
+  'coffret-tiroir__cylindrique-500__500ml__heritage': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-heritage.webp',
+  'coffret-tiroir__cylindrique-500__750ml__heritage': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-heritage.webp',
+  'coffret-tiroir__cylindrique-500__1l__heritage': '/images/emballages/coffret-tiroir/cylindrique-500-1l-heritage.webp',
+  'coffret-tiroir__cylindrique-500__500ml__luxe-noir-or': '/images/emballages/coffret-tiroir/cylindrique-500-500ml-luxe-noir-or.webp',
+  'coffret-tiroir__cylindrique-500__750ml__luxe-noir-or': '/images/emballages/coffret-tiroir/cylindrique-500-750ml-luxe-noir-or.webp',
+  'coffret-tiroir__cylindrique-500__1l__luxe-noir-or': '/images/emballages/coffret-tiroir/cylindrique-500-1l-luxe-noir-or.webp',
+  'coffret-tiroir__carree-750__500ml__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-500ml-classique-ivoire.webp',
+  'coffret-tiroir__carree-750__750ml__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-750ml-classique-ivoire.webp',
+  'coffret-tiroir__carree-750__1l__classique-ivoire': '/images/emballages/coffret-tiroir/carree-750-1l-classique-ivoire.webp',
+  'coffret-tiroir__carree-750__500ml__bio-moderne': '/images/emballages/coffret-tiroir/carree-750-500ml-bio-moderne.webp',
+  'coffret-tiroir__carree-750__750ml__bio-moderne': '/images/emballages/coffret-tiroir/carree-750-750ml-bio-moderne.webp',
+  'coffret-tiroir__carree-750__1l__bio-moderne': '/images/emballages/coffret-tiroir/carree-750-1l-bio-moderne.webp',
+  'coffret-tiroir__carree-750__500ml__recolte-limitee': '/images/emballages/coffret-tiroir/carree-750-500ml-recolte-limitee.webp',
+  'coffret-tiroir__carree-750__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/carree-750-750ml-recolte-limitee.webp',
+  'coffret-tiroir__carree-750__1l__recolte-limitee': '/images/emballages/coffret-tiroir/carree-750-1l-recolte-limitee.webp',
+  'coffret-tiroir__carree-750__500ml__heritage': '/images/emballages/coffret-tiroir/carree-750-500ml-heritage.webp',
+  'coffret-tiroir__carree-750__750ml__heritage': '/images/emballages/coffret-tiroir/carree-750-750ml-heritage.webp',
+  'coffret-tiroir__carree-750__1l__heritage': '/images/emballages/coffret-tiroir/carree-750-1l-heritage.webp',
+  'coffret-tiroir__carree-750__500ml__luxe-noir-or': '/images/emballages/coffret-tiroir/carree-750-500ml-luxe-noir-or.webp',
+  'coffret-tiroir__carree-750__750ml__luxe-noir-or': '/images/emballages/coffret-tiroir/carree-750-750ml-luxe-noir-or.webp',
+  'coffret-tiroir__carree-750__1l__luxe-noir-or': '/images/emballages/coffret-tiroir/carree-750-1l-luxe-noir-or.webp',
+  // 'coffret-tiroir__carree-750__750ml':      '/images/emballages/coffret-tiroir/carree-750-750ml.webp',
 
   // Coffret Magnétique
-  'coffret-magnetique__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-classique-ivoire.png',
-  'coffret-magnetique__cylindrique-500__750ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-classique-ivoire.png',
-  'coffret-magnetique__cylindrique-500__1l__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-1l-classique-ivoire.png',
-  'coffret-magnetique__cylindrique-500__500ml__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-bio-moderne.png',
-  'coffret-magnetique__cylindrique-500__750ml__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-bio-moderne.png',
-  'coffret-magnetique__cylindrique-500__1l__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-1l-bio-moderne.png',
-  'coffret-magnetique__cylindrique-500__500ml__recolte-limitee': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-recolte-limitee.png',
-  'coffret-magnetique__cylindrique-500__750ml__recolte-limitee': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-recolte-limitee.png',
-  'coffret-magnetique__cylindrique-500__1l__recolte-limitee': '/images/emballages/coffret-magnetique/cylindrique-500-1l-recolte-limitee.png',
-  'coffret-magnetique__cylindrique-500__500ml__heritage': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-heritage.png',
-  'coffret-magnetique__cylindrique-500__750ml__heritage': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-heritage.png',
-  'coffret-magnetique__cylindrique-500__1l__heritage': '/images/emballages/coffret-magnetique/cylindrique-500-1l-heritage.png',
-  'coffret-magnetique__cylindrique-500__500ml__luxe-noir-or': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-luxe-noir-or.png',
-  'coffret-magnetique__cylindrique-500__750ml__luxe-noir-or': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-luxe-noir-or.png',
-  'coffret-magnetique__cylindrique-500__1l__luxe-noir-or': '/images/emballages/coffret-magnetique/cylindrique-500-1l-luxe-noir-or.png',
-  // 'coffret-magnetique__carree-750__750ml':      '/images/emballages/coffret-magnetique/carree-750-750ml.png',
+  'coffret-magnetique__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-classique-ivoire.webp',
+  'coffret-magnetique__cylindrique-500__750ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-classique-ivoire.webp',
+  'coffret-magnetique__cylindrique-500__1l__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-1l-classique-ivoire.webp',
+  'coffret-magnetique__cylindrique-500__500ml__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-bio-moderne.webp',
+  'coffret-magnetique__cylindrique-500__750ml__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-bio-moderne.webp',
+  'coffret-magnetique__cylindrique-500__1l__bio-moderne': '/images/emballages/coffret-magnetique/cylindrique-500-1l-bio-moderne.webp',
+  'coffret-magnetique__cylindrique-500__500ml__recolte-limitee': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-recolte-limitee.webp',
+  'coffret-magnetique__cylindrique-500__750ml__recolte-limitee': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-recolte-limitee.webp',
+  'coffret-magnetique__cylindrique-500__1l__recolte-limitee': '/images/emballages/coffret-magnetique/cylindrique-500-1l-recolte-limitee.webp',
+  'coffret-magnetique__cylindrique-500__500ml__heritage': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-heritage.webp',
+  'coffret-magnetique__cylindrique-500__750ml__heritage': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-heritage.webp',
+  'coffret-magnetique__cylindrique-500__1l__heritage': '/images/emballages/coffret-magnetique/cylindrique-500-1l-heritage.webp',
+  'coffret-magnetique__cylindrique-500__500ml__luxe-noir-or': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-luxe-noir-or.webp',
+  'coffret-magnetique__cylindrique-500__750ml__luxe-noir-or': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-luxe-noir-or.webp',
+  'coffret-magnetique__cylindrique-500__1l__luxe-noir-or': '/images/emballages/coffret-magnetique/cylindrique-500-1l-luxe-noir-or.webp',
+  // 'coffret-magnetique__carree-750__750ml':      '/images/emballages/coffret-magnetique/carree-750-750ml.webp',
 
   // Tube Cylindrique Premium
-  // 'tube-cylindrique__cylindrique-500__500ml': '/images/emballages/tube-cylindrique/cylindrique-500-500ml.png',
-  // 'tube-cylindrique__cylindrique-500__750ml': '/images/emballages/tube-cylindrique/cylindrique-500-750ml.png',
+  // 'tube-cylindrique__cylindrique-500__500ml': '/images/emballages/tube-cylindrique/cylindrique-500-500ml.webp',
+  // 'tube-cylindrique__cylindrique-500__750ml': '/images/emballages/tube-cylindrique/cylindrique-500-750ml.webp',
 
   // Caisse Bois Premium
-  'caisse-bois-premium__cylindrique-500__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/cylindrique-500-3l.png',
-  'caisse-bois-premium__cylindrique-500__3l__bio-moderne': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-bio-moderne.png',
-  'caisse-bois-premium__cylindrique-500__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-recolte-limitee.png',
-  'caisse-bois-premium__cylindrique-500__3l__heritage': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-heritage.png',
-  'caisse-bois-premium__cylindrique-500__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-luxe-noir-or.png',
-  'caisse-bois-premium__carree-750__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/carree-750-3l-classique-ivoire.png',
-  'caisse-bois-premium__carree-750__3l__bio-moderne': '/images/emballages/caisse-bois-premium/carree-750-3l-bio-moderne.png',
-  'caisse-bois-premium__carree-750__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/carree-750-3l-recolte-limitee.png',
-  'caisse-bois-premium__carree-750__3l__heritage': '/images/emballages/caisse-bois-premium/carree-750-3l-heritage.png',
-  'caisse-bois-premium__carree-750__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/carree-750-3l-luxe-noir-or.png',
-  'caisse-bois-premium__bidon-vert-1l__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-classique-ivoire.png',
-  'caisse-bois-premium__bidon-vert-1l__3l__bio-moderne': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-bio-moderne.png',
-  'caisse-bois-premium__bidon-vert-1l__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-recolte-limitee.png',
-  'caisse-bois-premium__bidon-vert-1l__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-luxe-noir-or.png',
-  'caisse-bois-premium__bidon-vert-1l__3l__heritage': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-heritage.png',
-  'caisse-bois-premium__bidon-metal-3l__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-classique-ivoire.png',
-  'caisse-bois-premium__bidon-metal-3l__3l__bio-moderne': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-bio-moderne.png',
-  'caisse-bois-premium__bidon-metal-3l__3l__heritage': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-heritage.png',
-  'caisse-bois-premium__bidon-metal-3l__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-luxe-noir-or.png',
-  'caisse-bois-premium__bidon-metal-3l__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-recolte-limitee.png',
+  'caisse-bois-premium__cylindrique-500__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/cylindrique-500-3l.webp',
+  'caisse-bois-premium__cylindrique-500__3l__bio-moderne': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-bio-moderne.webp',
+  'caisse-bois-premium__cylindrique-500__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-recolte-limitee.webp',
+  'caisse-bois-premium__cylindrique-500__3l__heritage': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-heritage.webp',
+  'caisse-bois-premium__cylindrique-500__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/cylindrique-500-3l-luxe-noir-or.webp',
+  'caisse-bois-premium__carree-750__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/carree-750-3l-classique-ivoire.webp',
+  'caisse-bois-premium__carree-750__3l__bio-moderne': '/images/emballages/caisse-bois-premium/carree-750-3l-bio-moderne.webp',
+  'caisse-bois-premium__carree-750__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/carree-750-3l-recolte-limitee.webp',
+  'caisse-bois-premium__carree-750__3l__heritage': '/images/emballages/caisse-bois-premium/carree-750-3l-heritage.webp',
+  'caisse-bois-premium__carree-750__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/carree-750-3l-luxe-noir-or.webp',
+  'caisse-bois-premium__bidon-vert-1l__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-classique-ivoire.webp',
+  'caisse-bois-premium__bidon-vert-1l__3l__bio-moderne': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-bio-moderne.webp',
+  'caisse-bois-premium__bidon-vert-1l__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-recolte-limitee.webp',
+  'caisse-bois-premium__bidon-vert-1l__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-luxe-noir-or.webp',
+  'caisse-bois-premium__bidon-vert-1l__3l__heritage': '/images/emballages/caisse-bois-premium/bidon-vert-1l-3l-heritage.webp',
+  'caisse-bois-premium__bidon-metal-3l__3l__classique-ivoire': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-classique-ivoire.webp',
+  'caisse-bois-premium__bidon-metal-3l__3l__bio-moderne': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-bio-moderne.webp',
+  'caisse-bois-premium__bidon-metal-3l__3l__heritage': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-heritage.webp',
+  'caisse-bois-premium__bidon-metal-3l__3l__luxe-noir-or': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-luxe-noir-or.webp',
+  'caisse-bois-premium__bidon-metal-3l__3l__recolte-limitee': '/images/emballages/caisse-bois-premium/bidon-metal-3l-3l-recolte-limitee.webp',
 };
 
 export function getPackagingImageKey(packagingId: string, modelId: string, sizeId: string, labelId?: string): string {
@@ -477,7 +477,7 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#3d6b3a',
     bgColor: '#f7fbf5',
     borderColor: '#3d6b3a',
-    image: '/images/etiquettes/label-classique.png',
+    image: '/images/etiquettes/label-classique.webp',
   },
   {
     id: 'bio-moderne',
@@ -525,6 +525,6 @@ export const labelStyles: LabelStyle[] = [
     accentColor: '#c17f24',
     bgColor: '#fef6e4',
     borderColor: '#d4943a',
-    image: '/images/etiquettes/label-recolte.png',
+    image: '/images/etiquettes/label-recolte.webp',
   },
 ];

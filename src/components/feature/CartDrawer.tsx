@@ -333,7 +333,7 @@ function StreetAutocomplete({
             );
           })}
           <div style={{ padding: '5px 10px', borderTop: '1px solid #f3f3f0', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end' }}>
-            <img src="https://nominatim.openstreetmap.org/ui/mapicons/nominatim-logo-32.png" alt="" style={{ height: '10px', opacity: 0.4 }} onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+            <img src="https://nominatim.openstreetmap.org/ui/mapicons/nominatim-logo-32.webp" alt="" style={{ height: '10px', opacity: 0.4 }} onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
             <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.55rem', color: '#c4c4b8' }}>© OpenStreetMap</span>
           </div>
         </div>

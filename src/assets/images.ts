@@ -8,21 +8,21 @@
 export const PRODUCT_IMAGES = {
   bidonVert1L: '/images/produits/produit4-nobg.webp',
   bouteilleCylindrique500ml: '/images/produits/bottle-cylindrique-500ml.webp',
-  bouteilleCylindrique500mlFendri: '/images/produits/bottle-cylindrique-500ml-fendri.png',
-  bouteilleCylindrique750ml: '/images/produits/bottle-750ml.png',
-  bouteilleCylindrique1L: '/images/produits/bottle-1l.png',
-  bouteilleCylindrique3L: '/images/produits/bottle-3l.png',
-  bouteilleCarree500ml: '/images/produits/bottle-carree-500ml.png',
-  bouteilleCarree1L: '/images/produits/bottle-carree-1l.png',
-  bouteilleCarree3L: '/images/produits/bottle-carree-3l.png',
+  bouteilleCylindrique500mlFendri: '/images/produits/bottle-cylindrique-500ml-fendri.webp',
+  bouteilleCylindrique750ml: '/images/produits/bottle-750ml.webp',
+  bouteilleCylindrique1L: '/images/produits/bottle-1l.webp',
+  bouteilleCylindrique3L: '/images/produits/bottle-3l.webp',
+  bouteilleCarree500ml: '/images/produits/bottle-carree-500ml.webp',
+  bouteilleCarree1L: '/images/produits/bottle-carree-1l.webp',
+  bouteilleCarree3L: '/images/produits/bottle-carree-3l.webp',
   bouteilleCarree750ml: '/images/produits/produit2-nobg.webp',
   bidonMetallique3L: '/images/produits/produit3-nobg.webp',
-  bidonMetallique500ml: '/images/produits/bidon-500ml.png',
-  bidonMetallique750ml: '/images/produits/bidon-750ml.png',
-  bidonMetallique1L: '/images/produits/bidon-1l.png',
-  bidonVert3L: '/images/produits/bidon-vert-3l.png',
-  bidonVert500ml: '/images/produits/bidon-vert-500ml.png',
-  bidonVert750ml: '/images/produits/bidon-vert-750ml.png',
+  bidonMetallique500ml: '/images/produits/bidon-500ml.webp',
+  bidonMetallique750ml: '/images/produits/bidon-750ml.webp',
+  bidonMetallique1L: '/images/produits/bidon-1l.webp',
+  bidonVert3L: '/images/produits/bidon-vert-3l.webp',
+  bidonVert500ml: '/images/produits/bidon-vert-500ml.webp',
+  bidonVert750ml: '/images/produits/bidon-vert-750ml.webp',
 };
 
 // --- Hero (page d'accueil) ---
@@ -32,13 +32,13 @@ export const HERO_IMAGES = {
 
 // --- Section À propos ---
 export const ABOUT_IMAGES = {
-  oliveGrove: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/413e1eb8dfb670cc41e69cd711c05e7b.png',
+  oliveGrove: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/413e1eb8dfb670cc41e69cd711c05e7b.webp',
 };
 
 // --- Section Usine ---
 export const FACTORY_IMAGES = {
   interior: 'https://readdy.ai/api/search-image?query=modern%20olive%20oil%20processing%20factory%20interior%20stainless%20steel%20industrial%20machinery%20centrifuge%20extraction%20equipment%20clean%20high-tech%20olive%20mill%20facility%20Tunisia%20Mediterranean%20production%20line%20professional%20industrial%20photography%20bright%20lighting&width=600&height=450&seq=factory-interior-fendri-004&orientation=landscape',
-  production: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/5210b280d73d56a3d0093bd0ebda2a94.png',
+  production: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/5210b280d73d56a3d0093bd0ebda2a94.webp',
 };
 
 // --- Section Produits (page d'accueil) ---

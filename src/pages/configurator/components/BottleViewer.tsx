@@ -3,13 +3,13 @@ import type { BottleModel, LabelStyle, PackagingOption } from '@/mocks/configura
 import { COMBO_IMAGES, getComboImageKey, PACKAGING_IMAGES, getPackagingImageKey } from '@/mocks/configurator';
 
 const loadedImageCache = new Set<string>();
-const cylindrique500SizeStepOverride = '/images/configurateur/cylindrique-500ml-etape.png';
-const cylindrique750SizeStepOverride = '/images/configurateur/cylindrique-750ml-etape.png';
-const cylindrique1LSizeStepOverride = '/images/configurateur/cylindrique-1l-etape.png';
-const cylindrique3LSizeStepOverride = '/images/configurateur/cylindrique-3l-etape.png';
-const carreeModelStepOverride = '/images/configurateur/carree-originale.png';
-const bidonMetalModelStepOverride = '/images/configurateur/bidon-metal-originale.png';
-const bidonVertModelStepOverride = '/images/configurateur/bidon-vert-originale.png';
+const cylindrique500SizeStepOverride = '/images/configurateur/cylindrique-500ml-etape.webp';
+const cylindrique750SizeStepOverride = '/images/configurateur/cylindrique-750ml-etape.webp';
+const cylindrique1LSizeStepOverride = '/images/configurateur/cylindrique-1l-etape.webp';
+const cylindrique3LSizeStepOverride = '/images/configurateur/cylindrique-3l-etape.webp';
+const carreeModelStepOverride = '/images/configurateur/carree-originale.webp';
+const bidonMetalModelStepOverride = '/images/configurateur/bidon-metal-originale.webp';
+const bidonVertModelStepOverride = '/images/configurateur/bidon-vert-originale.webp';
 
 interface BottleViewerProps {
   model: BottleModel;
