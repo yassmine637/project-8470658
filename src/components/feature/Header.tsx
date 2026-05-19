@@ -521,8 +521,8 @@ export default function Header() {
             )}
           </div>
 
-          {/* Cart icon — only on shopping pages */}
-          {showCart && (
+          {/* Cart icon — only on shopping pages and when cart has items */}
+          {showCart && totalCount > 0 && (
             <button
               onClick={openCart}
               className="relative flex items-center justify-center w-9 h-9 rounded-full cursor-pointer border-none transition-all duration-200"
