@@ -1,0 +1,345 @@
+@startuml FENDRI_ClassDiagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+skinparam classFontStyle Bold
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+' ─────────────── PACKAGE UTILISATEUR ───────────────
+package "Utilisateur" #DDEEFF {
+
+  abstract class Utilisateur <<abstract>> {
+    + id : ObjectId
+    + email : String {unique}
+    - motDePasse : String {hashé}
+    + role : Role
+    + langue : String = "fr"
+    + devise : String = "TND"
+    + estActif : Boolean = true
+    --
+    + seConnecter(email, mdp) : JWTToken
+    + modifierProfil(data) : void
+    + changerMotDePasse(ancien, nouveau) : void
+    + reinitialiserMotDePasse(email) : void
+  }
+
+  class Visiteur {
+    + sessionId : String
+    + panierTemporaire : Panier
+    --
+    + consulterProduits() : void
+    + consulterFicheProduit(id) : void
+    + ajouterAuPanier(produit, qte) : void
+    + utiliserConfigurateur() : void
+    + envoyerMessageContact(data) : void
+    + creerCompte(data) : Utilisateur
+  }
+
+  class Client {
+    + dateNaissance : Date
+    + listeSouhaits : List<Produit>
+    + historiqueCommandes : List<Commande>
+    --
+    + passerCommande(panier) : Commande
+    + consulterHistorique() : void
+    + suivreCommande(id) : void
+    + ajouterAuxSouhaits(produit) : void
+    + retirerDesSouhaits(produit) : void
+    + soumettreDevis(config) : Devis
+    + recevoirNotification(type) : void
+  }
+
+  class Administrateur {
+    + niveauAcces : Integer = 1
+    + derniereConnexion : DateTime
+    --
+    + accederTableauDeBord() : void
+    + consulterStatistiques() : void
+    + gererCommandes() : void
+    + mettreAJourStatutCommande(id, statut) : void
+    + gererProduits() : void
+    + mettreAJourStock(id, qte) : void
+    + consulterDevis() : void
+    + consulterMessages() : void
+    + gererUtilisateurs() : void
+    + recevoirNotificationAdmin(type) : void
+  }
+
+  Visiteur      --|> Utilisateur
+  Client        --|> Utilisateur
+  Administrateur --|> Utilisateur
+
+  note on link
+    {complete, disjoint}
+  end note
+}
+
+' ─────────────── PACKAGE PRODUIT ───────────────
+package "Produit" #DDFFDD {
+
+  enum TypeContenant {
+    BOUTEILLE_CYLINDRIQUE
+    BOUTEILLE_CARREE
+    BIDON_METALLIQUE
+    BIDON_VERT
+  }
+
+  class Categorie {
+    + id : ObjectId
+    + nom : String {unique}
+    + nomAr : String
+    + nomEn : String
+    + slug : String {unique}
+    + ordreAffichage : Integer
+    + estVisible : Boolean = true
+    --
+    + creer(data) : void
+    + modifier(id, data) : void
+    + supprimer(id) : void
+    + lister() : List<Categorie>
+  }
+
+  class Produit <<entity>> {
+    + id : ObjectId
+    + nom : String
+    + description : String
+    + prix : Decimal
+    + quantiteStock : Integer
+    + typeContenant : TypeContenant
+    + contenance : Integer
+    + estBio : Boolean = false
+    + estPremium : Boolean = false
+    + image3D : String {WebP}
+    + estActif : Boolean = true
+    --
+    + creer(data) : void
+    + modifier(id, data) : void
+    + supprimer(id) : void
+    + verifierDisponibilite(qte) : Boolean
+    + calculerPrixTotal(qte) : Decimal
+    + genererApercu3D() : void
+  }
+
+  Produit "*" --> "1" Categorie : appartient à
+  Produit "*" ..> "1" TypeContenant : utilise
+}
+
+' ─────────────── PACKAGE COMMANDE ───────────────
+package "Commande" #FFF3CD {
+
+  enum ModePaiement {
+    CASH_ON_DELIVERY
+    STRIPE
+    PAYPAL
+    KONNECT
+    CLICK_TO_PAY
+  }
+
+  enum StatutCommande {
+    EN_ATTENTE
+    PAYEE
+    EN_PREPARATION
+    EXPEDIEE
+    EN_LIVRAISON
+    LIVREE
+    ANNULEE
+    REMBOURSEE
+  }
+
+  enum StatutPaiement {
+    EN_ATTENTE
+    TRAITE
+    ACCEPTE
+    REFUSE
+    REMBOURSE
+  }
+
+  class Adresse {
+    + rue : String
+    + complement : String
+    + ville : String
+    + codePostal : String
+    + pays : String
+    + telephone : String
+    --
+    + valider() : Boolean
+    + formater() : String
+  }
+
+  class LigneCommande <<valueObject>> {
+    + id : ObjectId
+    + commandeId : ObjectId
+    + produitId : ObjectId
+    + nomProduit : String
+    + prixUnitaire : Decimal
+    + quantite : Integer
+    + sousTotal : Decimal
+    --
+    + calculerSousTotal() : Decimal
+  }
+
+  class Commande <<entity>> {
+    + id : ObjectId
+    + numeroCommande : String {unique}
+    + clientId : ObjectId {optional}
+    + emailInvite : String {optional}
+    + montantTotal : Decimal
+    + fraisLivraison : Decimal
+    + montantTTC : Decimal
+    + modePaiement : ModePaiement
+    + statutPaiement : StatutPaiement
+    + statutCommande : StatutCommande
+    + numeroSuivi : String {optional}
+    + dateCommande : DateTime
+    + datePaiement : DateTime {optional}
+    + dateExpedition : DateTime {optional}
+    + dateLivraison : DateTime {optional}
+    --
+    + creer(panier, data) : void
+    + validerPaiement(token) : void
+    + mettreAJourStatut(id, statut) : void
+    + ajouterNumeroSuivi(id, numero) : void
+    + annuler(id, raison) : void
+    + genererFacture() : PDF
+    + envoyerConfirmation() : void
+    + notifierChangementStatut() : void
+  }
+
+  class ArticlePanier {
+    + id : ObjectId
+    + panierId : ObjectId
+    + produitId : ObjectId
+    + quantite : Integer = 1
+    + prixUnitaire : Decimal
+    + dateAjout : DateTime
+    --
+    + mettreAJourQuantite(qte) : void
+    + calculerSousTotal() : Decimal
+  }
+
+  class Panier {
+    + id : ObjectId
+    + clientId : ObjectId {optional}
+    + sessionId : String {optional}
+    + montantTotal : Decimal
+    + devise : String
+    + dateCreation : DateTime
+    + dateExpiration : DateTime
+    --
+    + ajouterArticle(produit, qte) : void
+    + modifierQuantite(articleId, qte) : void
+    + supprimerArticle(articleId) : void
+    + vider() : void
+    + calculerTotal() : Decimal
+    + convertirDevise(devise) : void
+    + validerStock() : Boolean
+  }
+
+  Commande "1" *-- "1..*" LigneCommande : contient
+  Commande "1" *-- "1"    Adresse        : livrée à
+  Panier   "1" *-- "0..*" ArticlePanier  : contient
+
+  LigneCommande "*" --> "1" Produit : concerne
+  ArticlePanier "*" --> "1" Produit : référence
+
+  Commande "1" ..> "1" ModePaiement   : utilise
+  Commande "1" ..> "1" StatutCommande : a
+  Commande "1" ..> "1" StatutPaiement : a
+}
+
+' ─────────────── PACKAGE NOTIFICATION ───────────────
+package "Notification" #F3E5F5 {
+
+  enum TypeNotification {
+    NOUVELLE_COMMANDE
+    CHANGEMENT_STATUT
+    NOUVEAU_DEVIS
+    NOUVEAU_MESSAGE
+    BIENVENUE
+    REINITIALISATION_MDP
+  }
+
+  enum CanalNotification {
+    EMAIL
+    PUSH
+    SMS
+  }
+
+  class Notification {
+    + id : ObjectId
+    + destinataireId : ObjectId
+    + type : TypeNotification
+    + titre : String
+    + message : String
+    + donnees : JSON {optional}
+    + estLue : Boolean = false
+    + dateEnvoi : DateTime
+    + dateLecture : DateTime {optional}
+    + canal : CanalNotification
+    --
+    + creer(data) : void
+    + envoyer() : Boolean
+    + marquerLue(id) : void
+    + envoyerEmail() : void
+  }
+
+  class MessageContact <<entity>> {
+    + id : ObjectId
+    + nom : String
+    + email : String
+    + telephone : String
+    + pays : String
+    + sujet : String
+    + message : String
+    + estLu : Boolean = false
+    + dateReception : DateTime
+    + dateLecture : DateTime {optional}
+    + reponse : String {optional}
+    --
+    + creer(data) : void
+    + marquerCommeLu(id) : void
+    + repondre(id, reponse) : void
+    + supprimer(id) : void
+    + lister(filtres) : List<MessageContact>
+  }
+
+  class ConfiguratorOrder <<entity>> {
+    + id : ObjectId
+    + reference : String {unique}
+    + clientNom : String
+    + clientEmail : String
+    + clientTelephone : String
+    + modele : String
+    + contenance : String
+    + etiquette : String
+    + emballage : String
+    + messagePersо : String {optional}
+    + montantTTC : Decimal
+    + statut : String
+    + dateCreation : DateTime
+    --
+    + creer(data) : void
+    + envoyerDevis(id) : void
+    + mettreAJourStatut(id, statut) : void
+  }
+
+  MessageContact "1" ..> "0..1" Notification    : génère
+  Notification   "1" ..> "1"   TypeNotification  : est de type
+  Notification   "1" ..> "1"   CanalNotification : envoyée via
+}
+
+' ─────────────── RELATIONS INTER-PACKAGES ───────────────
+
+Client        "1" --> "0..*" Commande       : passe
+Client        "1" --> "0..1" Panier         : possède
+Administrateur "1" --> "0..*" Commande      : gère
+Administrateur "1" --> "0..*" Produit       : administre
+Administrateur "1" --> "0..*" MessageContact : consulte
+
+Client        "1" --> "0..*" Notification   : reçoit
+Administrateur "1" --> "0..*" Notification  : reçoit
+Commande      "1" ..> "0..*" Notification   : déclenche
+
+Visiteur "1" --> "0..1" Panier : possède (session)
+
+@enduml

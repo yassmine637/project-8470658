@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1654" dy="1169" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1700" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ═══════════════ PACKAGE UTILISATEUR ═══════════════ -->
+    <mxCell id="pkg_user" value="«Package» Utilisateur" style="swimlane;startSize=30;fillColor=#E8F0FE;strokeColor=#4472C4;fontStyle=1;fontSize=12;align=left;spacingLeft=10;horizontal=1;" vertex="1" parent="1">
+      <mxGeometry x="20" y="20" width="950" height="700" as="geometry"/>
+    </mxCell>
+
+    <!-- Utilisateur (abstract) -->
+    <mxCell id="cls_utilisateur" value="«abstract»&#xa;Utilisateur" style="swimlane;startSize=40;fontStyle=3;align=center;fillColor=#ddeeff;strokeColor=#4472C4;fontSize=11;" vertex="1" parent="pkg_user">
+      <mxGeometry x="345" y="40" width="260" height="290" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_utilisateur_attrs" value="# id : ObjectId&#xa;# email : String {unique}&#xa;- motDePasse : String {hashé}&#xa;# role : Role&#xa;# langue : String = &quot;fr&quot;&#xa;# devise : String = &quot;TND&quot;&#xa;# estActif : Boolean = true" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_utilisateur">
+      <mxGeometry y="40" width="260" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_utilisateur_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_utilisateur">
+      <mxGeometry y="180" width="260" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_utilisateur_methods" value="+ seConnecter(email, mdp) : JWTToken&#xa;+ modifierProfil(data) : void&#xa;+ changerMotDePasse(ancien, nouveau) : void&#xa;+ reinitialiserMotDePasse(email) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_utilisateur">
+      <mxGeometry y="188" width="260" height="102" as="geometry"/>
+    </mxCell>
+
+    <!-- Visiteur -->
+    <mxCell id="cls_visiteur" value="Visiteur" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#ddeeff;strokeColor=#4472C4;fontSize=11;" vertex="1" parent="pkg_user">
+      <mxGeometry x="10" y="380" width="230" height="260" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_visiteur_attrs" value="+ sessionId : String&#xa;+ panierTemporaire : Panier" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_visiteur">
+      <mxGeometry y="30" width="230" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_visiteur_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_visiteur">
+      <mxGeometry y="70" width="230" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_visiteur_methods" value="+ consulterProduits() : void&#xa;+ consulterFicheProduit(id) : void&#xa;+ ajouterAuPanier(produit, qte) : void&#xa;+ utiliserConfigurateur() : void&#xa;+ envoyerMessageContact(data) : void&#xa;+ creerCompte(data) : Utilisateur" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_visiteur">
+      <mxGeometry y="78" width="230" height="182" as="geometry"/>
+    </mxCell>
+
+    <!-- Client -->
+    <mxCell id="cls_client" value="Client" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#ddeeff;strokeColor=#4472C4;fontSize=11;" vertex="1" parent="pkg_user">
+      <mxGeometry x="350" y="380" width="250" height="290" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_client_attrs" value="+ dateNaissance : Date&#xa;+ listeSouhaits : List&lt;Produit&gt;&#xa;+ historiqueCommandes : List&lt;Commande&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_client">
+      <mxGeometry y="30" width="250" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_client_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_client">
+      <mxGeometry y="90" width="250" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_client_methods" value="+ passerCommande(panier) : Commande&#xa;+ consulterHistorique() : void&#xa;+ suivreCommande(id) : void&#xa;+ ajouterAuxSouhaits(produit) : void&#xa;+ retirerDesSouhaits(produit) : void&#xa;+ soumettreDevis(config) : Devis&#xa;+ recevoirNotification(type) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_client">
+      <mxGeometry y="98" width="250" height="192" as="geometry"/>
+    </mxCell>
+
+    <!-- Administrateur -->
+    <mxCell id="cls_admin" value="Administrateur" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#ddeeff;strokeColor=#4472C4;fontSize=11;" vertex="1" parent="pkg_user">
+      <mxGeometry x="690" y="380" width="250" height="310" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_admin_attrs" value="+ niveauAcces : Integer = 1&#xa;+ derniereConnexion : DateTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_admin">
+      <mxGeometry y="30" width="250" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_admin_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_admin">
+      <mxGeometry y="70" width="250" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_admin_methods" value="+ accederTableauDeBord() : void&#xa;+ consulterStatistiques() : void&#xa;+ gererCommandes() : void&#xa;+ mettreAJourStatutCommande(id, statut) : void&#xa;+ gererProduits() : void&#xa;+ mettreAJourStock(id, qte) : void&#xa;+ consulterDevis() : void&#xa;+ consulterMessages() : void&#xa;+ gererUtilisateurs() : void&#xa;+ recevoirNotificationAdmin(type) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_admin">
+      <mxGeometry y="78" width="250" height="232" as="geometry"/>
+    </mxCell>
+
+    <!-- Note {complete, disjoint} -->
+    <mxCell id="note_disjoint" value="{complete, disjoint}" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;" vertex="1" parent="pkg_user">
+      <mxGeometry x="360" y="350" width="150" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- Generalization arrows (Visiteur, Client, Admin) --> 
+    <mxCell id="gen_visiteur" style="endArrow=block;endFill=0;strokeColor=#4472C4;" edge="1" source="cls_visiteur" target="cls_utilisateur" parent="pkg_user">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="gen_client" style="endArrow=block;endFill=0;strokeColor=#4472C4;" edge="1" source="cls_client" target="cls_utilisateur" parent="pkg_user">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="gen_admin" style="endArrow=block;endFill=0;strokeColor=#4472C4;" edge="1" source="cls_admin" target="cls_utilisateur" parent="pkg_user">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════ PACKAGE PRODUIT ═══════════════ -->
+    <mxCell id="pkg_prod" value="«Package» Produit" style="swimlane;startSize=30;fillColor=#E8F5E9;strokeColor=#388E3C;fontStyle=1;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="990" y="20" width="620" height="700" as="geometry"/>
+    </mxCell>
+
+    <!-- Produit -->
+    <mxCell id="cls_produit" value="«entity»&#xa;Produit" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#ddffdd;strokeColor=#388E3C;fontSize=11;" vertex="1" parent="pkg_prod">
+      <mxGeometry x="10" y="40" width="280" height="370" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_produit_attrs" value="+ id : ObjectId&#xa;+ nom : String&#xa;+ description : String&#xa;+ prix : Decimal&#xa;+ quantiteStock : Integer&#xa;+ typeContenant : TypeContenant&#xa;+ contenance : Integer {ml}&#xa;+ estBio : Boolean = false&#xa;+ estPremium : Boolean = false&#xa;+ image3D : String {WebP}&#xa;+ estActif : Boolean = true" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_produit">
+      <mxGeometry y="40" width="280" height="220" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_produit_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_produit">
+      <mxGeometry y="260" width="280" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_produit_methods" value="+ creer(data) : void&#xa;+ modifier(id, data) : void&#xa;+ supprimer(id) : void&#xa;+ verifierDisponibilite(qte) : Boolean&#xa;+ calculerPrixTotal(qte) : Decimal&#xa;+ genererApercu3D() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_produit">
+      <mxGeometry y="268" width="280" height="102" as="geometry"/>
+    </mxCell>
+
+    <!-- Categorie -->
+    <mxCell id="cls_categorie" value="Categorie" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#ddffdd;strokeColor=#388E3C;fontSize=11;" vertex="1" parent="pkg_prod">
+      <mxGeometry x="320" y="40" width="270" height="260" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_categorie_attrs" value="+ id : ObjectId&#xa;+ nom : String {unique}&#xa;+ nomAr : String&#xa;+ nomEn : String&#xa;+ slug : String {unique}&#xa;+ ordreAffichage : Integer&#xa;+ estVisible : Boolean = true" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_categorie">
+      <mxGeometry y="30" width="270" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_categorie_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_categorie">
+      <mxGeometry y="170" width="270" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_categorie_methods" value="+ creer(data) : void&#xa;+ modifier(id, data) : void&#xa;+ supprimer(id) : void&#xa;+ lister() : List&lt;Categorie&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_categorie">
+      <mxGeometry y="178" width="270" height="82" as="geometry"/>
+    </mxCell>
+
+    <!-- Enum TypeContenant -->
+    <mxCell id="enum_typecontenant" value="«enumeration»&#xa;TypeContenant" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="pkg_prod">
+      <mxGeometry x="320" y="330" width="270" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="enum_typecontenant_vals" value="BOUTEILLE_CYLINDRIQUE&#xa;BOUTEILLE_CARREE&#xa;BIDON_METALLIQUE&#xa;BIDON_VERT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="enum_typecontenant">
+      <mxGeometry y="40" width="270" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- Produit --> Categorie (association) -->
+    <mxCell id="rel_produit_cat" value="appartient à" style="endArrow=open;endFill=0;strokeColor=#388E3C;fontSize=9;" edge="1" source="cls_produit" target="cls_categorie" parent="pkg_prod">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points"/>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="rel_produit_cat_src" value="*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_produit_cat">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_produit_cat_tgt" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_produit_cat">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Produit ..> TypeContenant -->
+    <mxCell id="rel_produit_tc" value="utilise" style="endArrow=open;endFill=0;dashed=1;strokeColor=#d6b656;fontSize=9;" edge="1" source="cls_produit" target="enum_typecontenant" parent="pkg_prod">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════ PACKAGE COMMANDE ═══════════════ -->
+    <mxCell id="pkg_cmd" value="«Package» Commande" style="swimlane;startSize=30;fillColor=#FFFDE7;strokeColor=#F9A825;fontStyle=1;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="20" y="740" width="950" height="880" as="geometry"/>
+    </mxCell>
+
+    <!-- Commande -->
+    <mxCell id="cls_commande" value="«entity»&#xa;Commande" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff9c4;strokeColor=#F9A825;fontSize=11;" vertex="1" parent="pkg_cmd">
+      <mxGeometry x="10" y="40" width="300" height="500" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_commande_attrs" value="+ id : ObjectId&#xa;+ numeroCommande : String {unique}&#xa;+ clientId : ObjectId {optional}&#xa;+ emailInvite : String {optional}&#xa;+ montantTotal : Decimal&#xa;+ fraisLivraison : Decimal&#xa;+ montantTTC : Decimal&#xa;+ modePaiement : ModePaiement&#xa;+ statutPaiement : StatutPaiement&#xa;+ statutCommande : StatutCommande&#xa;+ numeroSuivi : String {optional}&#xa;+ dateCommande : DateTime&#xa;+ datePaiement : DateTime {optional}&#xa;+ dateExpedition : DateTime {optional}&#xa;+ dateLivraison : DateTime {optional}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_commande">
+      <mxGeometry y="40" width="300" height="300" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_commande_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_commande">
+      <mxGeometry y="340" width="300" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_commande_methods" value="+ creer(panier, data) : void&#xa;+ validerPaiement(token) : void&#xa;+ mettreAJourStatut(id, statut) : void&#xa;+ ajouterNumeroSuivi(id, numero) : void&#xa;+ annuler(id, raison) : void&#xa;+ genererFacture() : PDF&#xa;+ envoyerConfirmation() : void&#xa;+ notifierChangementStatut() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_commande">
+      <mxGeometry y="348" width="300" height="152" as="geometry"/>
+    </mxCell>
+
+    <!-- LigneCommande -->
+    <mxCell id="cls_lignecommande" value="«valueObject»&#xa;LigneCommande" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff9c4;strokeColor=#F9A825;fontSize=11;" vertex="1" parent="pkg_cmd">
+      <mxGeometry x="330" y="40" width="280" height="260" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_lc_attrs" value="+ id : ObjectId&#xa;+ commandeId : ObjectId&#xa;+ produitId : ObjectId&#xa;+ nomProduit : String&#xa;+ prixUnitaire : Decimal&#xa;+ quantite : Integer&#xa;+ sousTotal : Decimal" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_lignecommande">
+      <mxGeometry y="40" width="280" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_lc_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_lignecommande">
+      <mxGeometry y="180" width="280" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_lc_methods" value="+ calculerSousTotal() : Decimal" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_lignecommande">
+      <mxGeometry y="188" width="280" height="72" as="geometry"/>
+    </mxCell>
+
+    <!-- Adresse -->
+    <mxCell id="cls_adresse" value="«valueObject»&#xa;Adresse" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff9c4;strokeColor=#F9A825;fontSize=11;" vertex="1" parent="pkg_cmd">
+      <mxGeometry x="330" y="330" width="240" height="220" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_adresse_attrs" value="+ rue : String&#xa;+ complement : String {optional}&#xa;+ ville : String&#xa;+ codePostal : String&#xa;+ pays : String&#xa;+ telephone : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_adresse">
+      <mxGeometry y="40" width="240" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_adresse_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_adresse">
+      <mxGeometry y="160" width="240" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_adresse_methods" value="+ valider() : Boolean&#xa;+ formater() : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_adresse">
+      <mxGeometry y="168" width="240" height="52" as="geometry"/>
+    </mxCell>
+
+    <!-- Panier -->
+    <mxCell id="cls_panier" value="«entity»&#xa;Panier" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff9c4;strokeColor=#F9A825;fontSize=11;" vertex="1" parent="pkg_cmd">
+      <mxGeometry x="640" y="40" width="290" height="310" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_panier_attrs" value="+ id : ObjectId&#xa;+ clientId : ObjectId {optional}&#xa;+ sessionId : String {optional}&#xa;+ articles : List&lt;ArticlePanier&gt;&#xa;+ montantTotal : Decimal&#xa;+ devise : String&#xa;+ dateCreation : DateTime&#xa;+ dateExpiration : DateTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_panier">
+      <mxGeometry y="40" width="290" height="160" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_panier_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_panier">
+      <mxGeometry y="200" width="290" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_panier_methods" value="+ ajouterArticle(produit, qte) : void&#xa;+ modifierQuantite(articleId, qte) : void&#xa;+ supprimerArticle(articleId) : void&#xa;+ vider() : void&#xa;+ calculerTotal() : Decimal&#xa;+ convertirDevise(devise) : void&#xa;+ validerStock() : Boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_panier">
+      <mxGeometry y="208" width="290" height="102" as="geometry"/>
+    </mxCell>
+
+    <!-- ArticlePanier -->
+    <mxCell id="cls_articlepanier" value="«valueObject»&#xa;ArticlePanier" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff9c4;strokeColor=#F9A825;fontSize=11;" vertex="1" parent="pkg_cmd">
+      <mxGeometry x="640" y="380" width="290" height="220" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_ap_attrs" value="+ id : ObjectId&#xa;+ panierId : ObjectId&#xa;+ produitId : ObjectId&#xa;+ quantite : Integer = 1&#xa;+ prixUnitaire : Decimal&#xa;+ dateAjout : DateTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_articlepanier">
+      <mxGeometry y="40" width="290" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_ap_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_articlepanier">
+      <mxGeometry y="160" width="290" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_ap_methods" value="+ mettreAJourQuantite(qte) : void&#xa;+ calculerSousTotal() : Decimal" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_articlepanier">
+      <mxGeometry y="168" width="290" height="52" as="geometry"/>
+    </mxCell>
+
+    <!-- Enum ModePaiement -->
+    <mxCell id="enum_modepaiement" value="«enumeration»&#xa;ModePaiement" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="pkg_cmd">
+      <mxGeometry x="10" y="580" width="260" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="enum_mp_vals" value="CASH_ON_DELIVERY&#xa;STRIPE&#xa;PAYPAL&#xa;KONNECT&#xa;CLICK_TO_PAY" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="enum_modepaiement">
+      <mxGeometry y="40" width="260" height="110" as="geometry"/>
+    </mxCell>
+
+    <!-- Enum StatutCommande -->
+    <mxCell id="enum_statutcommande" value="«enumeration»&#xa;StatutCommande" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="pkg_cmd">
+      <mxGeometry x="300" y="600" width="250" height="200" as="geometry"/>
+    </mxCell>
+    <mxCell id="enum_sc_vals" value="EN_ATTENTE&#xa;PAYEE&#xa;EN_PREPARATION&#xa;EXPEDIEE&#xa;EN_LIVRAISON&#xa;LIVREE&#xa;ANNULEE&#xa;REMBOURSEE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="enum_statutcommande">
+      <mxGeometry y="40" width="250" height="160" as="geometry"/>
+    </mxCell>
+
+    <!-- Enum StatutPaiement -->
+    <mxCell id="enum_statutpaiement" value="«enumeration»&#xa;StatutPaiement" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="pkg_cmd">
+      <mxGeometry x="600" y="640" width="240" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="enum_sp_vals" value="EN_ATTENTE&#xa;TRAITE&#xa;ACCEPTE&#xa;REFUSE&#xa;REMBOURSE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="enum_statutpaiement">
+      <mxGeometry y="40" width="240" height="110" as="geometry"/>
+    </mxCell>
+
+    <!-- Commande *-- LigneCommande (composition) -->
+    <mxCell id="rel_cmd_lc" value="contient" style="endArrow=open;endFill=0;startArrow=diamondThin;startFill=1;strokeColor=#F9A825;fontSize=9;" edge="1" source="cls_commande" target="cls_lignecommande" parent="pkg_cmd">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_cmd_lc_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_cmd_lc">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_cmd_lc_tgt" value="1..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_cmd_lc">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Commande *-- Adresse (composition) -->
+    <mxCell id="rel_cmd_adr" value="livrée à" style="endArrow=open;endFill=0;startArrow=diamondThin;startFill=1;strokeColor=#F9A825;fontSize=9;" edge="1" source="cls_commande" target="cls_adresse" parent="pkg_cmd">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_cmd_adr_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_cmd_adr">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_cmd_adr_tgt" value="1" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_cmd_adr">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Panier *-- ArticlePanier (composition) -->
+    <mxCell id="rel_pan_ap" value="contient" style="endArrow=open;endFill=0;startArrow=diamondThin;startFill=1;strokeColor=#F9A825;fontSize=9;" edge="1" source="cls_panier" target="cls_articlepanier" parent="pkg_cmd">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_pan_ap_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_pan_ap">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_pan_ap_tgt" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_pan_ap">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Commande ..> ModePaiement -->
+    <mxCell id="rel_cmd_mp" value="utilise" style="endArrow=open;endFill=0;dashed=1;strokeColor=#d6b656;fontSize=9;" edge="1" source="cls_commande" target="enum_modepaiement" parent="pkg_cmd">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Commande ..> StatutCommande -->
+    <mxCell id="rel_cmd_sc" value="a" style="endArrow=open;endFill=0;dashed=1;strokeColor=#d6b656;fontSize=9;" edge="1" source="cls_commande" target="enum_statutcommande" parent="pkg_cmd">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Commande ..> StatutPaiement -->
+    <mxCell id="rel_cmd_sp" value="a" style="endArrow=open;endFill=0;dashed=1;strokeColor=#d6b656;fontSize=9;" edge="1" source="cls_commande" target="enum_statutpaiement" parent="pkg_cmd">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════ PACKAGE NOTIFICATION ═══════════════ -->
+    <mxCell id="pkg_notif" value="«Package» Notification" style="swimlane;startSize=30;fillColor=#F3E5F5;strokeColor=#7B1FA2;fontStyle=1;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="990" y="740" width="620" height="880" as="geometry"/>
+    </mxCell>
+
+    <!-- Notification -->
+    <mxCell id="cls_notification" value="«entity»&#xa;Notification" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#f3e5f5;strokeColor=#7B1FA2;fontSize=11;" vertex="1" parent="pkg_notif">
+      <mxGeometry x="10" y="40" width="290" height="330" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_notif_attrs" value="+ id : ObjectId&#xa;+ destinataireId : ObjectId&#xa;+ type : TypeNotification&#xa;+ titre : String&#xa;+ message : String&#xa;+ donnees : JSON {optional}&#xa;+ estLue : Boolean = false&#xa;+ dateEnvoi : DateTime&#xa;+ dateLecture : DateTime {optional}&#xa;+ canal : CanalNotification" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_notification">
+      <mxGeometry y="40" width="290" height="200" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_notif_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_notification">
+      <mxGeometry y="240" width="290" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_notif_methods" value="+ creer(data) : void&#xa;+ envoyer() : Boolean&#xa;+ marquerLue(id) : void&#xa;+ envoyerEmail() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_notification">
+      <mxGeometry y="248" width="290" height="82" as="geometry"/>
+    </mxCell>
+
+    <!-- MessageContact -->
+    <mxCell id="cls_messagecontact" value="«entity»&#xa;MessageContact" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#f3e5f5;strokeColor=#7B1FA2;fontSize=11;" vertex="1" parent="pkg_notif">
+      <mxGeometry x="10" y="410" width="290" height="330" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_mc_attrs" value="+ id : ObjectId&#xa;+ nom : String&#xa;+ email : String&#xa;+ telephone : String&#xa;+ pays : String&#xa;+ sujet : String&#xa;+ message : String&#xa;+ estLu : Boolean = false&#xa;+ dateReception : DateTime&#xa;+ dateLecture : DateTime {optional}&#xa;+ reponse : String {optional}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_messagecontact">
+      <mxGeometry y="40" width="290" height="220" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_mc_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_messagecontact">
+      <mxGeometry y="260" width="290" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_mc_methods" value="+ creer(data) : void&#xa;+ marquerCommeLu(id) : void&#xa;+ repondre(id, reponse) : void&#xa;+ supprimer(id) : void&#xa;+ lister(filtres) : List&lt;MessageContact&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_messagecontact">
+      <mxGeometry y="268" width="290" height="62" as="geometry"/>
+    </mxCell>
+
+    <!-- ConfiguratorOrder -->
+    <mxCell id="cls_configuratororder" value="«entity»&#xa;ConfiguratorOrder" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#f3e5f5;strokeColor=#7B1FA2;fontSize=11;" vertex="1" parent="pkg_notif">
+      <mxGeometry x="320" y="40" width="280" height="360" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_co_attrs" value="+ id : ObjectId&#xa;+ reference : String {unique}&#xa;+ clientNom : String&#xa;+ clientEmail : String&#xa;+ clientTelephone : String&#xa;+ modele : String&#xa;+ contenance : String&#xa;+ etiquette : String&#xa;+ emballage : String&#xa;+ messagePers : String {optional}&#xa;+ montantTTC : Decimal&#xa;+ statut : String&#xa;+ dateCreation : DateTime" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_configuratororder">
+      <mxGeometry y="40" width="280" height="260" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_co_sep" value="" style="line;strokeColor=#000000;fillColor=none;" vertex="1" parent="cls_configuratororder">
+      <mxGeometry y="300" width="280" height="8" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_co_methods" value="+ creer(data) : void&#xa;+ envoyerDevis(id) : void&#xa;+ mettreAJourStatut(id, statut) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="cls_configuratororder">
+      <mxGeometry y="308" width="280" height="52" as="geometry"/>
+    </mxCell>
+
+    <!-- Enum TypeNotification -->
+    <mxCell id="enum_typenotif" value="«enumeration»&#xa;TypeNotification" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="pkg_notif">
+      <mxGeometry x="320" y="440" width="280" height="190" as="geometry"/>
+    </mxCell>
+    <mxCell id="enum_tn_vals" value="NOUVELLE_COMMANDE&#xa;CHANGEMENT_STATUT&#xa;NOUVEAU_DEVIS&#xa;NOUVEAU_MESSAGE&#xa;BIENVENUE&#xa;REINITIALISATION_MDP" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="enum_typenotif">
+      <mxGeometry y="40" width="280" height="150" as="geometry"/>
+    </mxCell>
+
+    <!-- Enum CanalNotification -->
+    <mxCell id="enum_canalnotif" value="«enumeration»&#xa;CanalNotification" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="pkg_notif">
+      <mxGeometry x="320" y="660" width="280" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="enum_cn_vals" value="EMAIL&#xa;PUSH&#xa;SMS" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;overflow=hidden;fontSize=10;" vertex="1" parent="enum_canalnotif">
+      <mxGeometry y="40" width="280" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- MessageContact ..> Notification -->
+    <mxCell id="rel_mc_notif" value="génère" style="endArrow=open;endFill=0;dashed=1;strokeColor=#7B1FA2;fontSize=9;" edge="1" source="cls_messagecontact" target="cls_notification" parent="pkg_notif">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Notification ..> TypeNotification -->
+    <mxCell id="rel_notif_tn" value="est de type" style="endArrow=open;endFill=0;dashed=1;strokeColor=#d6b656;fontSize=9;" edge="1" source="cls_notification" target="enum_typenotif" parent="pkg_notif">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Notification ..> CanalNotification -->
+    <mxCell id="rel_notif_cn" value="envoyée via" style="endArrow=open;endFill=0;dashed=1;strokeColor=#d6b656;fontSize=9;" edge="1" source="cls_notification" target="enum_canalnotif" parent="pkg_notif">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════ RELATIONS INTER-PACKAGES ═══════════════ -->
+    <!-- LigneCommande --> Produit -->
+    <mxCell id="rel_lc_prod" value="concerne" style="endArrow=open;endFill=0;strokeColor=#555555;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="cls_lignecommande" target="cls_produit" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_lc_prod_src" value="*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_lc_prod">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_lc_prod_tgt" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_lc_prod">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- ArticlePanier --> Produit -->
+    <mxCell id="rel_ap_prod" value="référence" style="endArrow=open;endFill=0;strokeColor=#555555;fontSize=9;" edge="1" source="cls_articlepanier" target="cls_produit" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_ap_prod_src" value="*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_ap_prod">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_ap_prod_tgt" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_ap_prod">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Client --> Commande -->
+    <mxCell id="rel_client_cmd" value="passe" style="endArrow=open;endFill=0;strokeColor=#4472C4;fontSize=9;" edge="1" source="cls_client" target="cls_commande" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_cc_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_client_cmd">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_cc_tgt" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_client_cmd">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Client --> Panier -->
+    <mxCell id="rel_client_pan" value="possède" style="endArrow=open;endFill=0;strokeColor=#4472C4;fontSize=9;" edge="1" source="cls_client" target="cls_panier" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_cp_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_client_pan">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_cp_tgt" value="0..1" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_client_pan">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Admin --> Commande -->
+    <mxCell id="rel_admin_cmd" value="gère" style="endArrow=open;endFill=0;strokeColor=#4472C4;fontSize=9;" edge="1" source="cls_admin" target="cls_commande" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_ac_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_admin_cmd">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_ac_tgt" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_admin_cmd">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Admin --> Produit -->
+    <mxCell id="rel_admin_prod" value="administre" style="endArrow=open;endFill=0;strokeColor=#4472C4;fontSize=9;" edge="1" source="cls_admin" target="cls_produit" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_ap2_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_admin_prod">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_ap2_tgt" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_admin_prod">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Admin --> MessageContact -->
+    <mxCell id="rel_admin_mc" value="consulte" style="endArrow=open;endFill=0;strokeColor=#4472C4;fontSize=9;" edge="1" source="cls_admin" target="cls_messagecontact" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_amc_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_admin_mc">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_amc_tgt" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_admin_mc">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Client --> Notification -->
+    <mxCell id="rel_client_notif" value="reçoit" style="endArrow=open;endFill=0;strokeColor=#4472C4;fontSize=9;" edge="1" source="cls_client" target="cls_notification" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_cn2_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_client_notif">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_cn2_tgt" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_client_notif">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Admin --> Notification -->
+    <mxCell id="rel_admin_notif" value="reçoit" style="endArrow=open;endFill=0;strokeColor=#4472C4;fontSize=9;" edge="1" source="cls_admin" target="cls_notification" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_an_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_admin_notif">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_an_tgt" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_admin_notif">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Commande ..> Notification -->
+    <mxCell id="rel_cmd_notif" value="déclenche" style="endArrow=open;endFill=0;dashed=1;strokeColor=#555555;fontSize=9;" edge="1" source="cls_commande" target="cls_notification" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_cmdnotif_tgt" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_cmd_notif">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+    <!-- Visiteur --> Panier (session) -->
+    <mxCell id="rel_visiteur_pan" value="possède (session)" style="endArrow=open;endFill=0;strokeColor=#4472C4;fontSize=9;dashed=0;" edge="1" source="cls_visiteur" target="cls_panier" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="rel_vp_src" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_visiteur_pan">
+      <mxGeometry x="-1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+    <mxCell id="rel_vp_tgt" value="0..1" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;fontSize=10;" connectable="0" vertex="1" parent="rel_visiteur_pan">
+      <mxGeometry x="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

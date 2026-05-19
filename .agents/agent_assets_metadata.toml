@@ -83,3 +83,9 @@ id = "XlHBMr-ZfAi3zhHLBVsJy"
 uri = "file://attached_assets/diagramme_classe_fendri.png"
 type = "image"
 title = "Diagramme de classe UML — Projet FENDRI"
+
+[[outputs]]
+id = "tR25-JwnkX2qi9O7Z1b_A"
+uri = "file://attached_assets/diagramme_classe_fendri.xml"
+type = "unspecified"
+title = "Diagramme de classe UML — FENDRI (draw.io)"
