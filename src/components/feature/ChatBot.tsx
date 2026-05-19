@@ -12,15 +12,73 @@ const now = () => new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minu
 
 const SUGGESTIONS_FR = ['Voir les produits', 'Prix & livraison', 'Configurateur', 'Paiement', 'Contact', 'Certifications'];
 const SUGGESTIONS_EN = ['Our products', 'Prices & shipping', 'Configurator', 'Payment', 'Contact us', 'Certifications'];
+const SUGGESTIONS_AR = ['منتجاتنا', 'الأسعار والتوصيل', 'المُهيِّئ', 'الدفع', 'تواصل معنا', 'الشهادات'];
 
 const WELCOME_FR = "Bonjour ! 🫒 Je suis l'assistant **Domaine Fendri**.\nPosez-moi vos questions sur nos produits, livraisons ou le configurateur.";
 const WELCOME_EN = "Hello! 🫒 I'm the **Domaine Fendri** assistant.\nAsk me anything about our products, delivery or the configurator.";
+const WELCOME_AR = "أهلاً وسهلاً! 🫒 أنا مساعد **دومين فندري**.\nاسألني عن منتجاتنا أو التوصيل أو المُهيِّئ.";
 
-function getResponse(input: string, lang: string): string {
+type Lang = 'fr' | 'en' | 'ar';
+
+function getLang(i18nLang: string): Lang {
+  if (i18nLang?.startsWith('en')) return 'en';
+  if (i18nLang?.startsWith('ar')) return 'ar';
+  return 'fr';
+}
+
+function getResponse(input: string, lang: Lang): string {
   const q = input.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const isEN = lang === 'en';
 
-  if (isEN) {
+  if (lang === 'ar') {
+    if (/مرحب|اهلا|سلام|صباح|مساء|هاي/.test(input))
+      return "أهلاً بك في **دومين فندري** 🫒\nأنا مساعدك الشخصي. كيف يمكنني مساعدتك اليوم؟";
+
+    if (/منتج|زيت|زيتون|مجموعة|زجاجة|علبة|قنينة/.test(input))
+      return `تشمل مجموعتنا **4 منتجات** :\n\n🟢 **علبة خضراء 1 لتر — بيو** · 28 دينار\nمعتمدة عضوياً، بدون مبيدات.\n\n✨ **زجاجة اسطوانية 500 مل** · 18 دينار\nالأكثر مبيعاً — أناقة يومية.\n\n🏆 **زجاجة مربعة 750 مل بريميوم** · 42 دينار\nTOP 100 EVOOLEUM — شريحة الفخامة.\n\n🥫 **علبة معدنية 3 لتر عائلية** · 68 دينار\nحماية مثالية، اقتصادية، طويلة الأمد.\n\nزوروا صفحة **Our Oils** للتفاصيل.`;
+
+    if (/سعر|ثمن|تكلفة|دينار|كم/.test(input))
+      return `أسعارنا :\n\n• علبة خضراء 1 لتر بيو → **28 دت**\n• زجاجة اسطوانية 500 مل → **18 دت**\n• زجاجة مربعة 750 مل بريميوم → **42 دت**\n• علبة معدنية 3 لتر عائلية → **68 دت**\n\nجميع الأسعار بالدينار التونسي (دت) وتشمل الضريبة.`;
+
+    if (/توصيل|شحن|تسليم|دولة|منطقة/.test(input))
+      return `رسوم التوصيل حسب الوجهة :\n\n🇹🇳 **تونس** → 7 دت\n🌍 **الدول العربية** → 25 دت\n🇪🇺 **أوروبا** → 35 دت\n🌐 **الدولي** → 50 دت\n\nيتم الشحن من صفاقس، تونس.`;
+
+    if (/مهيئ|تخصيص|ملصق|تغليف|نموذج|شخصي/.test(input))
+      return `يتيح لك **المُهيِّئ التفاعلي** تصميم زجاجة مخصصة 100% في 6 خطوات :\n\n1️⃣ اختيار النموذج\n2️⃣ الحجم\n3️⃣ تصميم الملصق\n4️⃣ نوع التغليف\n5️⃣ نص مخصص\n6️⃣ ملخص وعرض سعر\n\nادخل إليه عبر قسم **Collection** في القائمة.`;
+
+    if (/دفع|بطاقة|كونيكت|بايبال|نقداً|كلك|سداد/.test(input))
+      return `نقبل عدة طرق للدفع :\n\n💵 **الدفع عند الاستلام** (COD)\n💳 **بطاقة بنكية** عبر Stripe\n🔵 **Konnect** (دفع إلكتروني بالدينار)\n🅿️ **PayPal**\n📱 **Click to Pay** (SMT)\n\nجميع المدفوعات آمنة ومشفرة.`;
+
+    if (/تواصل|رسالة|بريد|هاتف|واتساب|اتصال/.test(input))
+      return `يمكنك التواصل معنا عبر :\n\n📝 **نموذج الاتصال** على موقعنا (قسم Contact)\n📧 **contact@domainefendri.com**\n📍 **دومين فندري**، مكنين، صفاقس، تونس\n\nنرد خلال **24 إلى 48 ساعة**.`;
+
+    if (/شهادة|عضوي|جائزة|تكريم|بيول|ايفوليوم|فلوس اولي|سيكيف|سولاناس/.test(input))
+      return `**دومين فندري** حائز على جوائز دولية :\n\n🥇 ميدالية ذهبية — BIOL International (إيطاليا، 2016)\n🏅 نهائي IOC Mario Solinas 2018–2020\n📖 Flos Olei — 8 إشارات متتالية\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ شهادة جودة SIQEV مدريد (2023)\n\nمعتمد **زراعة عضوية — الاتحاد الأوروبي وتونس**.`;
+
+    if (/مخزون|متوفر|نفد|كمية/.test(input))
+      return `حالة المخزون الحالية :\n\n🟢 علبة خضراء 1 لتر بيو — **متوفر** (150 وحدة)\n🟢 زجاجة 500 مل — **متوفر** (300 وحدة)\n🟡 زجاجة 750 مل بريميوم — **كمية محدودة** (12 وحدة)\n🟡 علبة 3 لتر عائلية — **كمية محدودة** (30 وحدة)\n\nاطلب زجاجة 750 مل سريعاً!`;
+
+    if (/طلب|اشتر|سلة|شراء/.test(input))
+      return `لإتمام الطلب :\n\n1. انتقل إلى **Our Oils**\n2. اختر المنتج\n3. حدد الكمية\n4. انقر **أضف إلى السلة**\n5. أدخل معلومات التوصيل\n6. اختر طريقة الدفع\n\nيمكنك الطلب **بدون إنشاء حساب**!`;
+
+    if (/حساب|تسجيل|دخول|ملف شخصي/.test(input))
+      return `يمكنك :\n\n👤 **الطلب كزائر** بدون حساب\n📝 **إنشاء حساب** لمتابعة طلباتك\n🔐 **تسجيل الدخول** عبر زر "Sign up" في أعلى اليمين\n\nحسابك يمنحك الوصول إلى سجل الطلبات وقائمة الأمنيات.`;
+
+    if (/اصل|صفاقس|تونس|شملالي|مكنين|تاريخ|عائلة|قرن/.test(input))
+      return `**دومين فندري** — أكثر من قرن من الخبرة.\n\n📍 مكنين، صفاقس، تونس\n🫒 الصنف : **شملالي صفاقسي**\n❄️ عصر بارد < 27 درجة مئوية\n👨‍👩‍👧‍👦 ثلاثة أجيال من شغف الزيتون\n🌿 صفر مبيدات — 100% طبيعي\n\nمزارعنا معتمدة منذ 2024.`;
+
+    if (/مواصفات|حموضة|بوليفينول|فني/.test(input))
+      return `المواصفات الفنية :\n\n• **علبة 1 لتر بيو** : حموضة ≤ 0.3% · بوليفينول 350 ملغ/كغ\n• **زجاجة 500 مل** : حموضة ≤ 0.4% · بوليفينول 280 ملغ/كغ\n• **زجاجة 750 مل** : حموضة ≤ 0.2% · بوليفينول 420 ملغ/كغ\n• **علبة 3 لتر** : حموضة ≤ 0.5% · بوليفينول 250 ملغ/كغ\n\nموسم الحصاد : أكتوبر – نوفمبر 2024`;
+
+    if (/شكرا|ممتاز|رائع|حسنا|تمام/.test(input))
+      return `بكل سرور! 🫒\nلا تتردد في طرح أي سؤال آخر. استمتع بمنتجات **دومين فندري**!`;
+
+    if (/مع السلامة|وداعاً|باي/.test(input))
+      return `إلى اللقاء! 👋\nشكراً لزيارتك **دومين فندري**. يوم سعيد!`;
+
+    return `لم أفهم سؤالك جيداً 😊\n\nيمكنك سؤالي عن :\n• **المنتجات** والـ**أسعار**\n• **التوصيل**\n• **المُهيِّئ**\n• طرق **الدفع**\n• **شهاداتنا**\n• كيفية **التواصل** معنا`;
+  }
+
+  if (lang === 'en') {
     if (/hello|hi\b|hey|good\s*(morning|evening|afternoon)|bonjour|salut|salam/.test(q))
       return "Welcome to **Domaine Fendri** 🫒\nI'm your personal assistant. How can I help you today?";
 
@@ -60,12 +118,6 @@ function getResponse(input: string, lang: string): string {
     if (/spec|acid|polyphenol|technical|oleic/.test(q))
       return `Technical specifications :\n\n• **Bio Can 1L** : acidity ≤ 0.3% · polyphenols 350 mg/kg\n• **Bottle 500ml** : acidity ≤ 0.4% · polyphenols 280 mg/kg\n• **Bottle 750ml** : acidity ≤ 0.2% · polyphenols 420 mg/kg\n• **Can 3L** : acidity ≤ 0.5% · polyphenols 250 mg/kg\n\nHarvest : October–November 2024`;
 
-    if (/language|arabic|french|english/.test(q))
-      return `Our website is available in **3 languages** :\n\n🇫🇷 **Français**\n🇸🇦 **العربية** (with automatic RTL mode)\n🇬🇧 **English**\n\nChange the language via the selector at the top right.`;
-
-    if (/currency|euro|dollar|tnd|dinar|money/.test(q))
-      return `Prices are displayed in **TND (Tunisian Dinar)** by default.\n\nYou can switch currency using the 🇹🇳 **TND** selector at the top right of the page.`;
-
     if (/thank|perfect|great|awesome|nice|good|ok\b/.test(q))
       return `You're welcome! 🫒\nFeel free to ask if you have more questions. Enjoy **Domaine Fendri**!`;
 
@@ -75,6 +127,7 @@ function getResponse(input: string, lang: string): string {
     return `I didn't quite understand your question 😊\n\nYou can ask me about :\n• Our **products** & **prices**\n• **Shipping**\n• The **configurator**\n• **Payment** methods\n• Our **certifications**\n• How to **contact** us`;
   }
 
+  // French (default)
   if (/bonjour|salut|salam|hello|hi\b|bonsoir/.test(q))
     return "Bienvenue chez **Domaine Fendri** 🫒\nJe suis votre assistant personnel. Comment puis-je vous aider aujourd'hui ?";
 
@@ -114,12 +167,6 @@ function getResponse(input: string, lang: string): string {
   if (/spec|acidite|polyphenol|acide|oleique|technique/.test(q))
     return `Spécifications techniques de nos huiles :\n\n• **Bidon 1L Bio** : acidité ≤ 0.3% · polyphénols 350 mg/kg\n• **Bouteille 500ml** : acidité ≤ 0.4% · polyphénols 280 mg/kg\n• **Bouteille 750ml** : acidité ≤ 0.2% · polyphénols 420 mg/kg\n• **Bidon 3L** : acidité ≤ 0.5% · polyphénols 250 mg/kg\n\nRécolte : Octobre–Novembre 2024`;
 
-  if (/langue|arabic|arabe|english|anglais|francais/.test(q))
-    return `Notre site est disponible en **3 langues** :\n\n🇫🇷 **Français**\n🇸🇦 **العربية** (avec mode RTL automatique)\n🇬🇧 **English**\n\nChangez de langue via le sélecteur en haut à droite.`;
-
-  if (/devise|monnaie|euro|dollar|tnd|dinar/.test(q))
-    return `Nos prix sont affichés en **TND (Dinar Tunisien)** par défaut.\n\nVous pouvez changer la devise via le sélecteur 🇹🇳 **TND** en haut à droite de la page.`;
-
   if (/merci|parfait|super|nickel|tres bien|ok|bonne|bien/.test(q))
     return `Avec plaisir ! 🫒\nN'hésitez pas si vous avez d'autres questions. Bonne dégustation chez **Domaine Fendri** !`;
 
@@ -139,19 +186,25 @@ function formatMessage(text: string) {
   });
 }
 
+const UI = {
+  fr: { title: 'Assistant Fendri', online: 'En ligne — Domaine Fendri, Sfax', placeholder: 'Posez votre question...' },
+  en: { title: 'Fendri Assistant', online: 'Online — Domaine Fendri, Sfax', placeholder: 'Ask your question...' },
+  ar: { title: 'مساعد فندري', online: 'متصل — دومين فندري، صفاقس', placeholder: 'اكتب سؤالك هنا...' },
+};
+
+const SUGGESTIONS_MAP = { fr: SUGGESTIONS_FR, en: SUGGESTIONS_EN, ar: SUGGESTIONS_AR };
+const WELCOME_MAP = { fr: WELCOME_FR, en: WELCOME_EN, ar: WELCOME_AR };
+
 export default function ChatBot() {
   const { i18n } = useTranslation();
-  const lang = i18n.language?.startsWith('en') ? 'en' : 'fr';
-
-  const isEN = lang === 'en';
-  const suggestions = isEN ? SUGGESTIONS_EN : SUGGESTIONS_FR;
-  const placeholder = isEN ? 'Ask your question...' : 'Posez votre question...';
-  const onlineLabel = isEN ? 'Online — Domaine Fendri, Sfax' : 'En ligne — Domaine Fendri, Sfax';
-  const welcomeText = isEN ? WELCOME_EN : WELCOME_FR;
+  const lang = getLang(i18n.language);
+  const isRTL = lang === 'ar';
+  const ui = UI[lang];
+  const suggestions = SUGGESTIONS_MAP[lang];
 
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: 0, from: 'bot', text: welcomeText, time: now() },
+    { id: 0, from: 'bot', text: WELCOME_MAP[lang], time: now() },
   ]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -162,16 +215,10 @@ export default function ChatBot() {
   const msgId = useRef(1);
   const prevLang = useRef(lang);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, typing]);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, typing]);
 
   useEffect(() => {
-    if (open) {
-      setUnread(0);
-      setPulse(false);
-      setTimeout(() => inputRef.current?.focus(), 300);
-    }
+    if (open) { setUnread(0); setPulse(false); setTimeout(() => inputRef.current?.focus(), 300); }
   }, [open]);
 
   useEffect(() => {
@@ -182,8 +229,7 @@ export default function ChatBot() {
   useEffect(() => {
     if (prevLang.current !== lang) {
       prevLang.current = lang;
-      const newWelcome = lang === 'en' ? WELCOME_EN : WELCOME_FR;
-      setMessages([{ id: 0, from: 'bot', text: newWelcome, time: now() }]);
+      setMessages([{ id: 0, from: 'bot', text: WELCOME_MAP[lang], time: now() }]);
       msgId.current = 1;
     }
   }, [lang]);
@@ -194,11 +240,9 @@ export default function ChatBot() {
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setTyping(true);
-
     const delay = 700 + Math.random() * 600;
     setTimeout(() => {
-      const reply = getResponse(text, lang);
-      const botMsg: Message = { id: msgId.current++, from: 'bot', text: reply, time: now() };
+      const botMsg: Message = { id: msgId.current++, from: 'bot', text: getResponse(text, lang), time: now() };
       setMessages(prev => [...prev, botMsg]);
       setTyping(false);
       if (!open) setUnread(n => n + 1);
@@ -209,122 +253,91 @@ export default function ChatBot() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(input); }
   };
 
+  const btnRight = isRTL ? 'auto' : 28;
+  const btnLeft  = isRTL ? 28 : 'auto';
+  const winRight = isRTL ? 'auto' : 28;
+  const winLeft  = isRTL ? 28 : 'auto';
+
   return (
     <>
       <style>{`
-        @keyframes chatPulse {
-          0%, 100% { transform: scale(1); opacity: 0.7; }
-          50% { transform: scale(1.35); opacity: 0; }
-        }
-        @keyframes chatSlideUp {
-          from { opacity: 0; transform: translateY(24px) scale(0.97); }
-          to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes typingBounce {
-          0%, 60%, 100% { transform: translateY(0); }
-          30% { transform: translateY(-6px); }
-        }
-        @keyframes chatFadeIn {
-          from { opacity: 0; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .chat-window::-webkit-scrollbar { width: 4px; }
-        .chat-window::-webkit-scrollbar-track { background: transparent; }
-        .chat-window::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.25); border-radius: 4px; }
-        .chat-input:focus { outline: none; }
-        .chat-suggestion:hover { background: rgba(201,168,76,0.15) !important; border-color: rgba(201,168,76,0.5) !important; }
+        @keyframes chatPulse { 0%,100%{transform:scale(1);opacity:.7} 50%{transform:scale(1.35);opacity:0} }
+        @keyframes chatSlideUp { from{opacity:0;transform:translateY(24px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+        @keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+        @keyframes chatFadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        .chat-window::-webkit-scrollbar{width:4px}
+        .chat-window::-webkit-scrollbar-track{background:transparent}
+        .chat-window::-webkit-scrollbar-thumb{background:rgba(201,168,76,.25);border-radius:4px}
+        .chat-suggestion:hover{background:rgba(201,168,76,.15)!important;border-color:rgba(201,168,76,.5)!important}
       `}</style>
 
-      {/* ── Floating Button ── */}
-      <div style={{ position: 'fixed', bottom: 28, right: 28, zIndex: 9000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {pulse && (
-          <span style={{ position: 'absolute', width: 60, height: 60, borderRadius: '50%', background: 'rgba(201,168,76,0.5)', animation: 'chatPulse 2s ease-out infinite', pointerEvents: 'none' }} />
-        )}
-        <button
-          onClick={() => setOpen(o => !o)}
-          style={{
-            width: 56, height: 56, borderRadius: '50%',
-            background: 'linear-gradient(135deg, #1a2617 60%, #2d4030)',
-            border: '2px solid rgba(201,168,76,0.6)',
-            boxShadow: '0 8px 32px rgba(26,38,23,0.45), 0 0 0 1px rgba(201,168,76,0.2)',
-            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',
-            transform: open ? 'rotate(90deg) scale(1.05)' : 'scale(1)',
-            position: 'relative',
-          }}
-        >
-          {open
-            ? <i className="ri-close-line" style={{ color: '#c9a84c', fontSize: 22 }} />
-            : <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 22 }} />
-          }
-          {unread > 0 && !open && (
-            <span style={{ position: 'absolute', top: -4, right: -4, width: 18, height: 18, background: '#e74c3c', borderRadius: '50%', fontSize: 10, fontWeight: 700, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Outfit', sans-serif", border: '2px solid #fff' }}>{unread}</span>
-          )}
+      {/* Floating Button */}
+      <div style={{ position: 'fixed', bottom: 28, right: btnRight, left: btnLeft, zIndex: 9000, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 56 }}>
+        {pulse && <span style={{ position: 'absolute', width: 60, height: 60, borderRadius: '50%', background: 'rgba(201,168,76,.5)', animation: 'chatPulse 2s ease-out infinite', pointerEvents: 'none' }} />}
+        <button onClick={() => setOpen(o => !o)} style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg,#1a2617 60%,#2d4030)', border: '2px solid rgba(201,168,76,.6)', boxShadow: '0 8px 32px rgba(26,38,23,.45),0 0 0 1px rgba(201,168,76,.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all .25s cubic-bezier(.34,1.56,.64,1)', transform: open ? 'rotate(90deg) scale(1.05)' : 'scale(1)', position: 'relative' }}>
+          {open ? <i className="ri-close-line" style={{ color: '#c9a84c', fontSize: 22 }} /> : <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 22 }} />}
+          {unread > 0 && !open && <span style={{ position: 'absolute', top: -4, right: -4, width: 18, height: 18, background: '#e74c3c', borderRadius: '50%', fontSize: 10, fontWeight: 700, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Outfit',sans-serif", border: '2px solid #fff' }}>{unread}</span>}
         </button>
       </div>
 
-      {/* ── Chat Window ── */}
+      {/* Chat Window */}
       {open && (
-        <div style={{ position: 'fixed', bottom: 96, right: 28, zIndex: 9000, width: 370, height: 540, borderRadius: 20, overflow: 'hidden', display: 'flex', flexDirection: 'column', background: '#f7f5f0', boxShadow: '0 24px 80px rgba(26,38,23,0.25), 0 0 0 1px rgba(201,168,76,0.2)', animation: 'chatSlideUp 0.35s cubic-bezier(0.22,1,0.36,1)' }}>
+        <div dir={isRTL ? 'rtl' : 'ltr'} style={{ position: 'fixed', bottom: 96, right: winRight, left: winLeft, zIndex: 9000, width: 370, height: 540, borderRadius: 20, overflow: 'hidden', display: 'flex', flexDirection: 'column', background: '#f7f5f0', boxShadow: '0 24px 80px rgba(26,38,23,.25),0 0 0 1px rgba(201,168,76,.2)', animation: 'chatSlideUp .35s cubic-bezier(.22,1,.36,1)', fontFamily: isRTL ? "'Tajawal', 'Outfit', sans-serif" : "'Outfit', sans-serif" }}>
 
           {/* Header */}
-          <div style={{ background: 'linear-gradient(135deg, #1a2617 0%, #243320 100%)', padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
-            <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'rgba(201,168,76,0.15)', border: '1.5px solid rgba(201,168,76,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <div style={{ background: 'linear-gradient(135deg,#1a2617 0%,#243320 100%)', padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, flexDirection: isRTL ? 'row-reverse' : 'row' }}>
+            <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'rgba(201,168,76,.15)', border: '1.5px solid rgba(201,168,76,.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 18 }} />
             </div>
-            <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontFamily: "'Cormorant Garant', serif", fontSize: 15, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>
-                {isEN ? 'Fendri Assistant' : 'Assistant Fendri'}
-              </p>
-              <p style={{ margin: 0, fontFamily: "'Outfit', sans-serif", fontSize: 10, color: 'rgba(201,168,76,0.8)', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <div style={{ flex: 1, textAlign: isRTL ? 'right' : 'left' }}>
+              <p style={{ margin: 0, fontFamily: "'Cormorant Garant', serif", fontSize: 15, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>{ui.title}</p>
+              <p style={{ margin: 0, fontSize: 10, color: 'rgba(201,168,76,.8)', display: 'flex', alignItems: 'center', gap: 4, justifyContent: isRTL ? 'flex-end' : 'flex-start' }}>
                 <span style={{ width: 6, height: 6, background: '#4caf50', borderRadius: '50%', display: 'inline-block' }} />
-                {onlineLabel}
+                {ui.online}
               </p>
             </div>
-            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.5)', fontSize: 16, padding: 4, lineHeight: 1 }}>
+            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,.5)', fontSize: 16, padding: 4, lineHeight: 1 }}>
               <i className="ri-close-line" />
             </button>
           </div>
 
-          {/* Quick suggestions */}
-          <div style={{ padding: '10px 12px 6px', display: 'flex', gap: 6, overflowX: 'auto', flexShrink: 0, background: '#f7f5f0', scrollbarWidth: 'none' }}>
+          {/* Suggestions */}
+          <div style={{ padding: '10px 12px 6px', display: 'flex', gap: 6, overflowX: 'auto', flexShrink: 0, background: '#f7f5f0', scrollbarWidth: 'none', flexDirection: isRTL ? 'row-reverse' : 'row' }}>
             {suggestions.map(s => (
-              <button key={s} className="chat-suggestion" onClick={() => send(s)} style={{ whiteSpace: 'nowrap', padding: '5px 11px', borderRadius: 40, background: 'rgba(201,168,76,0.07)', border: '1px solid rgba(201,168,76,0.25)', fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#5a6c56', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0 }}>
-                {s}
-              </button>
+              <button key={s} className="chat-suggestion" onClick={() => send(s)} style={{ whiteSpace: 'nowrap', padding: '5px 11px', borderRadius: 40, background: 'rgba(201,168,76,.07)', border: '1px solid rgba(201,168,76,.25)', fontSize: 11, color: '#5a6c56', cursor: 'pointer', transition: 'all .2s', flexShrink: 0 }}>{s}</button>
             ))}
           </div>
 
           {/* Messages */}
           <div className="chat-window" style={{ flex: 1, overflowY: 'auto', padding: '8px 14px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {messages.map(msg => (
-              <div key={msg.id} style={{ display: 'flex', flexDirection: msg.from === 'user' ? 'row-reverse' : 'row', alignItems: 'flex-end', gap: 8, animation: 'chatFadeIn 0.3s ease' }}>
-                {msg.from === 'bot' && (
-                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1a2617', border: '1.5px solid rgba(201,168,76,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 13 }} />
+            {messages.map(msg => {
+              const isUser = msg.from === 'user';
+              return (
+                <div key={msg.id} style={{ display: 'flex', flexDirection: isRTL ? (isUser ? 'row' : 'row-reverse') : (isUser ? 'row-reverse' : 'row'), alignItems: 'flex-end', gap: 8, animation: 'chatFadeIn .3s ease' }}>
+                  {msg.from === 'bot' && (
+                    <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1a2617', border: '1.5px solid rgba(201,168,76,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 13 }} />
+                    </div>
+                  )}
+                  <div style={{ maxWidth: '78%' }}>
+                    <div style={{ padding: '10px 13px', borderRadius: isUser ? '16px 4px 16px 16px' : '4px 16px 16px 16px', background: isUser ? 'linear-gradient(135deg,#1a2617,#2d4030)' : '#fff', color: isUser ? '#f0e6c8' : '#2d3a28', fontSize: 12.5, lineHeight: 1.7, boxShadow: isUser ? '0 4px 16px rgba(26,38,23,.2)' : '0 2px 12px rgba(0,0,0,.07)', border: !isUser ? '1px solid rgba(201,168,76,.1)' : 'none', whiteSpace: 'pre-line', textAlign: isRTL ? 'right' : 'left', direction: isRTL ? 'rtl' : 'ltr' }}>
+                      {msg.from === 'bot'
+                        ? msg.text.split('\n').map((line, i) => <span key={i} style={{ display: 'block' }}>{formatMessage(line)}</span>)
+                        : msg.text}
+                    </div>
+                    <p style={{ margin: '3px 0 0', fontSize: 9.5, color: '#aaa', textAlign: isRTL ? (isUser ? 'left' : 'right') : (isUser ? 'right' : 'left'), paddingLeft: (!isRTL && !isUser) ? 4 : 0, paddingRight: (!isRTL && isUser) ? 4 : 0 }}>{msg.time}</p>
                   </div>
-                )}
-                <div style={{ maxWidth: '78%' }}>
-                  <div style={{ padding: '10px 13px', borderRadius: msg.from === 'user' ? '16px 4px 16px 16px' : '4px 16px 16px 16px', background: msg.from === 'user' ? 'linear-gradient(135deg, #1a2617, #2d4030)' : '#fff', color: msg.from === 'user' ? '#f0e6c8' : '#2d3a28', fontFamily: "'Outfit', sans-serif", fontSize: 12.5, lineHeight: 1.7, boxShadow: msg.from === 'user' ? '0 4px 16px rgba(26,38,23,0.2)' : '0 2px 12px rgba(0,0,0,0.07)', border: msg.from === 'bot' ? '1px solid rgba(201,168,76,0.1)' : 'none', whiteSpace: 'pre-line' }}>
-                    {msg.from === 'bot'
-                      ? msg.text.split('\n').map((line, i) => <span key={i} style={{ display: 'block' }}>{formatMessage(line)}</span>)
-                      : msg.text
-                    }
-                  </div>
-                  <p style={{ margin: '3px 0 0', fontFamily: "'Outfit', sans-serif", fontSize: 9.5, color: '#aaa', textAlign: msg.from === 'user' ? 'right' : 'left', paddingLeft: msg.from === 'bot' ? 4 : 0, paddingRight: msg.from === 'user' ? 4 : 0 }}>{msg.time}</p>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             {typing && (
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, animation: 'chatFadeIn 0.3s ease' }}>
-                <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1a2617', border: '1.5px solid rgba(201,168,76,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, animation: 'chatFadeIn .3s ease', flexDirection: isRTL ? 'row-reverse' : 'row' }}>
+                <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1a2617', border: '1.5px solid rgba(201,168,76,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <i className="ri-robot-2-line" style={{ color: '#c9a84c', fontSize: 13 }} />
                 </div>
-                <div style={{ padding: '12px 16px', borderRadius: '4px 16px 16px 16px', background: '#fff', border: '1px solid rgba(201,168,76,0.1)', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', display: 'flex', gap: 5, alignItems: 'center' }}>
-                  {[0, 1, 2].map(i => (
-                    <span key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: '#c9a84c', display: 'inline-block', animation: `typingBounce 1.2s ${i * 0.2}s ease-in-out infinite` }} />
-                  ))}
+                <div style={{ padding: '12px 16px', borderRadius: '4px 16px 16px 16px', background: '#fff', border: '1px solid rgba(201,168,76,.1)', boxShadow: '0 2px 12px rgba(0,0,0,.07)', display: 'flex', gap: 5, alignItems: 'center' }}>
+                  {[0, 1, 2].map(i => <span key={i} style={{ width: 7, height: 7, borderRadius: '50%', background: '#c9a84c', display: 'inline-block', animation: `typingBounce 1.2s ${i * 0.2}s ease-in-out infinite` }} />)}
                 </div>
               </div>
             )}
@@ -332,23 +345,19 @@ export default function ChatBot() {
           </div>
 
           {/* Input */}
-          <div style={{ padding: '10px 14px', background: '#fff', borderTop: '1px solid rgba(201,168,76,0.12)', display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
+          <div style={{ padding: '10px 14px', background: '#fff', borderTop: '1px solid rgba(201,168,76,.12)', display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0, flexDirection: isRTL ? 'row-reverse' : 'row' }}>
             <input
               ref={inputRef}
-              className="chat-input"
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKey}
-              placeholder={placeholder}
-              style={{ flex: 1, background: '#f7f5f0', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 40, padding: '9px 16px', fontFamily: "'Outfit', sans-serif", fontSize: 12.5, color: '#1a2617', outline: 'none', transition: 'border-color 0.2s' }}
-              onFocus={e => (e.target.style.borderColor = 'rgba(201,168,76,0.6)')}
-              onBlur={e => (e.target.style.borderColor = 'rgba(201,168,76,0.2)')}
+              placeholder={ui.placeholder}
+              dir={isRTL ? 'rtl' : 'ltr'}
+              style={{ flex: 1, background: '#f7f5f0', border: '1px solid rgba(201,168,76,.2)', borderRadius: 40, padding: '9px 16px', fontSize: 12.5, color: '#1a2617', outline: 'none', transition: 'border-color .2s', textAlign: isRTL ? 'right' : 'left' }}
+              onFocus={e => (e.target.style.borderColor = 'rgba(201,168,76,.6)')}
+              onBlur={e => (e.target.style.borderColor = 'rgba(201,168,76,.2)')}
             />
-            <button
-              onClick={() => send(input)}
-              disabled={!input.trim()}
-              style={{ width: 38, height: 38, borderRadius: '50%', background: input.trim() ? 'linear-gradient(135deg, #1a2617, #2d4030)' : 'rgba(26,38,23,0.08)', border: 'none', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s', flexShrink: 0 }}
-            >
+            <button onClick={() => send(input)} disabled={!input.trim()} style={{ width: 38, height: 38, borderRadius: '50%', background: input.trim() ? 'linear-gradient(135deg,#1a2617,#2d4030)' : 'rgba(26,38,23,.08)', border: 'none', cursor: input.trim() ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all .2s', flexShrink: 0 }}>
               <i className="ri-send-plane-fill" style={{ color: input.trim() ? '#c9a84c' : '#aaa', fontSize: 15 }} />
             </button>
           </div>
