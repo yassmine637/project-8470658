@@ -1,0 +1,34 @@
+Conclusion Générale et Perspectives
+Notre projet intitulé ‘DjubatusR’ consiste à la conception et la réalisation d’une plateforme 
+composée de trois modules : le première module dédié pour l’administrateur pour gérer les 
+packs, les entreprises… le deuxième module dédié pour le recruteur pour gérer les offres 
+d’emploi et les candidatures. Le troisième module dédié pour le candidat pour postuler sa 
+candidature. Contrairement à la majorité des solutions existantes sur le marché qui offrent des 
+fonctionnalités limitées et très chères, nous avons réalisé un outil qui permet de gérer les 
+entreprises générant une plateforme de recrutement pour chaque entreprise créée.
+En ce qui concerne la démarche, nous avons, en premier lieu, effectué une phase d’étude des 
+différents outils existants et le besoin pressant né de l’insuffisance des outils en place. En 
+deuxième lieu, nous avons spécifié notre application pour discerner les fonctionnalités. Enfin,
+nous avons procédé à sa conception ainsi qu’aux choix technologiques pour sa réalisation. 
+Comme toute autre expérience au niveau de l’application des concepts de langages, il est 
+normal de se confronter à certains problèmes et difficultés au niveau de la modélisation 
+conceptuelle, de l’implémentation et la programmation et dans la plupart des cas nous avons 
+pu trouver des solutions alternatives afin de les résoudre partiellement.
+Ce projet nous a été une bonne occasion pour découvrir et maîtriser le langage de 
+modélisation UML, l’environnement de programmation « node js, React, expresse » et le 
+Framework matrial UI qui permet de concevoir des interfaces conviviales et ergonomiques. 
+C’était aussi une occasion pour nous pour mettre en pratique la méthodologie Scrum et un 
+vrai challenge pour réussir à travailler à distance et en équipe à travers des réunions animées 
+en ligne. Le stage que nous avons effectué a été une grande opportunité pour découvrir le 
+monde professionnel et nous a permis de mettre en pratique nos connaissances théoriques 
+acquises lors de nos études universitaires.
+Bien que les principaux objectifs du projet soient atteints, l'application que nous avons 
+développée pourrait être enrichie par l’intégration de la partie IA qui est en cours de
+développement permettant de traiter et analyser les CVs bloc par bloc pour y choisir les 
+meilleures candidatures qui conforment à chaque offre. De plus il est intéressant 
+106
+d’implémenter le passage d’un entretien visuel par un chatbot et analyser ensuite les résultats 
+de ces entretiens afin d’extraire les différents sentiments de candidat (de stress, peur, 
+confiance, colère, dégoût…).
+En guise de conclusion, nous souhaitons que ce modeste travail apporte la satisfaction aux 
+responsables de la société Mr. bayoudh Ali et aux membres du Jury.
