@@ -1,0 +1,545 @@
+DESCRIPTION TEXTUELLE DU DIAGRAMME DE CLASSE UML 2.5 — PROJET
+FENDRI
+1. INTRODUCTION
+Ce diagramme de classe modélise le système d&#39;information du projet FENDRI,
+plateforme e-commerce dédiée à la valorisation digitale de l&#39;huile d&#39;olive extra vierge
+tunisienne. Le diagramme respecte la norme UML 2.5.1 (OMG, 2017) et se
+concentre sur les entités métier essentielles : gestion des utilisateurs, catalogue
+produit, processus de commande, et système de notification.
+
+2. CLASSES ET LEURS RESPONSABILITÉS
+2.1 Hiérarchie Utilisateur (Package Utilisateur)
+Classe Utilisateur (Abstraite)
+Table
+Aspect Description
+
+Stéréotype «abstract»
+
+Responsabilit
+é
+
+Classe de base pour tous les acteurs du système
+
+Attributs clés id : ObjectId, email : String {unique}, motDePasse : String
+{hashé}, role : Role {enum}, langue : String = &quot;fr&quot;, devise :
+String = &quot;TND&quot;, estActif : Boolean = true
+
+Méthodes
+principales
+
+seConnecter(email, mdp) :
+JWTToken, modifierProfil(data), changerMotDePasse(ancien,
+nouveau), reinitialiserMotDePasse(email)
+
+Classe Visiteur (Spécialisation de Utilisateur)
+Table
+Aspect Description
+
+Responsabi
+lité
+
+Utilisateur non authentifié avec session temporaire
+
+Attributs
+spécifiques
+
+sessionId : String, panierTemporaire : Panier
+
+Méthodes consulterProduits(), consulterFicheProduit(id), ajouterAuPanier(pr
+
+oduit,
+qte), utiliserConfigurateur(), envoyerMessageContact(data), creer
+Compte(data) : Utilisateur
+Classe Client (Spécialisation de Utilisateur)
+Table
+Aspec
+t
+
+Description
+
+Resp
+onsab
+ilité
+
+Utilisateur authentifié avec historique et préférences
+
+Attrib
+uts
+spécif
+iques
+
+dateNaissance : Date, listeSouhaits :
+List&lt;&lt;Produit&gt;, historiqueCommandes : List&lt;&lt;Commande&gt;
+
+Métho
+des
+
+passerCommande(panier) :
+Commande, consulterHistorique(), suivreCommande(id), ajouterAuxSou
+haits(produit), retirerDesSouhaits(produit), commanderDepuisSouhaits(),
+ soumettreDevis(config) : Devis, recevoirNotification(type)
+
+Classe Administrateur (Spécialisation de Utilisateur)
+Table
+Aspect Description
+
+Respons
+abilité
+
+Gestionnaire du système avec accès back-office
+
+Attributs
+spécifiqu
+es
+
+niveauAcces : Integer = 1, derniereConnexion : DateTime
+
+Méthode
+s
+
+accederTableauDeBord(), consulterStatistiques(), gererCommandes(
+), mettreAJourStatutCommande(id,
+statut), gererProduits(), mettreAJourStock(id,
+qte), consulterDevis(), mettreAJourStatutDevis(id,
+statut), consulterMessages(), marquerMessageLu(id), gererUtilisateu
+rs(), recevoirNotificationAdmin(type)
+
+Relation de Généralisation
+plain
+Copy
+Visiteur ───┐
+Client ─────┼───▷ Utilisateur [complete, disjoint]
+Administrateur ─┘
+La contrainte {complete, disjoint} signifie que tout utilisateur est exactement un des
+trois types (exhaustivité et exclusivité).
+
+2.2 Catalogue Produit (Package Produit)
+Classe Produit
+Table
+Aspect Description
+
+Responsab
+ilité
+
+Représentation des produits huile d&#39;olive
+
+Attributs
+clés
+
+id : ObjectId, nom : String, description : String, prix :
+Decimal, quantiteStock : Integer, typeContenant : TypeContenant
+{enum}, contenance : Integer {ml}, estBio : Boolean =
+false, estPremium : Boolean = false, image3D : String
+{WebP}, estActif : Boolean = true
+
+Méthodes creer(data), modifier(id,
+
+data), supprimer(id), verifierDisponibilite(qte), calculerPrixTotal(qte)
+, genererApercu3D()
+
+Classe Categorie
+
+Table
+Aspect Description
+
+Responsabilit
+é
+
+Classification des produits
+
+Attributs id : ObjectId, nom : String {unique}, nomAr : String, nomEn :
+String, slug : String {unique}, ordreAffichage : Integer, estVisible
+: Boolean = true
+
+Méthodes creer(data), modifier(id, data), supprimer(id), lister()
+Énumération TypeContenant
+Table
+Valeurs Description
+
+BOUTEILLE_CYLINDRIQ
+UE
+
+Format 500ml
+standard
+
+BOUTEILLE_CARREE Format 750ml
+premium
+
+BIDON_METALLIQUE Format 3L familial
+
+BIDON_VERT Format 1L biologique
+Relations Produit
+ Produit → Categorie : Association * appartient à 1 (un produit appartient à une
+catégorie, une catégorie contient plusieurs produits)
+ Produit → TypeContenant : Dépendance * utilise 1 (le type de contenant est
+une énumération)
+
+2.3 Processus de Commande (Package Commande)
+Classe Commande
+Table
+
+Aspect Description
+
+Responsabilit
+é
+
+Gestion du cycle de vie d&#39;une commande client
+
+Attributs clés id : ObjectId, numeroCommande : String {unique}, clientId :
+ObjectId {optional}, emailInvite : String {optional}, articles :
+List&lt;LigneCommande&gt;, montantTotal : Decimal, fraisLivraison :
+Decimal, montantTTC : Decimal, adresseLivraison :
+Adresse, modePaiement : ModePaiement
+{enum}, statutPaiement : StatutPaiement
+{enum}, statutCommande : StatutCommande
+{enum}, numeroSuivi : String {optional}
+
+Dates dateCommande, datePaiement {optional}, dateExpedition
+
+{optional}, dateLivraison {optional}
+
+Méthodes creer(panier,
+
+data), validerPaiement(token), mettreAJourStatut(id,
+statut), ajouterNumeroSuivi(id, numero), annuler(id,
+raison), genererFacture() :
+PDF, envoyerConfirmation(), notifierChangementStatut()
+
+Classe LigneCommande
+Table
+Aspect Description
+
+Responsabilit
+é
+
+Élément individuel d&#39;une commande
+
+Attributs id : ObjectId, commandeId : ObjectId, produitId :
+
+ObjectId, nomProduit : String, prixUnitaire : Decimal, quantite :
+Integer, sousTotal : Decimal
+
+Méthodes calculerSousTotal() : Decimal
+Classe Panier
+Table
+
+Aspect Description
+
+Responsa
+bilité
+
+Gestion du panier d&#39;achat (client ou session)
+
+Attributs id : ObjectId, clientId : ObjectId {optional}, sessionId : String
+{optional}, articles : List&lt;&lt;ArticlePanier&gt;, montantTotal :
+Decimal, devise : String, dateCreation : DateTime, dateExpiration :
+DateTime
+
+Méthodes ajouterArticle(produit, qte), modifierQuantite(articleId,
+
+qte), supprimerArticle(articleId), vider(), calculerTotal(), convertirDev
+ise(devise), validerStock()
+
+Classe ArticlePanier
+Table
+Aspect Description
+
+Responsabilit
+é
+
+Élément individuel du panier
+
+Attributs id : ObjectId, panierId : ObjectId, produitId : ObjectId, quantite :
+Integer = 1, prixUnitaire : Decimal, dateAjout : DateTime
+
+Méthodes mettreAJourQuantite(qte), calculerSousTotal()
+Classe Adresse
+Table
+Aspect Description
+
+Responsabilit
+é
+
+Adresse de livraison structurée
+
+Attributs rue : String, complement : String {optional}, ville :
+
+String, codePostal : String, pays : String, telephone : String
+
+Méthodes valider() : Boolean, formater() : String
+
+Énumérations du Package Commande
+Table
+Énumérati
+on
+
+Valeurs
+
+ModePaie
+ment
+
+CASH_ON_DELIVERY, STRIPE, PAYPAL, KONNECT, CLICK_TO_
+PAY
+
+StatutCom
+mande
+
+EN_ATTENTE, PAYEE, EN_PREPARATION, EXPEDIEE, EN_LIVR
+AISON, LIVREE, ANNULEE, REMBOURSEE
+
+StatutPaie
+ment
+
+EN_ATTENTE, TRAITE, ACCEPTE, REFUSE, REMBOURSE
+
+Relations Commande (Compositions et Associations)
+plain
+Copy
+Commande ◆───[1 contient 1..*]───▶ LigneCommande
+Commande ◆───[1 livrée à 1]───▶ Adresse
+Panier ◆───[1 contient 0..*]───▶ ArticlePanier
+LigneCommande ───[* concerne 1]───▶ Produit
+ArticlePanier ───[* référence 1]───▶ Produit
+Commande ───[1 utilise 1]───▶ ModePaiement (dépendance)
+Commande ───[1 a 1]───▶ StatutCommande (dépendance)
+Commande ───[1 a 1]───▶ StatutPaiement (dépendance)
+La composition (losange plein) indique une relation de vie forte : les
+LigneCommande et Adresse sont détruites avec la Commande, les ArticlePanier
+avec le Panier.
+
+2.4 Système de Notification (Package Notification)
+
+Classe Notification
+Table
+Aspect Description
+
+Responsabilit
+é
+
+Gestion des alertes et communications système
+
+Attributs id : ObjectId, destinataireId : ObjectId, type : TypeNotification
+{enum}, titre : String, message : String, donnees : JSON
+{optional}, estLue : Boolean = false, dateEnvoi :
+DateTime, dateLecture : DateTime {optional}, canal :
+CanalNotification {enum}
+
+Méthodes creer(data), envoyer() :
+
+Boolean, marquerLue(id), envoyerEmail()
+
+Classe MessageContact
+Table
+Aspect Description
+
+Responsabilit
+é
+
+Messages du formulaire de contact
+
+Attributs id : ObjectId, nom : String, email : String, sujet : String, message
+
+: String, estLu : Boolean = false, dateReception :
+DateTime, dateLecture : DateTime {optional}, reponse : String
+{optional}
+
+Méthodes creer(data), marquerCommeLu(id), repondre(id,
+
+reponse), supprimer(id), lister(filtres)
+
+Énumérations du Package Notification
+Table
+Énumér
+ation
+
+Valeurs
+
+TypeNotif
+ication
+
+NOUVELLE_COMMANDE, CHANGEMENT_STATUT, NOUVEAU_D
+EVIS, NOUVEAU_MESSAGE, BIENVENUE, REINITIALISATION_MD
+P
+
+CanalNot
+ification
+
+EMAIL, PUSH, SMS
+
+Relations Notification
+plain
+Copy
+MessageContact ───[1 génère 0..1]───▶ Notification (dépendance)
+Notification ───[1 est de type 1]───▶ TypeNotification (dépendance)
+Notification ───[1 envoyée via 1]───▶ CanalNotification (dépendance)
+Client ───[1 reçoit 0..*]───▶ Notification
+Administrateur ───[1 reçoit 0..*]───▶ Notification
+Commande ───[1 déclenche 0..*]───▶ Notification (dépendance)
+
+3. RELATIONS INTER-PACKAGES
+3.1 Utilisateur → Commande
+Table
+Relation Type Multiplicité Sémantique
+
+Client → Commande Associatio
+n
+
+1 passe 0..* Un client peut
+passer plusieurs
+commandes
+
+Client → Panier Associatio
+n
+
+1 possède
+0..1
+
+Un client a au
+maximum un
+panier actif
+
+Administrateur → Commande Associatio
+n
+
+1 gère 0..* L&#39;admin gère
+toutes les
+commandes
+
+Administrateur → Produit Associatio
+n
+
+1 administre
+0..*
+
+L&#39;admin gère le
+catalogue
+
+Administrateur → MessageCont
+act
+
+Associatio
+n
+
+1 consulte
+0..*
+
+L&#39;admin traite les
+messages
+
+3.2 Commande → Produit
+Table
+Relation Type Multiplicité Sémantique
+
+LigneCommande → Prod
+uit
+
+Associatio
+n
+
+* concerne
+1
+
+Chaque ligne référence
+un produit
+
+ArticlePanier → Produit Associatio
+n
+
+* référence
+1
+
+Chaque article panier
+référence un produit
+
+4. CONTRAINTES ET RÈGLES MÉTIER
+4.1 Contraintes Structurelles
+Table
+Contrainte Description UML 2.5 Implémentation
+
+Héritage
+exclusif
+
+{complete, disjoint} sur Utilisateur Un utilisateur est
+exactement Visiteur,
+Client ou Admin
+
+Commande
+sans client
+
+clientId {optional} + emailInvite {optional} Support commande
+
+invité
+
+Adresse
+obligatoire
+
+Composition Commande → Adresse avec 
+[1]
+
+Toute commande
+nécessite une
+adresse
+
+Panier dual clientId {optional} XOR sessionId
+
+{optional}
+
+Panier lié à client
+OU session
+
+4.2 Règles de Transition d&#39;État (Commande)
+plain
+Copy
+EN_ATTENTE ──[paiement]──▶ PAYEE ──[préparation]──▶ EN_PREPARATION
+│ │
+│ └──[expédition]──▶ EXPEDIEE ──[livraison]──▶ LIVREE
+│
+└──[annulation]──▶ ANNULEE ──[remboursement]──▶ REMBOURSEE
+
+5. MAPPING VERS L&#39;ARCHITECTURE MONGODB
+Le diagramme est optimisé pour MongoDB (base de données documentaire du
+projet) :
+Table
+Classe UML Collection
+MongoDB
+
+Index
+
+Utilisateur users email (unique), role
+
+Produit products slug (unique), categorie, estActif
+
+Commande orders numeroCommande (unique), clientId, statutCo
+
+mmande
+
+Panier carts clientId, sessionId (TTL)
+
+MessageCont
+act
+
+contactmessa
+ges
+
+estLu, dateReception
+
+Notification notifications destinataireId, estLue
+Les relations 1..* et 0..* sont implémentées via :
+ Références (DBRef) : clientId : ObjectId dans Commande
+
+ Documents imbriqués : articles : [LigneCommande] dans Commande
+ Collections séparées : LigneCommande comme sous-document
+
+6. SYNTHÈSE
+Le diagramme de classe UML 2.5 du projet FENDRI modélise un système e-
+commerce complet avec :
+ 4 packages logiques (Utilisateur, Produit, Commande, Notification)
+ 14 classes concrètes, 1 classe abstraite (Utilisateur)
+ 6 énumérations pour les domaines de valeurs contraints
+ 3 compositions (relations de vie forte)
+ Héritage avec contraintes {complete, disjoint}
+ Support multi-devises (TND par défaut, extensible)
+ Support multi-langues (français par défaut, arabe/anglais préparés)
+ Commande invité (sans création de compte)
+Le diagramme respecte intégralement la syntaxe et la sémantique UML 2.5.1, avec
+notation des visibilités, types, multiplicités, et stéréotypes appropriés.
