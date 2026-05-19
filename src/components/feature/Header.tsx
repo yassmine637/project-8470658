@@ -127,7 +127,7 @@ export default function Header() {
     { type: 'anchor', sectionId: 'values',  label: t('nav_engagements') },
     { type: 'anchor', sectionId: 'awards',  label: t('nav_recompenses') },
     { type: 'anchor', sectionId: 'contact', label: t('nav_contact') },
-    { type: 'route',  href: '/faq',         label: 'FAQ' },
+    { type: 'route',  href: '/faq',         label: t('nav_faq') },
   ];
 
   const CurrencySwitcher = () => (

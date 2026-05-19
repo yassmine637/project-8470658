@@ -43,6 +43,7 @@ const translations = {
   nav_engagements: 'قيمنا',
   nav_recompenses: 'جوائزنا',
   nav_contact: 'اتصل بنا',
+  nav_faq: 'الأسئلة الشائعة',
 
   // Hero
   hero_badge: 'بيت فندري · صفاقس، تونس · تأسست عام 1911',

@@ -43,6 +43,7 @@ const translations = {
   nav_engagements: 'Engagements',
   nav_recompenses: 'Récompenses',
   nav_contact: 'Contact',
+  nav_faq: 'FAQ',
 
   // Hero
   hero_badge: 'Maison Fendri · Sfax, Tunisie · Fondée en 1911',
