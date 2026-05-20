@@ -1,0 +1,39 @@
+2D ............................ Two-Dimensional (Bidimensionnel)
+3D ............................ Three-Dimensional (Tridimensionnel)
+API ........................... Application Programming Interface
+BSDF .......................... Bidirectional Scattering Distribution Function
+COD ........................... Cash On Delivery (Paiement à la livraison)
+CSS ........................... Cascading Style Sheets
+CRUD .......................... Create, Read, Update, Delete
+FAQ ........................... Foire Aux Questions
+GLB ........................... GL Binary
+GLTF .......................... GL Transmission Format
+HDRI .......................... High Dynamic Range Image
+HTML .......................... HyperText Markup Language
+IDE ........................... Integrated Development Environment
+IOR ........................... Index Of Refraction (Indice de réfraction)
+JSON .......................... JavaScript Object Notation
+JWT ........................... JSON Web Token
+npm ........................... Node Package Manager
+ODM ........................... Object Document Mapper
+PBR ........................... Physically Based Rendering
+PFE ........................... Projet de Fin d'Études
+PNG ........................... Portable Network Graphics
+PO ............................ Product Owner
+REST .......................... Representational State Transfer
+RTL ........................... Right To Left (Droite vers Gauche)
+RUP ........................... Rational Unified Process
+SAFe .......................... Scaled Agile Framework
+SM ............................ Scrum Master
+SMT ........................... Société Monétique de Tunisie
+SPA ........................... Single Page Application
+TLS ........................... Transport Layer Security
+TND ........................... Dinar Tunisien
+TVA ........................... Taxe sur la Valeur Ajoutée
+UI ............................ User Interface (Interface utilisateur)
+UML ........................... Unified Modeling Language
+URL ........................... Uniform Resource Locator
+UX ............................ User Experience (Expérience utilisateur)
+WBS ........................... Work Breakdown Structure
+WebGL ......................... Web Graphics Library
+XP ............................ Extreme Programming
