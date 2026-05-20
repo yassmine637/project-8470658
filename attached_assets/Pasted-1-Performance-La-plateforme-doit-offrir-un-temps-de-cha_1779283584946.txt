@@ -1,0 +1,21 @@
+1. Performance
+La plateforme doit offrir un temps de chargement réduit ainsi qu’une navigation fluide malgré l’utilisation de contenus visuels de haute qualité. Les ressources graphiques sont optimisées pour le web afin d’améliorer les performances globales de l’application.
+2. Ergonomie et expérience utilisateur
+L’interface doit être intuitive, moderne et cohérente avec l’identité visuelle premium de la marque. La navigation au sein du configurateur doit être guidée et progressive afin de faciliter la personnalisation des produits. Les messages d’erreur, confirmations et indicateurs visuels doivent être clairs et compréhensibles.
+3. Compatibilité et Responsive Design
+La plateforme doit être compatible avec les principaux navigateurs web modernes et s’adapter automatiquement aux différentes tailles d’écran (ordinateurs, tablettes et smartphones).
+4. Multilinguisme
+La plateforme doit supporter plusieurs langues et adapter automatiquement l’interface selon la langue choisie par l’utilisateur, y compris la prise en charge du mode RTL pour la langue arabe.
+5. Multi-devises
+La plateforme doit permettre l’affichage des prix dans différentes devises afin de répondre aux besoins des utilisateurs nationaux et internationaux.
+6. Sécurité
+La sécurité de la plateforme repose sur plusieurs mécanismes complémentaires mis en place à différents niveaux de l'application.
+L'authentification est assurée par des tokens JWT (JSON Web Token) d'une durée de validité de 30 jours, transmis dans l'en-tête HTTP Authorization. Toutes les routes sensibles sont protégées par un middleware qui vérifie et décode le token à chaque requête. L'accès à l'espace administrateur est en outre contrôlé par un middleware de rôle, qui refuse toute requête provenant d'un utilisateur non administrateur avec une erreur HTTP 403.
+Les mots de passe des utilisateurs ne sont jamais stockés en clair dans la base de données. Ils sont hachés automatiquement avant enregistrement grâce à la bibliothèque bcryptjs avec un facteur de coût de 10 rounds. Les réponses de l'API ne retournent jamais le mot de passe haché au client.
+La validation des données est effectuée côté serveur sur l'ensemble des routes exposées : format d'email, longueur du mot de passe, intégrité du panier, cohérence des montants et limites de caractères sur les champs texte. Un middleware de sanitisation XSS est appliqué globalement sur toutes les requêtes entrantes afin d'échapper les caractères HTML spéciaux et de prévenir toute injection de code malveillant.
+7. Maintenabilité
+L’application doit être développée selon une architecture modulaire facilitant la maintenance, l’évolution et la réutilisation du code.
+8. Scalabilité
+L’architecture du système doit permettre l’ajout futur de nouvelles fonctionnalités et l’évolution de la plateforme sans impact majeur sur son fonctionnement.
+9. Disponibilité et fiabilité
+La plateforme doit garantir une disponibilité stable ainsi qu’une bonne fiabilité des données et des services proposés.
