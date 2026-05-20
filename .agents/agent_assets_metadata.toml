@@ -18,6 +18,12 @@ uri = "file://public/bidon-metal-1l.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "ORfUqwPoctebVotwSI40n"
+uri = "file://attached_assets/pipeline_3d_corrected.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "Cm6vqNX0p6l750j-TCvwe"
 uri = "file://public/bidon-metal-500ml.png"
@@ -89,3 +95,9 @@ id = "tR25-JwnkX2qi9O7Z1b_A"
 uri = "file://attached_assets/diagramme_classe_fendri.xml"
 type = "unspecified"
 title = "Diagramme de classe UML — FENDRI (draw.io)"
+
+[[outputs]]
+id = "Q3zpooWWmpirs5RZVCmDx"
+uri = "file://attached_assets/pipeline_3d_corrected.png"
+type = "image"
+title = "Pipeline 3D corrigé — avec étape Retouche IA (ChatGPT)"
