@@ -9,6 +9,7 @@ import Factory from './components/Factory';
 import Awards from './components/Awards';
 import Values from './components/Values';
 import Contact from './components/Contact';
+import SEO from '@/components/seo/SEO';
 
 export default function HomePage() {
   const location = useLocation();
@@ -39,6 +40,11 @@ export default function HomePage() {
 
   return (
     <>
+      <SEO
+        title="Domaine Fendri — Huile d'Olive Extra Vierge Bio, Sfax, Tunisie"
+        description="Découvrez l'huile d'olive extra vierge bio du Domaine Fendri, produite à Sfax depuis 1911. Médaillée internationalement, extraction à froid, certifiée bio EU."
+        url="https://domainefendri.com/"
+      />
       {banner && (
         <div style={{
           position: 'fixed',

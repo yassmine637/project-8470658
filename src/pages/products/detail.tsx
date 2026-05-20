@@ -7,6 +7,7 @@ import { products, getStockStatus, STOCK_DISPLAY } from '@/mocks/products';
 import { useCart } from '@/hooks/useCart';
 import { useCurrencyCtx } from '@/context/CurrencyContext';
 import { useWishlist } from '@/hooks/useWishlist';
+import SEO from '@/components/seo/SEO';
 
 export default function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -65,6 +66,22 @@ export default function ProductDetailPage() {
 
   return (
     <>
+      <SEO
+        title={product.name}
+        description={`${product.name} — Huile d'olive extra vierge bio Domaine Fendri. ${product.description ?? ''}`}
+        url={`https://domainefendri.com/products/${product.id}`}
+        image={product.image ?? '/produit2-nobg.webp'}
+        type="product"
+        product={{
+          name: product.name,
+          price: product.price,
+          currency: 'TND',
+          availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          description: product.description,
+          image: product.image,
+          sku: product.id,
+        }}
+      />
       <Header />
 
       <div style={{ background: '#f8f6f1', minHeight: '100vh' }}>
