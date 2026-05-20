@@ -101,3 +101,27 @@ id = "Q3zpooWWmpirs5RZVCmDx"
 uri = "file://attached_assets/pipeline_3d_corrected.png"
 type = "image"
 title = "Pipeline 3D corrigé — avec étape Retouche IA (ChatGPT)"
+
+[[outputs]]
+id = "61ZHKtGUTz-40K_lZzN55"
+uri = "file://attached_assets/image_search/react_router.png"
+type = "image"
+title = "React Router v7"
+
+[[outputs]]
+id = "MAmvjpJs1VNU88ws_MWbg"
+uri = "file://attached_assets/image_search/i18next.svg"
+type = "image"
+title = "i18next + react-i18next"
+
+[[outputs]]
+id = "2BqS7cJcAZUI0M3arWymN"
+uri = "file://attached_assets/image_search/vitest.png"
+type = "image"
+title = "Vitest"
+
+[[outputs]]
+id = "Oo_MatBj4LINuwj5jQJzE"
+uri = "file://attached_assets/image_search/testing_library.png"
+type = "image"
+title = "React Testing Library"
