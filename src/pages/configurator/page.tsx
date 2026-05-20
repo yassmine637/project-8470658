@@ -30,6 +30,8 @@ export default function ConfiguratorPage() {
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [estimationOpen, setEstimationOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [mobileShowViewer, setMobileShowViewer] = useState(false);
   const { currency, setCurrency, currencyInfo, format: fmtCurrency } = useCurrency('TND');
   const [currencyDropOpen, setCurrencyDropOpen] = useState(false);
   const currencyDropRef = useRef<HTMLDivElement>(null);
@@ -44,6 +46,12 @@ export default function ConfiguratorPage() {
     if (currencyDropOpen) document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [currencyDropOpen]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const STEPS = [
     { id: 'model', label: t('config_step_model'), icon: 'ri-flask-line', desc: t('config_step_desc_model') },
@@ -258,8 +266,12 @@ export default function ConfiguratorPage() {
         {/* LEFT PANEL */}
         <div
           style={{
-            width: isSummaryStep || !panelOpen ? '0' : '620px',
-            minWidth: isSummaryStep || !panelOpen ? '0' : '620px',
+            width: isMobile
+              ? (isSummaryStep || mobileShowViewer ? '0' : '100%')
+              : (isSummaryStep || !panelOpen ? '0' : '620px'),
+            minWidth: isMobile
+              ? (isSummaryStep || mobileShowViewer ? '0' : '100%')
+              : (isSummaryStep || !panelOpen ? '0' : '620px'),
             overflow: 'hidden',
             transition: 'width 0.32s ease, min-width 0.32s ease',
             borderRight: '1px solid rgba(255,255,255,0.06)',
@@ -269,7 +281,7 @@ export default function ConfiguratorPage() {
             flexDirection: 'column',
           }}
         >
-          <div style={{ width: '620px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ width: isMobile ? '100vw' : '620px', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
             {/* Section label */}
             <div
@@ -404,6 +416,37 @@ export default function ConfiguratorPage() {
             )}
           </div>
 
+          {/* Mobile toggle button — show panel */}
+          {isMobile && mobileShowViewer && !isSummaryStep && (
+            <button
+              onClick={() => setMobileShowViewer(false)}
+              style={{
+                position: 'absolute',
+                top: '12px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: '#1a1a1a',
+                border: '1px solid rgba(255,255,255,0.12)',
+                borderRadius: '20px',
+                padding: '7px 18px',
+                color: '#d4af37',
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: '0.65rem',
+                fontWeight: 600,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                zIndex: 10,
+              }}
+            >
+              <i className="ri-arrow-left-s-line" />
+              {t('config_step_model')}
+            </button>
+          )}
+
           {/* Model dots */}
           <div style={{ position: 'absolute', bottom: '72px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '8px' }}>
             {bottleModels.map(m => (
@@ -482,9 +525,11 @@ export default function ConfiguratorPage() {
       >
         {!isSummaryStep && (
           <button
-            onClick={() => setPanelOpen(o => !o)}
+            onClick={() => isMobile ? setMobileShowViewer(v => !v) : setPanelOpen(o => !o)}
             className="cursor-pointer flex items-center gap-2"
-            title={panelOpen ? 'Cacher le panneau' : 'Afficher le panneau'}
+            title={isMobile
+              ? (mobileShowViewer ? 'Retour options' : 'Voir l\'aperçu 3D')
+              : (panelOpen ? 'Cacher le panneau' : 'Afficher le panneau')}
             style={{
               background: 'none',
               border: 'none',
@@ -499,11 +544,22 @@ export default function ConfiguratorPage() {
               textTransform: 'uppercase',
               cursor: 'pointer',
               transition: 'color 0.2s, background 0.2s',
+              whiteSpace: 'nowrap',
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(212,175,55,0.06)'; }}
             onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; }}
           >
-            <i className={panelOpen ? 'ri-side-bar-line' : 'ri-side-bar-fill'} style={{ fontSize: '16px' }} />
+            <i
+              className={isMobile
+                ? (mobileShowViewer ? 'ri-list-check-2' : 'ri-eye-line')
+                : (panelOpen ? 'ri-side-bar-line' : 'ri-side-bar-fill')}
+              style={{ fontSize: '16px' }}
+            />
+            {isMobile && (
+              <span style={{ fontSize: '0.58rem' }}>
+                {mobileShowViewer ? 'Options' : 'Aperçu'}
+              </span>
+            )}
           </button>
         )}
 

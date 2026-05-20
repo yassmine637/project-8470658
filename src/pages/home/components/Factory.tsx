@@ -73,7 +73,7 @@ export default function Factory() {
           <p className="leading-relaxed mb-8" style={{ color: '#5a6c56', fontSize: '1.05rem', lineHeight: '1.9' }}>
             {t('factory_p2')}
           </p>
-          <div className="grid grid-cols-2 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
             {PROCESS_STEPS.map((step, i) => (
               <div key={step.label} className="flex flex-col gap-2 p-4 rounded-xl" style={{ background: 'rgba(26,38,23,0.03)', border: '1px solid rgba(212,175,55,0.12)' }}>
                 <span className="text-2xl font-bold leading-none" style={{ color: 'rgba(212,175,55,0.4)', fontFamily: "'Cormorant Garant', serif" }}>0{i + 1}</span>
