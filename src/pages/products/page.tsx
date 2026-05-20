@@ -75,6 +75,9 @@ export default function ProductsPage() {
   const [galleryView, setGalleryView] = useState<'image' | 'video'>('image');
   const [quantity, setQuantity] = useState(1);
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [mobileCarouselIndex, setMobileCarouselIndex] = useState(0);
+
   // Animation states
   const [infoVisible, setInfoVisible] = useState(false);
   const [videoVisible, setVideoVisible] = useState(false);
@@ -83,6 +86,12 @@ export default function ProductsPage() {
   const stageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, []);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const imageUrls = Array.from(new Set(products.map((product) => product.image).filter(Boolean))) as string[];
@@ -249,6 +258,137 @@ export default function ProductsPage() {
             {t('products_lineup_subtitle')}
           </p>
 
+          {/* ── MOBILE CAROUSEL ── */}
+          {isMobile ? (() => {
+            const product = products[mobileCarouselIndex];
+            const isActive = selected?.id === product.id;
+            const pAccent = product.accentColor ?? '#c9a84c';
+            const pBadge = product.badge ? BADGE_STYLES[product.badge] ?? BADGE_STYLES['Premium'] : null;
+            const status = getStockStatus(product.stock);
+            const s = STOCK_DISPLAY[status];
+            return (
+              <div className="flex flex-col items-center" style={{ width: '100%' }}>
+                {/* Carousel card */}
+                <div className="relative flex flex-col items-center" style={{ width: '100%', maxWidth: '320px' }}>
+
+                  {/* Wishlist */}
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => toggleWishlist(product.id)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleWishlist(product.id); }}
+                    className="absolute flex items-center justify-center w-9 h-9 rounded-full cursor-pointer z-10"
+                    style={{
+                      top: 0, right: 0,
+                      background: isWishlisted(product.id) ? 'rgba(220,53,69,0.12)' : 'rgba(255,255,255,0.85)',
+                      backdropFilter: 'blur(4px)',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    }}
+                  >
+                    <i className={isWishlisted(product.id) ? 'ri-heart-fill' : 'ri-heart-line'}
+                      style={{ fontSize: '0.9rem', color: isWishlisted(product.id) ? '#dc3545' : '#9aaa96' }} />
+                  </div>
+
+                  {/* Badge */}
+                  {pBadge && product.badge && (
+                    <span className="mb-3 self-start px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                      style={{ background: pBadge.bg, color: pBadge.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.6rem' }}>
+                      {BADGE_TRANSLATION_KEYS[product.badge] ? t(BADGE_TRANSLATION_KEYS[product.badge]) : product.badge}
+                    </span>
+                  )}
+
+                  {/* Glow */}
+                  <div className="absolute inset-0 rounded-2xl pointer-events-none"
+                    style={{ background: `radial-gradient(ellipse at center bottom, ${pAccent}25 0%, transparent 70%)` }} />
+
+                  {/* Bottle image */}
+                  <img
+                    src={product.image}
+                    alt={product.volume}
+                    loading="eager"
+                    decoding="async"
+                    onClick={() => openGallery(mobileCarouselIndex)}
+                    style={{
+                      width: 'auto', height: 'auto',
+                      maxWidth: '200px', maxHeight: '380px',
+                      objectFit: 'contain', cursor: 'pointer', display: 'block',
+                      filter: `drop-shadow(0 14px 28px ${pAccent}50)`,
+                      transform: 'scaleY(1.08)',
+                      transformOrigin: 'bottom center',
+                    }}
+                  />
+
+                  {/* Volume */}
+                  <p className="mt-5 text-center font-semibold uppercase tracking-wider"
+                    style={{ color: pAccent, fontFamily: "'Outfit', sans-serif", fontSize: '0.82rem' }}>
+                    {PRODUCT_VOLUME_KEYS[product.id] ? t(PRODUCT_VOLUME_KEYS[product.id]) : product.volume}
+                  </p>
+
+                  {/* Stock */}
+                  <span className="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ background: s.bg }}>
+                    <i className={s.icon} style={{ color: s.color, fontSize: '0.6rem' }} />
+                    <span style={{ color: s.color, fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                      {status === 'low_stock' ? t('cart_stock_remaining', { stock: product.stock }) : status === 'out_of_stock' ? t('product_out_of_stock') : t('product_in_stock')}
+                    </span>
+                  </span>
+
+                  {/* Select button */}
+                  <button
+                    onClick={() => handleSelect(product)}
+                    className="mt-5 px-8 py-3 rounded-full font-bold uppercase tracking-widest text-xs cursor-pointer transition-all duration-200"
+                    style={{
+                      background: isActive ? pAccent : 'transparent',
+                      color: isActive ? '#1a2617' : pAccent,
+                      border: `1.5px solid ${pAccent}`,
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: '0.65rem',
+                    }}
+                  >
+                    {isActive ? t('products_selected') || 'Sélectionné ✓' : t('products_select') || 'Sélectionner'}
+                  </button>
+                </div>
+
+                {/* Navigation arrows + dots */}
+                <div className="flex items-center gap-6 mt-8">
+                  <button
+                    onClick={() => setMobileCarouselIndex(i => (i - 1 + products.length) % products.length)}
+                    className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer transition-all duration-200"
+                    style={{ background: 'rgba(26,38,23,0.08)', border: '1px solid rgba(26,38,23,0.12)', color: '#1a2617' }}
+                  >
+                    <i className="ri-arrow-left-s-line" style={{ fontSize: '1.2rem' }} />
+                  </button>
+
+                  <div className="flex items-center gap-2">
+                    {products.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setMobileCarouselIndex(i)}
+                        style={{
+                          width: i === mobileCarouselIndex ? '20px' : '7px',
+                          height: '7px',
+                          borderRadius: '4px',
+                          background: i === mobileCarouselIndex ? (products[i].accentColor ?? '#c9a84c') : 'rgba(26,38,23,0.2)',
+                          border: 'none',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          padding: 0,
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setMobileCarouselIndex(i => (i + 1) % products.length)}
+                    className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer transition-all duration-200"
+                    style={{ background: 'rgba(26,38,23,0.08)', border: '1px solid rgba(26,38,23,0.12)', color: '#1a2617' }}
+                  >
+                    <i className="ri-arrow-right-s-line" style={{ fontSize: '1.2rem' }} />
+                  </button>
+                </div>
+              </div>
+            );
+          })() : (
+          /* ── DESKTOP LINEUP ── */
           <div className="flex items-start justify-center gap-16 flex-nowrap">
             {products.map((product, index) => {
               const isActive = selected?.id === product.id;
@@ -403,6 +543,7 @@ export default function ProductsPage() {
               );
             })}
           </div>
+          )}
         </div>
       </section>
 
