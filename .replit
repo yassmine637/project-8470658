@@ -58,3 +58,11 @@ NODE_ENV = "development"
 API_PORT = "3001"
 RESEND_FROM_EMAIL = "onboarding@resend.dev"
 ADMIN_EMAIL = "admin@fendri.com"
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
+localPort = 5000
+externalPort = 80
