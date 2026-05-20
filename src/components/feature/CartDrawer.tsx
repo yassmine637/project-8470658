@@ -1587,72 +1587,59 @@ export default function CartDrawer() {
                     </div>
                   </button>
 
-                  {/* Konnect — bientôt disponible */}
+                  {/* Konnect */}
                   <button
                     type="button"
-                    disabled
-                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left cursor-not-allowed border-none"
-                    style={{ background: '#f9f9f7', border: '2px solid rgba(0,0,0,0.06)', opacity: 0.65 }}
+                    onClick={() => setPaymentMethod('konnect')}
+                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left transition-all duration-200 cursor-pointer border-none"
+                    style={{
+                      background: paymentMethod === 'konnect' ? 'rgba(26,38,23,0.06)' : '#ffffff',
+                      border: `2px solid ${paymentMethod === 'konnect' ? '#1a2617' : 'rgba(0,0,0,0.1)'}`,
+                    }}
                   >
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0 overflow-hidden" style={{ background: '#1a1a2e' }}>
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0 overflow-hidden" style={{ background: paymentMethod === 'konnect' ? '#1a2617' : '#1a1a2e' }}>
                       <span className="text-xs font-black tracking-tight" style={{ color: '#e94560' }}>K</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                      <p className="text-sm font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                         Konnect
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
-                          {t('cart_coming_soon')}
-                        </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
                         {t('cart_konnect_sub')}
                       </p>
                     </div>
-                  </button>
-
-                  {/* D17 mobile — bientôt disponible */}
-                  <button
-                    type="button"
-                    disabled
-                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left cursor-not-allowed border-none"
-                    style={{ background: '#f9f9f7', border: '2px solid rgba(0,0,0,0.06)', opacity: 0.65 }}
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: '#e63946' }}>
-                      <i className="ri-smartphone-line text-sm" style={{ color: '#ffffff' }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                        {t('cart_d17_title')}
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
-                          {t('cart_coming_soon')}
-                        </span>
-                      </p>
-                      <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                        {t('cart_d17_sub')}
-                      </p>
+                    <div className="ml-auto flex-shrink-0">
+                      <div className="w-4 h-4 rounded-full border-2 flex items-center justify-center" style={{ borderColor: paymentMethod === 'konnect' ? '#1a2617' : 'rgba(0,0,0,0.2)' }}>
+                        {paymentMethod === 'konnect' && <div className="w-2 h-2 rounded-full" style={{ background: '#1a2617' }} />}
+                      </div>
                     </div>
                   </button>
 
-                  {/* PayPal — bientôt disponible */}
+                  {/* PayPal */}
                   <button
                     type="button"
-                    disabled
-                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left cursor-not-allowed border-none"
-                    style={{ background: '#f9f9f7', border: '2px solid rgba(0,0,0,0.06)', opacity: 0.65 }}
+                    onClick={() => setPaymentMethod('paypal')}
+                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left transition-all duration-200 cursor-pointer border-none"
+                    style={{
+                      background: paymentMethod === 'paypal' ? 'rgba(26,38,23,0.06)' : '#ffffff',
+                      border: `2px solid ${paymentMethod === 'paypal' ? '#1a2617' : 'rgba(0,0,0,0.1)'}`,
+                    }}
                   >
                     <div className="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style={{ background: '#003087' }}>
                       <span className="text-xs font-black" style={{ color: '#ffffff', letterSpacing: '-1px' }}>PP</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold flex items-center gap-2" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
+                      <p className="text-sm font-bold" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
                         PayPal
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: '#c9a84c' }}>
-                          {t('cart_coming_soon')}
-                        </span>
                       </p>
                       <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
                         {t('cart_paypal_sub')}
                       </p>
+                    </div>
+                    <div className="ml-auto flex-shrink-0">
+                      <div className="w-4 h-4 rounded-full border-2 flex items-center justify-center" style={{ borderColor: paymentMethod === 'paypal' ? '#1a2617' : 'rgba(0,0,0,0.2)' }}>
+                        {paymentMethod === 'paypal' && <div className="w-2 h-2 rounded-full" style={{ background: '#1a2617' }} />}
+                      </div>
                     </div>
                   </button>
 
