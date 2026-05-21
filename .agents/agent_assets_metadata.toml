@@ -197,3 +197,9 @@ id = "YXH3e9ThNv7BOw5ciaD8f"
 uri = "file://latex_fendri.zip"
 type = "unspecified"
 title = "Template LaTeX FENDRI — Overleaf (.zip)"
+
+[[outputs]]
+id = "DkT6z71ZcCq0f8fA4__dR"
+uri = "file://public/diagrams/usecase_fendri.png"
+type = "image"
+title = "Diagramme de cas d'utilisation — Domaine Fendri"
