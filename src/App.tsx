@@ -12,7 +12,7 @@ import ChatBot from "@/components/feature/ChatBot";
 function AppInner() {
   const { isOpen } = useCart();
   const { pathname } = useLocation();
-  const hideChatBot = pathname.startsWith("/products");
+  const hideChatBot = pathname.startsWith("/products") || pathname.startsWith("/configurator");
   return (
     <>
       <AppRoutes />
