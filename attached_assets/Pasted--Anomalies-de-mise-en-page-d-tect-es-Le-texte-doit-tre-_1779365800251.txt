@@ -1,0 +1,150 @@
+⚠️ Anomalies de mise en page détectées
+!!!! Le texte doit être justifié partout !!!!!!
+!!!!! utiliser mon nom correctement : Najiba TAGOUGUI !!!!
+Table
+Problème Localisation Gravité Correction suggérée
+
+Double pied de
+page
+
+Page 1
+(couverture)
+
+Mineure &quot;Année universitaire:2025-
+2026&quot; apparaît en double —
+supprimer la redondance
+
+Coupure de texte Page 10
+(Sommaire
+Ch.1)
+
+Mineure &quot;1.10Différentiation
+concurrentielle et innovation
+digitale&quot; mal césuré
+
+Numérotation
+manquante
+
+Page 66
+(Schéma
+MongoDB)
+
+Moyenn
+e
+
+Légende &quot;Figure X&quot; au lieu d&#39;un
+numéro séquentiel — corriger
+en &quot;Figure 30&quot;
+
+Artéfact LaTeX Page 42
+(Figure 18)
+
+Mineure &quot;\mathrm{G L B}&quot; dans la
+légende — nettoyer le rendu
+
+Numérotation
+incohérente des
+tableaux
+
+Pages 44-46 Moyenn
+e
+
+Tables 20-23 alors que le
+chapitre 2 devrait avoir des
+tableaux 7-10 — harmoniser la
+numérotation globale
+
+⚠️ Lacunes et incohérences de contenu
+
+Problème Preuve Recommandation
+
+Version Blender
+erronée
+
+Page 64 : &quot;Blender
+5.0.1&quot;
+
+La version actuelle de Blender est
+4.x (LTS 3.6 ou 4.0). Corriger par
+la version réellement utilisée
+
+Intégrations Page 75 : Konnect, Préciser s&#39;il s&#39;agit de maquettes
+
+&quot;Bientôt&quot; non
+clarifiées
+
+SMT, Click to Pay
+marqués &quot;Bientôt&quot;
+
+fonctionnelles ou de simples
+placeholders
+
+Détails sécurité
+incomplets
+
+Page 54 : &quot;Middleware
+de sanitisation XSS&quot;
+sans nommer la librairie
+
+Spécifier : express-mongo-
+sanitize, helmet, xss-clean ou
+solution maison
+
+Chatbot &quot;IA&quot;
+sans détails
+techniques
+
+Page 86 : &quot;Agent
+chatbot intelligent&quot;
+
+Préciser le modèle : règles
+conditionnelles, NLP (Natural.js),
+ou API LLM (OpenAI)
+
+Enrichissements techniques
+Table
+Domaine État actuel Ajout suggéré
+
+Pipeline 3D Rendus WebP
+avec IA
+
+Tableau comparatif WebP vs WebGL vs
+WebGPU ; feuille de route
+Three.js/Babylon.js
+
+Performance
+web
+
+Réduction 67-
+70% des poids
+
+Métriques Core Web Vitals (LCP, FID, CLS),
+capture Lighthouse
+
+Sécurité JWT, bcrypt,
+XSS évoqués
+
+Audit complet : CSP headers, CORS, rate
+limiting, dépendances (npm audit)
+
+SEO Absent Meta tags dynamiques, Schema.org
+Product, Open Graph, sitemap
+
+C. Corrections de fond spécifiques
+Table
+Localisatio
+n
+
+Correction détaillée
+
+Page 11 Unifier l&#39;orthographe : &quot;Tagougi&quot; vs &quot;Taggougi&quot; → Tagougui
+
+Page 24 &quot;Typecit&quot; → TypeScript
+
+Page 42 Préciser l&#39;outil d&#39;IA générative : Magnific AI ? Topaz Photo AI ?
+
+Photoshop Neural Filters ?
+
+Page 54 Détailler la configuration helmet.js pour les en-têtes CSP
+
+Page 66 Corriger &quot;Figure X&quot; → Figure 30
