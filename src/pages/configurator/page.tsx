@@ -84,6 +84,7 @@ export default function ConfiguratorPage() {
         overflow: 'hidden',
         zIndex: 100,
         background: '#111',
+        zoom: 0.85,
       }}
     >
       {/* ── TOP BAR ── */}
