@@ -227,3 +227,9 @@ id = "jvKULxhoJQR7eq0JecRyI"
 uri = "file://public/rapport_yessmine_hsine.tar.gz"
 type = "unspecified"
 title = "Rapport PFE — Yessmine Hsine (.tar.gz)"
+
+[[outputs]]
+id = "zZi0DoNySWz7Iur1yHyCq"
+uri = "file://public/rapport_yessmine_hsine.pdf"
+type = "pdf"
+title = "Rapport PFE — Yessmine Hsine (.pdf)"
