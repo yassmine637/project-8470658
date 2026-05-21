@@ -203,3 +203,9 @@ id = "DkT6z71ZcCq0f8fA4__dR"
 uri = "file://public/diagrams/usecase_fendri.png"
 type = "image"
 title = "Diagramme de cas d'utilisation — Domaine Fendri"
+
+[[outputs]]
+id = "xZsVK78WdpyFLExjQJaUX"
+uri = "file://public/diagrams/usecase_fendri_v2.png"
+type = "image"
+title = "Diagramme de cas d'utilisation — version corrigée (extend)"
