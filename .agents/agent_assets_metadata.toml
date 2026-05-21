@@ -161,3 +161,27 @@ id = "9r-k6lTgpsMizhnlDrJjk"
 uri = "file://attached_assets/image_search/kraft_mallette.jpg"
 type = "image"
 title = "3. Sac Kraft Rigide"
+
+[[outputs]]
+id = "n_aQZSMNnHCCSMQk2hw7o"
+uri = "file://attached_assets/screenshots/castillodecanena_com.png"
+type = "image"
+title = "Figure X : Interface d'accueil de la plateforme Castillo de Canena"
+
+[[outputs]]
+id = "BhJOJjTPXd1Y6rYbw88WA"
+uri = "file://attached_assets/screenshots/castillodecanena_com_tienda.png"
+type = "image"
+title = "Figure X+1 : Présentation des produits sur la plateforme Castillo de Canena"
+
+[[outputs]]
+id = "tj7LS7EmAgevaAr7Pi2UZ"
+uri = "file://attached_assets/screenshots/frantoiomuraglia_it.png"
+type = "image"
+title = "Figure X+2 : Interface d'accueil de la plateforme Frantoio Muraglia"
+
+[[outputs]]
+id = "urpZlA33h_Wbh41HCrzcW"
+uri = "file://attached_assets/screenshots/frantoiomuraglia_it_shop.png"
+type = "image"
+title = "Figure X+3 : Présentation des produits sur la plateforme Frantoio Muraglia"
