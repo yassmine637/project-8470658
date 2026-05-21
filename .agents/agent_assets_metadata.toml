@@ -209,3 +209,9 @@ id = "xZsVK78WdpyFLExjQJaUX"
 uri = "file://public/diagrams/usecase_fendri_v2.png"
 type = "image"
 title = "Diagramme de cas d'utilisation — version corrigée (extend)"
+
+[[outputs]]
+id = "sy6J6SXeyevXS0abmpmEV"
+uri = "file://attached_assets/image_search/plantuml_try_3.png"
+type = "image"
+title = "Logo PlantUML (GitHub officiel)"
