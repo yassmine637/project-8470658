@@ -143,3 +143,21 @@ id = "qJrRKmjgjaLFw4bpQEtvT"
 uri = "file://attached_assets/image_search/tube_3.jpg"
 type = "image"
 title = "Tube Cylindrique Premium — vue 3"
+
+[[outputs]]
+id = "rwQqh9rMpc0Fg8XjwOh6l"
+uri = "file://attached_assets/image_search/bois_fenetre.jpg"
+type = "image"
+title = "1. Caisse Bois Fenêtre"
+
+[[outputs]]
+id = "RaK8RHnnjnJQfi8umbvd_"
+uri = "file://attached_assets/image_search/carton_fenetre.jpg"
+type = "image"
+title = "2. Coffret Carton Fenêtre"
+
+[[outputs]]
+id = "9r-k6lTgpsMizhnlDrJjk"
+uri = "file://attached_assets/image_search/kraft_mallette.jpg"
+type = "image"
+title = "3. Sac Kraft Rigide"
