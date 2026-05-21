@@ -93,11 +93,11 @@ export default function ConfiguratorPage() {
           zIndex: 20,
           display: 'flex',
           alignItems: 'center',
-          height: '72px',
+          height: '56px',
           borderBottom: '1px solid rgba(255,255,255,0.08)',
           background: '#1a1a1a',
           flexShrink: 0,
-          padding: '0 28px',
+          padding: '0 20px',
           gap: '20px',
         }}
       >
@@ -156,11 +156,11 @@ export default function ConfiguratorPage() {
                   border: 'none',
                   borderBottom: isActive ? '2px solid #d4af37' : '2px solid transparent',
                   padding: '0 32px',
-                  height: '72px',
+                  height: '56px',
                   fontFamily: "'Outfit', sans-serif",
-                  fontSize: '0.82rem',
+                  fontSize: '0.75rem',
                   fontWeight: isActive ? 700 : 400,
-                  letterSpacing: '0.12em',
+                  letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   color: isActive ? '#d4af37' : isDone ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.28)',
                   transition: 'color 0.2s, border-color 0.2s',
@@ -281,7 +281,7 @@ export default function ConfiguratorPage() {
             flexDirection: 'column',
           }}
         >
-          <div style={{ width: isMobile ? '100vw' : '620px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ width: isMobile ? '100vw' : '480px', height: '100%', display: 'flex', flexDirection: 'column' }}>
 
             {/* Section label */}
             <div
@@ -452,8 +452,8 @@ export default function ConfiguratorPage() {
         {/* RIGHT PANEL — Summary */}
         <div
           style={{
-            width: isSummaryStep ? '400px' : '0',
-            minWidth: isSummaryStep ? '400px' : '0',
+            width: isSummaryStep ? '360px' : '0',
+            minWidth: isSummaryStep ? '360px' : '0',
             overflow: 'hidden',
             transition: 'none',
             borderLeft: '1px solid rgba(255,255,255,0.06)',
@@ -461,7 +461,7 @@ export default function ConfiguratorPage() {
             flexShrink: 0,
           }}
         >
-          <div style={{ width: '400px', height: '100%', overflowY: 'auto', padding: '24px', boxSizing: 'border-box', scrollbarWidth: 'thin', scrollbarColor: 'rgba(212,175,55,0.2) transparent' }}>
+          <div style={{ width: '360px', height: '100%', overflowY: 'auto', padding: '20px', boxSizing: 'border-box', scrollbarWidth: 'thin', scrollbarColor: 'rgba(212,175,55,0.2) transparent' }}>
             <ConfigSummary
               model={selectedModel}
               size={selectedSize}
