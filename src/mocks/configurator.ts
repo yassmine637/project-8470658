@@ -433,6 +433,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-magnetique__carree-750__1l__recolte-limitee': '/images/emballages/coffret-magnetique/carree-750-1l-recolte-limitee.webp',
   'coffret-magnetique__carree-750__500ml__heritage': '/images/emballages/coffret-magnetique/carree-750-500ml-heritage.webp',
   'coffret-magnetique__carree-750__750ml__heritage': '/images/emballages/coffret-magnetique/carree-750-750ml-heritage.webp',
+  'coffret-magnetique__carree-750__1l__heritage': '/images/emballages/coffret-magnetique/carree-750-1l-heritage.webp',
   // 'coffret-magnetique__carree-750__750ml':      '/images/emballages/coffret-magnetique/carree-750-750ml.webp',
 
   // Tube Cylindrique Premium
