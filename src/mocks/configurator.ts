@@ -412,6 +412,8 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-tiroir__bidon-vert-1l__500ml__bio-moderne': '/images/emballages/coffret-tiroir/bidon-vert-500ml-bio-moderne.png',
   'coffret-tiroir__bidon-vert-1l__750ml__bio-moderne': '/images/emballages/coffret-tiroir/bidon-vert-750ml-bio-moderne.png',
   'coffret-tiroir__bidon-vert-1l__1l__bio-moderne': '/images/emballages/coffret-tiroir/bidon-vert-1l-bio-moderne.png',
+  'coffret-tiroir__bidon-vert-1l__500ml__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-vert-500ml-recolte-limitee.png',
+  'coffret-tiroir__bidon-vert-1l__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-vert-750ml-recolte-limitee.png',
 
   // Coffret Magnétique
   'coffret-magnetique__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-classique-ivoire.png',
