@@ -161,7 +161,7 @@ export default function BottleViewer({ model, labelStyle, size, sizeId, sizeChos
             ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.03)`
             : 'rotateX(0deg) rotateY(0deg) scale(1)',
           transformStyle: 'preserve-3d',
-          animation: isHovered ? 'none' : 'floatBottle 4s ease-in-out infinite',
+          animation: 'none',
           willChange: 'transform',
         }}
       >
