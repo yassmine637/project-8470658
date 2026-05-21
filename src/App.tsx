@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 import { AppRoutes } from "./router";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
@@ -11,11 +11,13 @@ import ChatBot from "@/components/feature/ChatBot";
 
 function AppInner() {
   const { isOpen } = useCart();
+  const { pathname } = useLocation();
+  const hideChatBot = pathname.startsWith("/products");
   return (
     <>
       <AppRoutes />
       <CartDrawer />
-      {!isOpen && <ChatBot />}
+      {!isOpen && !hideChatBot && <ChatBot />}
     </>
   );
 }
