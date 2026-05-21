@@ -1,0 +1,190 @@
+% ============================================================
+%  CHAPITRE 3 : ANALYSE ET CONCEPTION
+% ============================================================
+\chapter{Analyse et conception}
+
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+% [Copier depuis Canva]
+
+% -----------------------------------------------------------
+\section{Identification des acteurs}
+% -----------------------------------------------------------
+% [Copier depuis Canva]
+
+% -----------------------------------------------------------
+\section{Spécification des besoins}
+% -----------------------------------------------------------
+
+\subsection{Besoins fonctionnels}
+% [Copier depuis Canva — liste visiteur, client, admin]
+
+\subsection{Besoins non fonctionnels}
+
+\begin{enumerate}
+  \item \textbf{Performance} — [Copier]
+  \item \textbf{Ergonomie et expérience utilisateur} — [Copier]
+  \item \textbf{Compatibilité et Responsive Design} — [Copier]
+  \item \textbf{Multilinguisme} — [Copier]
+  \item \textbf{Multi-devises} — [Copier]
+  \item \textbf{Sécurité} — [Copier — JWT, bcryptjs, helmet, sanitizeBody, CORS, rate limiting]
+  \item \textbf{Maintenabilité} — [Copier]
+  \item \textbf{Scalabilité} — [Copier]
+  \item \textbf{Disponibilité et fiabilité} — [Copier]
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Règles de rate limiting par route}
+\label{tab:rate_limiting}
+\begin{tabularx}{\textwidth}{X c c}
+\toprule
+\rowcolor{beige}
+\textbf{Route protégée} & \textbf{Fenêtre} & \textbf{Requêtes max} \\
+\midrule
+Global (toutes routes)             & 15 min  & 300 \\
+Authentification (login/register)  & 15 min  & 20  \\
+Changement de mot de passe         & 15 min  & 10  \\
+Formulaire de contact              & 1 heure & 5   \\
+Demande de devis configurateur     & 1 heure & 10  \\
+Passage de commande                & 1 heure & 20  \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Résultat de l'audit npm audit}
+\label{tab:npm_audit}
+\begin{tabular}{lc}
+\toprule
+\rowcolor{beige}
+\textbf{Niveau} & \textbf{Nombre} \\
+\midrule
+Critique  & 0 \\
+Haute     & 0 \\
+Modérée   & 2 \\
+Faible    & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% -----------------------------------------------------------
+\section{Conception fonctionnelle}
+% -----------------------------------------------------------
+
+\subsection{Diagramme de cas d'utilisation}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{use_case.png}
+  \caption{Diagramme de cas d'utilisation}
+  \label{fig:use_case}
+\end{figure}
+
+\subsection{Description des cas d'utilisation}
+% [Tableaux CAS 1 à 4 — copier depuis Canva]
+
+\subsection{Diagramme de séquence}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{seq_commande.png}
+  \caption{Diagramme de séquence — Passer une commande}
+  \label{fig:seq_commande}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{seq_configurateur.png}
+  \caption{Diagramme de séquence — Utiliser le configurateur}
+  \label{fig:seq_configurateur}
+\end{figure}
+
+\subsection{Diagramme d'états-transitions}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{etats_transitions.png}
+  \caption{Diagramme états-transitions du cycle de vie d'une commande}
+  \label{fig:etats_transitions}
+\end{figure}
+
+\subsection{Diagramme de classe}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramme_classe.png}
+  \caption{Diagramme de classe}
+  \label{fig:diagramme_classe}
+\end{figure}
+
+% -----------------------------------------------------------
+\section{Conception générale}
+% -----------------------------------------------------------
+
+\subsection{Architecture générale de la solution}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{architecture.png}
+  \caption{Schéma d'architecture générale}
+  \label{fig:architecture}
+\end{figure}
+
+\subsection{Processus de conception et de production}
+% [Copier depuis Canva]
+
+\subsection{Choix techniques et technologies utilisées}
+
+\begin{table}[H]
+\centering
+\caption{Outils, technologies et langages utilisés}
+\label{tab:technologies}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} p{3cm} X}
+\toprule
+\rowcolor{beige}
+\textbf{Élément} & \textbf{Type} & \textbf{Description} \\
+\midrule
+Visual Studio Code   & Outil           & Éditeur de code utilisé pour le développement frontend et backend. \\
+Blender 5.0          & Outil           & Logiciel de modélisation et de rendu 3D pour les visuels photoréalistes. \\
+Git                  & Outil           & Système de gestion de versions. \\
+GitHub               & Outil           & Plateforme d'hébergement et de gestion du code source. \\
+Postman              & Outil           & Outil de test et validation des routes de l'API REST. \\
+MongoDB Atlas        & Outil           & Service cloud pour héberger et gérer la base de données. \\
+Draw.io              & Outil           & Création des diagrammes UML et schémas d'architecture. \\
+\midrule
+React 19             & Framework Frontend   & Architecture basée sur des composants réutilisables. \\
+Vite                 & Outil de build       & Développement et optimisation du frontend. \\
+TailwindCSS          & Framework CSS        & Interface responsive et cohérente. \\
+React Router v7      & Framework Frontend   & Gestion de la navigation en mode SPA. \\
+i18next + react-i18next & Bibliothèque Frontend & Internationalisation FR/AR/EN avec support RTL. \\
+Vitest + React Testing Library & Outil de test & Tests unitaires du frontend. \\
+\midrule
+Node.js              & Technologie Backend  & Environnement d'exécution JavaScript pour le backend. \\
+Express.js           & Framework Backend    & Création de l'API REST. \\
+MongoDB + Mongoose   & Base de données      & Gestion des données de l'application. \\
+\midrule
+JavaScript (ES2022+) & Langage & Backend et écosystème React. \\
+TypeScript           & Langage & Sur-ensemble typé de JavaScript pour la qualité du code. \\
+HTML5                & Langage & Structure des pages web. \\
+CSS3                 & Langage & Mise en forme et animations visuelles. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Justification des technologies utilisées}
+% [Copier depuis Canva]
+
+\subsection{Schéma de la base de données MongoDB}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{schema_mongodb.png}
+  \caption{Schéma de base de données MongoDB}
+  \label{fig:schema_mongodb}
+\end{figure}
+
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+Ce chapitre a permis de définir les bases conceptuelles et techniques de la plateforme FENDRI. Les besoins fonctionnels et non fonctionnels ont été identifiés et modélisés à travers les diagrammes UML. L'architecture générale ainsi que les choix technologiques ont été établis et justifiés. Le chapitre suivant sera consacré à la réalisation et à l'implémentation de la solution développée.

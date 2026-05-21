@@ -1,0 +1,184 @@
+% ============================================================
+%  MEMOIRE DE LICENCE — ISIMS SFAX
+%  Domaine FENDRI — Configurateur 3D Interactif
+%  Yessmine Hsine — 2025-2026
+% ============================================================
+
+\documentclass[12pt, a4paper, oneside]{report}
+
+% ---- Encodage & Langue ----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% ---- Mise en page ----
+\usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ---- Couleurs ----
+\usepackage{xcolor}
+\definecolor{beige}{HTML}{F5F0E8}
+\definecolor{or}{HTML}{C8A96E}
+\definecolor{marron}{HTML}{5C3D1E}
+\definecolor{gris}{HTML}{555555}
+
+% ---- Police ----
+\usepackage{lmodern}
+
+% ---- En-têtes et pieds de page ----
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gris}{\leftmark}}
+\fancyhead[R]{\small\textcolor{or}{Domaine FENDRI}}
+\fancyfoot[C]{\textcolor{gris}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{14pt}
+
+% ---- Chapitres & Sections ----
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\Large\bfseries\color{marron}}
+  {\textcolor{or}{Chapitre \thechapter}}{10pt}
+  {\Huge}
+\titlespacing*{\chapter}{0pt}{30pt}{20pt}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\color{marron}}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries\color{gris}}
+  {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape\color{gris}}
+  {\thesubsubsection}{1em}{}
+
+% ---- Images ----
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{images/}}
+
+% ---- Tableaux ----
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{colortbl}
+\renewcommand{\arraystretch}{1.4}
+
+% ---- Légendes ----
+\usepackage{caption}
+\captionsetup{
+  font=small,
+  labelfont={bf, color=marron},
+  textfont={color=gris},
+  justification=centering
+}
+
+% ---- Listes ----
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*, label=\textcolor{or}{--}}
+
+% ---- Liens & PDF ----
+\usepackage[
+  colorlinks=true,
+  linkcolor=marron,
+  urlcolor=or,
+  citecolor=marron,
+  pdfauthor={Yessmine Hsine},
+  pdftitle={Digitalisation de l'expérience client pour l'huile d'olive extra vierge via un configurateur 3D interactif},
+  pdfsubject={Mémoire de licence — ISIMS Sfax}
+]{hyperref}
+
+% ---- Bibliographie ----
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{bibliographie.bib}
+
+% ---- Boîtes colorées ----
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\newtcolorbox{encadre}[1][]{
+  colback=beige,
+  colframe=or,
+  fonttitle=\bfseries\color{marron},
+  #1
+}
+
+% ---- Filigrane (optionnel) ----
+% \usepackage{draftwatermark}
+% \SetWatermarkText{DRAFT}
+
+% ---- Commandes personnalisées ----
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\NomEtudiant}{Yessmine Hsine}
+\newcommand{\TitreRapport}{Digitalisation de l'expérience client pour l'huile d'olive extra vierge via un configurateur interactif à visualisation 3D}
+\newcommand{\NomEncadrante}{Mme Najiba TAGOUGUI}
+\newcommand{\NomEncadrantPro}{M. Hassen Laabidi}
+\newcommand{\AnneeUniv}{2025--2026}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+% ---- Pages liminaires (pas numérotées) ----
+\pagenumbering{gobble}
+
+\input{chapters/garde}
+\input{chapters/dedicaces}
+\input{chapters/remerciements}
+
+% ---- Numérotation romaine ----
+\cleardoublepage
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+% Sommaire
+{
+  \hypersetup{linkcolor=marron}
+  \tableofcontents
+  \newpage
+}
+
+% Liste des figures
+\listoffigures
+\newpage
+
+% Liste des tableaux
+\listoftables
+\newpage
+
+% Abréviations
+\input{chapters/abreviations}
+\newpage
+
+% ---- Corps du rapport (numérotation arabe) ----
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% Introduction générale
+\input{chapters/introduction_generale}
+
+% Chapitres
+\input{chapters/ch1}
+\input{chapters/ch2}
+\input{chapters/ch3}
+\input{chapters/ch4}
+
+% Conclusion générale
+\input{chapters/conclusion}
+
+% Bibliographie
+\printbibliography[heading=bibintoc, title={Bibliographie}]
+
+% Résumés (4e de couverture)
+\input{chapters/resumes}
+
+% ============================================================
+\end{document}
+% ============================================================

@@ -1,0 +1,146 @@
+% ============================================================
+%  CHAPITRE 2 : CONCEPTION 3D ET IDENTITÉ VISUELLE
+% ============================================================
+\chapter{Conception 3D et identité visuelle}
+
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+Ce chapitre est consacré à la conception 3D et à l'identité visuelle de la marque FENDRI. Il présente les différentes étapes de modélisation des produits, les choix graphiques adoptés ainsi que les techniques utilisées pour garantir un rendu réaliste, moderne et cohérent avec l'image de la marque.
+
+% -----------------------------------------------------------
+\section{Modélisation 3D des produits}
+% -----------------------------------------------------------
+
+\subsection{Justification des contenants sur le marché tunisien}
+% [Copier le texte depuis Canva]
+
+\subsection{Élargissement de la gamme FENDRI}
+% [Copier le texte depuis Canva]
+
+\subsection{Méthodologie de modélisation}
+% [Copier le texte depuis Canva — Phase A, B, C]
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{wireframe_bouteille.png}
+  \caption{Wireframe de la bouteille}
+  \label{fig:wireframe}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{vue_solide.png}
+  \caption{Vue solide de la bouteille}
+  \label{fig:vue_solide}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{bouteille_eclairage.png}
+  \caption{Bouteille avec éclairage}
+  \label{fig:eclairage}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{rendu_final.png}
+  \caption{Rendu final}
+  \label{fig:rendu_final}
+\end{figure}
+
+\subsection{Pipeline de production}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{pipeline_3d.png}
+  \caption{Processus de modélisation et optimisation 3D sous Blender}
+  \label{fig:pipeline_3d}
+\end{figure}
+
+\subsubsection*{Choix du format de rendu : WebP vs WebGL vs WebGPU}
+
+\begin{table}[H]
+\centering
+\caption{Comparaison des approches de rendu 3D pour le web}
+\label{tab:rendu_3d}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3cm} X X X}
+\toprule
+\rowcolor{beige}
+\textbf{Critère} & \textbf{WebP} & \textbf{WebGL / Three.js} & \textbf{WebGPU} \\
+\midrule
+Principe         & Images statiques haute résolution pré-rendues & Rendu 3D temps réel dans le navigateur & Rendu GPU de nouvelle génération \\
+\midrule
+Compatibilité    & \textcolor{green!60!black}{\checkmark} Universelle (99\%) & \textcolor{green!60!black}{\checkmark} Bonne (Chrome, Firefox, Safari) & \textcolor{orange}{\textbf{!}} Partielle (Chrome 113+) \\
+\midrule
+Performance      & \textcolor{green!60!black}{\checkmark} Très légère (<500ms) & \textcolor{orange}{\textbf{!}} Lourde — GPU requis & \textcolor{orange}{\textbf{!}} Très élevée \\
+\midrule
+Qualité visuelle & \textcolor{green!60!black}{\checkmark} Photoréaliste (Cycles Blender) & \textcolor{orange}{\textbf{!}} Temps réel, moins photoréaliste & \textcolor{green!60!black}{\checkmark} Très haute qualité \\
+\midrule
+Complexité       & \textcolor{green!60!black}{\checkmark} Faible & \textcolor{red}{\texttimes} Élevée — pipeline GLB/GLTF & \textcolor{red}{\texttimes} Très élevée \\
+\midrule
+Problèmes        & \textcolor{green!60!black}{\checkmark} Aucun & \textcolor{red}{\texttimes} Perte des textures à l'export GLB & \textcolor{red}{\texttimes} Non supporté en production \\
+\midrule
+Mobile           & \textcolor{green!60!black}{\checkmark} Oui & \textcolor{orange}{\textbf{!}} Partiel & \textcolor{red}{\texttimes} Non recommandé \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Feuille de route d'évolution vers le rendu 3D temps réel}
+\label{tab:roadmap_3d}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.5cm} X X X}
+\toprule
+\rowcolor{beige}
+\textbf{Phase} & \textbf{Objectif} & \textbf{Technologie} & \textbf{Condition préalable} \\
+\midrule
+Phase 1 (réalisée)   & Rendu photoréaliste optimisé pour le web & Blender Cycles + WebP & --- \\
+Phase 2 (court terme) & Résolution du problème d'export des matériaux GLB & Blender + scripts de conversion & Maîtrise des shaders GLTF \\
+Phase 3 (moyen terme) & Intégration 3D temps réel dans le configurateur & Babylon.js ou Three.js & Assets GLB validés \\
+Phase 4 (long terme)  & Rendu GPU haute fidélité & WebGPU + moteur custom & Stabilisation du standard WebGPU \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Problèmes d'exportation et solution de contournement}
+% [Copier le texte depuis Canva]
+
+\subsection{Intégration web et optimisation}
+% [Copier le texte depuis Canva]
+
+\subsection{Validation technique et optimisation}
+
+\subsubsection{Validation géométrique}
+% [Copier]
+
+\subsubsection{Validation des matériaux et textures}
+% [Copier]
+
+\subsubsection{Validation des rendus}
+% [Copier]
+
+\subsubsection{Analyse des performances et poids des fichiers}
+% [Copier — tableau des poids]
+
+\subsection{Impact stratégique du réalisme 3D}
+% [Copier le texte depuis Canva]
+
+% -----------------------------------------------------------
+\section{Conception graphique et identité visuelle}
+% -----------------------------------------------------------
+
+\subsection{Charte graphique et identité visuelle}
+% [Copier le texte depuis Canva]
+
+\subsection{Typographie}
+% [Copier]
+
+\subsection{Palette chromatique}
+% [Copier]
+
+\subsection{Moodboard et inspiration visuelle}
+% [Copier]
+
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+% [Copier la conclusion depuis Canva]

@@ -185,3 +185,9 @@ id = "urpZlA33h_Wbh41HCrzcW"
 uri = "file://attached_assets/screenshots/frantoiomuraglia_it_shop.png"
 type = "image"
 title = "Figure X+3 : Présentation des produits sur la plateforme Frantoio Muraglia"
+
+[[outputs]]
+id = "y9RD-OEkjK8QRfbyUmjO2"
+uri = "file://latex_fendri_template.tar.gz"
+type = "unspecified"
+title = "Template LaTeX complet — Rapport FENDRI (Overleaf)"
