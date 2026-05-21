@@ -125,3 +125,21 @@ id = "Oo_MatBj4LINuwj5jQJzE"
 uri = "file://attached_assets/image_search/testing_library.png"
 type = "image"
 title = "React Testing Library"
+
+[[outputs]]
+id = "vJoqJHxrQXYgSErqnrbA1"
+uri = "file://attached_assets/image_search/tube_1.jpg"
+type = "image"
+title = "Tube Cylindrique Premium — vue 1"
+
+[[outputs]]
+id = "IxrDGSLt-kLIbvJ3G6xhg"
+uri = "file://attached_assets/image_search/tube_2.jpg"
+type = "image"
+title = "Tube Cylindrique Premium — vue 2"
+
+[[outputs]]
+id = "qJrRKmjgjaLFw4bpQEtvT"
+uri = "file://attached_assets/image_search/tube_3.jpg"
+type = "image"
+title = "Tube Cylindrique Premium — vue 3"
