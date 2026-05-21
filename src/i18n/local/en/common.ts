@@ -393,8 +393,6 @@ const translations = {
   config_packaging_tiroir_desc: 'Rigid drawer box with EVA foam insert',
   config_packaging_magnetique_name: 'Magnetic Closure Box',
   config_packaging_magnetique_desc: 'Rigid box with magnetic closure',
-  config_packaging_tube_name: 'Premium Cylinder Tube',
-  config_packaging_tube_desc: 'Premium rigid cylindrical tube',
   config_packaging_caisse_bois_name: 'Premium Wood Crate',
   config_packaging_caisse_bois_desc: 'Reinforced wood crate — 3L format only',
   config_step_label_prefix: 'Step',

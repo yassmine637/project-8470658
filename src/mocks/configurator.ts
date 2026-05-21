@@ -335,16 +335,6 @@ export const packagingOptions: PackagingOption[] = [
     bgHint: '#0e0e18',
   },
   {
-    id: 'tube-cylindrique',
-    name: 'Tube Cylindrique Premium',
-    nameKey: 'config_packaging_tube_name',
-    description: 'Tube cylindrique rigide premium',
-    descriptionKey: 'config_packaging_tube_desc',
-    priceAdd: 22,
-    accentColor: '#C0A882',
-    bgHint: '#1A1410',
-  },
-  {
     id: 'caisse-bois-premium',
     name: 'Caisse Bois Premium',
     nameKey: 'config_packaging_caisse_bois_name',

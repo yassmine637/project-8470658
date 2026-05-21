@@ -393,8 +393,6 @@ const translations = {
   config_packaging_tiroir_desc: 'Coffret tiroir rigide avec insert mousse EVA',
   config_packaging_magnetique_name: 'Coffret Magnétique',
   config_packaging_magnetique_desc: 'Coffret rigide à fermeture magnétique',
-  config_packaging_tube_name: 'Tube Cylindrique Premium',
-  config_packaging_tube_desc: 'Tube cylindrique rigide premium',
   config_packaging_caisse_bois_name: 'Caisse Bois Premium',
   config_packaging_caisse_bois_desc: 'Caisse bois renforcée — format 3L exclusivement',
   config_step_label_prefix: 'Étape',

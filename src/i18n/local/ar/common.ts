@@ -394,8 +394,6 @@ const translations = {
   config_packaging_tiroir_desc: 'علبة درج صلبة مع إدخال إسفنج EVA',
   config_packaging_magnetique_name: 'علبة مغناطيسية',
   config_packaging_magnetique_desc: 'علبة صلبة بإغلاق مغناطيسي',
-  config_packaging_tube_name: 'أنبوب أسطواني فاخر',
-  config_packaging_tube_desc: 'أنبوب أسطواني صلب فاخر',
   config_packaging_caisse_bois_name: 'صندوق خشبي فاخر',
   config_packaging_caisse_bois_desc: 'صندوق خشبي مقوى — حصرياً لحجم 3 لتر',
   config_step_label_prefix: 'الخطوة',
