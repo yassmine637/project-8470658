@@ -416,6 +416,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-tiroir__bidon-vert-1l__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-vert-750ml-recolte-limitee.png',
   'coffret-tiroir__bidon-vert-1l__1l__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-vert-1l-recolte-limitee.png',
   'coffret-tiroir__bidon-vert-1l__500ml__luxe-noir-or': '/images/emballages/coffret-tiroir/bidon-vert-500ml-luxe-noir-or.png',
+  'coffret-tiroir__bidon-vert-1l__750ml__luxe-noir-or': '/images/emballages/coffret-tiroir/bidon-vert-750ml-luxe-noir-or.png',
 
   // Coffret Magnétique
   'coffret-magnetique__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-classique-ivoire.png',
