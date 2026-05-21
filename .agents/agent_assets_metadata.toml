@@ -191,3 +191,9 @@ id = "y9RD-OEkjK8QRfbyUmjO2"
 uri = "file://latex_fendri_template.tar.gz"
 type = "unspecified"
 title = "Template LaTeX complet — Rapport FENDRI (Overleaf)"
+
+[[outputs]]
+id = "YXH3e9ThNv7BOw5ciaD8f"
+uri = "file://latex_fendri.zip"
+type = "unspecified"
+title = "Template LaTeX FENDRI — Overleaf (.zip)"
