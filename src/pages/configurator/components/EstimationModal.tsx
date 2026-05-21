@@ -739,7 +739,7 @@ export default function EstimationModal({
 
               <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.12)', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                 <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.45)' }}>
-                  {model.name} · {size.label} · {label.name} · {quantity} {quantity > 1 ? t('config_units') : t('config_unit')}
+                  {model.name} · {size.label} · {label?.name ?? ''} · {quantity} {quantity > 1 ? t('config_units') : t('config_unit')}
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span style={{ fontFamily: "'Cormorant Garant', serif", fontSize: '1.1rem', fontWeight: 700, color: '#d4af37' }}>{formatPrice(totalTTC)}</span>
