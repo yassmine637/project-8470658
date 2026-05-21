@@ -447,35 +447,6 @@ export default function ConfiguratorPage() {
             </button>
           )}
 
-          {/* Model dots */}
-          <div style={{ position: 'absolute', bottom: '72px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {bottleModels.map(m => (
-              <button
-                key={m.id}
-                onClick={() => {
-                  setSelectedModel(m);
-                  setModelChosen(true);
-                  setSizeChosen(false);
-                  if (m.defaultSizeId) {
-                    const ds = bottleSizes.find(s => s.id === m.defaultSizeId);
-                    if (ds) setSelectedSize(ds);
-                  }
-                  setCurrentStep(0);
-                }}
-                className="cursor-pointer"
-                title={m.name}
-                style={{
-                  width: selectedModel.id === m.id ? '28px' : '7px',
-                  height: '7px',
-                  borderRadius: '4px',
-                  background: selectedModel.id === m.id ? '#1a1a1a' : 'rgba(0,0,0,0.18)',
-                  border: 'none',
-                  transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
-                  padding: 0,
-                }}
-              />
-            ))}
-          </div>
         </div>
 
         {/* RIGHT PANEL — Summary */}
