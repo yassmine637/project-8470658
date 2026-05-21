@@ -215,3 +215,9 @@ id = "sy6J6SXeyevXS0abmpmEV"
 uri = "file://attached_assets/image_search/plantuml_try_3.png"
 type = "image"
 title = "Logo PlantUML (GitHub officiel)"
+
+[[outputs]]
+id = "-Z5iaVDMpfOUiYeD0O_A-"
+uri = "file://public/rapport_yessmine_hsine.zip"
+type = "unspecified"
+title = "Rapport PFE — Yessmine Hsine (.zip)"
