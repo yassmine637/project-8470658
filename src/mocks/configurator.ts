@@ -429,6 +429,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-magnetique__carree-750__750ml__bio-moderne': '/images/emballages/coffret-magnetique/carree-750-750ml-bio-moderne.webp',
   'coffret-magnetique__carree-750__1l__bio-moderne': '/images/emballages/coffret-magnetique/carree-750-1l-bio-moderne.webp',
   'coffret-magnetique__carree-750__500ml__recolte-limitee': '/images/emballages/coffret-magnetique/carree-750-500ml-recolte-limitee.webp',
+  'coffret-magnetique__carree-750__750ml__recolte-limitee': '/images/emballages/coffret-magnetique/carree-750-750ml-recolte-limitee.webp',
   // 'coffret-magnetique__carree-750__750ml':      '/images/emballages/coffret-magnetique/carree-750-750ml.webp',
 
   // Tube Cylindrique Premium
