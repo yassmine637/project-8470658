@@ -435,6 +435,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-tiroir__bidon-metal-3l__500ml__luxe-noir-or': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-500ml-luxe-noir-or.png',
   'coffret-tiroir__bidon-metal-3l__750ml__luxe-noir-or': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-750ml-luxe-noir-or.png',
   'coffret-tiroir__bidon-metal-3l__1l__luxe-noir-or': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-1l-luxe-noir-or.png',
+  'coffret-tiroir__bidon-metal-3l__500ml__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-500ml-recolte-limitee.png',
   'coffret-tiroir__bidon-metal-3l__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-750ml-recolte-limitee.png',
   'coffret-tiroir__bidon-metal-3l__1l__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-1l-recolte-limitee.png',
 
