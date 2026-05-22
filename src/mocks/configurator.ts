@@ -422,6 +422,9 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-tiroir__bidon-vert-1l__750ml__heritage': '/images/emballages/coffret-tiroir/bidon-vert-750ml-heritage.png',
   'coffret-tiroir__bidon-vert-1l__1l__heritage': '/images/emballages/coffret-tiroir/bidon-vert-1l-heritage.png',
 
+  // Coffret Magnétique — Bidon Vert
+  'coffret-magnetique__bidon-vert-1l__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/bidon-vert-500ml-classique-ivoire.png',
+
   // Coffret Magnétique
   'coffret-magnetique__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-classique-ivoire.png',
   'coffret-magnetique__cylindrique-500__750ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-750ml-classique-ivoire.png',
