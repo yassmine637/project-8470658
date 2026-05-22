@@ -32,7 +32,7 @@ export const HERO_IMAGES = {
 
 // --- Section À propos ---
 export const ABOUT_IMAGES = {
-  oliveGrove: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/413e1eb8dfb670cc41e69cd711c05e7b.webp',
+  oliveGrove: '/images/sections/histoire-oliviers.webp',
 };
 
 // --- Section Usine ---
