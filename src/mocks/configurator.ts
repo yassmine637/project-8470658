@@ -424,6 +424,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
 
   // Bidon Métallique — Coffret Tiroir EVA
   'coffret-tiroir__bidon-metal-3l__500ml__classique-ivoire': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-500ml-classique-ivoire.png',
+  'coffret-tiroir__bidon-metal-3l__750ml__classique-ivoire': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-750ml-classique-ivoire.png',
 
   // Coffret Magnétique — Bidon Vert
   'coffret-magnetique__bidon-vert-1l__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/bidon-vert-500ml-classique-ivoire.png',
