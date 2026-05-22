@@ -32,13 +32,13 @@ export const HERO_IMAGES = {
 
 // --- Section À propos ---
 export const ABOUT_IMAGES = {
-  oliveGrove: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/413e1eb8dfb670cc41e69cd711c05e7b.webp',
+  oliveGrove: '/images/sections/histoire-oliviers.webp',
 };
 
 // --- Section Usine ---
 export const FACTORY_IMAGES = {
-  interior: 'https://readdy.ai/api/search-image?query=modern%20olive%20oil%20processing%20factory%20interior%20stainless%20steel%20industrial%20machinery%20centrifuge%20extraction%20equipment%20clean%20high-tech%20olive%20mill%20facility%20Tunisia%20Mediterranean%20production%20line%20professional%20industrial%20photography%20bright%20lighting&width=600&height=450&seq=factory-interior-fendri-004&orientation=landscape',
-  production: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/5210b280d73d56a3d0093bd0ebda2a94.webp',
+  interior: '/images/sections/usine-interieur.webp',
+  production: '/images/sections/usine-interieur.webp',
 };
 
 // --- Section Produits (page d'accueil) ---
