@@ -436,6 +436,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-tiroir__bidon-metal-3l__750ml__luxe-noir-or': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-750ml-luxe-noir-or.png',
   'coffret-tiroir__bidon-metal-3l__1l__luxe-noir-or': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-1l-luxe-noir-or.png',
   'coffret-tiroir__bidon-metal-3l__750ml__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-750ml-recolte-limitee.png',
+  'coffret-tiroir__bidon-metal-3l__1l__recolte-limitee': '/images/emballages/coffret-tiroir/bidon-metal/bidon-metal-1l-recolte-limitee.png',
 
   // Coffret Magnétique — Bidon Vert
   'coffret-magnetique__bidon-vert-1l__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/bidon-vert-500ml-classique-ivoire.png',
