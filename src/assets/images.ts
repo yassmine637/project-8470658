@@ -38,7 +38,7 @@ export const ABOUT_IMAGES = {
 // --- Section Usine ---
 export const FACTORY_IMAGES = {
   interior: '/images/sections/usine-production.webp',
-  production: '/images/sections/usine-production.webp',
+  production: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/5210b280d73d56a3d0093bd0ebda2a94.webp',
 };
 
 // --- Section Produits (page d'accueil) ---
