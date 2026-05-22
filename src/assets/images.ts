@@ -37,7 +37,7 @@ export const ABOUT_IMAGES = {
 
 // --- Section Usine ---
 export const FACTORY_IMAGES = {
-  interior: '/images/sections/usine-production.webp',
+  interior: 'https://readdy.ai/api/search-image?query=modern%20olive%20oil%20processing%20factory%20interior%20stainless%20steel%20industrial%20machinery%20centrifuge%20extraction%20equipment%20clean%20high-tech%20olive%20mill%20facility%20Tunisia%20Mediterranean%20production%20line%20professional%20industrial%20photography%20bright%20lighting&width=600&height=450&seq=factory-interior-fendri-004&orientation=landscape',
   production: 'https://static.readdy.ai/image/9807e9503ddda896bb1ae414154dc269/5210b280d73d56a3d0093bd0ebda2a94.webp',
 };
 
