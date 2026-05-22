@@ -428,6 +428,7 @@ export const PACKAGING_IMAGES: Record<string, string> = {
   'coffret-magnetique__bidon-vert-1l__1l__classique-ivoire': '/images/emballages/coffret-magnetique/bidon-vert-1l-classique-ivoire.png',
   'coffret-magnetique__bidon-vert-1l__500ml__bio-moderne': '/images/emballages/coffret-magnetique/bidon-vert-500ml-bio-moderne.png',
   'coffret-magnetique__bidon-vert-1l__750ml__bio-moderne': '/images/emballages/coffret-magnetique/bidon-vert-750ml-bio-moderne.png',
+  'coffret-magnetique__bidon-vert-1l__1l__bio-moderne': '/images/emballages/coffret-magnetique/bidon-vert-1l-bio-moderne.png',
 
   // Coffret Magnétique
   'coffret-magnetique__cylindrique-500__500ml__classique-ivoire': '/images/emballages/coffret-magnetique/cylindrique-500-500ml-classique-ivoire.png',
