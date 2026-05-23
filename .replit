@@ -57,7 +57,7 @@ publicDir = "out"
 NODE_ENV = "development"
 API_PORT = "3001"
 RESEND_FROM_EMAIL = "onboarding@resend.dev"
-ADMIN_EMAIL = "admin@fendri.com"
+ADMIN_EMAIL = "yassminehsin040@gmail.com"
 
 [[ports]]
 localPort = 3001
