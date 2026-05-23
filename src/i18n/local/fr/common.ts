@@ -35,6 +35,8 @@ const translations = {
   auth_reset_password: 'Réinitialiser le mot de passe',
   auth_passwords_mismatch: 'Les mots de passe ne correspondent pas.',
   auth_back_home: "← Retour à l'accueil",
+  auth_forgot_desc: 'Entrez votre email pour recevoir un lien de réinitialisation.',
+  auth_reset_desc: 'Choisissez un nouveau mot de passe sécurisé.',
 
   // Header nav
   nav_histoire: 'Histoire',
@@ -225,7 +227,10 @@ const translations = {
   cart_field_email: 'Email',
   cart_field_address: 'Rue / Adresse',
   cart_field_city: 'Ville',
-  cart_placeholder_city: 'Tunis',
+  cart_placeholder_city: 'Votre ville',
+  cart_placeholder_city_search: 'Rechercher votre ville...',
+  cart_redirect_home: "Redirection vers l'accueil dans 3 secondes…",
+  cart_btn_back_home: "Retour à l'accueil",
   cart_field_postal: 'Code postal',
   cart_field_phone: 'Téléphone',
   cart_placeholder_name: 'Ahmed Ben Ali',
@@ -422,6 +427,14 @@ const translations = {
   config_next: 'Suivant',
   config_see_recap: 'Voir le récap',
   config_back_home: "Retour",
+  config_mobile_back: 'Retour options',
+  config_mobile_viewer: "Voir l'aperçu 3D",
+  config_panel_hide: 'Cacher le panneau',
+  config_panel_show: 'Afficher le panneau',
+  home_logout_banner: 'Vous avez été déconnecté avec succès. À bientôt !',
+  home_welcome_banner: 'Bienvenue chez Domaine Fendri ! Votre compte a été créé avec succès.',
+  home_welcome_banner_name: 'Bienvenue, {{name}} ! Votre compte a été créé avec succès.',
+  account_cancel_confirm: "Confirmer l'annulation de cette commande ?",
 
   // ConfigSummary
   config_summary_header: 'Récapitulatif',

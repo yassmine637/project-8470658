@@ -35,6 +35,8 @@ const translations = {
   auth_reset_password: 'إعادة تعيين كلمة المرور',
   auth_passwords_mismatch: 'كلمتا المرور غير متطابقتين.',
   auth_back_home: '← العودة إلى الصفحة الرئيسية',
+  auth_forgot_desc: 'أدخل بريدك الإلكتروني لتلقي رابط إعادة التعيين.',
+  auth_reset_desc: 'اختر كلمة مرور جديدة وآمنة.',
 
   // Header nav
   nav_histoire: 'التاريخ',
@@ -225,7 +227,10 @@ const translations = {
   cart_field_email: 'البريد الإلكتروني',
   cart_field_address: 'الشارع / العنوان',
   cart_field_city: 'المدينة',
-  cart_placeholder_city: 'تونس',
+  cart_placeholder_city: 'مدينتك',
+  cart_placeholder_city_search: 'ابحث عن مدينتك...',
+  cart_redirect_home: 'إعادة التوجيه للرئيسية في 3 ثوانٍ...',
+  cart_btn_back_home: 'العودة للرئيسية',
   cart_field_postal: 'الرمز البريدي',
   cart_field_phone: 'الهاتف',
   cart_placeholder_name: 'أحمد بن علي',
@@ -423,6 +428,14 @@ const translations = {
   config_next: 'التالي',
   config_see_recap: 'عرض الملخص',
   config_back_home: 'رجوع',
+  config_mobile_back: 'العودة للخيارات',
+  config_mobile_viewer: 'عرض ثلاثي الأبعاد',
+  config_panel_hide: 'إخفاء اللوحة',
+  config_panel_show: 'إظهار اللوحة',
+  home_logout_banner: 'تم تسجيل خروجك بنجاح. إلى اللقاء!',
+  home_welcome_banner: 'مرحباً بك في دومين فندري! تم إنشاء حسابك بنجاح.',
+  home_welcome_banner_name: 'مرحباً {{name}}! تم إنشاء حسابك بنجاح.',
+  account_cancel_confirm: 'هل تريد تأكيد إلغاء هذا الطلب؟',
 
   // ConfigSummary
   config_summary_header: 'الملخص',

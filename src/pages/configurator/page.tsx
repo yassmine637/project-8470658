@@ -500,8 +500,8 @@ export default function ConfiguratorPage() {
             onClick={() => isMobile ? setMobileShowViewer(v => !v) : setPanelOpen(o => !o)}
             className="cursor-pointer flex items-center gap-2"
             title={isMobile
-              ? (mobileShowViewer ? 'Retour options' : 'Voir l\'aperçu 3D')
-              : (panelOpen ? 'Cacher le panneau' : 'Afficher le panneau')}
+              ? (mobileShowViewer ? t('config_mobile_back') : t('config_mobile_viewer'))
+              : (panelOpen ? t('config_panel_hide') : t('config_panel_show'))}
             style={{
               background: 'none',
               border: 'none',

@@ -353,6 +353,7 @@ function CityCombobox({
   onChange: (city: string) => void;
   inputStyle: React.CSSProperties;
 }) {
+  const { t } = useTranslation();
   const cities = getCitiesForCountry(countryName);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState(value);
@@ -384,7 +385,7 @@ function CityCombobox({
       <input
         name="city"
         type="text"
-        placeholder="Votre ville"
+        placeholder={t('cart_placeholder_city')}
         value={value}
         onChange={e => onChange(e.target.value)}
         className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
@@ -402,7 +403,7 @@ function CityCombobox({
           ref={inputRef}
           name="city"
           type="text"
-          placeholder="Rechercher votre ville..."
+          placeholder={t('cart_placeholder_city_search')}
           value={query}
           autoComplete="off"
           onChange={e => {
@@ -1729,14 +1730,14 @@ export default function CartDrawer() {
                 </p>
               </div>
               <p className="text-xs" style={{ color: '#9aaa96', fontFamily: "'Outfit', sans-serif" }}>
-                Redirection vers l'accueil dans 3 secondes…
+                {t('cart_redirect_home')}
               </p>
               <button
                 onClick={() => { closeCart(); navigate('/'); }}
                 className="mt-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest cursor-pointer border-none whitespace-nowrap"
                 style={{ background: '#1a2617', color: '#c9a84c', fontFamily: "'Outfit', sans-serif" }}
               >
-                Retour à l'accueil
+                {t('cart_btn_back_home')}
               </button>
             </div>
           )}

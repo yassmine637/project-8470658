@@ -622,7 +622,7 @@ export default function Header() {
                 </div>
                 {!isAdmin && (
                   <Link to="/account" onClick={() => setMenuOpen(false)} style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 12, textDecoration: 'none', fontFamily: "'Outfit', sans-serif", marginBottom: 6 }}>
-                    <i className="ri-user-settings-line" style={{ marginRight: 6 }} />Mon compte
+                    <i className="ri-user-settings-line" style={{ marginRight: 6 }} />{t('auth_my_account')}
                   </Link>
                 )}
                 {isAdmin && (

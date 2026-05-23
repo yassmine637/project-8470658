@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Header from '@/components/feature/Header';
 import Footer from '@/components/feature/Footer';
 import Hero from './components/Hero';
@@ -12,21 +13,22 @@ import Contact from './components/Contact';
 import SEO from '@/components/seo/SEO';
 
 export default function HomePage() {
+  const { t } = useTranslation();
   const location = useLocation();
   const [banner, setBanner] = useState('');
 
   useEffect(() => {
     const state = location.state as { scrollTo?: string; loggedOut?: boolean; welcome?: boolean; name?: string } | null;
     if (state?.loggedOut) {
-      setBanner('Vous avez été déconnecté avec succès. À bientôt !');
-      const t = setTimeout(() => setBanner(''), 4000);
-      return () => clearTimeout(t);
+      setBanner(t('home_logout_banner'));
+      const tid = setTimeout(() => setBanner(''), 4000);
+      return () => clearTimeout(tid);
     }
     if (state?.welcome) {
       const firstName = state.name?.split(' ')[0] ?? '';
-      setBanner(`Bienvenue chez Domaine Fendri${firstName ? `, ${firstName}` : ''} ! Votre compte a été créé avec succès.`);
-      const t = setTimeout(() => setBanner(''), 5000);
-      return () => clearTimeout(t);
+      setBanner(firstName ? t('home_welcome_banner_name', { name: firstName }) : t('home_welcome_banner'));
+      const tid = setTimeout(() => setBanner(''), 5000);
+      return () => clearTimeout(tid);
     }
     const scrollTo = state?.scrollTo;
     if (scrollTo) {

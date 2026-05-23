@@ -696,7 +696,7 @@ export default function AccountPage() {
                         {confirmCancelId === order._id && (
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
                             <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: 'rgba(255,255,255,0.6)', margin: 0, textAlign: 'right' }}>
-                              Confirmer l'annulation de cette commande ?
+                              {t('account_cancel_confirm')}
                             </p>
                             {cancelError && (
                               <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, color: '#c83c3c', margin: 0, textAlign: 'right' }}>

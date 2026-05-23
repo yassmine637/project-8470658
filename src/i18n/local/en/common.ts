@@ -35,6 +35,8 @@ const translations = {
   auth_reset_password: 'Reset password',
   auth_passwords_mismatch: 'Passwords do not match.',
   auth_back_home: '← Back to home',
+  auth_forgot_desc: 'Enter your email to receive a password reset link.',
+  auth_reset_desc: 'Choose a new secure password.',
 
   // Header nav
   nav_histoire: 'Our Story',
@@ -225,7 +227,10 @@ const translations = {
   cart_field_email: 'Email',
   cart_field_address: 'Street / Address',
   cart_field_city: 'City',
-  cart_placeholder_city: 'City',
+  cart_placeholder_city: 'Your city',
+  cart_placeholder_city_search: 'Search your city...',
+  cart_redirect_home: 'Redirecting to home in 3 seconds…',
+  cart_btn_back_home: 'Back to home',
   cart_field_postal: 'Postal code',
   cart_field_phone: 'Phone',
   cart_placeholder_name: 'John Smith',
@@ -422,6 +427,14 @@ const translations = {
   config_next: 'Next',
   config_see_recap: 'See summary',
   config_back_home: 'Back',
+  config_mobile_back: 'Back to options',
+  config_mobile_viewer: 'View 3D preview',
+  config_panel_hide: 'Hide panel',
+  config_panel_show: 'Show panel',
+  home_logout_banner: 'You have been logged out. See you soon!',
+  home_welcome_banner: 'Welcome to Domaine Fendri! Your account was created successfully.',
+  home_welcome_banner_name: 'Welcome, {{name}}! Your account was created successfully.',
+  account_cancel_confirm: 'Confirm order cancellation?',
 
   // ConfigSummary
   config_summary_header: 'Summary',

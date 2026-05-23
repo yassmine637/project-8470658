@@ -148,12 +148,12 @@ export default function AuthPage() {
           </h1>
           {mode === 'forgot' && (
             <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13, color: '#9ca3af', marginTop: 6 }}>
-              Entrez votre email pour recevoir un lien de réinitialisation.
+              {t('auth_forgot_desc')}
             </p>
           )}
           {mode === 'reset' && (
             <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13, color: '#9ca3af', marginTop: 6 }}>
-              Choisissez un nouveau mot de passe sécurisé.
+              {t('auth_reset_desc')}
             </p>
           )}
         </div>
