@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Header from '@/components/feature/Header';
@@ -17,7 +17,14 @@ export default function FaqPage() {
   const { t, i18n } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('produit');
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const isAr = i18n.language === 'ar';
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const FAQ_DATA: FaqCategory[] = [
     {
@@ -91,7 +98,7 @@ export default function FaqPage() {
         paddingTop: '100px',
         paddingBottom: '40px',
       }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 40px' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 40px' }}>
           <Link
             to="/"
             style={{
@@ -154,7 +161,7 @@ export default function FaqPage() {
         <div style={{
           maxWidth: '960px',
           margin: '0 auto',
-          padding: '0 40px',
+          padding: isMobile ? '0 16px' : '0 40px',
           display: 'flex',
           gap: 0,
           overflowX: 'auto',
@@ -192,31 +199,33 @@ export default function FaqPage() {
       </div>
 
       {/* ── FAQ content ── */}
-      <div style={{ flex: 1, maxWidth: '960px', width: '100%', margin: '0 auto', padding: '56px 40px 100px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '64px' }}>
+      <div style={{ flex: 1, maxWidth: '960px', width: '100%', margin: '0 auto', padding: isMobile ? '32px 20px 80px' : '56px 40px 100px', display: isMobile ? 'block' : 'grid', gridTemplateColumns: isMobile ? '1fr' : '200px 1fr', gap: '64px' }}>
 
-        {/* Sidebar */}
-        <div style={{ paddingTop: '8px' }}>
-          <p style={{
-            fontSize: '0.6rem',
-            letterSpacing: '0.2em',
-            color: GOLD,
-            textTransform: 'uppercase',
-            marginBottom: '8px',
-          }}>
-            {t('faq_sidebar_label')}
-          </p>
-          <p style={{
-            fontFamily: "'Cormorant Garant', serif",
-            fontSize: '1.4rem',
-            color: GREEN,
-            fontWeight: 500,
-            marginBottom: '16px',
-            lineHeight: 1.2,
-          }}>
-            {category.label}
-          </p>
-          <div style={{ width: '24px', height: '1.5px', background: GOLD }} />
-        </div>
+        {/* Sidebar — hidden on mobile since category is shown in sticky tabs */}
+        {!isMobile && (
+          <div style={{ paddingTop: '8px' }}>
+            <p style={{
+              fontSize: '0.6rem',
+              letterSpacing: '0.2em',
+              color: GOLD,
+              textTransform: 'uppercase',
+              marginBottom: '8px',
+            }}>
+              {t('faq_sidebar_label')}
+            </p>
+            <p style={{
+              fontFamily: "'Cormorant Garant', serif",
+              fontSize: '1.4rem',
+              color: GREEN,
+              fontWeight: 500,
+              marginBottom: '16px',
+              lineHeight: 1.2,
+            }}>
+              {category.label}
+            </p>
+            <div style={{ width: '24px', height: '1.5px', background: GOLD }} />
+          </div>
+        )}
 
         {/* Accordion */}
         <div>

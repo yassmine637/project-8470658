@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Header from '@/components/feature/Header';
@@ -19,10 +19,17 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'specs' | 'certs' | 'awards'>('specs');
   const [added, setAdded] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const product = products.find((p) => p.id === slug);
 
   useEffect(() => { window.scrollTo({ top: 0 }); }, [slug]);
+
+  const handleResize = useCallback(() => setIsMobile(window.innerWidth < 768), []);
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
 
   if (!product) {
     return (
@@ -105,10 +112,10 @@ export default function ProductDetailPage() {
 
         {/* Hero */}
         <section style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 80px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 64, alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0,1fr) minmax(0,1fr)', gap: isMobile ? 32 : 64, alignItems: 'start' }}>
 
             {/* Left — Image */}
-            <div style={{ position: 'sticky', top: 120 }}>
+            <div style={{ position: isMobile ? 'static' : 'sticky', top: 120 }}>
               <div style={{
                 background: '#fff',
                 borderRadius: 24,
