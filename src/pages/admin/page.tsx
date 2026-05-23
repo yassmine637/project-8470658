@@ -507,7 +507,23 @@ export default function AdminPage() {
                 {t('admin_stocks_subtitle')}
               </p>
               <div className="flex flex-col gap-4">
-                {(adminProducts as { _id: string; name: string; volume: string; stock: number; badge?: string; accentColor?: string }[]).map((p) => {
+                {(adminProducts as { _id: string; slug?: string; name: string; volume: string; stock: number; badge?: string; accentColor?: string }[]).map((p) => {
+                  const SLUG_TO_VOLUME_KEY: Record<string, string> = {
+                    'bouteille-1l': 'product_bouteille_1l_volume',
+                    'bouteille-500ml': 'product_bouteille_500ml_volume',
+                    'bouteille-250ml': 'product_bouteille_750ml_volume',
+                    'bouteille-speciale': 'product_bidon_3l_volume',
+                  };
+                  const BADGE_TO_KEY: Record<string, string> = {
+                    'Bio & Naturel': 'badge_bio',
+                    'Best-seller': 'badge_bestseller',
+                    'Premium': 'badge_premium',
+                    'Format Familial': 'badge_family',
+                  };
+                  const volumeKey = p.slug ? SLUG_TO_VOLUME_KEY[p.slug] : undefined;
+                  const badgeKey = p.badge ? BADGE_TO_KEY[p.badge] : undefined;
+                  const displayVolume = volumeKey ? t(volumeKey) : p.volume;
+                  const displayBadge = badgeKey ? t(badgeKey) : p.badge;
                   const val = stockEdits[p._id] ?? String(p.stock);
                   const parsed = parseInt(val, 10);
                   const isInvalid = isNaN(parsed) || parsed < 0 || !Number.isInteger(parsed);
@@ -524,9 +540,9 @@ export default function AdminPage() {
                             <i className="ri-flask-line" style={{ color: p.accentColor || '#c9a84c', fontSize: '1.1rem' }} />
                           </div>
                           <div>
-                            <div className="font-bold text-sm" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{p.volume}</div>
+                            <div className="font-bold text-sm" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{displayVolume}</div>
                             <div className="text-xs mt-0.5" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-                              {p.badge && <span className="mr-2">{p.badge}</span>}
+                              {displayBadge && <span className="mr-2">{displayBadge}</span>}
                               {t('admin_stock_current')}
                               <span className="ml-1 font-bold" style={{ color: levelColor }}>{p.stock} {p.stock !== 1 ? t('admin_stock_units') : t('admin_stock_unit')}</span>
                             </div>
