@@ -168,7 +168,7 @@ function getResponse(input: string, lang: Lang): string {
     return `Spécifications techniques de nos huiles :\n\n• **Bidon 1L Bio** : acidité ≤ 0.3% · polyphénols 350 mg/kg\n• **Bouteille 500ml** : acidité ≤ 0.4% · polyphénols 280 mg/kg\n• **Bouteille 750ml** : acidité ≤ 0.2% · polyphénols 420 mg/kg\n• **Bidon 3L** : acidité ≤ 0.5% · polyphénols 250 mg/kg\n\nRécolte : Octobre–Novembre 2024`;
 
   if (/merci|parfait|super|nickel|tres bien|ok|bonne|bien/.test(q))
-    return `Avec plaisir ! 🫒\nN'hésitez pas si vous avez d'autres questions. Bonne dégustation chez **Domaine Fendri** !`;
+    return `Avec plaisir ! 🫒\nN'hésitez pas si vous avez d'autres questions.`;
 
   if (/au revoir|bye|ciao|adieu|a bientot/.test(q))
     return `À bientôt ! 👋\nMerci de votre visite chez **Domaine Fendri**. Bonne journée !`;
