@@ -463,7 +463,7 @@ export default function Header() {
                         }}
                       >
                         <i className="ri-dashboard-line" />
-                        Admin Dashboard
+                        {t('auth_admin_dashboard')}
                       </Link>
                     )}
                     <button
@@ -627,7 +627,7 @@ export default function Header() {
                 )}
                 {isAdmin && (
                   <Link to="/admin" onClick={() => setMenuOpen(false)} style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: 12, textDecoration: 'none', fontFamily: "'Outfit', sans-serif", marginBottom: 6 }}>
-                    <i className="ri-dashboard-line" style={{ marginRight: 6 }} />Admin Dashboard
+                    <i className="ri-dashboard-line" style={{ marginRight: 6 }} />{t('auth_admin_dashboard')}
                   </Link>
                 )}
                 <button

@@ -13,6 +13,7 @@ const translations = {
   delete_account_loading: 'جارٍ الحذف...',
   delete_account_error: 'حدث خطأ. يرجى المحاولة مرة أخرى.',
   auth_my_account: 'حسابي',
+  auth_admin_dashboard: 'لوحة الإدارة',
   auth_title_login: 'تسجيل الدخول',
   auth_title_register: 'إنشاء حساب',
   auth_title_forgot: 'نسيت كلمة المرور',

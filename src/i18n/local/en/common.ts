@@ -13,6 +13,7 @@ const translations = {
   delete_account_loading: 'Deleting...',
   delete_account_error: 'An error occurred. Please try again.',
   auth_my_account: 'My account',
+  auth_admin_dashboard: 'Admin Dashboard',
   auth_title_login: 'Log in',
   auth_title_register: 'Create an account',
   auth_title_forgot: 'Forgot password',
