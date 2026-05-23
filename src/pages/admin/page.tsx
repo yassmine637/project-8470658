@@ -2,28 +2,25 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { adminApi } from '@/api/admin';
+import { useTranslation } from 'react-i18next';
 
-const ORDER_STATUSES = [
-  { value: 'pending', label: 'En attente' },
-  { value: 'paid', label: 'Payée' },
-  { value: 'processing', label: 'En préparation' },
-  { value: 'shipped', label: 'Expédiée 📦' },
-  { value: 'delivered', label: 'Livrée' },
-  { value: 'cancelled', label: 'Annulée' },
-];
+type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users' | 'stocks' | 'security';
 
-const CONFIGURATOR_STATUSES = [
-  { value: 'new', label: 'Nouveau' },
-  { value: 'reviewing', label: 'En révision' },
-  { value: 'quoted', label: 'Devis envoyé' },
-  { value: 'accepted', label: 'Accepté' },
-  { value: 'rejected', label: 'Refusé' },
-];
+type ShippingModal = { orderId: string; trackingNumber: string; carrier: string } | null;
+type OrderModal = Record<string, unknown> | null;
+type MessageModal = Record<string, unknown> | null;
+
+const STATUS_COLORS: Record<string, string> = {
+  pending: '#f59e0b', paid: '#10b981', processing: '#3b82f6',
+  shipped: '#8b5cf6', delivered: '#059669', cancelled: '#ef4444',
+  new: '#f59e0b', reviewing: '#3b82f6', quoted: '#8b5cf6',
+  accepted: '#10b981', rejected: '#ef4444',
+};
 
 function StatusDropdown({
   value,
   onChange,
-  statuses = ORDER_STATUSES,
+  statuses = [],
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -46,15 +43,13 @@ function StatusDropdown({
 
   useEffect(() => {
     if (!open) return;
-    // Use bubble phase (no capture flag) so option buttons fire onClick first
     const close = () => setOpen(false);
-    // Delay to skip the same click that opened the dropdown
     const timer = setTimeout(() => window.addEventListener('click', close), 0);
     return () => { clearTimeout(timer); window.removeEventListener('click', close); };
   }, [open]);
 
   const handleSelect = (e: React.MouseEvent, newValue: string) => {
-    e.stopPropagation(); // Prevent window close listener
+    e.stopPropagation();
     onChange(newValue);
     setOpen(false);
   };
@@ -129,20 +124,8 @@ function StatusDropdown({
   );
 }
 
-type Tab = 'stats' | 'orders' | 'configs' | 'messages' | 'users' | 'stocks' | 'security';
-
-type ShippingModal = { orderId: string; trackingNumber: string; carrier: string } | null;
-type OrderModal = Record<string, unknown> | null;
-type MessageModal = Record<string, unknown> | null;
-
-const STATUS_COLORS: Record<string, string> = {
-  pending: '#f59e0b', paid: '#10b981', processing: '#3b82f6',
-  shipped: '#8b5cf6', delivered: '#059669', cancelled: '#ef4444',
-  new: '#f59e0b', reviewing: '#3b82f6', quoted: '#8b5cf6',
-  accepted: '#10b981', rejected: '#ef4444',
-};
-
 export default function AdminPage() {
+  const { t } = useTranslation();
   const { user, isAdmin, isLoading } = useAuth();
   const navigate = useNavigate();
   const [tab, setTab] = useState<Tab>('stats');
@@ -162,6 +145,33 @@ export default function AdminPage() {
   const [shippingModal, setShippingModal] = useState<ShippingModal>(null);
   const [orderModal, setOrderModal] = useState<OrderModal>(null);
   const [messageModal, setMessageModal] = useState<MessageModal>(null);
+
+  const ORDER_STATUSES = [
+    { value: 'pending', label: t('admin_status_pending') },
+    { value: 'paid', label: t('admin_status_paid') },
+    { value: 'processing', label: t('admin_status_processing') },
+    { value: 'shipped', label: t('admin_status_shipped') },
+    { value: 'delivered', label: t('admin_status_delivered') },
+    { value: 'cancelled', label: t('admin_status_cancelled') },
+  ];
+
+  const CONFIGURATOR_STATUSES = [
+    { value: 'new', label: t('admin_cstatus_new') },
+    { value: 'reviewing', label: t('admin_cstatus_reviewing') },
+    { value: 'quoted', label: t('admin_cstatus_quoted') },
+    { value: 'accepted', label: t('admin_cstatus_accepted') },
+    { value: 'rejected', label: t('admin_cstatus_rejected') },
+  ];
+
+  const TABS: { key: Tab; label: string; icon: string }[] = [
+    { key: 'stats', label: t('admin_tab_stats'), icon: 'ri-dashboard-line' },
+    { key: 'orders', label: t('admin_tab_orders'), icon: 'ri-shopping-bag-line' },
+    { key: 'configs', label: t('admin_tab_configs'), icon: 'ri-flask-line' },
+    { key: 'messages', label: t('admin_tab_messages'), icon: 'ri-mail-line' },
+    { key: 'users', label: t('admin_tab_users'), icon: 'ri-team-line' },
+    { key: 'stocks', label: t('admin_tab_stocks'), icon: 'ri-stack-line' },
+    { key: 'security', label: t('admin_tab_security'), icon: 'ri-shield-keyhole-line' },
+  ];
 
   useEffect(() => {
     if (!isLoading && (!user || !isAdmin)) navigate('/auth');
@@ -206,25 +216,15 @@ export default function AdminPage() {
 
   if (isLoading) return null;
 
-  const TABS: { key: Tab; label: string; icon: string }[] = [
-    { key: 'stats', label: 'Tableau de bord', icon: 'ri-dashboard-line' },
-    { key: 'orders', label: 'Commandes', icon: 'ri-shopping-bag-line' },
-    { key: 'configs', label: 'Devis configurateur', icon: 'ri-flask-line' },
-    { key: 'messages', label: 'Messages', icon: 'ri-mail-line' },
-    { key: 'users', label: 'Utilisateurs', icon: 'ri-team-line' },
-    { key: 'stocks', label: 'Stocks', icon: 'ri-stack-line' },
-    { key: 'security', label: 'Sécurité', icon: 'ri-shield-keyhole-line' },
-  ];
-
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setPwError('');
     if (pwForm.next !== pwForm.confirm) {
-      setPwError('Les nouveaux mots de passe ne correspondent pas');
+      setPwError(t('admin_security_pw_mismatch'));
       return;
     }
     if (pwForm.next.length < 8) {
-      setPwError('Le nouveau mot de passe doit faire au moins 8 caractères');
+      setPwError(t('admin_security_pw_tooshort'));
       return;
     }
     setPwStatus('loading');
@@ -240,7 +240,7 @@ export default function AdminPage() {
       setPwStatus('success');
       setPwForm({ current: '', next: '', confirm: '' });
     } catch (err: unknown) {
-      setPwError(err instanceof Error ? err.message : 'Erreur');
+      setPwError(err instanceof Error ? err.message : t('admin_status_error'));
       setPwStatus('error');
     }
   };
@@ -255,44 +255,44 @@ export default function AdminPage() {
           FENDRI — Admin
         </div>
         <Link to="/" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', fontFamily: "'Outfit', sans-serif" }}>
-          ← Retour au site
+          {t('admin_back_site')}
         </Link>
       </div>
 
       <div className="flex">
         <aside style={{ width: '220px', minHeight: 'calc(100vh - 56px)', background: '#ffffff', borderRight: '1px solid #e8e8e4', padding: '16px 0', flexShrink: 0 }}>
-          {TABS.map((t) => (
+          {TABS.map((tb) => (
             <button
-              key={t.key}
-              onClick={() => setTab(t.key)}
+              key={tb.key}
+              onClick={() => setTab(tb.key)}
               className="cursor-pointer w-full flex items-center gap-3 px-5 py-3 text-sm transition-all"
               style={{
                 fontFamily: "'Outfit', sans-serif",
-                color: tab === t.key ? '#1a2617' : '#6b7280',
-                background: tab === t.key ? 'rgba(212,175,55,0.1)' : 'transparent',
-                borderLeft: tab === t.key ? '3px solid #d4af37' : '3px solid transparent',
-                fontWeight: tab === t.key ? 600 : 400,
+                color: tab === tb.key ? '#1a2617' : '#6b7280',
+                background: tab === tb.key ? 'rgba(212,175,55,0.1)' : 'transparent',
+                borderLeft: tab === tb.key ? '3px solid #d4af37' : '3px solid transparent',
+                fontWeight: tab === tb.key ? 600 : 400,
               }}
             >
-              <i className={t.icon} />
-              {t.label}
+              <i className={tb.icon} />
+              {tb.label}
             </button>
           ))}
         </aside>
 
         <main className="flex-1 p-8">
-          {loading && <div style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Chargement...</div>}
+          {loading && <div style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_loading')}</div>}
 
           {!loading && tab === 'stats' && stats && (
             <div>
-              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Tableau de bord</h2>
+              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>{t('admin_tab_stats')}</h2>
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                  { label: 'Commandes totales', value: stats.totalOrders, icon: 'ri-shopping-bag-line', color: '#3b82f6' },
-                  { label: 'Utilisateurs', value: stats.totalUsers, icon: 'ri-team-line', color: '#8b5cf6' },
-                  { label: 'Devis en attente', value: stats.pendingConfigs, icon: 'ri-flask-line', color: '#f59e0b' },
-                  { label: 'Produits actifs', value: stats.totalProducts, icon: 'ri-leaf-line', color: '#10b981' },
-                  { label: 'Revenu payé (TND)', value: `${stats.revenue} TND`, icon: 'ri-money-dollar-circle-line', color: '#d4af37' },
+                  { label: t('admin_stat_orders'), value: stats.totalOrders, icon: 'ri-shopping-bag-line', color: '#3b82f6' },
+                  { label: t('admin_stat_users'), value: stats.totalUsers, icon: 'ri-team-line', color: '#8b5cf6' },
+                  { label: t('admin_stat_pending_quotes'), value: stats.pendingConfigs, icon: 'ri-flask-line', color: '#f59e0b' },
+                  { label: t('admin_stat_products'), value: stats.totalProducts, icon: 'ri-leaf-line', color: '#10b981' },
+                  { label: t('admin_stat_revenue'), value: `${stats.revenue} TND`, icon: 'ri-money-dollar-circle-line', color: '#d4af37' },
                 ].map((s) => (
                   <div key={s.label} className="rounded-2xl p-6" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
                     <div className="flex items-center gap-3 mb-2">
@@ -310,12 +310,12 @@ export default function AdminPage() {
 
           {!loading && tab === 'orders' && (
             <div>
-              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Commandes</h2>
+              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>{t('admin_orders_title')}</h2>
               <div className="rounded-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
                 <table className="w-full">
                   <thead style={{ background: '#f9f9f7', borderBottom: '1px solid #e8e8e4' }}>
                     <tr>
-                      {['ID', 'Client', 'Total TTC', 'Statut', 'Date', 'Détail', 'Action'].map((h) => (
+                      {[t('admin_col_id'), t('admin_col_client'), t('admin_col_total_ttc'), t('admin_col_status'), t('admin_col_date'), t('admin_col_detail'), t('admin_col_action')].map((h) => (
                         <th key={h} className={headCell} style={{ color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>{h}</th>
                       ))}
                     </tr>
@@ -325,29 +325,30 @@ export default function AdminPage() {
                       <tr key={o._id as string} style={{ borderBottom: '1px solid #f3f3f0' }}>
                         <td className={cell} style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem' }}>{(o._id as string).slice(-8)}</td>
                         <td className={cell} style={{ fontFamily: "'Outfit', sans-serif", color: '#1a2617' }}>
-                          <div>{(o.guestName as string) || (o.user as Record<string, string>)?.name || 'Utilisateur'}</div>
+                          <div>{(o.guestName as string) || (o.user as Record<string, string>)?.name || t('admin_user_fallback')}</div>
                           <div style={{ fontSize: '0.7rem', color: '#9ca3af' }}>{(o.guestEmail as string) || (o.user as Record<string, string>)?.email || ''}</div>
                         </td>
                         <td className={cell} style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 600, color: '#1a2617' }}>{o.totalTTC as number} {o.currency as string}</td>
                         <td className={cell}>
                           <span className="px-2 py-1 rounded-full text-xs font-bold" style={{ background: `${STATUS_COLORS[o.status as string] || '#9ca3af'}18`, color: STATUS_COLORS[o.status as string] || '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-                            {o.status as string}
+                            {ORDER_STATUSES.find(s => s.value === (o.status as string))?.label ?? o.status as string}
                           </span>
                         </td>
                         <td className={cell} style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem' }}>
-                          {new Date(o.createdAt as string).toLocaleDateString('fr-FR')}
+                          {new Date(o.createdAt as string).toLocaleDateString()}
                         </td>
                         <td className={cell}>
                           <button
                             onClick={() => setOrderModal(o as Record<string, unknown>)}
                             style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', padding: '5px 12px', borderRadius: '8px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', cursor: 'pointer', whiteSpace: 'nowrap' }}
                           >
-                            Voir détail
+                            {t('admin_see_detail')}
                           </button>
                         </td>
                         <td className={cell}>
                           <StatusDropdown
                             value={o.status as string}
+                            statuses={ORDER_STATUSES}
                             onChange={(newStatus) => {
                               const prevStatus = o.status as string;
                               if (newStatus === 'shipped') {
@@ -357,7 +358,7 @@ export default function AdminPage() {
                                 adminApi.updateOrderStatus(o._id as string, newStatus)
                                   .catch(() => {
                                     setOrders((prev) => prev.map((x) => (x as Record<string, unknown>)._id === o._id ? { ...x, status: prevStatus } : x));
-                                    alert('Erreur lors du changement de statut');
+                                    alert(t('admin_status_error'));
                                   });
                               }
                             }}
@@ -366,7 +367,7 @@ export default function AdminPage() {
                       </tr>
                     ))}
                     {orders.length === 0 && (
-                      <tr><td colSpan={6} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucune commande</td></tr>
+                      <tr><td colSpan={7} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_no_orders')}</td></tr>
                     )}
                   </tbody>
                 </table>
@@ -376,12 +377,12 @@ export default function AdminPage() {
 
           {!loading && tab === 'configs' && (
             <div>
-              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Devis configurateur</h2>
+              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>{t('admin_configs_title')}</h2>
               <div className="rounded-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
                 <table className="w-full">
                   <thead style={{ background: '#f9f9f7', borderBottom: '1px solid #e8e8e4' }}>
                     <tr>
-                      {['Référence', 'Client', 'Email', 'Total TTC', 'Statut', 'Date', 'Action'].map((h) => (
+                      {[t('admin_col_ref'), t('admin_col_client'), t('admin_col_email'), t('admin_col_total_ttc'), t('admin_col_status'), t('admin_col_date'), t('admin_col_action')].map((h) => (
                         <th key={h} className={headCell} style={{ color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>{h}</th>
                       ))}
                     </tr>
@@ -399,7 +400,7 @@ export default function AdminPage() {
                           </span>
                         </td>
                         <td className={cell} style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem' }}>
-                          {new Date(c.createdAt as string).toLocaleDateString('fr-FR')}
+                          {new Date(c.createdAt as string).toLocaleDateString()}
                         </td>
                         <td className={cell}>
                           <StatusDropdown
@@ -411,7 +412,7 @@ export default function AdminPage() {
                               adminApi.updateConfigStatus(c._id as string, newStatus)
                                 .catch(() => {
                                   setConfigs((prev) => prev.map((x) => (x as Record<string, unknown>)._id === c._id ? { ...x, status: prevStatus } : x));
-                                  alert('Erreur lors du changement de statut');
+                                  alert(t('admin_status_error'));
                                 });
                             }}
                           />
@@ -419,7 +420,7 @@ export default function AdminPage() {
                       </tr>
                     ))}
                     {configs.length === 0 && (
-                      <tr><td colSpan={7} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucun devis</td></tr>
+                      <tr><td colSpan={7} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_no_configs')}</td></tr>
                     )}
                   </tbody>
                 </table>
@@ -429,7 +430,7 @@ export default function AdminPage() {
 
           {!loading && tab === 'messages' && (
             <div>
-              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Messages de contact</h2>
+              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>{t('admin_messages_title')}</h2>
               <div className="flex flex-col gap-3">
                 {(messages as Record<string, unknown>[]).map((m) => (
                   <div key={m._id as string} className="rounded-2xl p-5" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
@@ -445,31 +446,31 @@ export default function AdminPage() {
                       </div>
                       <div className="flex flex-col items-end gap-2 flex-shrink-0">
                         <span className="text-xs" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-                          {new Date(m.createdAt as string).toLocaleDateString('fr-FR')}
+                          {new Date(m.createdAt as string).toLocaleDateString()}
                         </span>
                         <button
                           onClick={() => setMessageModal(m as Record<string, unknown>)}
                           style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.75rem', padding: '5px 12px', borderRadius: '8px', border: '1.5px solid #e8e8e4', background: '#fafaf8', color: '#1a2617', cursor: 'pointer', whiteSpace: 'nowrap' }}
                         >
-                          Voir détail
+                          {t('admin_see_detail')}
                         </button>
                       </div>
                     </div>
                   </div>
                 ))}
-                {messages.length === 0 && <div className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucun message</div>}
+                {messages.length === 0 && <div className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_no_messages')}</div>}
               </div>
             </div>
           )}
 
           {!loading && tab === 'users' && (
             <div>
-              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Utilisateurs</h2>
+              <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>{t('admin_users_title')}</h2>
               <div className="rounded-2xl overflow-hidden" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
                 <table className="w-full">
                   <thead style={{ background: '#f9f9f7', borderBottom: '1px solid #e8e8e4' }}>
                     <tr>
-                      {['Nom', 'Email', 'Téléphone', 'Rôle', 'Inscription'].map((h) => (
+                      {[t('admin_col_name'), t('admin_col_email'), t('admin_col_phone'), t('admin_col_role'), t('admin_col_signup')].map((h) => (
                         <th key={h} className={headCell} style={{ color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>{h}</th>
                       ))}
                     </tr>
@@ -486,23 +487,24 @@ export default function AdminPage() {
                           </span>
                         </td>
                         <td className={cell} style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif", fontSize: '0.8rem' }}>
-                          {new Date(u.createdAt as string).toLocaleDateString('fr-FR')}
+                          {new Date(u.createdAt as string).toLocaleDateString()}
                         </td>
                       </tr>
                     ))}
                     {users.length === 0 && (
-                      <tr><td colSpan={5} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucun utilisateur</td></tr>
+                      <tr><td colSpan={5} className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_no_users')}</td></tr>
                     )}
                   </tbody>
                 </table>
               </div>
             </div>
           )}
+
           {!loading && tab === 'stocks' && (
             <div>
-              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Gestion des stocks</h2>
+              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>{t('admin_stocks_title')}</h2>
               <p className="text-sm mb-6" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-                Modifiez les quantités disponibles pour chaque produit. Les commandes sont automatiquement refusées si le stock est insuffisant.
+                {t('admin_stocks_subtitle')}
               </p>
               <div className="flex flex-col gap-4">
                 {(adminProducts as { _id: string; name: string; volume: string; stock: number; badge?: string; accentColor?: string }[]).map((p) => {
@@ -525,8 +527,8 @@ export default function AdminPage() {
                             <div className="font-bold text-sm" style={{ color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{p.volume}</div>
                             <div className="text-xs mt-0.5" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
                               {p.badge && <span className="mr-2">{p.badge}</span>}
-                              Stock actuel DB :
-                              <span className="ml-1 font-bold" style={{ color: levelColor }}>{p.stock} unité{p.stock !== 1 ? 's' : ''}</span>
+                              {t('admin_stock_current')}
+                              <span className="ml-1 font-bold" style={{ color: levelColor }}>{p.stock} {p.stock !== 1 ? t('admin_stock_units') : t('admin_stock_unit')}</span>
                             </div>
                           </div>
                         </div>
@@ -570,7 +572,7 @@ export default function AdminPage() {
                                 }));
                                 setStockEdits((s) => ({ ...s, [p._id]: String(updated.stock) }));
                               } catch (err: unknown) {
-                                setStockErrors((s) => ({ ...s, [p._id]: err instanceof Error ? err.message : 'Erreur' }));
+                                setStockErrors((s) => ({ ...s, [p._id]: err instanceof Error ? err.message : t('admin_status_error') }));
                               } finally {
                                 setStockSaving((s) => ({ ...s, [p._id]: false }));
                               }
@@ -592,11 +594,11 @@ export default function AdminPage() {
                               transition: 'all 0.2s',
                             }}
                           >
-                            {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
+                            {isSaving ? t('admin_stock_saving') : t('admin_stock_save')}
                           </button>
                           <div
                             className="w-3 h-3 rounded-full flex-shrink-0"
-                            title={stockLevel === 'critical' ? 'Critique' : stockLevel === 'low' ? 'Faible' : 'OK'}
+                            title={stockLevel === 'critical' ? t('admin_stock_critical') : stockLevel === 'low' ? t('admin_stock_low') : 'OK'}
                             style={{ background: levelColor, boxShadow: `0 0 6px ${levelColor}60` }}
                           />
                         </div>
@@ -610,7 +612,7 @@ export default function AdminPage() {
                   );
                 })}
                 {adminProducts.length === 0 && (
-                  <div className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Aucun produit</div>
+                  <div className="text-center py-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_no_products')}</div>
                 )}
               </div>
             </div>
@@ -618,20 +620,20 @@ export default function AdminPage() {
 
           {!loading && tab === 'security' && (
             <div>
-              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>Sécurité du compte</h2>
+              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>{t('admin_security_title')}</h2>
               <p className="text-sm mb-8" style={{ color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-                Connecté en tant que <strong style={{ color: '#1a2617' }}>{user?.email}</strong>
+                {t('admin_security_logged_as')} <strong style={{ color: '#1a2617' }}>{user?.email}</strong>
               </p>
 
               <div className="rounded-2xl p-8 max-w-md" style={{ background: '#ffffff', border: '1px solid #e8e8e4' }}>
                 <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)', borderRadius: 2, marginBottom: 28 }} />
                 <h3 className="text-lg font-bold mb-6" style={{ fontFamily: "'Cormorant Garant', serif", color: '#1a2617' }}>
-                  Changer le mot de passe
+                  {t('admin_security_change_pw')}
                 </h3>
 
                 {pwStatus === 'success' && (
                   <div className="mb-5 p-3 rounded-xl text-sm" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#166534', fontFamily: "'Outfit', sans-serif" }}>
-                    ✅ Mot de passe modifié avec succès !
+                    {t('admin_security_pw_success')}
                   </div>
                 )}
                 {pwError && (
@@ -642,9 +644,9 @@ export default function AdminPage() {
 
                 <form onSubmit={handleChangePassword} className="flex flex-col gap-5">
                   {[
-                    { key: 'current', label: 'Mot de passe actuel', placeholder: '••••••••' },
-                    { key: 'next', label: 'Nouveau mot de passe', placeholder: 'Min. 8 caractères' },
-                    { key: 'confirm', label: 'Confirmer le nouveau mot de passe', placeholder: '••••••••' },
+                    { key: 'current', label: t('admin_security_current_pw'), placeholder: '••••••••' },
+                    { key: 'next', label: t('admin_security_new_pw'), placeholder: t('admin_security_min8') },
+                    { key: 'confirm', label: t('admin_security_confirm_pw'), placeholder: '••••••••' },
                   ].map(({ key, label, placeholder }) => (
                     <div key={key}>
                       <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5a6e56', fontFamily: "'Outfit', sans-serif" }}>
@@ -669,7 +671,7 @@ export default function AdminPage() {
                     className="w-full py-3 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300 hover:-translate-y-0.5 cursor-pointer disabled:opacity-60"
                     style={{ background: 'linear-gradient(135deg, #1a2617 0%, #2f4229 100%)', color: '#d4af37', border: '1px solid rgba(212,175,55,0.2)', fontFamily: "'Outfit', sans-serif" }}
                   >
-                    {pwStatus === 'loading' ? 'Modification...' : 'Enregistrer le nouveau mot de passe'}
+                    {pwStatus === 'loading' ? t('admin_security_saving') : t('admin_security_save_btn')}
                   </button>
                 </form>
               </div>
@@ -685,7 +687,7 @@ export default function AdminPage() {
             <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)', borderRadius: 2, marginBottom: 24 }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
               <div>
-                <p style={{ margin: '0 0 2px', fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}>Commande</p>
+                <p style={{ margin: '0 0 2px', fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}>{t('admin_modal_order_label')}</p>
                 <h3 style={{ margin: 0, fontSize: '18px', fontFamily: "'Cormorant Garant', serif", color: '#1a2617', fontWeight: 700 }}>
                   #{(orderModal._id as string).slice(-10).toUpperCase()}
                 </h3>
@@ -696,9 +698,9 @@ export default function AdminPage() {
             </div>
 
             <div style={{ background: '#f9f9f7', borderRadius: '10px', padding: '14px 16px', marginBottom: '14px' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Client</p>
+              <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_modal_client')}</p>
               <p style={{ margin: '0 0 3px', fontSize: '14px', fontWeight: 600, color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>
-                {(orderModal.guestName as string) || ((orderModal.user as Record<string, string>)?.name) || 'Utilisateur'}
+                {(orderModal.guestName as string) || ((orderModal.user as Record<string, string>)?.name) || t('admin_user_fallback')}
               </p>
               <p style={{ margin: '0 0 2px', fontSize: '13px', color: '#6b7280', fontFamily: "'Outfit', sans-serif" }}>
                 {(orderModal.guestEmail as string) || ((orderModal.user as Record<string, string>)?.email) || '—'}
@@ -708,7 +710,7 @@ export default function AdminPage() {
 
             {orderModal.shippingAddress && (
               <div style={{ background: '#f9f9f7', borderRadius: '10px', padding: '14px 16px', marginBottom: '14px' }}>
-                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Adresse de livraison</p>
+                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_modal_shipping_address')}</p>
                 {(() => { const a = orderModal.shippingAddress as Record<string, string>; return (
                   <p style={{ margin: 0, fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif", lineHeight: 1.7 }}>
                     {a.street && <>{a.street}<br /></>}{a.postalCode && <>{a.postalCode} </>}{a.city && <>{a.city}<br /></>}{a.country}
@@ -719,7 +721,7 @@ export default function AdminPage() {
 
             {Array.isArray(orderModal.items) && (orderModal.items as Record<string, unknown>[]).length > 0 && (
               <div style={{ marginBottom: '14px' }}>
-                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Articles commandés</p>
+                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_modal_items')}</p>
                 <div style={{ border: '1px solid #e8e8e4', borderRadius: '10px', overflow: 'hidden' }}>
                   {(orderModal.items as Record<string, unknown>[]).map((item, i) => (
                     <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', borderBottom: i < (orderModal.items as unknown[]).length - 1 ? '1px solid #f3f3f0' : 'none', fontFamily: "'Outfit', sans-serif" }}>
@@ -732,12 +734,12 @@ export default function AdminPage() {
             )}
 
             <div style={{ background: '#f9f9f7', borderRadius: '10px', padding: '14px 16px', marginBottom: '14px' }}>
-              <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Récapitulatif financier</p>
+              <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_modal_financial')}</p>
               {[
-                { label: 'Total HT', value: `${orderModal.totalHT} ${orderModal.currency}` },
-                { label: `TVA (${orderModal.tva}%)`, value: `${((orderModal.totalTTC as number) - (orderModal.totalHT as number)).toFixed(2)} ${orderModal.currency}` },
-                { label: 'Total TTC', value: `${orderModal.totalTTC} ${orderModal.currency}`, bold: true },
-                { label: 'Mode de paiement', value: orderModal.paymentMethod as string },
+                { label: t('admin_modal_total_ht'), value: `${orderModal.totalHT} ${orderModal.currency}` },
+                { label: t('admin_modal_tva', { pct: orderModal.tva }), value: `${((orderModal.totalTTC as number) - (orderModal.totalHT as number)).toFixed(2)} ${orderModal.currency}` },
+                { label: t('admin_modal_total_ttc'), value: `${orderModal.totalTTC} ${orderModal.currency}`, bold: true },
+                { label: t('admin_modal_payment_method'), value: orderModal.paymentMethod as string },
               ].map(({ label, value, bold }) => (
                 <div key={label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontFamily: "'Outfit', sans-serif", fontSize: '13px' }}>
                   <span style={{ color: '#6b7280' }}>{label}</span>
@@ -748,17 +750,17 @@ export default function AdminPage() {
 
             {(orderModal.trackingNumber || orderModal.carrier) && (
               <div style={{ background: '#f0f7f1', borderRadius: '10px', padding: '14px 16px', marginBottom: '14px' }}>
-                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#3a6040', fontFamily: "'Outfit', sans-serif" }}>Suivi de livraison</p>
-                {orderModal.carrier && <p style={{ margin: '0 0 3px', fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>Transporteur : <strong>{orderModal.carrier as string}</strong></p>}
-                {orderModal.trackingNumber && <p style={{ margin: 0, fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>N° suivi : <strong style={{ letterSpacing: '1px' }}>{orderModal.trackingNumber as string}</strong></p>}
+                <p style={{ margin: '0 0 8px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#3a6040', fontFamily: "'Outfit', sans-serif" }}>{t('admin_modal_tracking')}</p>
+                {orderModal.carrier && <p style={{ margin: '0 0 3px', fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{t('admin_modal_carrier')} <strong>{orderModal.carrier as string}</strong></p>}
+                {orderModal.trackingNumber && <p style={{ margin: 0, fontSize: '13px', color: '#1a2617', fontFamily: "'Outfit', sans-serif" }}>{t('admin_modal_tracking_num')} <strong style={{ letterSpacing: '1px' }}>{orderModal.trackingNumber as string}</strong></p>}
               </div>
             )}
 
             <p style={{ margin: '0 0 20px', fontSize: '12px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>
-              Créée le {new Date(orderModal.createdAt as string).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+              {t('admin_modal_created')} {new Date(orderModal.createdAt as string).toLocaleDateString()}
             </p>
             <button onClick={() => setOrderModal(null)} style={{ width: '100%', padding: '12px', borderRadius: '999px', border: '1.5px solid #e8e8e4', background: 'transparent', color: '#6b7280', fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
-              Fermer
+              {t('admin_modal_close')}
             </button>
           </div>
         </div>
@@ -769,16 +771,16 @@ export default function AdminPage() {
         <div onClick={() => setMessageModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
           <div onClick={(e) => e.stopPropagation()} style={{ background: '#ffffff', borderRadius: '16px', padding: '36px', maxWidth: '520px', width: '100%', boxShadow: '0 24px 60px rgba(0,0,0,0.2)' }}>
             <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)', borderRadius: 2, marginBottom: 24 }} />
-            <p style={{ margin: '0 0 2px', fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}>Message de contact</p>
+            <p style={{ margin: '0 0 2px', fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}>{t('admin_msg_label')}</p>
             <h3 style={{ margin: '0 0 20px', fontSize: '18px', fontFamily: "'Cormorant Garant', serif", color: '#1a2617', fontWeight: 700 }}>
               {messageModal.nom as string} {messageModal.prenom as string}
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '16px' }}>
               {[
-                { label: 'Email', value: messageModal.email as string },
-                { label: 'Téléphone', value: (messageModal.telephone as string) || '—' },
-                { label: 'Pays', value: (messageModal.pays as string) || '—' },
-                { label: 'Date', value: new Date(messageModal.createdAt as string).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) },
+                { label: t('admin_msg_email'), value: messageModal.email as string },
+                { label: t('admin_msg_phone'), value: (messageModal.telephone as string) || '—' },
+                { label: t('admin_msg_country'), value: (messageModal.pays as string) || '—' },
+                { label: t('admin_msg_date'), value: new Date(messageModal.createdAt as string).toLocaleDateString() },
               ].map(({ label, value }) => (
                 <div key={label} style={{ background: '#f9f9f7', borderRadius: '8px', padding: '10px 12px' }}>
                   <p style={{ margin: '0 0 2px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{label}</p>
@@ -787,15 +789,15 @@ export default function AdminPage() {
               ))}
             </div>
             <div style={{ marginBottom: '16px' }}>
-              <p style={{ margin: '0 0 6px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Sujet</p>
+              <p style={{ margin: '0 0 6px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_msg_subject')}</p>
               <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: '#3a6040', fontFamily: "'Outfit', sans-serif" }}>{messageModal.sujet as string}</p>
             </div>
             <div style={{ marginBottom: '24px' }}>
-              <p style={{ margin: '0 0 6px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>Message</p>
+              <p style={{ margin: '0 0 6px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif" }}>{t('admin_msg_message')}</p>
               <p style={{ margin: 0, fontSize: '14px', color: '#4b5563', fontFamily: "'Outfit', sans-serif", lineHeight: 1.7, whiteSpace: 'pre-wrap', background: '#f9f9f7', borderRadius: '10px', padding: '14px 16px' }}>{messageModal.message as string}</p>
             </div>
             <button onClick={() => setMessageModal(null)} style={{ width: '100%', padding: '12px', borderRadius: '999px', border: '1.5px solid #e8e8e4', background: 'transparent', color: '#6b7280', fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
-              Fermer
+              {t('admin_modal_close')}
             </button>
           </div>
         </div>
@@ -807,19 +809,19 @@ export default function AdminPage() {
           <div style={{ background: '#ffffff', borderRadius: '16px', padding: '40px', maxWidth: '460px', width: '100%', boxShadow: '0 24px 60px rgba(0,0,0,0.2)' }}>
             <div style={{ height: '3px', background: 'linear-gradient(to right, #1a2617, #d4af37, #1a2617)', borderRadius: 2, marginBottom: 28 }} />
             <p style={{ margin: '0 0 4px', fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#d4af37', fontFamily: "'Outfit', sans-serif" }}>
-              Expédition
+              {t('admin_ship_label')}
             </p>
             <h3 style={{ margin: '0 0 8px', fontSize: '20px', fontFamily: "'Cormorant Garant', serif", color: '#1a2617', fontWeight: 700 }}>
-              Informations de livraison
+              {t('admin_ship_title')}
             </h3>
             <p style={{ margin: '0 0 24px', fontSize: '13px', color: '#9ca3af', fontFamily: "'Outfit', sans-serif", lineHeight: 1.6 }}>
-              Ces informations seront incluses dans l'email envoyé au client.
+              {t('admin_ship_desc')}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#5a6e56', marginBottom: '6px', fontFamily: "'Outfit', sans-serif" }}>
-                  Transporteur
+                  {t('admin_ship_carrier')}
                 </label>
                 <input
                   type="text"
@@ -833,7 +835,7 @@ export default function AdminPage() {
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#5a6e56', marginBottom: '6px', fontFamily: "'Outfit', sans-serif" }}>
-                  Numéro de suivi <span style={{ color: '#9ca3af', fontWeight: 400 }}>(optionnel)</span>
+                  {t('admin_ship_tracking')} <span style={{ color: '#9ca3af', fontWeight: 400 }}>{t('admin_ship_optional')}</span>
                 </label>
                 <input
                   type="text"
@@ -852,7 +854,7 @@ export default function AdminPage() {
                 onClick={() => setShippingModal(null)}
                 style={{ flex: 1, padding: '12px', borderRadius: '999px', border: '1.5px solid #e8e8e4', background: 'transparent', color: '#6b7280', fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
               >
-                Annuler
+                {t('admin_ship_cancel')}
               </button>
               <button
                 onClick={async () => {
@@ -865,12 +867,12 @@ export default function AdminPage() {
                     }));
                     setShippingModal(null);
                   } catch {
-                    alert('Erreur lors de la mise à jour');
+                    alert(t('admin_ship_error'));
                   }
                 }}
                 style={{ flex: 2, padding: '12px', borderRadius: '999px', border: 'none', background: 'linear-gradient(135deg, #1a2617 0%, #2f4229 100%)', color: '#d4af37', fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }}
               >
-                Confirmer l'expédition
+                {t('admin_ship_confirm')}
               </button>
             </div>
           </div>
