@@ -1,34 +1,34 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+const GMAIL_USER = process.env.GMAIL_USER || 'yassminehsin040@gmail.com';
+const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
 const FROM_NAME = 'Domaine Fendri';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@fendri.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'yassminehsin040@gmail.com';
 
-function isEnabled() {
-  return Boolean(RESEND_API_KEY);
+function createTransporter() {
+  if (!GMAIL_APP_PASSWORD) return null;
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD },
+  });
 }
 
-async function send({ to, from, subject, html }) {
-  if (!isEnabled()) {
-    console.warn('[Email] RESEND_API_KEY non configuré — email non envoyé');
+async function send({ to, subject, html }) {
+  const transporter = createTransporter();
+  if (!transporter) {
+    console.warn('[Email] GMAIL_APP_PASSWORD non configuré — email non envoyé');
     return;
   }
   try {
-    const resend = new Resend(RESEND_API_KEY);
-    const result = await resend.emails.send({
-      from: `${FROM_NAME} <${from.email || FROM_EMAIL}>`,
+    const info = await transporter.sendMail({
+      from: `"${FROM_NAME}" <${GMAIL_USER}>`,
       to,
       subject,
       html,
     });
-    if (result.error) {
-      console.error('[Email] Resend API error:', JSON.stringify(result.error));
-    } else {
-      console.log(`[Email] ✅ Envoyé à ${to} — id: ${result.data?.id}`);
-    }
+    console.log(`[Email] ✅ Envoyé à ${to} — id: ${info.messageId}`);
   } catch (err) {
-    console.error('[Email] Resend exception:', err?.message || err);
+    console.error('[Email] Gmail SMTP erreur:', err?.message || err);
   }
 }
 
@@ -204,7 +204,6 @@ export async function sendOrderConfirmation({ order, customerName, customerEmail
 
   await send({
     to: customerEmail,
-    from: { email: FROM_EMAIL, name: FROM_NAME },
     subject: `Domaine Fendri — Commande #DF-${orderId} confirmée`,
     html: baseLayout('Confirmation de commande', content),
   });
@@ -230,7 +229,6 @@ export async function sendOrderNotificationToAdmin({ order, customerName, custom
 
   await send({
     to: ADMIN_EMAIL,
-    from: { email: FROM_EMAIL, name: FROM_NAME },
     subject: `[Admin] Nouvelle commande #DF-${orderId} — ${customerName}`,
     html: baseLayout('Nouvelle commande', content),
   });
@@ -262,7 +260,6 @@ export async function sendWelcomeEmail({ name, email }) {
 
   await send({
     to: email,
-    from: { email: FROM_EMAIL, name: FROM_NAME },
     subject: 'Bienvenue chez Domaine Fendri',
     html: baseLayout('Bienvenue', content),
   });
@@ -294,7 +291,6 @@ export async function sendPasswordResetEmail({ name, email, resetUrl }) {
 
   await send({
     to: email,
-    from: { email: FROM_EMAIL, name: FROM_NAME },
     subject: 'Domaine Fendri — Réinitialisation de votre mot de passe',
     html: baseLayout('Réinitialisation de mot de passe', content),
   });
@@ -388,7 +384,6 @@ export async function sendContactNotificationToAdmin({ nom, prenom, email, telep
 
   await send({
     to: ADMIN_EMAIL,
-    from: { email: FROM_EMAIL, name: FROM_NAME },
     subject: `[Contact] ${sujet || 'Nouveau message'} — ${fullName}`,
     html: baseLayout('Nouveau message de contact', content),
   });
@@ -464,7 +459,6 @@ export async function sendOrderStatusUpdate({ order, customerName, customerEmail
 
   await send({
     to: customerEmail,
-    from: { email: FROM_EMAIL, name: FROM_NAME },
     subject: `Domaine Fendri — ${config.subject} (#DF-${orderId})`,
     html: baseLayout(config.subject, content),
   });
