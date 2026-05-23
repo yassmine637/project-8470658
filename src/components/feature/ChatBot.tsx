@@ -218,7 +218,12 @@ export default function ChatBot() {
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, typing]);
 
   useEffect(() => {
-    if (open) { setUnread(0); setPulse(false); setTimeout(() => inputRef.current?.focus(), 300); }
+    if (open) {
+      setUnread(0); setPulse(false); setTimeout(() => inputRef.current?.focus(), 300);
+    } else {
+      setMessages([{ id: 0, from: 'bot', text: WELCOME_MAP[lang], time: now() }]);
+      msgId.current = 1;
+    }
   }, [open]);
 
   useEffect(() => {
