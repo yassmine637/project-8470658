@@ -49,7 +49,7 @@ function getResponse(input: string, lang: Lang): string {
       return `نقبل عدة طرق للدفع :\n\n💵 **الدفع عند الاستلام** (COD)\n💳 **بطاقة بنكية** عبر Stripe\n🔵 **Konnect** (دفع إلكتروني بالدينار)\n🅿️ **PayPal**\n📱 **Click to Pay** (SMT)\n\nجميع المدفوعات آمنة ومشفرة.`;
 
     if (/تواصل|رسالة|بريد|هاتف|واتساب|اتصال/.test(input))
-      return `يمكنك التواصل معنا عبر :\n\n📝 **نموذج الاتصال** على موقعنا (قسم Contact)\n📧 **contact@domainefendri.com**\n📍 **دومين فندري**، مكنين، صفاقس، تونس\n\nنرد خلال **24 إلى 48 ساعة**.`;
+      return `يمكنك التواصل معنا عبر :\n\n📝 **نموذج الاتصال** على موقعنا (قسم Contact)\n📧 **yassminehsin040@gmail.com**\n📍 **دومين فندري**، مكنين، صفاقس، تونس\n\nنرد خلال **24 إلى 48 ساعة**.`;
 
     if (/شهادة|عضوي|جائزة|تكريم|بيول|ايفوليوم|فلوس اولي|سيكيف|سولاناس/.test(input))
       return `**دومين فندري** حائز على جوائز دولية :\n\n🥇 ميدالية ذهبية — BIOL International (إيطاليا، 2016)\n🏅 نهائي IOC Mario Solinas 2018–2020\n📖 Flos Olei — 8 إشارات متتالية\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ شهادة جودة SIQEV مدريد (2023)\n\nمعتمد **زراعة عضوية — الاتحاد الأوروبي وتونس**.`;
@@ -98,7 +98,7 @@ function getResponse(input: string, lang: Lang): string {
       return `We accept several payment methods :\n\n💵 **Cash on delivery** (COD)\n💳 **Credit card** via Stripe\n🔵 **Konnect** (online TND payment)\n🅿️ **PayPal**\n📱 **Click to Pay** (SMT)\n\nAll payments are secure and encrypted.`;
 
     if (/contact|message|email|phone|reach|whatsapp/.test(q))
-      return `You can reach us via :\n\n📝 **Contact form** on our website (Contact section)\n📧 **contact@domainefendri.com**\n📍 **Domaine Fendri**, Meknessi, Sfax, Tunisia\n\nWe respond within **24 to 48 hours**.`;
+      return `You can reach us via :\n\n📝 **Contact form** on our website (Contact section)\n📧 **yassminehsin040@gmail.com**\n📍 **Domaine Fendri**, Meknessi, Sfax, Tunisia\n\nWe respond within **24 to 48 hours**.`;
 
     if (/certif|organic|bio|label|award|biol|evooleum|flos olei|siqev|solinas|recognition/.test(q))
       return `Domaine Fendri is **internationally awarded** :\n\n🥇 Gold Medal — BIOL International (Italy, 2016)\n🏅 IOC Mario Solinas Finalist 2018–2020\n📖 Flos Olei — 8 consecutive mentions\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ SIQEV Quality Label Madrid (2023)\n\nCertified **Organic Agriculture EU & Tunisia**.`;
@@ -147,7 +147,7 @@ function getResponse(input: string, lang: Lang): string {
     return `Nous acceptons plusieurs modes de paiement :\n\n💵 **Paiement à la livraison** (COD)\n💳 **Carte bancaire** via Stripe\n🔵 **Konnect** (paiement TND en ligne)\n🅿️ **PayPal**\n📱 **Click to Pay** (SMT)\n\nTous les paiements sont sécurisés et cryptés.`;
 
   if (/contact|message|email|telephone|nous joindre|whatsapp/.test(q))
-    return `Vous pouvez nous contacter via :\n\n📝 **Formulaire de contact** sur notre site (section Contact)\n📧 **contact@domainefendri.com**\n📍 **Domaine Fendri**, Meknessi, Sfax, Tunisie\n\nNous répondons sous **24 à 48h**.`;
+    return `Vous pouvez nous contacter via :\n\n📝 **Formulaire de contact** sur notre site (section Contact)\n📧 **yassminehsin040@gmail.com**\n📍 **Domaine Fendri**, Meknessi, Sfax, Tunisie\n\nNous répondons sous **24 à 48h**.`;
 
   if (/certif|bio|biologique|label|recompense|prix intern|award|biol|evooleum|flos olei|siqev|solinas/.test(q))
     return `Domaine Fendri est **récompensé internationalement** :\n\n🥇 Médaille d'Or — BIOL International (Italie, 2016)\n🏅 Finaliste IOC Mario Solinas 2018–2020\n📖 Flos Olei — 8 mentions consécutives\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ Label SIQEV Madrid (2023)\n\nCertifiés **Agriculture Biologique EU & Tunisie**.`;
