@@ -58,7 +58,7 @@ app.get('/api/health', (_, res) => res.json({ status: 'ok', timestamp: new Date(
 if (isProd) {
   const frontendPath = path.join(__dirname, '..', 'out');
   app.use(express.static(frontendPath));
-  app.get('*', (_req, res) => {
+  app.use((_req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
   });
 } else {
