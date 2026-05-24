@@ -24,6 +24,12 @@ uri = "file://attached_assets/pipeline_3d_corrected.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "q6QBs596AbHmTBqtpehCq"
+uri = "file://attached_assets/problematique_figure.png"
+type = "image"
+title = "problematique_3_panneaux"
+
 [[outputs]]
 id = "Cm6vqNX0p6l750j-TCvwe"
 uri = "file://public/bidon-metal-500ml.png"
@@ -245,3 +251,9 @@ id = "WS1fTtY5EcAjRWidTTvC4"
 uri = "file://attached_assets/PFE_Domaine_Fendri_Yessmine_Hsine.pptx"
 type = "slides"
 title = "PFE — Domaine Fendri · Yessmine Hsine (3 images)"
+
+[[outputs]]
+id = "VLxSUlL_rn9ODyXuTvElp"
+uri = "file://attached_assets/problematique_figure.png"
+type = "image"
+title = "Figure Problématique — 3 panneaux"
