@@ -233,3 +233,9 @@ id = "zZi0DoNySWz7Iur1yHyCq"
 uri = "file://public/rapport_yessmine_hsine.pdf"
 type = "pdf"
 title = "Rapport PFE — Yessmine Hsine (.pdf)"
+
+[[outputs]]
+id = "iAzGu7PZFQCrjIDW1ffRb"
+uri = "file://attached_assets/Asset-Manager_1779629527680.pptx"
+type = "slides"
+title = "Présentation PFE — Domaine Fendri (corrigée)"
