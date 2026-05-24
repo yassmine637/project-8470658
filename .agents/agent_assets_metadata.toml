@@ -42,6 +42,12 @@ uri = "file://attached_assets/slide_scrum_sprints_corrected.png"
 type = "image"
 title = "slide_scrum_sprints_corrected"
 
+[[generated]]
+id = "jrbwI0h61SWTH3REyE4td"
+uri = "file://attached_assets/slide_configurateur_5etapes.png"
+type = "image"
+title = "slide_configurateur_5etapes"
+
 [[outputs]]
 id = "Cm6vqNX0p6l750j-TCvwe"
 uri = "file://public/bidon-metal-500ml.png"
@@ -281,3 +287,9 @@ id = "JjZWqW1-bPSoYJUSEWblg"
 uri = "file://attached_assets/slide_scrum_sprints_corrected.png"
 type = "image"
 title = "Slide Scrum — 4 Sprints (version corrigée avec FAQ)"
+
+[[outputs]]
+id = "vs6AYHhIvquKSNrvKsdjq"
+uri = "file://attached_assets/slide_configurateur_5etapes.png"
+type = "image"
+title = "Slide Configurateur — 5 Étapes"
