@@ -1,0 +1,185 @@
+Crée une présentation PFE visuellement spectaculaire, créative et 
+professionnelle de 13 slides pour une soutenance de Licence 
+Informatique & Multimédia à l'ISIMS Sfax, 2024–2025.
+
+Étudiante : Yassmine Hsine
+Titre : Conception et Développement d'une Application E-commerce 
+pour Domaine Fendri — Huile d'Olive Biologique Tunisienne
+
+=== DIRECTION CRÉATIVE ===
+Concept visuel : "L'or vert de Tunisie rencontre le digital moderne"
+Ambiance : magazine de luxe + startup tech + identité tunisienne
+Chaque slide doit avoir du caractère — pas de slides vides ou génériques.
+Utilise des contrastes forts, des dégradés subtils, des grandes 
+typographies, des photos pleine page avec overlay.
+
+Palette de couleurs :
+• Fond principal : vert très sombre #1a2617 (slides sombres impactantes)
+• Fond alternatif : beige crème #f7f5f0 (slides légères et lisibles)
+• Accent obligatoire : or #d4af37 sur chaque slide (titres, bordures, icônes)
+• Blanc #ffffff pour les textes sur fond sombre
+
+Typographie :
+• Titres : grande taille, police serif élégante (Cormorant, Playfair Display)
+• Corps : police moderne (Outfit, Inter, DM Sans)
+• Chiffres clés et stats : très grande taille, couleur or
+
+Éléments décoratifs à intégrer :
+• Fines lignes dorées comme séparateurs
+• Petits motifs berbères/géométriques tunisiens en filigrane
+• Formes circulaires ou ovales pour encadrer les images
+• Icônes minimalistes dorées
+• Numérotation des slides stylisée en bas de page
+
+=== SLIDES ===
+
+SLIDE 1 — ACCROCHE CINÉMATIQUE
+Fond : photo pleine page d'une oliveraie tunisienne au coucher du soleil
+Overlay sombre vert #1a2617 à 70% pour lisibilité
+Centré au milieu en blanc :
+— Petite ligne dorée horizontale —
+DOMAINE FENDRI
+(grande police serif)
+"Conception et Développement d'une Application E-commerce"
+— Petite ligne dorée horizontale —
+Citation en italique plus petite : 
+"L'huile d'olive est l'or liquide de la Méditerranée"
+En bas : ISIMS Sfax · Yassmine Hsine · Licence Info & Multimédia · 2024–2025
+
+SLIDE 2 — PROBLÉMATIQUE (fond beige)
+Grand chiffre en or en arrière-plan (semi-transparent) : "?"
+Titre en vert foncé : "Un produit d'exception sans vitrine digitale"
+Bloc central avec 3 constats visuels :
+❌ Aucune présence e-commerce
+❌ Ventes limitées au marché local
+❌ Concurrents internationaux déjà en ligne
+Flèche vers le bas → Question en grand en or :
+"Comment offrir à 113 ans d'expertise une présence mondiale ?"
+
+SLIDE 3 — DOMAINE FENDRI (fond sombre vert)
+Titre en or : "Depuis 1911 — Un siècle d'or vert"
+Photo circulaire de bouteilles à gauche
+À droite : frise chronologique verticale dorée
+1911 → Fondation à Meknessi, Sfax
+2015 → Gourmet d'Argent AVPA Paris
+2016 → Médaille d'Or BIOL International Italie
+2018–20 → Finaliste IOC Mario Solinas
+2023 → Label SIQEV Madrid + TOP 100 EVOOLEUM
+Bas de slide : 3 badges dorés — BIO EU · Pressée à froid · Sfax, Tunisie
+
+SLIDE 4 — OBJECTIFS (fond beige)
+Titre : "5 ambitions pour un projet fullstack"
+5 grandes cartes disposées en quinconce avec icône dorée + chiffre :
+01 🛒 Catalogue e-commerce interactif
+02 🌍 Site trilingue FR · AR · EN
+03 📱 100% responsive mobile
+04 ⚙️ Panel d'administration complet
+05 📧 Emails automatiques intelligents
+
+SLIDE 5 — TECHNOLOGIES (fond sombre vert)
+Titre en or : "La stack technique"
+Disposition en 2 colonnes avec logos + description courte :
+FRONTEND          BACKEND
+React 19          Node.js + Express
+Vite + TypeScript MongoDB + Mongoose
+TailwindCSS       JWT Authentification
+i18next (3 langues) Nodemailer Gmail SMTP
+Bandeau en bas : "Architecture moderne · Scalable · Sécurisée"
+
+SLIDE 6 — ARCHITECTURE (fond beige)
+Titre : "Comment les 3 couches communiquent"
+Grand schéma centré avec style futuriste et lignes dorées :
+[📱 Client React / Vite]
+       ↕ API REST sécurisée (JWT)
+[⚙️ Serveur Express Node.js]
+       ↕ Mongoose ODM
+[🗄️ MongoDB Atlas]
+       + [📧 Gmail SMTP — Nodemailer]
+Couleurs du schéma : blocs verts, flèches dorées, fond beige
+
+SLIDE 7 — CAS D'UTILISATION (fond sombre vert)
+Titre en or : "3 acteurs, 1 écosystème"
+3 colonnes avec icône ronde dorée en haut de chaque :
+👤 CLIENT          🔧 ADMIN           🤖 SYSTÈME
+Parcourir          Gérer produits     Email confirmation
+Commander          Traiter commandes  Email statut commande
+Suivre commandes   Modifier stocks    Email bienvenue
+Configurer bouteille  Voir devis      Email reset MDP
+Chatbot / Contact  Tableau de bord    Notifications admin
+
+SLIDE 8 — VIDÉO DÉMO (fond sombre vert)
+Grand titre centré : "Le site en action"
+Sous-titre : "Parcours complet — de la découverte à la commande"
+Icône play dorée géante au centre
+Bandeau doré en bas : 
+"Catalogue · Configurateur 3D · Commande · Email · Admin · Chatbot"
+[Insérer la vidéo ici]
+
+SLIDE 9 — FONCTIONNALITÉS CLIENT (fond beige)
+Titre : "L'expérience client"
+Grille 2×2 avec captures d'écran encadrées en or :
+📦 Catalogue produits — 4 bouteilles avec filtres et détails
+🎨 Configurateur 3D — personnalisation interactive de la bouteille
+🛒 Panier & Commande — parcours fluide, invité ou connecté
+📧 Email de confirmation — reçu depuis Gmail après commande
+
+SLIDE 10 — FONCTIONNALITÉS ADMIN (fond sombre vert)
+Titre en or : "Le contrôle total côté admin"
+Grille 2×2 avec captures :
+📊 Dashboard admin — statistiques et commandes en temps réel
+🔄 Gestion statuts — en attente → préparation → expédié → livré
+💬 Chatbot multilingue — FR / AR / EN intégré sur toutes les pages
+🌐 Multilingue — switch instantané entre 3 langues + RTL arabe
+
+SLIDE 11 — BASE DE DONNÉES (fond beige)
+Titre : "Modélisation MongoDB — 5 collections"
+5 cartes avec fond vert foncé et titre en or :
+👤 Users — nom, email, mot de passe bcrypt, téléphone, pays, rôle
+📦 Products — nom, slug, prix, stock, certifications, variantes
+📋 Orders — articles, total HT/TVA/TTC, adresse, statut, paiement
+🎨 ConfiguratorOrders — bouteille personnalisée, devis B2B
+✉️ ContactMessages — formulaire de contact archivé
+
+SLIDE 12 — DÉFIS & SOLUTIONS (fond sombre vert)
+Titre en or : "Les obstacles surmontés"
+3 grandes cartes horizontales avec couleur de statut vert ✅ :
+DÉFI 1 — Responsive mobile
+Problème : layouts fixes cassés sur petit écran
+Solution : audit complet, grilles adaptatives, carousel mobile produits
+
+DÉFI 2 — Internationalisation arabe (RTL)
+Problème : inversion sens de lecture, 200+ chaînes de texte
+Solution : i18next + attribut dir="rtl" + audit de toutes les pages
+
+DÉFI 3 — Emails automatiques en production
+Problème : clé Resend invalide, emails non délivrés
+Solution : migration vers Gmail SMTP + Nodemailer + App Password Google
+
+SLIDE 13 — CONCLUSION (fond beige)
+Titre grand : "Un projet fullstack de A à Z"
+2 colonnes :
+Colonne gauche — ✅ Ce qui est livré :
+Application e-commerce complète
+Trilingue FR / AR / EN
+Emails automatiques fonctionnels
+Admin opérationnel
+Configurateur 3D unique
+100% responsive mobile
+
+Colonne droite — 🚀 Perspectives :
+Paiement Konnect & Stripe réel
+Application mobile React Native
+SEO & référencement international
+Programme fidélité client
+
+Citation finale en or italique :
+"Ce projet m'a permis de transformer 
+un siècle de savoir-faire artisanal 
+en expérience digitale moderne."
+
+SLIDE FINALE — FIN
+Fond : photo pleine page oliveraie
+Overlay vert foncé 60%
+Centre : "Merci de votre attention" en grand serif blanc
+Dessous en or : "Des questions ?"
+Tout en bas en petit : Yassmine Hsine · ISIMS Sfax · 2024–2025
