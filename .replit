@@ -49,7 +49,6 @@ waitForPort = 3001
 [deployment]
 deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
-publicDir = "out"
 run = ["node", "server/index.js"]
 
 [userenv]
