@@ -47,17 +47,23 @@ args = "node server/index.js"
 waitForPort = 3001
 
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
 publicDir = "out"
+run = ["node", "server/index.js"]
 
 [userenv]
 
 [userenv.shared]
-NODE_ENV = "development"
 API_PORT = "3001"
 RESEND_FROM_EMAIL = "onboarding@resend.dev"
 ADMIN_EMAIL = "yassminehsin040@gmail.com"
+
+[userenv.development]
+NODE_ENV = "development"
+
+[userenv.production]
+NODE_ENV = "production"
 
 [[ports]]
 localPort = 3001

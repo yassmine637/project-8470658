@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
 import { globalLimiter } from './middleware/rateLimit.js';
 import { sanitizeBody } from './middleware/validate.js';
@@ -14,8 +16,10 @@ import checkoutRoutes from './routes/checkout.js';
 import adminRoutes from './routes/admin.js';
 import b2bRoutes from './routes/b2b.js';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const PORT = process.env.API_PORT || 3001;
+const PORT = process.env.PORT || process.env.API_PORT || 3001;
+const isProd = process.env.NODE_ENV === 'production';
 
 app.set('trust proxy', 1);
 
@@ -28,9 +32,7 @@ app.use(helmet({
 }));
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? (process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : false)
-    : '*',
+  origin: isProd ? true : '*',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -53,7 +55,15 @@ app.use('/api/b2b', b2bRoutes);
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
-app.use((_req, res) => res.status(404).json({ message: 'Route introuvable' }));
+if (isProd) {
+  const frontendPath = path.join(__dirname, '..', 'out');
+  app.use(express.static(frontendPath));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+} else {
+  app.use((_req, res) => res.status(404).json({ message: 'Route introuvable' }));
+}
 
 app.use((err, _req, res, _next) => {
   console.error(err.stack);
