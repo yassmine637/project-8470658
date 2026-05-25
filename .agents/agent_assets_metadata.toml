@@ -317,3 +317,9 @@ id = "zQjSYUPMO61k-_SZ2TROD"
 uri = "file://attached_assets/slide_configurateur_maquette.png"
 type = "image"
 title = "Maquette Configurateur — 6 Étapes"
+
+[[outputs]]
+id = "gKVpegpfiCcmVRTxGOJl2"
+uri = "file://attached_assets/slide_configurateur_final.png"
+type = "image"
+title = "Slide Configurateur — avec tes vraies images"
