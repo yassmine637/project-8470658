@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Domaine Fendri — Soutenance PFE · Yessmine Hsine</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" />
+
+  <style>
+    :root {
+      --gold: #C59B27;
+      --gold-light: #E8C55A;
+      --green-dark: #1A2E17;
+      --green-mid: #2C4A28;
+      --green-sage: #8FA882;
+      --cream: #FDFBF7;
+      --cream-muted: #F0EDE5;
+      --text-dark: #1C1C1C;
+    }
+
+    .reveal-viewport { background: var(--green-dark); }
+    .reveal { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .reveal .slides { text-align: left; }
+    .reveal .slides section { padding: 0; }
+    .reveal .progress { color: var(--gold); }
+    .reveal .controls { color: var(--gold); }
+
+    /* ---- GLOBAL SLIDE ---- */
+    .slide-wrap {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    /* ---- SLIDE 1 — TITRE ---- */
+    .s1 {
+      background: linear-gradient(160deg, #0D1A0B 0%, #1A2E17 50%, #2C4A28 100%);
+    }
+    .s1-corner-lines {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .s1-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 8vw;
+      position: relative;
+      z-index: 2;
+    }
+    .s1-eyebrow {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1vw;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 2vh;
+    }
+    .s1-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 7vw;
+      font-weight: 900;
+      color: var(--cream);
+      line-height: 1;
+      margin: 0 0 1.5vh 0;
+    }
+    .s1-title span { color: var(--gold); }
+    .s1-subtitle {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.5vw;
+      font-weight: 300;
+      color: var(--green-sage);
+      margin-bottom: 5vh;
+      max-width: 50vw;
+      line-height: 1.6;
+    }
+    .s1-gold-line {
+      width: 6vw;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 3vh;
+    }
+    .s1-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2vw;
+      max-width: 60vw;
+    }
+    .s1-meta-item { }
+    .s1-meta-label {
+      font-size: 0.7vw;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.4vh;
+    }
+    .s1-meta-value {
+      font-size: 0.95vw;
+      color: var(--cream);
+      font-weight: 500;
+    }
+    .s1-olive-bg {
+      position: absolute;
+      right: 5vw;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22vw;
+      opacity: 0.04;
+      pointer-events: none;
+      color: var(--cream);
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      z-index: 1;
+    }
+
+    /* ---- SLIDE HEADER shared ---- */
+    .slide-header {
+      padding: 3.5vh 6vw 2vh;
+      display: flex;
+      align-items: center;
+      gap: 1.5vw;
+      border-bottom: 1px solid rgba(197,155,39,0.2);
+    }
+    .slide-num {
+      font-size: 0.75vw;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      background: rgba(197,155,39,0.12);
+      padding: 0.4vh 1vw;
+      border-radius: 99px;
+    }
+    .slide-title-h {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4vw;
+      font-weight: 700;
+      color: var(--cream);
+      margin: 0;
+      flex: 1;
+    }
+    .slide-title-h span { color: var(--gold); }
+    .slide-body {
+      flex: 1;
+      padding: 3vh 6vw;
+      display: flex;
+      gap: 4vw;
+    }
+
+    /* ---- DARK SLIDES (green bg) ---- */
+    .s-dark { background: linear-gradient(135deg, #0D1A0B 0%, #1A2E17 100%); }
+
+    /* ---- LIGHT SLIDES (cream bg) ---- */
+    .s-light {
+      background: var(--cream);
+    }
+    .s-light .slide-title-h { color: var(--green-dark); }
+    .s-light .slide-header { border-bottom: 1px solid rgba(44,74,40,0.15); }
+
+    /* ---- SLIDE 2 — CONTEXTE ---- */
+    .context-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5vh;
+    }
+    .context-card {
+      background: rgba(197,155,39,0.08);
+      border: 1px solid rgba(197,155,39,0.25);
+      border-radius: 12px;
+      padding: 2vh 2vw;
+    }
+    .context-card-title {
+      font-size: 0.75vw;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.8vh;
+      font-weight: 600;
+    }
+    .context-card-text {
+      font-size: 1.05vw;
+      color: var(--cream);
+      line-height: 1.6;
+    }
+    .context-right {
+      width: 32vw;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vh;
+    }
+    .stat-box {
+      background: var(--gold);
+      border-radius: 12px;
+      padding: 2.5vh 2vw;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 4vw;
+      font-weight: 900;
+      color: var(--green-dark);
+      display: block;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75vw;
+      color: var(--green-dark);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.5vh;
+      display: block;
+    }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5vh; }
+
+    /* ---- SLIDE 3 — PROBLEMATIQUE ---- */
+    .prob-items {
+      display: flex;
+      flex-direction: column;
+      gap: 2vh;
+      flex: 1;
+    }
+    .prob-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5vw;
+      padding: 2vh 2vw;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border-left: 3px solid var(--gold);
+    }
+    .prob-icon {
+      font-size: 2vw;
+      flex-shrink: 0;
+      margin-top: 0.2vh;
+    }
+    .prob-text {}
+    .prob-title {
+      font-size: 1.1vw;
+      color: var(--cream);
+      font-weight: 600;
+      margin-bottom: 0.4vh;
+    }
+    .prob-desc {
+      font-size: 0.9vw;
+      color: var(--green-sage);
+      line-height: 1.5;
+    }
+    .prob-right {
+      width: 28vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .prob-quote {
+      border: 1px solid rgba(197,155,39,0.4);
+      border-radius: 16px;
+      padding: 4vh 3vw;
+      text-align: center;
+    }
+    .prob-quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4vw;
+      color: var(--cream);
+      line-height: 1.6;
+      margin-bottom: 2vh;
+      font-style: italic;
+    }
+    .prob-quote-author {
+      font-size: 0.8vw;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ---- SLIDE 4 — SOLUTION ---- */
+    .solution-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2vw;
+      flex: 1;
+      align-content: start;
+    }
+    .sol-card {
+      background: var(--green-mid);
+      border-radius: 16px;
+      padding: 3vh 2vw;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2vh;
+      border-top: 3px solid var(--gold);
+    }
+    .sol-icon { font-size: 2.5vw; }
+    .sol-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2vw;
+      color: var(--cream);
+      font-weight: 700;
+    }
+    .sol-desc {
+      font-size: 0.85vw;
+      color: var(--green-sage);
+      line-height: 1.6;
+    }
+
+    /* ---- SLIDE 5 — ARCHITECTURE ---- */
+    .arch-cols {
+      flex: 1;
+      display: flex;
+      gap: 3vw;
+      align-items: stretch;
+    }
+    .arch-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vh;
+    }
+    .arch-col-title {
+      font-size: 0.75vw;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 700;
+      padding-bottom: 1vh;
+      border-bottom: 1px solid rgba(197,155,39,0.3);
+    }
+    .arch-layer {
+      background: rgba(197,155,39,0.08);
+      border-radius: 10px;
+      padding: 1.5vh 1.5vw;
+      border: 1px solid rgba(197,155,39,0.15);
+    }
+    .arch-layer-name {
+      font-size: 0.85vw;
+      color: var(--cream);
+      font-weight: 600;
+      margin-bottom: 0.3vh;
+    }
+    .arch-layer-tech {
+      font-size: 0.75vw;
+      color: var(--green-sage);
+    }
+    .arch-center {
+      width: 18vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .arch-center-box {
+      background: var(--gold);
+      border-radius: 16px;
+      padding: 4vh 2vw;
+      text-align: center;
+      width: 100%;
+    }
+    .arch-center-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4vw;
+      color: var(--green-dark);
+      font-weight: 700;
+      margin-bottom: 1vh;
+    }
+    .arch-center-tech {
+      font-size: 0.75vw;
+      color: var(--green-dark);
+      line-height: 1.8;
+      opacity: 0.8;
+    }
+
+    /* ---- SPRINT SLIDES ---- */
+    .sprint-left {
+      width: 40vw;
+    }
+    .sprint-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8vw;
+      background: rgba(197,155,39,0.15);
+      border: 1px solid var(--gold);
+      border-radius: 99px;
+      padding: 0.8vh 1.5vw;
+      margin-bottom: 2.5vh;
+    }
+    .sprint-badge-num {
+      font-size: 0.75vw;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+    .sprint-badge-name {
+      font-size: 0.75vw;
+      color: var(--cream);
+      font-weight: 500;
+    }
+    .sprint-desc {
+      font-size: 1.05vw;
+      color: var(--green-sage);
+      line-height: 1.7;
+      margin-bottom: 3vh;
+    }
+    .sprint-tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 1vh;
+    }
+    .sprint-task {
+      display: flex;
+      align-items: center;
+      gap: 1vw;
+      font-size: 0.95vw;
+      color: var(--cream);
+    }
+    .sprint-task::before {
+      content: '';
+      width: 0.6vw;
+      height: 0.6vw;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .sprint-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vh;
+    }
+    .sprint-img-frame {
+      flex: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(197,155,39,0.3);
+      position: relative;
+    }
+    .sprint-img-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .sprint-img-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      padding: 2vh 1.5vw 1.5vh;
+      font-size: 0.75vw;
+      color: var(--cream);
+      letter-spacing: 0.1em;
+    }
+    .sprint-mini-imgs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5vh;
+      height: 18vh;
+    }
+    .sprint-mini-frame {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(197,155,39,0.2);
+      position: relative;
+    }
+    .sprint-mini-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .sprint-mini-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.65);
+      padding: 0.5vh 0.7vw;
+      font-size: 0.65vw;
+      color: var(--cream);
+    }
+
+    /* ---- CONFIGURATEUR SLIDE ---- */
+    .config-steps {
+      display: flex;
+      gap: 1vw;
+      margin-bottom: 3vh;
+      flex-shrink: 0;
+    }
+    .config-step {
+      flex: 1;
+      background: rgba(197,155,39,0.1);
+      border: 1px solid rgba(197,155,39,0.3);
+      border-radius: 10px;
+      padding: 1.5vh 1vw;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .config-step.active {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+    .config-step-num {
+      font-size: 0.65vw;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 0.4vh;
+      display: block;
+    }
+    .config-step.active .config-step-num { color: var(--green-dark); }
+    .config-step-name {
+      font-size: 0.7vw;
+      color: var(--cream);
+      font-weight: 500;
+    }
+    .config-step.active .config-step-name { color: var(--green-dark); }
+    .config-main {
+      flex: 1;
+      display: flex;
+      gap: 3vw;
+    }
+    .config-img-block {
+      flex: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(197,155,39,0.3);
+      position: relative;
+    }
+    .config-img-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .config-info {
+      width: 28vw;
+      display: flex;
+      flex-direction: column;
+      gap: 2vh;
+    }
+    .config-feature {
+      background: rgba(197,155,39,0.08);
+      border-radius: 12px;
+      padding: 2vh 1.5vw;
+      border-left: 3px solid var(--gold);
+    }
+    .config-feature-title {
+      font-size: 0.85vw;
+      color: var(--cream);
+      font-weight: 600;
+      margin-bottom: 0.5vh;
+    }
+    .config-feature-text {
+      font-size: 0.78vw;
+      color: var(--green-sage);
+      line-height: 1.5;
+    }
+
+    /* ---- TECH STACK SLIDE ---- */
+    .tech-cols {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3vw;
+    }
+    .tech-section {}
+    .tech-section-title {
+      font-size: 0.75vw;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 2vh;
+      padding-bottom: 1vh;
+      border-bottom: 1px solid rgba(197,155,39,0.25);
+    }
+    .tech-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vh;
+    }
+    .tech-item {
+      display: flex;
+      align-items: center;
+      gap: 1.2vw;
+    }
+    .tech-dot {
+      width: 0.5vw;
+      height: 0.5vw;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tech-name {
+      font-size: 1vw;
+      color: var(--cream);
+      font-weight: 600;
+      flex: 1;
+    }
+    .tech-desc {
+      font-size: 0.78vw;
+      color: var(--green-sage);
+    }
+    .tech-badge {
+      font-size: 0.65vw;
+      background: rgba(197,155,39,0.15);
+      color: var(--gold);
+      padding: 0.3vh 0.7vw;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+
+    /* ---- DEMO SLIDE ---- */
+    .demo-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2vw;
+    }
+    .demo-card {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(197,155,39,0.25);
+      display: flex;
+      flex-direction: column;
+    }
+    .demo-card-img {
+      height: 55%;
+      overflow: hidden;
+    }
+    .demo-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .demo-card-info {
+      padding: 1.5vh 1.2vw;
+      background: rgba(255,255,255,0.04);
+      flex: 1;
+    }
+    .demo-card-title {
+      font-size: 0.85vw;
+      color: var(--cream);
+      font-weight: 600;
+      margin-bottom: 0.5vh;
+    }
+    .demo-card-desc {
+      font-size: 0.72vw;
+      color: var(--green-sage);
+      line-height: 1.5;
+    }
+
+    /* ---- BILAN SLIDE ---- */
+    .bilan-wrap {
+      flex: 1;
+      display: flex;
+      gap: 4vw;
+    }
+    .bilan-left {
+      flex: 1;
+    }
+    .bilan-section-title {
+      font-size: 0.75vw;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 2vh;
+    }
+    .bilan-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2vh;
+    }
+    .bilan-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1vw;
+      font-size: 0.95vw;
+      color: var(--text-dark);
+      line-height: 1.5;
+    }
+    .bilan-check {
+      width: 1.5vw;
+      height: 1.5vw;
+      background: var(--green-mid);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.7vw;
+      color: var(--cream);
+      margin-top: 0.1vh;
+    }
+    .bilan-right {
+      width: 32vw;
+    }
+    .bilan-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5vw;
+    }
+    .bilan-stat {
+      background: var(--green-mid);
+      border-radius: 14px;
+      padding: 2.5vh 2vw;
+      text-align: center;
+    }
+    .bilan-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5vw;
+      font-weight: 900;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+    }
+    .bilan-stat-label {
+      font-size: 0.72vw;
+      color: var(--cream);
+      opacity: 0.7;
+      letter-spacing: 0.08em;
+      margin-top: 0.5vh;
+      display: block;
+    }
+    .s-light .bilan-check { background: var(--green-mid); }
+
+    /* ---- PERSPECTIVES ---- */
+    .perspectives-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5vw;
+      align-content: start;
+    }
+    .perspective-card {
+      background: rgba(44,74,40,0.06);
+      border-radius: 14px;
+      padding: 3vh 2.5vw;
+      border-left: 4px solid var(--gold);
+    }
+    .perspective-icon { font-size: 2vw; margin-bottom: 1vh; }
+    .perspective-title {
+      font-size: 1vw;
+      color: var(--green-dark);
+      font-weight: 700;
+      margin-bottom: 0.8vh;
+    }
+    .perspective-desc {
+      font-size: 0.82vw;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ---- SLIDE MERCI ---- */
+    .s-merci {
+      background: linear-gradient(160deg, #0D1A0B 0%, #1A2E17 50%, #2C4A28 100%);
+    }
+    .merci-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .merci-icon {
+      font-size: 5vw;
+      margin-bottom: 3vh;
+      opacity: 0.6;
+    }
+    .merci-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 6vw;
+      font-weight: 900;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 1.5vh;
+    }
+    .merci-title span { color: var(--gold); }
+    .merci-subtitle {
+      font-size: 1.3vw;
+      color: var(--green-sage);
+      margin-bottom: 5vh;
+    }
+    .merci-divider {
+      width: 8vw;
+      height: 2px;
+      background: var(--gold);
+      margin: 0 auto 5vh;
+    }
+    .merci-info-grid {
+      display: flex;
+      gap: 6vw;
+      justify-content: center;
+    }
+    .merci-info-item { text-align: center; }
+    .merci-info-label {
+      font-size: 0.7vw;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5vh;
+    }
+    .merci-info-value {
+      font-size: 1vw;
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    /* ---- NUMBERING BAR ---- */
+    .slide-progress-bar {
+      height: 3px;
+      background: var(--gold);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================
+     SLIDE 1 — TITRE
+============================================================ -->
+<section>
+<div class="slide-wrap s1">
+  <div class="s1-olive-bg">F</div>
+  <div class="s1-content">
+    <div class="s1-eyebrow">Projet de Fin d'Études · ISIMS Sfax · 2025–2026</div>
+    <h1 class="s1-title">Domaine<br/><span>Fendri</span></h1>
+    <div class="s1-gold-line"></div>
+    <p class="s1-subtitle">
+      Conception et développement d'une plateforme e-commerce avec<br/>
+      configurateur de bouteilles interactif — Huile d'olive bio tunisienne
+    </p>
+    <div class="s1-meta-grid">
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">Étudiante</div>
+        <div class="s1-meta-value">Yessmine Hsine</div>
+      </div>
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">Établissement</div>
+        <div class="s1-meta-value">ISIMS Sfax</div>
+      </div>
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">Encadrement</div>
+        <div class="s1-meta-value">Digilab Solutions</div>
+      </div>
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">Filière</div>
+        <div class="s1-meta-value">Licence Informatique & Multimédia</div>
+      </div>
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">Soutenance</div>
+        <div class="s1-meta-value">01 Juin 2026</div>
+      </div>
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">Méthodologie</div>
+        <div class="s1-meta-value">Scrum · 4 Sprints</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:8%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — CONTEXTE
+============================================================ -->
+<section>
+<div class="slide-wrap s-dark">
+  <div class="slide-header">
+    <span class="slide-num">01 / 12</span>
+    <h2 class="slide-title-h">Contexte & <span>Entreprise</span></h2>
+  </div>
+  <div class="slide-body">
+    <div class="context-left">
+      <div class="context-card">
+        <div class="context-card-title">Entreprise d'accueil</div>
+        <div class="context-card-text">
+          <strong style="color:var(--cream)">Digilab Solutions</strong> — agence spécialisée en développement web et applications numériques. Accompagnement de projets de digitalisation pour clients tunisiens et internationaux.
+        </div>
+      </div>
+      <div class="context-card">
+        <div class="context-card-title">Client final</div>
+        <div class="context-card-text">
+          <strong style="color:var(--cream)">Domaine Fendri</strong> — producteur tunisien d'huile d'olive extra vierge biologique depuis 1925, région de Sfax. Certification bio, Olives Chetoui, pressée à froid.
+        </div>
+      </div>
+      <div class="context-card">
+        <div class="context-card-title">Besoin identifié</div>
+        <div class="context-card-text">
+          Absence de présence numérique structurée. Aucune solution permettant la vente en ligne ni la personnalisation de commandes B2C et B2B.
+        </div>
+      </div>
+    </div>
+    <div class="context-right">
+      <div class="stat-box">
+        <span class="stat-num">1925</span>
+        <span class="stat-label">Fondation du Domaine</span>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Certifié Bio</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">3</span>
+          <span class="stat-label">Langues (FR·AR·EN)</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Sprints Scrum</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">6</span>
+          <span class="stat-label">Étapes Config.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:16%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — PROBLEMATIQUE
+============================================================ -->
+<section>
+<div class="slide-wrap s-dark">
+  <div class="slide-header">
+    <span class="slide-num">02 / 12</span>
+    <h2 class="slide-title-h">Problématique</h2>
+  </div>
+  <div class="slide-body">
+    <div class="prob-items">
+      <div class="prob-item">
+        <div class="prob-icon">🌐</div>
+        <div class="prob-text">
+          <div class="prob-title">Absence de présence numérique</div>
+          <div class="prob-desc">Domaine Fendri n'avait aucun site web ni canal de vente en ligne. Les commandes se faisaient uniquement par téléphone ou en présentiel.</div>
+        </div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-icon">🎨</div>
+        <div class="prob-text">
+          <div class="prob-title">Aucune personnalisation produit</div>
+          <div class="prob-desc">Les clients professionnels (hôtels, restaurants) ne pouvaient pas personnaliser les bouteilles selon leurs besoins (format, étiquette, gravure, emballage).</div>
+        </div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-icon">📦</div>
+        <div class="prob-text">
+          <div class="prob-title">Gestion manuelle des commandes</div>
+          <div class="prob-desc">Pas de système de suivi des commandes, de gestion des stocks ni de tableau de bord pour l'administrateur.</div>
+        </div>
+      </div>
+      <div class="prob-item">
+        <div class="prob-icon">🌍</div>
+        <div class="prob-text">
+          <div class="prob-title">Audience internationale non adressée</div>
+          <div class="prob-desc">L'entreprise cible l'export vers l'Europe et le Moyen-Orient sans interface multilingue ni support RTL pour l'arabe.</div>
+        </div>
+      </div>
+    </div>
+    <div class="prob-right">
+      <div class="prob-quote">
+        <div class="prob-quote-text">
+          "Comment créer une expérience numérique premium qui digitalise la vente, personnalise le produit et reflète l'identité du Domaine Fendri ?"
+        </div>
+        <div class="prob-quote-author">Question centrale du projet</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:24%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — SOLUTION
+============================================================ -->
+<section>
+<div class="slide-wrap s-dark">
+  <div class="slide-header">
+    <span class="slide-num">03 / 12</span>
+    <h2 class="slide-title-h">Solution <span>Proposée</span></h2>
+  </div>
+  <div class="slide-body" style="flex-direction:column;">
+    <div class="solution-grid">
+      <div class="sol-card">
+        <div class="sol-icon">🛍️</div>
+        <div class="sol-title">E-Commerce Complet</div>
+        <div class="sol-desc">Boutique en ligne avec catalogue produit, panier, paiement, suivi de commande et espace client sécurisé.</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-icon">🎛️</div>
+        <div class="sol-title">Configurateur Interactif</div>
+        <div class="sol-desc">6 étapes de personnalisation : modèle de bouteille, volume, étiquette, emballage, message gravé et devis automatique.</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-icon">⚙️</div>
+        <div class="sol-title">Dashboard Admin</div>
+        <div class="sol-desc">Tableau de bord pour gérer produits, commandes, devis configurateur et statistiques en temps réel.</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-icon">🌍</div>
+        <div class="sol-title">Multilingue FR·AR·EN</div>
+        <div class="sol-desc">Internationalisation complète avec support RTL pour l'arabe. Devise TND adaptée au marché tunisien.</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-icon">💬</div>
+        <div class="sol-title">Chatbot IA</div>
+        <div class="sol-desc">Assistant virtuel pour répondre aux questions fréquentes sur les produits, la livraison et les certifications bio.</div>
+      </div>
+      <div class="sol-card">
+        <div class="sol-icon">📱</div>
+        <div class="sol-title">Design Responsive</div>
+        <div class="sol-desc">Interface adaptée mobile, tablette et desktop. Palette premium cohérente avec l'identité visuelle du Domaine.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:32%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — ARCHITECTURE
+============================================================ -->
+<section>
+<div class="slide-wrap s-dark">
+  <div class="slide-header">
+    <span class="slide-num">04 / 12</span>
+    <h2 class="slide-title-h">Architecture <span>Technique</span></h2>
+  </div>
+  <div class="slide-body">
+    <div class="arch-cols">
+      <div class="arch-col">
+        <div class="arch-col-title">Frontend</div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">React 19 + TypeScript</div>
+          <div class="arch-layer-tech">SPA · Composants réutilisables</div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">Vite + TailwindCSS</div>
+          <div class="arch-layer-tech">Build optimisé · Design system</div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">Framer Motion</div>
+          <div class="arch-layer-tech">Animations · Transitions fluides</div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">i18next · react-i18next</div>
+          <div class="arch-layer-tech">Internationalisation FR·AR·EN + RTL</div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">Three.js / React Three Fiber</div>
+          <div class="arch-layer-tech">Rendu 3D configurateur</div>
+        </div>
+      </div>
+      <div class="arch-center">
+        <div class="arch-center-box">
+          <div class="arch-center-title">API REST</div>
+          <div class="arch-center-tech">
+            Express.js<br/>
+            Port 3001<br/>
+            JWT Auth<br/>
+            Middleware CORS<br/>
+            Nodemailer
+          </div>
+        </div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-title">Backend & Data</div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">Node.js + Express.js</div>
+          <div class="arch-layer-tech">API REST · Routes sécurisées</div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">MongoDB + Mongoose</div>
+          <div class="arch-layer-tech">Base NoSQL · Schémas flexibles</div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">JWT + bcrypt</div>
+          <div class="arch-layer-tech">Authentification · Hashage mots de passe</div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">Nodemailer + Resend</div>
+          <div class="arch-layer-tech">Emails de confirmation commande</div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-layer-name">Modèles : User · Product · Order · Devis</div>
+          <div class="arch-layer-tech">Collections MongoDB</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:40%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — SPRINT 1 & 2
+============================================================ -->
+<section>
+<div class="slide-wrap s-dark">
+  <div class="slide-header">
+    <span class="slide-num">05 / 12</span>
+    <h2 class="slide-title-h">Réalisation — <span>Sprints 1 & 2</span></h2>
+  </div>
+  <div class="slide-body" style="gap:3vw; align-items:stretch;">
+    <!-- SPRINT 1 -->
+    <div style="flex:1; display:flex; flex-direction:column;">
+      <div class="sprint-badge" style="margin-bottom:2vh;">
+        <span class="sprint-badge-num">SPRINT 1</span>
+        <span class="sprint-badge-name">Fondations & Modélisation 3D</span>
+      </div>
+      <div class="sprint-desc" style="font-size:0.85vw;">
+        Mise en place de l'environnement de développement, architecture du projet, modélisation des bouteilles 3D et identité visuelle.
+      </div>
+      <div class="sprint-tasks" style="gap:0.8vh;">
+        <div class="sprint-task" style="font-size:0.82vw;">Configuration React 19 + Vite + TypeScript + TailwindCSS</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Modélisation 3D des 4 modèles de bouteilles (Three.js)</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Conception de la charte graphique et palette de couleurs</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Schémas UML : diagrammes de cas d'utilisation, classes, séquences</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Mise en place du backend Express.js + MongoDB</div>
+      </div>
+    </div>
+    <!-- DIVIDER -->
+    <div style="width:1px; background:rgba(197,155,39,0.2); align-self:stretch;"></div>
+    <!-- SPRINT 2 -->
+    <div style="flex:1; display:flex; flex-direction:column;">
+      <div class="sprint-badge" style="margin-bottom:2vh;">
+        <span class="sprint-badge-num">SPRINT 2</span>
+        <span class="sprint-badge-name">Pages Frontend & Configurateur</span>
+      </div>
+      <div class="sprint-desc" style="font-size:0.85vw;">
+        Développement des pages principales et du configurateur interactif 6 étapes avec rendu 3D en temps réel.
+      </div>
+      <div class="sprint-tasks" style="gap:0.8vh;">
+        <div class="sprint-task" style="font-size:0.82vw;">Page d'accueil : hero, storytelling, collection preview</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Page Collection + Fiche produit détaillée</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Configurateur 6 étapes : COLLECTION → VOLUME → LABEL → PACKAGING → MESSAGE → ORDER</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Intégration des modèles 3D dans le configurateur</div>
+        <div class="sprint-task" style="font-size:0.82vw;">4 modèles · 4 contenances · 5 étiquettes · 4 emballages</div>
+      </div>
+    </div>
+    <!-- IMAGE -->
+    <div style="width:22vw; border-radius:16px; overflow:hidden; border:1px solid rgba(197,155,39,0.3);">
+      <img src="slides-imgs/home.jpg" style="width:100%; height:50%; object-fit:cover; object-position:top; display:block;" />
+      <img src="slides-imgs/configurator_step1.jpg" style="width:100%; height:50%; object-fit:cover; object-position:top; display:block;" />
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:48%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — SPRINT 3 & 4
+============================================================ -->
+<section>
+<div class="slide-wrap s-dark">
+  <div class="slide-header">
+    <span class="slide-num">06 / 12</span>
+    <h2 class="slide-title-h">Réalisation — <span>Sprints 3 & 4</span></h2>
+  </div>
+  <div class="slide-body" style="gap:3vw; align-items:stretch;">
+    <!-- IMAGE -->
+    <div style="width:22vw; border-radius:16px; overflow:hidden; border:1px solid rgba(197,155,39,0.3);">
+      <img src="slides-imgs/admin.jpg" style="width:100%; height:50%; object-fit:cover; object-position:top; display:block;" />
+      <img src="slides-imgs/faq.jpg" style="width:100%; height:50%; object-fit:cover; object-position:top; display:block;" />
+    </div>
+    <!-- DIVIDER -->
+    <div style="width:1px; background:rgba(197,155,39,0.2); align-self:stretch;"></div>
+    <!-- SPRINT 3 -->
+    <div style="flex:1; display:flex; flex-direction:column;">
+      <div class="sprint-badge" style="margin-bottom:2vh;">
+        <span class="sprint-badge-num">SPRINT 3</span>
+        <span class="sprint-badge-name">Backend, E-commerce & Dashboard Admin</span>
+      </div>
+      <div class="sprint-desc" style="font-size:0.85vw;">
+        Développement du backend complet, e-commerce fonctionnel et tableau de bord d'administration.
+      </div>
+      <div class="sprint-tasks" style="gap:0.8vh;">
+        <div class="sprint-task" style="font-size:0.82vw;">Authentification JWT · Inscription / Connexion sécurisée</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Panier · Checkout · Gestion des commandes</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Dashboard Admin : gestion produits, commandes, devis</div>
+        <div class="sprint-task" style="font-size:0.82vw;">API REST complète (CRUD) · Emails de confirmation Nodemailer</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Génération devis configurateur (FND-YYYY-XXXX) → MongoDB</div>
+      </div>
+    </div>
+    <!-- DIVIDER -->
+    <div style="width:1px; background:rgba(197,155,39,0.2); align-self:stretch;"></div>
+    <!-- SPRINT 4 -->
+    <div style="flex:1; display:flex; flex-direction:column;">
+      <div class="sprint-badge" style="margin-bottom:2vh;">
+        <span class="sprint-badge-num">SPRINT 4</span>
+        <span class="sprint-badge-name">Internationalisation, FAQ & Optimisation</span>
+      </div>
+      <div class="sprint-desc" style="font-size:0.85vw;">
+        Internationalisation, FAQ intelligente, chatbot, optimisation des performances et finalisation.
+      </div>
+      <div class="sprint-tasks" style="gap:0.8vh;">
+        <div class="sprint-task" style="font-size:0.82vw;">i18n complet FR · Arabe (RTL) · Anglais via react-i18next</div>
+        <div class="sprint-task" style="font-size:0.82vw;">FAQ 6 catégories : Produit, Livraison, Configurateur, Paiement...</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Chatbot IA intégré</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Wishlist · Compte client · Historique commandes</div>
+        <div class="sprint-task" style="font-size:0.82vw;">Optimisation performances · Tests · Déploiement</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:56%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — CONFIGURATEUR (DEMO)
+============================================================ -->
+<section>
+<div class="slide-wrap s-dark">
+  <div class="slide-header">
+    <span class="slide-num">07 / 12</span>
+    <h2 class="slide-title-h">Configurateur <span>Interactif</span></h2>
+  </div>
+  <div class="slide-body" style="flex-direction:column; gap:2vh;">
+    <!-- Steps bar -->
+    <div class="config-steps" style="flex-shrink:0;">
+      <div class="config-step active">
+        <span class="config-step-num">01</span>
+        <span class="config-step-name">COLLECTION</span>
+      </div>
+      <div class="config-step">
+        <span class="config-step-num">02</span>
+        <span class="config-step-name">VOLUME</span>
+      </div>
+      <div class="config-step">
+        <span class="config-step-num">03</span>
+        <span class="config-step-name">LABEL</span>
+      </div>
+      <div class="config-step">
+        <span class="config-step-num">04</span>
+        <span class="config-step-name">PACKAGING</span>
+      </div>
+      <div class="config-step">
+        <span class="config-step-num">05</span>
+        <span class="config-step-name">MESSAGE</span>
+      </div>
+      <div class="config-step">
+        <span class="config-step-num">06</span>
+        <span class="config-step-name">ORDER</span>
+      </div>
+    </div>
+    <!-- Main -->
+    <div class="config-main" style="flex:1;">
+      <div class="config-img-block">
+        <img src="slides-imgs/configurator_step1.jpg" style="width:100%;height:100%;object-fit:cover;object-position:top;" />
+      </div>
+      <div class="config-info">
+        <div class="config-feature">
+          <div class="config-feature-title">4 Modèles de Bouteilles</div>
+          <div class="config-feature-text">Cylindrique · Carrée Élancée · Bidon Métallique · Bidon Vert Bio. Rendu 3D en temps réel à chaque sélection.</div>
+        </div>
+        <div class="config-feature">
+          <div class="config-feature-title">4 Contenances</div>
+          <div class="config-feature-text">500ml · 750ml · 1 Litre · 3 Litres. Prix calculé dynamiquement selon la combinaison choisie.</div>
+        </div>
+        <div class="config-feature">
+          <div class="config-feature-title">5 Étiquettes Exclusives</div>
+          <div class="config-feature-text">Classique Ivoire · Bio Moderne · Édition Luxe Noir & Or · Maison Fendri Héritage · Récolte Édition Limitée.</div>
+        </div>
+        <div class="config-feature">
+          <div class="config-feature-title">4 Emballages Premium</div>
+          <div class="config-feature-text">Sans emballage · Coffret Tiroir EVA · Coffret Magnétique · Caisse Bois Premium.</div>
+        </div>
+        <div class="config-feature">
+          <div class="config-feature-title">Devis Automatique</div>
+          <div class="config-feature-text">Génération de devis numéroté FND-YYYY-XXXX enregistré dans MongoDB. Pas d'envoi email — accès via Dashboard Admin.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:64%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — DÉMO PAGES (light)
+============================================================ -->
+<section>
+<div class="slide-wrap s-light">
+  <div class="slide-header" style="border-bottom:1px solid rgba(44,74,40,0.15);">
+    <span class="slide-num" style="background:rgba(44,74,40,0.1); color:var(--green-dark);">08 / 12</span>
+    <h2 class="slide-title-h" style="color:var(--green-dark);">Aperçu de la <span style="color:var(--gold)">Plateforme</span></h2>
+  </div>
+  <div class="slide-body">
+    <div class="demo-grid">
+      <div class="demo-card" style="border:1px solid rgba(44,74,40,0.2);">
+        <div class="demo-card-img">
+          <img src="slides-imgs/home.jpg" />
+        </div>
+        <div class="demo-card-info" style="background:rgba(44,74,40,0.04);">
+          <div class="demo-card-title" style="color:var(--green-dark);">Page d'Accueil</div>
+          <div class="demo-card-desc" style="color:#666;">Hero immersif · Storytelling · Valeurs · Collection preview · Chatbot</div>
+        </div>
+      </div>
+      <div class="demo-card" style="border:1px solid rgba(44,74,40,0.2);">
+        <div class="demo-card-img">
+          <img src="slides-imgs/products.jpg" />
+        </div>
+        <div class="demo-card-info" style="background:rgba(44,74,40,0.04);">
+          <div class="demo-card-title" style="color:var(--green-dark);">Collection</div>
+          <div class="demo-card-desc" style="color:#666;">4 produits · Filtres · Wishlist · Prix en TND · Badges certifications</div>
+        </div>
+      </div>
+      <div class="demo-card" style="border:1px solid rgba(44,74,40,0.2);">
+        <div class="demo-card-img">
+          <img src="slides-imgs/product_detail.jpg" />
+        </div>
+        <div class="demo-card-info" style="background:rgba(44,74,40,0.04);">
+          <div class="demo-card-title" style="color:var(--green-dark);">Fiche Produit</div>
+          <div class="demo-card-desc" style="color:#666;">Description · Prix · Stock · Specs · Certifications · Add to Cart</div>
+        </div>
+      </div>
+      <div class="demo-card" style="border:1px solid rgba(44,74,40,0.2);">
+        <div class="demo-card-img">
+          <img src="slides-imgs/faq.jpg" />
+        </div>
+        <div class="demo-card-info" style="background:rgba(44,74,40,0.04);">
+          <div class="demo-card-title" style="color:var(--green-dark);">FAQ</div>
+          <div class="demo-card-desc" style="color:#666;">6 catégories · Accordéon · Produit · Livraison · Configurateur · Paiement</div>
+        </div>
+      </div>
+      <div class="demo-card" style="border:1px solid rgba(44,74,40,0.2);">
+        <div class="demo-card-img">
+          <img src="slides-imgs/admin.jpg" />
+        </div>
+        <div class="demo-card-info" style="background:rgba(44,74,40,0.04);">
+          <div class="demo-card-title" style="color:var(--green-dark);">Dashboard Admin</div>
+          <div class="demo-card-desc" style="color:#666;">Gestion produits · Commandes · Devis configurateur · Statistiques</div>
+        </div>
+      </div>
+      <div class="demo-card" style="background:var(--green-mid); border:1px solid rgba(197,155,39,0.3);">
+        <div class="demo-card-img" style="display:flex;align-items:center;justify-content:center;background:var(--green-dark);height:55%;">
+          <span style="font-size:4vw; opacity:0.6;">🌍</span>
+        </div>
+        <div class="demo-card-info" style="background:rgba(255,255,255,0.05);">
+          <div class="demo-card-title" style="color:var(--cream);">Multilingue + RTL</div>
+          <div class="demo-card-desc" style="color:var(--green-sage);">Français · العربية (RTL) · English — Bascule dynamique sans rechargement</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:72%; background:var(--green-mid);"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — STACK TECHNIQUE
+============================================================ -->
+<section>
+<div class="slide-wrap s-dark">
+  <div class="slide-header">
+    <span class="slide-num">09 / 12</span>
+    <h2 class="slide-title-h">Stack <span>Technique</span></h2>
+  </div>
+  <div class="slide-body">
+    <div class="tech-cols">
+      <div class="tech-section">
+        <div class="tech-section-title">Frontend</div>
+        <div class="tech-items">
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">React 19</div>
+            <span class="tech-badge">UI</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">TypeScript</div>
+            <span class="tech-badge">Typage</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">Vite</div>
+            <span class="tech-badge">Build</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">TailwindCSS</div>
+            <span class="tech-badge">Styles</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">Framer Motion</div>
+            <span class="tech-badge">Animations</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">Three.js / R3F</div>
+            <span class="tech-badge">3D</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">react-i18next</div>
+            <span class="tech-badge">i18n</span>
+          </div>
+        </div>
+      </div>
+      <div class="tech-section">
+        <div class="tech-section-title">Backend & Outils</div>
+        <div class="tech-items">
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">Node.js + Express.js</div>
+            <span class="tech-badge">API REST</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">MongoDB + Mongoose</div>
+            <span class="tech-badge">Base de données</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">JWT + bcrypt</div>
+            <span class="tech-badge">Sécurité</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">Nodemailer + Resend</div>
+            <span class="tech-badge">Emails</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">Git + GitHub</div>
+            <span class="tech-badge">Versioning</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">Figma</div>
+            <span class="tech-badge">Design UI</span>
+          </div>
+          <div class="tech-item">
+            <div class="tech-dot"></div>
+            <div class="tech-name">Scrum · 4 Sprints</div>
+            <span class="tech-badge">Méthodo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:80%"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — BILAN (light)
+============================================================ -->
+<section>
+<div class="slide-wrap s-light">
+  <div class="slide-header" style="border-bottom:1px solid rgba(44,74,40,0.15);">
+    <span class="slide-num" style="background:rgba(44,74,40,0.1);color:var(--green-dark);">10 / 12</span>
+    <h2 class="slide-title-h" style="color:var(--green-dark);">Bilan & <span style="color:var(--gold)">Compétences Acquises</span></h2>
+  </div>
+  <div class="slide-body">
+    <div class="bilan-wrap">
+      <div class="bilan-left">
+        <div class="bilan-section-title">Objectifs atteints</div>
+        <div class="bilan-items">
+          <div class="bilan-item">
+            <div class="bilan-check">✓</div>
+            <span style="color:var(--text-dark);">Plateforme e-commerce complète et fonctionnelle</span>
+          </div>
+          <div class="bilan-item">
+            <div class="bilan-check">✓</div>
+            <span style="color:var(--text-dark);">Configurateur interactif 6 étapes avec rendu 3D</span>
+          </div>
+          <div class="bilan-item">
+            <div class="bilan-check">✓</div>
+            <span style="color:var(--text-dark);">Internationalisation FR · AR (RTL) · EN</span>
+          </div>
+          <div class="bilan-item">
+            <div class="bilan-check">✓</div>
+            <span style="color:var(--text-dark);">Dashboard Admin avec gestion complète</span>
+          </div>
+          <div class="bilan-item">
+            <div class="bilan-check">✓</div>
+            <span style="color:var(--text-dark);">API REST sécurisée JWT + base MongoDB</span>
+          </div>
+          <div class="bilan-item">
+            <div class="bilan-check">✓</div>
+            <span style="color:var(--text-dark);">Chatbot IA + FAQ interactive</span>
+          </div>
+          <div class="bilan-item">
+            <div class="bilan-check">✓</div>
+            <span style="color:var(--text-dark);">Design responsive — mobile, tablette, desktop</span>
+          </div>
+          <div class="bilan-item">
+            <div class="bilan-check">✓</div>
+            <span style="color:var(--text-dark);">Méthodologie Scrum appliquée sur 4 sprints</span>
+          </div>
+        </div>
+      </div>
+      <div class="bilan-right">
+        <div class="bilan-section-title" style="color:var(--gold);">Chiffres clés</div>
+        <div class="bilan-stats-grid">
+          <div class="bilan-stat">
+            <span class="bilan-stat-num">4</span>
+            <span class="bilan-stat-label">Sprints Scrum</span>
+          </div>
+          <div class="bilan-stat">
+            <span class="bilan-stat-num">6</span>
+            <span class="bilan-stat-label">Étapes Configurateur</span>
+          </div>
+          <div class="bilan-stat">
+            <span class="bilan-stat-num">3</span>
+            <span class="bilan-stat-label">Langues (FR·AR·EN)</span>
+          </div>
+          <div class="bilan-stat">
+            <span class="bilan-stat-num">8+</span>
+            <span class="bilan-stat-label">Pages & Routes</span>
+          </div>
+          <div class="bilan-stat">
+            <span class="bilan-stat-num">4</span>
+            <span class="bilan-stat-label">Modèles 3D</span>
+          </div>
+          <div class="bilan-stat">
+            <span class="bilan-stat-num">12+</span>
+            <span class="bilan-stat-label">Technologies</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:88%; background:var(--green-mid);"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — PERSPECTIVES
+============================================================ -->
+<section>
+<div class="slide-wrap s-light">
+  <div class="slide-header" style="border-bottom:1px solid rgba(44,74,40,0.15);">
+    <span class="slide-num" style="background:rgba(44,74,40,0.1);color:var(--green-dark);">11 / 12</span>
+    <h2 class="slide-title-h" style="color:var(--green-dark);">Perspectives & <span style="color:var(--gold)">Améliorations</span></h2>
+  </div>
+  <div class="slide-body">
+    <div class="perspectives-grid">
+      <div class="perspective-card">
+        <div class="perspective-icon">💳</div>
+        <div class="perspective-title" style="color:var(--green-dark);">Intégration Paiement en Ligne</div>
+        <div class="perspective-desc">Intégrer une passerelle de paiement (Konnect, Stripe) pour permettre le règlement directement sur la plateforme.</div>
+      </div>
+      <div class="perspective-card">
+        <div class="perspective-icon">📦</div>
+        <div class="perspective-title" style="color:var(--green-dark);">Gestion des Stocks Avancée</div>
+        <div class="perspective-desc">Alertes automatiques de rupture de stock, gestion des lots de production, traçabilité par récolte.</div>
+      </div>
+      <div class="perspective-card">
+        <div class="perspective-icon">📱</div>
+        <div class="perspective-title" style="color:var(--green-dark);">Application Mobile</div>
+        <div class="perspective-desc">Développement d'une application mobile iOS/Android avec React Native pour un accès facilité aux commandes et au configurateur.</div>
+      </div>
+      <div class="perspective-card">
+        <div class="perspective-icon">🤖</div>
+        <div class="perspective-title" style="color:var(--green-dark);">IA Recommandation</div>
+        <div class="perspective-desc">Système de recommandation produit basé sur l'historique de navigation et les préférences client.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:95%; background:var(--green-mid);"></div>
+</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 — MERCI
+============================================================ -->
+<section>
+<div class="slide-wrap s-merci">
+  <div class="s1-olive-bg">🫒</div>
+  <div class="merci-content">
+    <div class="merci-icon">🫒</div>
+    <h2 class="merci-title">Merci pour<br/><span>votre attention</span></h2>
+    <p class="merci-subtitle">Je reste disponible pour vos questions.</p>
+    <div class="merci-divider"></div>
+    <div class="merci-info-grid">
+      <div class="merci-info-item">
+        <div class="merci-info-label">Étudiante</div>
+        <div class="merci-info-value">Yessmine Hsine</div>
+      </div>
+      <div class="merci-info-item">
+        <div class="merci-info-label">Projet</div>
+        <div class="merci-info-value">Domaine Fendri · E-Commerce</div>
+      </div>
+      <div class="merci-info-item">
+        <div class="merci-info-label">Établissement</div>
+        <div class="merci-info-value">ISIMS Sfax · 2025–2026</div>
+      </div>
+      <div class="merci-info-item">
+        <div class="merci-info-label">Encadrement</div>
+        <div class="merci-info-value">Digilab Solutions</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-progress-bar" style="width:100%"></div>
+</div>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1920,
+    height: 1080,
+    margin: 0,
+    minScale: 0.1,
+    maxScale: 2.0,
+    controls: true,
+    progress: false,
+    slideNumber: false,
+    hash: true,
+    transition: 'slide',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    keyboard: true,
+    overview: true,
+    center: false,
+    touch: true,
+  });
+</script>
+</body>
+</html>
