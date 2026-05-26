@@ -6,14 +6,18 @@ import { Scene3 } from './video_scenes/Scene3';
 import { Scene4 } from './video_scenes/Scene4';
 import { Scene5 } from './video_scenes/Scene5';
 import { Scene6 } from './video_scenes/Scene6';
+import { Scene7 } from './video_scenes/Scene7';
+import { Scene8 } from './video_scenes/Scene8';
 
 const SCENE_DURATIONS = {
   scene1: 8000,
-  scene2: 12000,
+  scene2: 10000,
   scene3: 12000,
-  scene4: 16000,
-  scene5: 8000,
-  scene6: 4000
+  scene4: 14000,
+  scene5: 16000,
+  scene6: 12000,
+  scene7: 10000,
+  scene8: 8000
 };
 
 export default function VideoTemplate() {
@@ -52,16 +56,16 @@ export default function VideoTemplate() {
       <motion.div 
         className="absolute top-10 left-10 w-[2px] bg-[#C59B27] z-10"
         animate={{
-          height: currentScene === 0 ? '0vh' : ['20vh', '40vh', '60vh', '40vh', '20vh', '0vh'][currentScene],
-          opacity: currentScene === 0 || currentScene === 5 ? 0 : 0.6
+          height: currentScene === 0 ? '0vh' : ['20vh', '40vh', '60vh', '40vh', '20vh', '0vh', '0vh', '0vh'][currentScene],
+          opacity: currentScene === 0 || currentScene === 7 ? 0 : 0.6
         }}
         transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
       />
       <motion.div 
         className="absolute bottom-10 right-10 h-[2px] bg-[#C59B27] z-10"
         animate={{
-          width: currentScene === 0 ? '0vw' : ['10vw', '30vw', '50vw', '30vw', '10vw', '0vw'][currentScene],
-          opacity: currentScene === 0 || currentScene === 5 ? 0 : 0.6
+          width: currentScene === 0 ? '0vw' : ['10vw', '30vw', '50vw', '30vw', '10vw', '0vw', '0vw', '0vw'][currentScene],
+          opacity: currentScene === 0 || currentScene === 7 ? 0 : 0.6
         }}
         transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
       />
@@ -73,6 +77,8 @@ export default function VideoTemplate() {
         {currentScene === 3 && <Scene4 key="scene4" />}
         {currentScene === 4 && <Scene5 key="scene5" />}
         {currentScene === 5 && <Scene6 key="scene6" />}
+        {currentScene === 6 && <Scene7 key="scene7" />}
+        {currentScene === 7 && <Scene8 key="scene8" />}
       </AnimatePresence>
     </div>
   );

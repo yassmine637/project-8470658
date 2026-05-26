@@ -7,60 +7,67 @@ export function Scene1() {
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase(1), 500),
-      setTimeout(() => setPhase(2), 1500),
-      setTimeout(() => setPhase(3), 6000), // Start exit
+      setTimeout(() => setPhase(2), 2000),
+      setTimeout(() => setPhase(3), 4000),
+      setTimeout(() => setPhase(4), 7000),
     ];
     return () => timers.forEach(t => clearTimeout(t));
   }, []);
 
   return (
     <motion.div 
-      className="absolute inset-0 flex flex-col items-center justify-center z-20"
+      className="absolute inset-0 flex flex-col items-center justify-center bg-[#0D1A0B] z-10"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
-      transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
+      exit={{ opacity: 0, filter: 'blur(10px)' }}
+      transition={{ duration: 1 }}
     >
-      {/* Olive Branch SVG Motif */}
-      <motion.svg 
-        width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-        className="mb-8 opacity-80"
-        initial={{ opacity: 0, y: 20 }}
-        animate={phase >= 1 ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
+      <motion.div
+        className="mb-8 text-[#C59B27]"
+        initial={{ y: -50, opacity: 0 }}
+        animate={phase >= 1 ? { y: 0, opacity: 1 } : { y: -50, opacity: 0 }}
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        <path d="M12 22C12 22 5 18 5 12C5 6 12 2 12 2C12 2 19 6 19 12C19 18 12 22 12 22Z" stroke="#C59B27" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 22V12" stroke="#C59B27" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 16C12 16 9 14.5 9 12" stroke="#C59B27" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 8C12 8 15 9.5 15 12" stroke="#C59B27" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-      </motion.svg>
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M12 2C7 2 3 6 3 11C3 16 8 22 12 22C16 22 21 16 21 11C21 6 17 2 12 2Z" />
+          <path d="M12 22V12" />
+        </svg>
+      </motion.div>
 
       <div className="overflow-hidden">
         <motion.h1 
-          className="text-[6vw] tracking-[0.2em] font-display text-transparent bg-clip-text bg-gradient-to-r from-[#C59B27] via-[#FDFBF7] to-[#C59B27] shimmer-gold"
-          initial={{ y: '100%' }}
-          animate={phase >= 1 ? { y: 0 } : { y: '100%' }}
-          transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
+          className="text-[6vw] font-bold tracking-[0.2em] text-[#FDFBF7]"
+          style={{ fontFamily: 'var(--font-display)' }}
         >
-          DOMAINE FENDRI
+          {'DOMAINE FENDRI'.split('').map((char, i) => (
+            <motion.span
+              key={i}
+              className="inline-block"
+              initial={{ y: 100, opacity: 0 }}
+              animate={phase >= 1 ? { y: 0, opacity: 1 } : { y: 100, opacity: 0 }}
+              transition={{ duration: 0.8, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {char === ' ' ? '\u00A0' : char}
+            </motion.span>
+          ))}
         </motion.h1>
       </div>
 
-      <motion.div 
-        className="h-[1px] bg-[#C59B27] mt-6 mb-6"
-        initial={{ width: 0, opacity: 0 }}
-        animate={phase >= 2 ? { width: '40vw', opacity: 0.6 } : { width: 0, opacity: 0 }}
-        transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
-      />
-
-      <motion.p 
-        className="text-[1.8vw] tracking-[0.1em] text-[#8FA882] font-light"
-        initial={{ opacity: 0, y: 20, filter: 'blur(5px)' }}
-        animate={phase >= 2 ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: 20, filter: 'blur(5px)' }}
-        transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
+      <motion.p
+        className="mt-6 text-[1.5vw] tracking-widest text-[#8FA882] uppercase"
+        initial={{ opacity: 0, filter: 'blur(10px)' }}
+        animate={phase >= 2 ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }}
+        transition={{ duration: 1.5 }}
       >
         Digitalisation de l'Expérience Client
       </motion.p>
+
+      <motion.div
+        className="absolute top-[65%] h-[1px] bg-[#C59B27]"
+        initial={{ left: '50%', width: 0, opacity: 0 }}
+        animate={phase >= 3 ? { left: '15%', width: '70%', opacity: 0.5 } : { left: '50%', width: 0, opacity: 0 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+      />
     </motion.div>
   );
 }
