@@ -239,7 +239,7 @@ export default function EstimationModal({
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [formErrors, setFormErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
+  const [formErrors, setFormErrors] = useState<{ name?: string; email?: string; phone?: string; street?: string; city?: string }>({});
   const overlayRef = useRef<HTMLDivElement>(null);
   const dropRef = useRef<HTMLDivElement>(null);
 
@@ -316,11 +316,13 @@ export default function EstimationModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const errors: { name?: string; email?: string; phone?: string } = {};
+    const errors: { name?: string; email?: string; phone?: string; street?: string; city?: string } = {};
     if (!name.trim()) errors.name = 'Le nom est obligatoire.';
     if (!email.trim()) errors.email = "L'email est obligatoire.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = 'Email invalide.';
     if (!phoneNumber.trim()) errors.phone = 'Le numéro de téléphone est obligatoire.';
+    if (!street.trim()) errors.street = "L'adresse est obligatoire.";
+    if (!city.trim()) errors.city = 'La ville est obligatoire.';
     if (Object.keys(errors).length > 0) { setFormErrors(errors); return; }
     setFormErrors({});
     setSubmitting(true);
@@ -894,12 +896,13 @@ export default function EstimationModal({
                     <DarkStreetAutocomplete
                       countryIso={selectedCountry.iso}
                       value={street}
-                      onChange={setStreet}
-                      onCityChange={setCity}
+                      onChange={v => { setStreet(v); if (formErrors.street) setFormErrors(p => ({ ...p, street: undefined })); }}
+                      onCityChange={v => { setCity(v); if (formErrors.city) setFormErrors(p => ({ ...p, city: undefined })); }}
                       onPostalChange={setPostalCode}
-                      style={inputStyle}
+                      style={{ ...inputStyle, borderColor: formErrors.street ? '#e07070' : 'rgba(212,175,55,0.2)' }}
                       placeholder={t('config_placeholder_street')}
                     />
+                    {formErrors.street && <div style={{ color: '#e07070', fontSize: '0.65rem', marginTop: '4px', fontFamily: "'Outfit', sans-serif" }}>{formErrors.street}</div>}
                   </div>
 
                   {/* City + Postal code */}
@@ -908,14 +911,14 @@ export default function EstimationModal({
                       <label style={labelStyleCSS}>{t('config_field_city')} *</label>
                       <input
                         type="text"
-                        required
                         value={city}
-                        onChange={e => setCity(e.target.value)}
+                        onChange={e => { setCity(e.target.value); if (formErrors.city) setFormErrors(p => ({ ...p, city: undefined })); }}
                         placeholder={t('config_placeholder_city')}
-                        style={inputStyle}
-                        onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.6)'; }}
-                        onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)'; }}
+                        style={{ ...inputStyle, borderColor: formErrors.city ? '#e07070' : 'rgba(212,175,55,0.2)' }}
+                        onFocus={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.city ? '#e07070' : 'rgba(212,175,55,0.6)'; }}
+                        onBlur={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.city ? '#e07070' : 'rgba(212,175,55,0.2)'; }}
                       />
+                      {formErrors.city && <div style={{ color: '#e07070', fontSize: '0.65rem', marginTop: '4px', fontFamily: "'Outfit', sans-serif" }}>{formErrors.city}</div>}
                     </div>
                     <div>
                       <label style={labelStyleCSS}>{t('config_field_postal')}</label>
