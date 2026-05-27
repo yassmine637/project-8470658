@@ -266,12 +266,17 @@ export default function EstimationModal({
     if (isOpen) {
       setFormStep('estimate');
       setShowAllCountries(false);
+      setName('');
+      setEmail('');
+      setPhoneNumber('');
+      setMessage('');
       setStreet('');
       setCity('');
       setPostalCode('');
+      setFormErrors({});
       if (currencyProp) {
         const match = COUNTRIES.find(c => c.currency === currencyProp);
-        if (match) { setSelectedCountry(match); setPhoneNumber(''); }
+        if (match) setSelectedCountry(match);
       }
       setTimeout(() => setVisible(true), 20);
     } else {
