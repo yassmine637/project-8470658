@@ -239,7 +239,7 @@ export default function EstimationModal({
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [formErrors, setFormErrors] = useState<{ name?: string; email?: string; phone?: string; street?: string; city?: string }>({});
+  const [formErrors, setFormErrors] = useState<{ name?: string; email?: string; phone?: string; street?: string; city?: string; postalCode?: string }>({});
   const overlayRef = useRef<HTMLDivElement>(null);
   const dropRef = useRef<HTMLDivElement>(null);
 
@@ -323,6 +323,7 @@ export default function EstimationModal({
     if (!phoneNumber.trim()) errors.phone = 'Le numéro de téléphone est obligatoire.';
     if (!street.trim()) errors.street = "L'adresse est obligatoire.";
     if (!city.trim()) errors.city = 'La ville est obligatoire.';
+    if (!postalCode.trim()) errors.postalCode = 'Le code postal est obligatoire.';
     if (Object.keys(errors).length > 0) { setFormErrors(errors); return; }
     setFormErrors({});
     setSubmitting(true);
@@ -921,16 +922,17 @@ export default function EstimationModal({
                       {formErrors.city && <div style={{ color: '#e07070', fontSize: '0.65rem', marginTop: '4px', fontFamily: "'Outfit', sans-serif" }}>{formErrors.city}</div>}
                     </div>
                     <div>
-                      <label style={labelStyleCSS}>{t('config_field_postal')}</label>
+                      <label style={labelStyleCSS}>{t('config_field_postal')} *</label>
                       <input
                         type="text"
                         value={postalCode}
-                        onChange={e => setPostalCode(e.target.value.slice(0, 10))}
+                        onChange={e => { setPostalCode(e.target.value.slice(0, 10)); if (formErrors.postalCode) setFormErrors(p => ({ ...p, postalCode: undefined })); }}
                         placeholder={t('config_field_postal')}
-                        style={inputStyle}
-                        onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.6)'; }}
-                        onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)'; }}
+                        style={{ ...inputStyle, borderColor: formErrors.postalCode ? '#e07070' : 'rgba(212,175,55,0.2)' }}
+                        onFocus={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.postalCode ? '#e07070' : 'rgba(212,175,55,0.6)'; }}
+                        onBlur={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.postalCode ? '#e07070' : 'rgba(212,175,55,0.2)'; }}
                       />
+                      {formErrors.postalCode && <div style={{ color: '#e07070', fontSize: '0.65rem', marginTop: '4px', fontFamily: "'Outfit', sans-serif" }}>{formErrors.postalCode}</div>}
                     </div>
                   </div>
                 </div>
