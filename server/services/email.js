@@ -389,6 +389,132 @@ export async function sendContactNotificationToAdmin({ nom, prenom, email, telep
   });
 }
 
+export async function sendDevisConfirmation({ devisNumber, name, email, configuration, quantity, totalTTC, currency, shippingAddress }) {
+  const curr = currency || 'TND';
+  const addr = shippingAddress || {};
+  const addrLine = [addr.street, addr.city, addr.postalCode, addr.country].filter(Boolean).join(', ') || '—';
+  const configLine = [
+    configuration?.model?.name,
+    configuration?.size?.label,
+    configuration?.label?.name,
+  ].filter(Boolean).join(' · ');
+
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Demande de devis reçue
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      Merci, ${name} !
+    </h2>
+    <p style="margin:16px 0 0;font-size:14px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;">
+      Votre demande de devis personnalisé a bien été reçue.<br/>
+      Notre équipe vous contactera dans les <strong>24 à 48 heures ouvrables</strong> pour finaliser votre commande.
+    </p>
+
+    <div style="margin:24px 0;padding:14px 20px;background:${COLORS.bg};border-left:3px solid ${COLORS.gold};">
+      <p style="margin:0;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;">Référence devis</p>
+      <p style="margin:4px 0 0;font-size:20px;font-family:Georgia,serif;color:${COLORS.primary};letter-spacing:2px;">${devisNumber}</p>
+    </div>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:${COLORS.bg};padding:20px 24px;">
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};width:140px;">Configuration</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${configLine || '—'}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Quantité</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${quantity} unité(s)</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Total estimé TTC</td>
+        <td style="padding:6px 0;font-family:Georgia,serif;font-size:15px;color:${COLORS.gold};font-weight:bold;">${totalTTC} ${curr}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Adresse de livraison</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${addrLine}</td>
+      </tr>
+    </table>
+
+    <p style="margin:32px 0 0;font-size:13px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;text-align:center;font-style:italic;">
+      Pour toute question, contactez-nous à<br/>
+      <a href="mailto:contact@domainefendri.com" style="color:${COLORS.gold};text-decoration:none;">contact@domainefendri.com</a>
+    </p>
+  `;
+
+  await send({
+    to: email,
+    subject: `Domaine Fendri — Devis ${devisNumber} bien reçu`,
+    html: baseLayout('Confirmation de devis', content),
+  });
+}
+
+export async function sendDevisNotificationToAdmin({ devisNumber, name, email, phone, country, configuration, quantity, totalTTC, currency, message, shippingAddress }) {
+  const curr = currency || 'TND';
+  const addr = shippingAddress || {};
+  const addrLine = [addr.street, addr.city, addr.postalCode, addr.country].filter(Boolean).join(', ') || '—';
+  const configLine = [
+    configuration?.model?.name,
+    configuration?.size?.label,
+    configuration?.label?.name,
+  ].filter(Boolean).join(' · ');
+
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Nouveau devis configurateur
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      ${devisNumber}
+    </h2>
+    <p style="margin:16px 0 0;font-size:14px;color:${COLORS.muted};font-family:Arial,sans-serif;">
+      Client : <strong style="color:${COLORS.text};">${name}</strong> —
+      <a href="mailto:${email}" style="color:${COLORS.gold};text-decoration:none;">${email}</a>
+    </p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:${COLORS.bg};padding:20px 24px;">
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};width:140px;">Téléphone</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${phone || '—'}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Pays</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${country || '—'}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Configuration</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${configLine || '—'}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Quantité</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${quantity} unité(s)</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Total estimé TTC</td>
+        <td style="padding:6px 0;font-family:Georgia,serif;font-size:15px;color:${COLORS.gold};font-weight:bold;">${totalTTC} ${curr}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Adresse</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};">${addrLine}</td>
+      </tr>
+      ${message ? `<tr>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};vertical-align:top;">Message</td>
+        <td style="padding:6px 0;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.text};line-height:1.6;">${message}</td>
+      </tr>` : ''}
+    </table>
+
+    <div style="text-align:center;">
+      <a href="mailto:${email}?subject=Re: Devis ${devisNumber}" style="display:inline-block;padding:12px 32px;background:${COLORS.primary};color:${COLORS.gold};font-family:Arial,sans-serif;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">
+        Répondre au client
+      </a>
+    </div>
+  `;
+
+  await send({
+    to: ADMIN_EMAIL,
+    subject: `[Devis] ${devisNumber} — ${name} (${quantity} unité(s) · ${totalTTC} ${curr})`,
+    html: baseLayout('Nouveau devis configurateur', content),
+  });
+}
+
 export async function sendOrderStatusUpdate({ order, customerName, customerEmail }) {
   const config = STATUS_CONFIG[order.status];
   if (!config) return;
