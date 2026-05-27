@@ -70,9 +70,46 @@ export default function ConfiguratorPage() {
   }, []);
 
   const totalPrice = selectedModel.basePrice + selectedSize.priceAdd + (selectedLabel?.priceAdd ?? 0) + (selectedPackaging?.priceAdd ?? 0);
-  const handleNext = () => { if (currentStep < STEPS.length - 1) setCurrentStep(s => s + 1); };
-  const handlePrev = () => { if (currentStep > 0) setCurrentStep(s => s - 1); };
+  const [stepError, setStepError] = useState<string | null>(null);
+
+  const canProceedFrom = (step: number): boolean => {
+    switch (step) {
+      case 0: return modelChosen;
+      case 1: return sizeChosen;
+      case 2: return selectedLabel !== null;
+      default: return true;
+    }
+  };
+
+  const stepErrorMsg = (step: number): string => {
+    switch (step) {
+      case 0: return t('config_error_model') || 'Veuillez sélectionner un modèle de bouteille.';
+      case 1: return t('config_error_size') || 'Veuillez sélectionner un volume.';
+      case 2: return t('config_error_label') || 'Veuillez choisir une étiquette.';
+      default: return '';
+    }
+  };
+
+  const handleNext = () => {
+    if (!canProceedFrom(currentStep)) {
+      setStepError(stepErrorMsg(currentStep));
+      setTimeout(() => setStepError(null), 3000);
+      return;
+    }
+    setStepError(null);
+    if (currentStep < STEPS.length - 1) setCurrentStep(s => s + 1);
+  };
+
+  const handlePrev = () => { setStepError(null); if (currentStep > 0) setCurrentStep(s => s - 1); };
   const isSummaryStep = currentStep === STEPS.length - 1;
+
+  // Max step the user is allowed to jump to directly
+  const maxAllowedStep = (() => {
+    for (let i = 0; i < STEPS.length - 1; i++) {
+      if (!canProceedFrom(i)) return i;
+    }
+    return STEPS.length - 1;
+  })();
 
   return (
     <div
@@ -147,10 +184,11 @@ export default function ConfiguratorPage() {
           {STEPS.map((step, i) => {
             const isActive = i === currentStep;
             const isDone = i < currentStep;
+            const isLocked = i > maxAllowedStep;
             return (
               <button
                 key={step.id}
-                onClick={() => setCurrentStep(i)}
+                onClick={() => { if (!isLocked) { setStepError(null); setCurrentStep(i); } }}
                 className="cursor-pointer flex items-center gap-2 whitespace-nowrap relative"
                 style={{
                   background: 'none',
@@ -163,7 +201,8 @@ export default function ConfiguratorPage() {
                   fontWeight: isActive ? 700 : 400,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  color: isActive ? '#d4af37' : isDone ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.28)',
+                  color: isActive ? '#d4af37' : isDone ? 'rgba(255,255,255,0.55)' : isLocked ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.28)',
+                  cursor: isLocked ? 'not-allowed' : 'pointer',
                   transition: 'color 0.2s, border-color 0.2s',
                 }}
                 onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.75)'; }}
@@ -561,9 +600,16 @@ export default function ConfiguratorPage() {
           {t('config_prev')}
         </button>
 
-        {/* Center info */}
-        <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.52rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em', textAlign: 'center' }}>
-          {currentStep + 1} / {STEPS.length}
+        {/* Center info / error */}
+        <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.62rem', letterSpacing: '0.1em', textAlign: 'center', transition: 'all 0.3s' }}>
+          {stepError ? (
+            <span style={{ color: '#e07070', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <i className="ri-error-warning-line" style={{ fontSize: '14px' }} />
+              {stepError}
+            </span>
+          ) : (
+            <span style={{ color: 'rgba(255,255,255,0.2)' }}>{currentStep + 1} / {STEPS.length}</span>
+          )}
         </div>
 
         <button
