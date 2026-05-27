@@ -322,6 +322,7 @@ export default function EstimationModal({
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = 'Email invalide.';
     if (!phoneNumber.trim()) errors.phone = 'Le numéro de téléphone est obligatoire.';
     if (!street.trim()) errors.street = "L'adresse est obligatoire.";
+    else if (street.trim().length < 5) errors.street = "Veuillez saisir une adresse complète (ex : 12 Rue de la Paix).";
     if (!city.trim()) errors.city = 'La ville est obligatoire.';
     if (!postalCode.trim()) errors.postalCode = 'Le code postal est obligatoire.';
     if (Object.keys(errors).length > 0) { setFormErrors(errors); return; }
