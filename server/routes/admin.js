@@ -5,7 +5,7 @@ import ContactMessage from '../models/ContactMessage.js';
 import User from '../models/User.js';
 import Product from '../models/Product.js';
 import { protect, admin } from '../middleware/auth.js';
-import { sendOrderStatusUpdate } from '../services/email.js';
+import { sendOrderStatusUpdate, sendDevisStatusUpdate } from '../services/email.js';
 
 const router = express.Router();
 
@@ -91,6 +91,11 @@ router.put('/configurator-orders/:id/status', async (req, res) => {
     const { status } = req.body;
     const order = await ConfiguratorOrder.findByIdAndUpdate(req.params.id, { status }, { new: true });
     if (!order) return res.status(404).json({ message: 'Devis introuvable' });
+    sendDevisStatusUpdate({
+      devis: order,
+      customerName: order.name,
+      customerEmail: order.email,
+    }).catch(err => console.error('[Email] sendDevisStatusUpdate:', err.message));
     res.json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });

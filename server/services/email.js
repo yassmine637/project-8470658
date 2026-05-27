@@ -515,6 +515,85 @@ export async function sendDevisNotificationToAdmin({ devisNumber, name, email, p
   });
 }
 
+const DEVIS_STATUS_CONFIG = {
+  new: null,
+  reviewing: {
+    label: 'Devis en cours d\'étude',
+    color: '#A8884A',
+    message: 'Notre équipe est en train d\'étudier votre demande de devis. Nous reviendrons vers vous très prochainement.',
+    subject: 'Votre devis est en cours d\'étude',
+  },
+  quoted: {
+    label: 'Devis établi',
+    color: '#2C7A4B',
+    message: 'Votre devis personnalisé a été établi. Notre équipe va vous contacter pour vous communiquer le détail de l\'offre.',
+    subject: 'Votre devis est prêt',
+  },
+  accepted: {
+    label: 'Devis accepté',
+    color: '#2C3A23',
+    message: 'Votre devis a été accepté. Nous allons prendre en charge votre commande et vous tiendrons informé(e) de son avancement.',
+    subject: 'Votre devis a été accepté',
+  },
+  rejected: {
+    label: 'Devis non retenu',
+    color: '#C0392B',
+    message: 'Nous sommes au regret de vous informer que votre devis n\'a pas pu être retenu. N\'hésitez pas à nous contacter pour plus d\'informations ou pour soumettre une nouvelle demande.',
+    subject: 'Concernant votre devis',
+  },
+};
+
+export async function sendDevisStatusUpdate({ devis, customerName, customerEmail }) {
+  const config = DEVIS_STATUS_CONFIG[devis.status];
+  if (!config) return;
+
+  const content = `
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${COLORS.gold};font-family:Arial,sans-serif;">
+      Mise à jour de devis
+    </p>
+    <h2 style="margin:8px 0 0;font-size:22px;color:${COLORS.primary};font-family:Georgia,serif;font-weight:normal;">
+      ${config.subject}
+    </h2>
+    <p style="margin:16px 0 0;font-size:14px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;">
+      Bonjour ${customerName},
+    </p>
+
+    <div style="margin:24px 0;padding:20px 24px;border-left:4px solid ${config.color};background:${COLORS.bg};">
+      <p style="margin:0 0 6px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${COLORS.muted};font-family:Arial,sans-serif;">
+        Statut du devis
+      </p>
+      <p style="margin:0 0 8px;font-size:18px;font-family:Georgia,serif;color:${config.color};font-weight:bold;">
+        ${config.label}
+      </p>
+      <p style="margin:0;font-size:14px;color:${COLORS.text};font-family:Arial,sans-serif;line-height:1.7;">
+        ${config.message}
+      </p>
+    </div>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;background:${COLORS.bg};padding:16px 20px;">
+      <tr>
+        <td style="font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Référence devis</td>
+        <td style="text-align:right;font-family:Georgia,serif;font-size:14px;color:${COLORS.primary};letter-spacing:2px;">${devis.devisNumber}</td>
+      </tr>
+      ${devis.totalTTC ? `<tr>
+        <td style="padding-top:8px;font-family:Arial,sans-serif;font-size:13px;color:${COLORS.muted};">Total estimé TTC</td>
+        <td style="padding-top:8px;text-align:right;font-family:Georgia,serif;font-size:14px;color:${COLORS.gold};">${devis.totalTTC} ${devis.currency || 'TND'}</td>
+      </tr>` : ''}
+    </table>
+
+    <p style="margin:32px 0 0;font-size:13px;color:${COLORS.muted};font-family:Arial,sans-serif;line-height:1.7;text-align:center;font-style:italic;">
+      Pour toute question, contactez-nous à<br/>
+      <a href="mailto:contact@domainefendri.com" style="color:${COLORS.gold};text-decoration:none;">contact@domainefendri.com</a>
+    </p>
+  `;
+
+  await send({
+    to: customerEmail,
+    subject: `Domaine Fendri — ${config.subject} (${devis.devisNumber})`,
+    html: baseLayout(config.subject, content),
+  });
+}
+
 export async function sendOrderStatusUpdate({ order, customerName, customerEmail }) {
   const config = STATUS_CONFIG[order.status];
   if (!config) return;
