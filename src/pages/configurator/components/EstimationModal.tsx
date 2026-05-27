@@ -239,6 +239,7 @@ export default function EstimationModal({
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
   const overlayRef = useRef<HTMLDivElement>(null);
   const dropRef = useRef<HTMLDivElement>(null);
 
@@ -310,6 +311,13 @@ export default function EstimationModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const errors: { name?: string; email?: string; phone?: string } = {};
+    if (!name.trim()) errors.name = 'Le nom est obligatoire.';
+    if (!email.trim()) errors.email = "L'email est obligatoire.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = 'Email invalide.';
+    if (!phoneNumber.trim()) errors.phone = 'Le numéro de téléphone est obligatoire.';
+    if (Object.keys(errors).length > 0) { setFormErrors(errors); return; }
+    setFormErrors({});
     setSubmitting(true);
     try {
       await fetch('/api/configurator', {
@@ -761,28 +769,28 @@ export default function EstimationModal({
                     <input
                       type="text"
                       name="name"
-                      required
                       value={name}
-                      onChange={e => setName(e.target.value)}
+                      onChange={e => { setName(e.target.value); if (formErrors.name) setFormErrors(p => ({ ...p, name: undefined })); }}
                       placeholder={t('config_placeholder_name')}
-                      style={inputStyle}
-                      onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.6)'; }}
-                      onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)'; }}
+                      style={{ ...inputStyle, borderColor: formErrors.name ? '#e07070' : 'rgba(212,175,55,0.2)' }}
+                      onFocus={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.name ? '#e07070' : 'rgba(212,175,55,0.6)'; }}
+                      onBlur={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.name ? '#e07070' : 'rgba(212,175,55,0.2)'; }}
                     />
+                    {formErrors.name && <div style={{ color: '#e07070', fontSize: '0.65rem', marginTop: '4px', fontFamily: "'Outfit', sans-serif" }}>{formErrors.name}</div>}
                   </div>
                   <div>
                     <label style={labelStyleCSS}>{t('config_field_email')} *</label>
                     <input
                       type="email"
                       name="email"
-                      required
                       value={email}
-                      onChange={e => setEmail(e.target.value)}
+                      onChange={e => { setEmail(e.target.value); if (formErrors.email) setFormErrors(p => ({ ...p, email: undefined })); }}
                       placeholder={t('config_placeholder_email')}
-                      style={inputStyle}
-                      onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.6)'; }}
-                      onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)'; }}
+                      style={{ ...inputStyle, borderColor: formErrors.email ? '#e07070' : 'rgba(212,175,55,0.2)' }}
+                      onFocus={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.email ? '#e07070' : 'rgba(212,175,55,0.6)'; }}
+                      onBlur={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.email ? '#e07070' : 'rgba(212,175,55,0.2)'; }}
                     />
+                    {formErrors.email && <div style={{ color: '#e07070', fontSize: '0.65rem', marginTop: '4px', fontFamily: "'Outfit', sans-serif" }}>{formErrors.email}</div>}
                   </div>
                 </div>
 
@@ -807,20 +815,21 @@ export default function EstimationModal({
                     <input
                       type="tel"
                       name="phone"
-                      required
                       value={phoneNumber}
                       onChange={e => {
                         const digits = e.target.value.replace(/\D/g, '');
                         setPhoneNumber(digits.slice(0, selectedCountry.maxDigits));
+                        if (formErrors.phone) setFormErrors(p => ({ ...p, phone: undefined }));
                       }}
                       placeholder={t('config_placeholder_phone')}
                       maxLength={selectedCountry.maxDigits}
                       inputMode="numeric"
-                      style={{ ...inputStyle, flex: 1 }}
-                      onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.6)'; }}
-                      onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(212,175,55,0.2)'; }}
+                      style={{ ...inputStyle, flex: 1, borderColor: formErrors.phone ? '#e07070' : 'rgba(212,175,55,0.2)' }}
+                      onFocus={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.phone ? '#e07070' : 'rgba(212,175,55,0.6)'; }}
+                      onBlur={e => { (e.target as HTMLInputElement).style.borderColor = formErrors.phone ? '#e07070' : 'rgba(212,175,55,0.2)'; }}
                     />
                   </div>
+                  {formErrors.phone && <div style={{ color: '#e07070', fontSize: '0.65rem', marginTop: '4px', fontFamily: "'Outfit', sans-serif" }}>{formErrors.phone}</div>}
                   <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: '0.58rem', color: 'rgba(255,255,255,0.2)', marginTop: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span>
                       {t('config_country_selected')} <span style={{ color: 'rgba(212,175,55,0.5)' }}>{selectedCountry.flag} {isAr ? selectedCountry.nameAr : selectedCountry.name}</span>
