@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Header from '@/components/feature/Header';
 import Footer from '@/components/feature/Footer';
@@ -15,6 +15,7 @@ interface FaqCategory { id: string; label: string; items: FaqItem[]; }
 
 export default function FaqPage() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('produit');
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -337,8 +338,14 @@ export default function FaqPage() {
                 {t('faq_team_response')}
               </p>
             </div>
-            <a
-              href="/#contact"
+            <button
+              onClick={() => {
+                navigate('/');
+                setTimeout(() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+              }}
+              className="cursor-pointer"
               style={{
                 display: 'inline-block',
                 padding: '10px 28px',
@@ -349,15 +356,15 @@ export default function FaqPage() {
                 fontWeight: 600,
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
-                textDecoration: 'none',
+                border: 'none',
                 transition: 'background 0.2s',
                 flexShrink: 0,
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = '#0f1409'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = GREEN; }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#0f1409'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = GREEN; }}
             >
               {t('faq_write_us')}
-            </a>
+            </button>
           </div>
         </div>
       </div>
