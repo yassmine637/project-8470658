@@ -316,18 +316,32 @@ export default function EstimationModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const errors: { name?: string; email?: string; phone?: string; street?: string; city?: string } = {};
+    const errors: { name?: string; email?: string; phone?: string; street?: string; city?: string; postalCode?: string } = {};
     if (!name.trim()) errors.name = 'Le nom est obligatoire.';
     if (!email.trim()) errors.email = "L'email est obligatoire.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) errors.email = 'Email invalide.';
     if (!phoneNumber.trim()) errors.phone = 'Le numéro de téléphone est obligatoire.';
     if (!street.trim()) errors.street = "L'adresse est obligatoire.";
-    else if (street.trim().length < 5) errors.street = "Veuillez saisir une adresse complète (ex : 12 Rue de la Paix).";
     if (!city.trim()) errors.city = 'La ville est obligatoire.';
     if (!postalCode.trim()) errors.postalCode = 'Le code postal est obligatoire.';
     if (Object.keys(errors).length > 0) { setFormErrors(errors); return; }
-    setFormErrors({});
+
+    // Verify address via Nominatim
     setSubmitting(true);
+    try {
+      const query = `${street.trim()}, ${city.trim()}, ${postalCode.trim()}, ${selectedCountry.name}`;
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&countrycodes=${selectedCountry.iso}`;
+      const geoRes = await fetch(url, { headers: { 'Accept-Language': 'fr' } });
+      const geoData = await geoRes.json();
+      if (!geoData || geoData.length === 0) {
+        setFormErrors({ street: "Adresse introuvable. Veuillez vérifier la rue, la ville et le code postal." });
+        setSubmitting(false);
+        return;
+      }
+    } catch {
+      // If Nominatim is unreachable, allow submission
+    }
+    setFormErrors({});
     try {
       await fetch('/api/configurator', {
         method: 'POST',
