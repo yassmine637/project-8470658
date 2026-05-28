@@ -92,7 +92,7 @@ function baseLayout(title, content) {
 }
 
 function formatCurrency(amount, currency = 'TND') {
-  return `${(amount / 100).toFixed(2)} ${currency}`;
+  return `${Number(amount).toFixed(2)} ${currency}`;
 }
 
 function itemsTable(items, currency) {
