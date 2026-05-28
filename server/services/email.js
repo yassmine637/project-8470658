@@ -1,34 +1,31 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-const GMAIL_USER = process.env.GMAIL_USER || 'yassminehsin040@gmail.com';
-const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_NAME = 'Domaine Fendri';
+const FROM_EMAIL = 'onboarding@resend.dev';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'yassminehsin040@gmail.com';
 
-function createTransporter() {
-  if (!GMAIL_APP_PASSWORD) return null;
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD },
-  });
-}
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 async function send({ to, subject, html }) {
-  const transporter = createTransporter();
-  if (!transporter) {
-    console.warn('[Email] GMAIL_APP_PASSWORD non configuré — email non envoyé');
+  if (!resend) {
+    console.warn('[Email] RESEND_API_KEY non configuré — email non envoyé');
     return;
   }
   try {
-    const info = await transporter.sendMail({
-      from: `"${FROM_NAME}" <${GMAIL_USER}>`,
+    const { data, error } = await resend.emails.send({
+      from: `${FROM_NAME} <${FROM_EMAIL}>`,
       to,
       subject,
       html,
     });
-    console.log(`[Email] ✅ Envoyé à ${to} — id: ${info.messageId}`);
+    if (error) {
+      console.error('[Email] Resend erreur:', error.message);
+    } else {
+      console.log(`[Email] ✅ Envoyé à ${to} — id: ${data?.id}`);
+    }
   } catch (err) {
-    console.error('[Email] Gmail SMTP erreur:', err?.message || err);
+    console.error('[Email] Resend erreur:', err?.message || err);
   }
 }
 
