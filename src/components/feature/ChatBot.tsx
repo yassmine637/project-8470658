@@ -29,151 +29,213 @@ function getLang(i18nLang: string): Lang {
 function getResponse(input: string, lang: Lang): string {
   const q = input.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  if (lang === 'ar') {
-    if (/مرحب|اهلا|سلام|صباح|مساء|هاي/.test(input))
-      return "أهلاً بك في **دومين فندري** 🫒\nأنا مساعدك الشخصي. كيف يمكنني مساعدتك اليوم؟";
+  // ── Détection d'intention (ordre de priorité)
+  const isGreeting   = lang === 'fr' ? /bonjour|salut|bonsoir|salam|hello|coucou|bonne? (journee|matin|soiree)/.test(q) : lang === 'en' ? /hello|hi\b|hey|good\s*(morning|evening|afternoon)/.test(q) : /مرحب|اهلا|سلام|صباح|مساء|هاي/.test(input);
+  const isAdvice     = lang === 'fr' ? /conseil|conseill|recommand|par quoi|lequel|laquelle|quoi choisir|que choisir|quel produit|pour commencer|pour debuter|pour moi|m.aider a choisir|aide.moi|qu.est.ce que tu|que me|quoi pren/.test(q) : lang === 'en' ? /recommend|suggest|which (one|oil|product)|what (should|would you|do you)|help me choose|best for|where (to start|do i start)/.test(q) : /انصح|ارشد|ماذا|اي منتج|ابدا|افضل/.test(input);
+  const isGift       = lang === 'fr' ? /cadeau|offrir|offre|anniversaire|noel|fete|mariage|paques|prestige|luxe|idee cadeau/.test(q) : lang === 'en' ? /gift|present|birthday|wedding|christmas|luxury|premium|prestige/.test(q) : /هدية|مناسبة|عيد|زفاف|فاخر/.test(input);
+  const isFamily     = lang === 'fr' ? /famille|familial|maison|grande quantite|beaucoup|gros|reserve|economique/.test(q) : lang === 'en' ? /family|household|bulk|large|economy|stock up/.test(q) : /عائلة|كبير|كمية|اقتصاد/.test(input);
+  const isBio        = lang === 'fr' ? /bio|biologique|sante|naturel|sans pesticide|sans produit|ecolo|vegeta|halal/.test(q) : lang === 'en' ? /organic|bio|health|natural|pesticide.free|vegan|eco/.test(q) : /عضوي|صحي|طبيعي|بدون مبيد/.test(input);
+  const isDailyUse   = lang === 'fr' ? /quotidien|tous les jours|cuisine|cuisinier|cuisson|salade|dressing|repas|journalier/.test(q) : lang === 'en' ? /daily|everyday|cooking|cook|salad|kitchen|meal/.test(q) : /يومي|طبخ|سلطة|مطبخ/.test(input);
+  const isPremium    = lang === 'fr' ? /meilleur|top|premium|luxe|excellent|qualite sup|haut de gamme|750/.test(q) : lang === 'en' ? /best|top|premium|luxury|finest|high.end|750/.test(q) : /افضل|ممتاز|فاخر|750/.test(input);
+  const isProduct    = lang === 'fr' ? /produit|huile|collection|gamme|bouteille|bidon|fendri|olive/.test(q) : lang === 'en' ? /product|oil|collection|bottle|range|olive/.test(q) : /منتج|زيت|زيتون|مجموعة|زجاجة|علبة/.test(input);
+  const isPrice      = lang === 'fr' ? /prix|tarif|cout|combien|tnd|dinar|cher|budget/.test(q) : lang === 'en' ? /price|cost|how much|tnd|dinar|budget|expensive/.test(q) : /سعر|ثمن|تكلفة|دينار|كم/.test(input);
+  const isShipping   = lang === 'fr' ? /livraison|expedition|frais|zone|pays|transport|shipping|envoyer/.test(q) : lang === 'en' ? /deliver|ship|freight|zone|country|transport/.test(q) : /توصيل|شحن|تسليم|دولة/.test(input);
+  const isConfig     = lang === 'fr' ? /configur|personnalis|etiquette|emballage|bouteille perso|creer|design/.test(q) : lang === 'en' ? /configur|custom|label|packaging|personali|design/.test(q) : /مهيئ|تخصيص|ملصق|تغليف|شخصي/.test(input);
+  const isPayment    = lang === 'fr' ? /paiement|payer|carte|konnect|paypal|click|livraison paiement|cod/.test(q) : lang === 'en' ? /payment|pay|card|konnect|paypal|click to pay|cod/.test(q) : /دفع|بطاقة|كونيكت|بايبال|كلك/.test(input);
+  const isContact    = lang === 'fr' ? /contact|message|email|telephone|joindre|whatsapp|ecrire/.test(q) : lang === 'en' ? /contact|message|email|phone|reach|whatsapp/.test(q) : /تواصل|رسالة|بريد|هاتف/.test(input);
+  const isCertif     = lang === 'fr' ? /certif|bio|biologique|label|recompense|biol|evooleum|flos olei|siqev|solinas|award/.test(q) : lang === 'en' ? /certif|organic|bio|award|biol|evooleum|flos olei|siqev|solinas/.test(q) : /شهادة|عضوي|جائزة|ايفوليوم/.test(input);
+  const isStock      = lang === 'fr' ? /stock|disponible|dispo|rupture|epuise/.test(q) : lang === 'en' ? /stock|available|out of stock|sold out/.test(q) : /مخزون|متوفر|نفد/.test(input);
+  const isOrder      = lang === 'fr' ? /commande|commander|acheter|panier|cart/.test(q) : lang === 'en' ? /order|buy|purchase|cart|basket/.test(q) : /طلب|اشتر|سلة/.test(input);
+  const isAccount    = lang === 'fr' ? /compte|connexion|inscription|login|profil/.test(q) : lang === 'en' ? /account|login|register|sign up|profile/.test(q) : /حساب|تسجيل|دخول/.test(input);
+  const isOrigin     = lang === 'fr' ? /origine|sfax|tunisie|chemlali|meknessi|histoire|famille|siecle/.test(q) : lang === 'en' ? /origin|sfax|tunisia|chemlali|meknessi|history|family|century/.test(q) : /اصل|صفاقس|شملالي|مكنين/.test(input);
+  const isSpec       = lang === 'fr' ? /spec|acidite|polyphenol|technique|oleique/.test(q) : lang === 'en' ? /spec|acid|polyphenol|technical|oleic/.test(q) : /مواصفات|حموضة|بوليفينول/.test(input);
+  const isThanks     = lang === 'fr' ? /merci|parfait|super|nickel|tres bien|impeccable|genial/.test(q) : lang === 'en' ? /thank|perfect|great|awesome|excellent/.test(q) : /شكرا|ممتاز|رائع/.test(input);
+  const isBye        = lang === 'fr' ? /au revoir|bye|ciao|adieu|a bientot/.test(q) : lang === 'en' ? /bye|goodbye|see you|ciao/.test(q) : /مع السلامة|وداعاً|باي/.test(input);
 
-    if (/منتج|زيت|زيتون|مجموعة|زجاجة|علبة|قنينة/.test(input))
-      return `تشمل مجموعتنا **4 منتجات** :\n\n🟢 **علبة خضراء 1 لتر — بيو** · 28 دينار\nمعتمدة عضوياً، بدون مبيدات.\n\n✨ **زجاجة اسطوانية 500 مل** · 18 دينار\nالأكثر مبيعاً — أناقة يومية.\n\n🏆 **زجاجة مربعة 750 مل بريميوم** · 42 دينار\nTOP 100 EVOOLEUM — شريحة الفخامة.\n\n🥫 **علبة معدنية 3 لتر عائلية** · 68 دينار\nحماية مثالية، اقتصادية، طويلة الأمد.\n\nزوروا صفحة **Our Oils** للتفاصيل.`;
+  if (lang === 'fr') {
+    if (isGreeting)
+      return "Bonjour ! Bienvenue chez **Domaine Fendri** 🫒\nRavi de vous accueillir. Je suis là pour vous guider sur nos huiles, la livraison ou le configurateur — qu'est-ce qui vous intéresse ?";
 
-    if (/سعر|ثمن|تكلفة|دينار|كم/.test(input))
-      return `أسعارنا :\n\n• علبة خضراء 1 لتر بيو → **28 دت**\n• زجاجة اسطوانية 500 مل → **18 دت**\n• زجاجة مربعة 750 مل بريميوم → **42 دت**\n• علبة معدنية 3 لتر عائلية → **68 دت**\n\nجميع الأسعار بالدينار التونسي (دت) وتشمل الضريبة.`;
+    if (isAdvice || (isProduct && !isPrice && !isShipping)) {
+      if (isGift || isPremium)
+        return "Pour offrir ou pour vous faire plaisir, je vous recommande sans hésiter la **Bouteille carrée 750ml Premium** à 42 TND 🏆\n\nC'est notre huile la plus raffinée — parmi le **TOP 100 EVOOLEUM** mondial, avec la plus faible acidité (≤ 0.2%) et les polyphénols les plus élevés (420 mg/kg). Un vrai bijou à offrir ou à s'offrir.\n\nVous voulez que je vous explique comment la commander ?";
+      if (isFamily)
+        return "Pour un usage familial ou pour faire des réserves, le **Bidon métallique 3L** à 68 TND est idéal 🥫\n\nIl offre une protection optimale contre la lumière, une longue conservation, et un excellent rapport qualité/prix. Très pratique au quotidien pour toute la famille.\n\nDites-moi si vous avez d'autres questions !";
+      if (isBio)
+        return "Si la santé et le naturel sont votre priorité, le **Bidon vert 1L — Bio** à 28 TND est fait pour vous 🌿\n\nCertifié agriculture biologique (EU & Tunisie), zéro pesticide, avec une acidité ≤ 0.3%. C'est l'huile idéale pour ceux qui veulent le meilleur pour leur corps.\n\nSouhaitez-vous plus d'infos sur nos certifications bio ?";
+      if (isDailyUse)
+        return "Pour un usage quotidien en cuisine, je vous suggère notre best-seller : la **Bouteille cylindrique 500ml** à 18 TND ✨\n\nC'est notre produit le plus vendu — format pratique, bouchon ergonomique, et une huile au goût équilibré parfaite pour les salades, la cuisson et les assaisonnements. Le rapport qualité/prix est excellent.\n\nVous souhaitez la commander ?";
+      return "Avec plaisir ! Voici un petit tour d'horizon pour vous aider à choisir 🫒\n\n✨ **500ml** — pour un usage quotidien, notre best-seller (18 TND)\n🌿 **Bidon 1L Bio** — si vous privilégiez le naturel et le bio (28 TND)\n🏆 **750ml Premium** — notre cuvée prestige, idéale en cadeau (42 TND)\n🥫 **3L Familial** — économique et pratique pour la maison (68 TND)\n\nDites-moi pour quel usage vous cherchez, je vous oriente plus précisément !";
+    }
 
-    if (/توصيل|شحن|تسليم|دولة|منطقة/.test(input))
-      return `رسوم التوصيل حسب الوجهة :\n\n🇹🇳 **تونس** → 7 دت\n🌍 **الدول العربية** → 25 دت\n🇪🇺 **أوروبا** → 35 دت\n🌐 **الدولي** → 50 دت\n\nيتم الشحن من صفاقس، تونس.`;
+    if (isGift)
+      return "Pour un beau cadeau, la **Bouteille carrée 750ml Premium** est le choix parfait 🎁\n\nElle fait partie du **TOP 100 EVOOLEUM** et se distingue par son design élégant et sa qualité exceptionnelle. À 42 TND, c'est une attention qui impressionne toujours.\n\nVous pouvez même la personnaliser avec notre configurateur si vous souhaitez y ajouter un message ou un label unique !";
 
-    if (/مهيئ|تخصيص|ملصق|تغليف|نموذج|شخصي/.test(input))
-      return `يتيح لك **المُهيِّئ التفاعلي** تصميم زجاجة مخصصة 100% في 6 خطوات :\n\n1️⃣ اختيار النموذج\n2️⃣ الحجم\n3️⃣ تصميم الملصق\n4️⃣ نوع التغليف\n5️⃣ نص مخصص\n6️⃣ ملخص وعرض سعر\n\nادخل إليه عبر قسم **Collection** في القائمة.`;
+    if (isBio)
+      return "Pour un choix 100% naturel, notre **Bidon vert 1L Bio** est certifié agriculture biologique 🌿\n\nZéro pesticide, acidité ≤ 0.3%, pressé à froid — c'est l'huile qui respecte votre santé et l'environnement. Certifié EU & Tunisie. À 28 TND, c'est aussi une belle valeur.\n\nAutre question ?";
 
-    if (/دفع|بطاقة|كونيكت|بايبال|نقداً|كلك|سداد/.test(input))
-      return `نقبل عدة طرق للدفع :\n\n💵 **الدفع عند الاستلام** (COD)\n💳 **بطاقة بنكية** عبر Stripe\n🔵 **Konnect** (دفع إلكتروني بالدينار)\n🅿️ **PayPal**\n📱 **Click to Pay** (SMT)\n\nجميع المدفوعات آمنة ومشفرة.`;
+    if (isPrice)
+      return "Nos tarifs, en toute transparence 🫒\n\n• **Bouteille 500ml** → 18 TND — best-seller quotidien\n• **Bidon Bio 1L** → 28 TND — certifié agriculture bio\n• **Bouteille 750ml Premium** → 42 TND — prestige & cadeaux\n• **Bidon 3L Familial** → 68 TND — économique, longue durée\n\nTous les prix incluent la TVA. Vous avez un budget particulier en tête ?";
 
-    if (/تواصل|رسالة|بريد|هاتف|واتساب|اتصال/.test(input))
-      return `يمكنك التواصل معنا عبر :\n\n📝 **نموذج الاتصال** على موقعنا (قسم Contact)\n📧 **yassminehsin040@gmail.com**\n📍 **دومين فندري**، مكنين، صفاقس، تونس\n\nنرد خلال **24 إلى 48 ساعة**.`;
+    if (isShipping)
+      return "La livraison est assurée depuis **Sfax, Tunisie** 🚚\n\n🇹🇳 Tunisie → **7 TND**\n🌍 Pays arabes → **25 TND**\n🇪🇺 Europe → **35 TND**\n🌐 Reste du monde → **50 TND**\n\nVotre commande est expédiée dans les 24 à 48h ouvrables après validation. D'autres questions ?";
 
-    if (/شهادة|عضوي|جائزة|تكريم|بيول|ايفوليوم|فلوس اولي|سيكيف|سولاناس/.test(input))
-      return `**دومين فندري** حائز على جوائز دولية :\n\n🥇 ميدالية ذهبية — BIOL International (إيطاليا، 2016)\n🏅 نهائي IOC Mario Solinas 2018–2020\n📖 Flos Olei — 8 إشارات متتالية\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ شهادة جودة SIQEV مدريد (2023)\n\nمعتمد **زراعة عضوية — الاتحاد الأوروبي وتونس**.`;
+    if (isConfig)
+      return "Le **configurateur interactif** est une expérience unique 🎨\n\nEn 6 étapes simples, vous créez une bouteille 100% à votre image : modèle, contenance, étiquette personnalisée, emballage, texte gravé... puis vous recevez un devis sur mesure.\n\nC'est parfait pour les entreprises, les événements ou les cadeaux d'exception. Accédez-y via **Collection** dans le menu !";
 
-    if (/مخزون|متوفر|نفد|كمية/.test(input))
-      return `حالة المخزون الحالية :\n\n🟢 علبة خضراء 1 لتر بيو — **متوفر** (150 وحدة)\n🟢 زجاجة 500 مل — **متوفر** (300 وحدة)\n🟡 زجاجة 750 مل بريميوم — **كمية محدودة** (12 وحدة)\n🟡 علبة 3 لتر عائلية — **كمية محدودة** (30 وحدة)\n\nاطلب زجاجة 750 مل سريعاً!`;
+    if (isPayment)
+      return "Nous proposons plusieurs moyens de paiement pour votre confort 💳\n\n💵 **Paiement à la livraison** (COD) — payez à la réception\n🔵 **Konnect** — paiement en dinars tunisiens en ligne\n🅿️ **PayPal** — rapide et sécurisé\n📱 **Click to Pay SMT** — solution bancaire tunisienne\n\nTous les paiements sont sécurisés et cryptés. Des questions sur un mode en particulier ?";
 
-    if (/طلب|اشتر|سلة|شراء/.test(input))
-      return `لإتمام الطلب :\n\n1. انتقل إلى **Our Oils**\n2. اختر المنتج\n3. حدد الكمية\n4. انقر **أضف إلى السلة**\n5. أدخل معلومات التوصيل\n6. اختر طريقة الدفع\n\nيمكنك الطلب **بدون إنشاء حساب**!`;
+    if (isContact)
+      return "Notre équipe est disponible et réactive 📬\n\n📝 Utilisez le **formulaire de contact** sur notre site\n📧 Écrivez-nous à **yassminehsin040@gmail.com**\n📍 Domaine Fendri, Meknessi, Sfax, Tunisie\n\nNous répondons généralement sous **24 à 48h**. Pour une urgence, le formulaire est le plus rapide !";
 
-    if (/حساب|تسجيل|دخول|ملف شخصي/.test(input))
-      return `يمكنك :\n\n👤 **الطلب كزائر** بدون حساب\n📝 **إنشاء حساب** لمتابعة طلباتك\n🔐 **تسجيل الدخول** عبر زر "Sign up" في أعلى اليمين\n\nحسابك يمنحك الوصول إلى سجل الطلبات وقائمة الأمنيات.`;
+    if (isCertif)
+      return "Domaine Fendri est une référence reconnue à l'international 🏅\n\n🥇 Médaille d'Or — BIOL International, Italie (2016)\n🏅 Finaliste IOC Mario Solinas (2018–2020)\n📖 Flos Olei — 8 mentions consécutives\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ Label qualité SIQEV Madrid (2023)\n\nEt surtout, certifiés **Agriculture Biologique EU & Tunisie** depuis 2024. Une confiance méritée !";
 
-    if (/اصل|صفاقس|تونس|شملالي|مكنين|تاريخ|عائلة|قرن/.test(input))
-      return `**دومين فندري** — أكثر من قرن من الخبرة.\n\n📍 مكنين، صفاقس، تونس\n🫒 الصنف : **شملالي صفاقسي**\n❄️ عصر بارد < 27 درجة مئوية\n👨‍👩‍👧‍👦 ثلاثة أجيال من شغف الزيتون\n🌿 صفر مبيدات — 100% طبيعي\n\nمزارعنا معتمدة منذ 2024.`;
+    if (isStock)
+      return "Voici l'état du stock en ce moment 📦\n\n🟢 Bidon Bio 1L — **disponible** (150 unités)\n🟢 Bouteille 500ml — **disponible** (300 unités)\n🟡 Bouteille 750ml Premium — **stock limité** (12 unités ⚠️)\n🟡 Bidon 3L Familial — **stock limité** (30 unités)\n\nJe vous conseille de ne pas attendre pour le **750ml Premium** — il part vite !";
 
-    if (/مواصفات|حموضة|بوليفينول|فني/.test(input))
-      return `المواصفات الفنية :\n\n• **علبة 1 لتر بيو** : حموضة ≤ 0.3% · بوليفينول 350 ملغ/كغ\n• **زجاجة 500 مل** : حموضة ≤ 0.4% · بوليفينول 280 ملغ/كغ\n• **زجاجة 750 مل** : حموضة ≤ 0.2% · بوليفينول 420 ملغ/كغ\n• **علبة 3 لتر** : حموضة ≤ 0.5% · بوليفينول 250 ملغ/كغ\n\nموسم الحصاد : أكتوبر – نوفمبر 2024`;
+    if (isOrder)
+      return "Commander chez nous est simple et rapide 🛒\n\n1. Rendez-vous sur **Our Oils**\n2. Choisissez votre produit et la quantité\n3. Cliquez **Ajouter au panier**\n4. Renseignez votre adresse de livraison\n5. Sélectionnez votre mode de paiement\n6. Validez — c'est tout !\n\nPas besoin de créer un compte. Besoin d'aide pendant le processus ?";
 
-    if (/شكرا|ممتاز|رائع|حسنا|تمام/.test(input))
-      return `بكل سرور! 🫒\nلا تتردد في طرح أي سؤال آخر. استمتع بمنتجات **دومين فندري**!`;
+    if (isAccount)
+      return "Commander chez nous est flexible 🔐\n\nVous pouvez passer commande **sans compte** en tant que visiteur — rapide et sans inscription.\n\nSi vous créez un compte, vous bénéficiez d'un accès à votre **historique de commandes**, votre **liste de souhaits**, et un suivi facilité. Le bouton \"Sign up\" est en haut à droite !";
 
-    if (/مع السلامة|وداعاً|باي/.test(input))
-      return `إلى اللقاء! 👋\nشكراً لزيارتك **دومين فندري**. يوم سعيد!`;
+    if (isOrigin)
+      return "**Domaine Fendri**, c'est une histoire de passion qui dure depuis plus d'un siècle 🫒\n\n📍 Meknessi, Sfax, Tunisie — berceau de l'olivier tunisien\n🌿 Cultivar : **Chemlali de Sfax**, une variété d'exception\n❄️ Extraction à froid (< 27°C) pour préserver tous les arômes\n👨‍👩‍👧‍👦 Trois générations de savoir-faire familial\n✅ Zéro pesticide — certifié depuis 2024\n\nUne huile qui porte en elle le soleil et la terre de Sfax.";
 
-    return `لم أفهم سؤالك جيداً 😊\n\nيمكنك سؤالي عن :\n• **المنتجات** والـ**أسعار**\n• **التوصيل**\n• **المُهيِّئ**\n• طرق **الدفع**\n• **شهاداتنا**\n• كيفية **التواصل** معنا`;
+    if (isSpec)
+      return "Nos huiles sont analysées et certifiées — voici les données techniques 🔬\n\n• **Bidon Bio 1L** : acidité ≤ 0.3% · polyphénols 350 mg/kg\n• **Bouteille 500ml** : acidité ≤ 0.4% · polyphénols 280 mg/kg\n• **Bouteille 750ml Premium** : acidité ≤ 0.2% · polyphénols 420 mg/kg ⭐\n• **Bidon 3L** : acidité ≤ 0.5% · polyphénols 250 mg/kg\n\nRécolte : Octobre–Novembre 2024. Plus l'acidité est basse et les polyphénols élevés, meilleure est la qualité !";
+
+    if (isThanks)
+      return "Avec grand plaisir ! 🫒\nN'hésitez pas si d'autres questions vous viennent — je suis là. Bonne dégustation !";
+
+    if (isBye)
+      return "À bientôt ! 👋\nMerci de votre visite chez **Domaine Fendri**. Passez une excellente journée !";
+
+    return "Je n'ai pas tout à fait saisi, mais je suis là pour vous aider 😊\n\nVous pouvez me poser des questions sur :\n• **Quel produit choisir** selon vos besoins\n• Nos **prix** et notre **gamme**\n• La **livraison** dans votre pays\n• Le **configurateur** pour personnaliser une bouteille\n• Nos **certifications** et récompenses\n• Comment nous **contacter**\n\nQu'est-ce qui vous intéresse ?";
   }
 
   if (lang === 'en') {
-    if (/hello|hi\b|hey|good\s*(morning|evening|afternoon)|bonjour|salut|salam/.test(q))
-      return "Welcome to **Domaine Fendri** 🫒\nI'm your personal assistant. How can I help you today?";
+    if (isGreeting)
+      return "Hello! Welcome to **Domaine Fendri** 🫒\nGreat to have you here. I can help you choose the right oil, learn about delivery, or explore our configurator — what are you looking for?";
 
-    if (/product|oil|collection|bottle|range|bidon/.test(q))
-      return `Our collection includes **4 references** :\n\n🟢 **Green Bio Can 1L** · 28 TND\nCertified organic, zero pesticides.\n\n✨ **Cylindrical Bottle 500ml** · 18 TND\nBest-seller — elegant everyday format.\n\n🏆 **Square Bottle 750ml Premium** · 42 TND\nTOP 100 EVOOLEUM — prestige segment.\n\n🥫 **Metal Can 3L Family** · 68 TND\nOptimal protection, economical, long-lasting.\n\nVisit the **Our Oils** page for full details.`;
+    if (isAdvice || (isProduct && !isPrice && !isShipping)) {
+      if (isGift || isPremium)
+        return "For a gift or a premium experience, I highly recommend our **Square Bottle 750ml Premium** at 42 TND 🏆\n\nRanked in the **TOP 100 EVOOLEUM** worldwide, it has the lowest acidity (≤ 0.2%) and highest polyphenols (420 mg/kg) in our range. An exceptional bottle that always impresses.\n\nWould you like to know how to order it?";
+      if (isFamily)
+        return "For a family or bulk use, the **Metal Can 3L** at 68 TND is the smart choice 🥫\n\nIt offers excellent light protection, long shelf life, and the best value per litre. Perfect to keep at home and always have great olive oil on hand.\n\nAny other questions?";
+      if (isBio)
+        return "If health and natural products matter to you, our **Green Bio Can 1L** at 28 TND is your match 🌿\n\nCertified organic (EU & Tunisia), zero pesticides, cold-pressed — it's the purest oil in our range. Acidity ≤ 0.3%, full of goodness.\n\nWant to know more about our organic certifications?";
+      if (isDailyUse)
+        return "For everyday cooking, our best-seller is the **Cylindrical Bottle 500ml** at 18 TND ✨\n\nPractical, elegantly designed, and with a well-balanced flavour perfect for salads, cooking and dressings. Our most popular choice by far.\n\nShall I help you order one?";
+      return "Happy to help you choose! Here's a quick overview 🫒\n\n✨ **500ml** — everyday cooking, our best-seller (18 TND)\n🌿 **Bio Can 1L** — organic, health-conscious choice (28 TND)\n🏆 **750ml Premium** — prestige, great as a gift (42 TND)\n🥫 **3L Family** — economical, great for households (68 TND)\n\nTell me a bit more about your use — I'll point you to the right one!";
+    }
 
-    if (/price|cost|how much|tnd|dinar|tariff/.test(q))
-      return `Our prices :\n\n• Green Bio Can 1L → **28 TND**\n• Cylindrical Bottle 500ml → **18 TND**\n• Square Bottle 750ml Premium → **42 TND**\n• Metal Can 3L Family → **68 TND**\n\nAll prices are in Tunisian Dinars (TND) and include VAT.`;
+    if (isGift)
+      return "For a memorable gift, the **Square Bottle 750ml Premium** is the obvious choice 🎁\n\nTOP 100 EVOOLEUM, stunning packaging, finest quality — at 42 TND it's a gift that speaks for itself. You can even personalise it with our configurator for an extra special touch!";
 
-    if (/deliver|shipping|freight|zone|country|transport/.test(q))
-      return `Shipping fees by destination :\n\n🇹🇳 **Tunisia** → 7 TND\n🌍 **Arab countries** → 25 TND\n🇪🇺 **Europe** → 35 TND\n🌐 **International** → 50 TND\n\nShipping is handled from Sfax, Tunisia.`;
+    if (isBio)
+      return "Our **Green Bio Can 1L** is certified organic by both the EU and Tunisia 🌿\n\nZero pesticides, cold-pressed, acidity ≤ 0.3% — the cleanest, most natural oil in our range. At 28 TND, it's also excellent value.\n\nAny other questions?";
 
-    if (/configur|custom|label|packaging|model|personali/.test(q))
-      return `Our **interactive configurator** lets you design a 100% custom bottle in 6 steps :\n\n1️⃣ Choose the model\n2️⃣ Select volume\n3️⃣ Label design\n4️⃣ Packaging type\n5️⃣ Custom text\n6️⃣ Summary & quote\n\nAccess it via the **Collection** section in the menu.`;
+    if (isPrice)
+      return "Here's our full pricing 🫒\n\n• **Bottle 500ml** → 18 TND — everyday best-seller\n• **Bio Can 1L** → 28 TND — certified organic\n• **Bottle 750ml Premium** → 42 TND — prestige & gifts\n• **Can 3L Family** → 68 TND — bulk, great value\n\nAll prices include VAT. Do you have a specific budget in mind?";
 
-    if (/payment|pay|card|cod|stripe|konnect|paypal|click to pay/.test(q))
-      return `We accept several payment methods :\n\n💵 **Cash on delivery** (COD)\n💳 **Credit card** via Stripe\n🔵 **Konnect** (online TND payment)\n🅿️ **PayPal**\n📱 **Click to Pay** (SMT)\n\nAll payments are secure and encrypted.`;
+    if (isShipping)
+      return "We ship from **Sfax, Tunisia** 🚚\n\n🇹🇳 Tunisia → **7 TND**\n🌍 Arab countries → **25 TND**\n🇪🇺 Europe → **35 TND**\n🌐 Worldwide → **50 TND**\n\nOrders are processed within 24–48 business hours. Any other questions?";
 
-    if (/contact|message|email|phone|reach|whatsapp/.test(q))
-      return `You can reach us via :\n\n📝 **Contact form** on our website (Contact section)\n📧 **yassminehsin040@gmail.com**\n📍 **Domaine Fendri**, Meknessi, Sfax, Tunisia\n\nWe respond within **24 to 48 hours**.`;
+    if (isConfig)
+      return "Our **interactive configurator** is a unique experience 🎨\n\nIn 6 simple steps, you design a fully custom bottle: model, volume, label, packaging, personalised text... and receive a tailored quote. Perfect for corporate gifts, events or special occasions. Find it under **Collection** in the menu!";
 
-    if (/certif|organic|bio|label|award|biol|evooleum|flos olei|siqev|solinas|recognition/.test(q))
-      return `Domaine Fendri is **internationally awarded** :\n\n🥇 Gold Medal — BIOL International (Italy, 2016)\n🏅 IOC Mario Solinas Finalist 2018–2020\n📖 Flos Olei — 8 consecutive mentions\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ SIQEV Quality Label Madrid (2023)\n\nCertified **Organic Agriculture EU & Tunisia**.`;
+    if (isPayment)
+      return "We offer several payment options for your convenience 💳\n\n💵 **Cash on delivery** (COD) — pay when you receive\n🔵 **Konnect** — online Tunisian dinar payment\n🅿️ **PayPal** — fast and secure\n📱 **Click to Pay SMT** — Tunisian banking solution\n\nAll payments are encrypted and secure. Any specific questions?";
 
-    if (/stock|available|availab|out of stock|sold out/.test(q))
-      return `Current stock status :\n\n🟢 Green Bio Can 1L — **In stock** (150 units)\n🟢 Cylindrical Bottle 500ml — **In stock** (300 units)\n🟡 Square Bottle 750ml Premium — **Low stock** (12 units)\n🟡 Metal Can 3L Family — **Low stock** (30 units)\n\nOrder the 750ml quickly before it runs out!`;
+    if (isContact)
+      return "Our team is friendly and responsive 📬\n\n📝 Use the **contact form** on our website\n📧 Email us at **yassminehsin040@gmail.com**\n📍 Domaine Fendri, Meknessi, Sfax, Tunisia\n\nWe typically reply within **24 to 48 hours**. Don't hesitate!";
 
-    if (/order|buy|purchase|cart|basket/.test(q))
-      return `To place an order :\n\n1. Go to **Our Oils**\n2. Select a product\n3. Choose the quantity\n4. Click **Add to cart**\n5. Enter your delivery information\n6. Choose your payment method\n\nYou can order **without creating an account**!`;
+    if (isCertif)
+      return "Domaine Fendri is internationally recognised 🏅\n\n🥇 Gold Medal — BIOL International, Italy (2016)\n🏅 IOC Mario Solinas Finalist (2018–2020)\n📖 Flos Olei — 8 consecutive mentions\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ SIQEV Quality Label Madrid (2023)\n\nCertified **Organic Agriculture EU & Tunisia** since 2024. Every award is a promise of quality.";
 
-    if (/account|login|register|sign up|sign in|profile/.test(q))
-      return `You can :\n\n👤 **Order as a guest** without an account\n📝 **Create an account** to track your orders\n🔐 **Sign in** via the "Sign up" button at the top right\n\nYour account gives you access to order history and your wishlist.`;
+    if (isStock)
+      return "Here's the current stock status 📦\n\n🟢 Bio Can 1L — **in stock** (150 units)\n🟢 Bottle 500ml — **in stock** (300 units)\n🟡 Bottle 750ml Premium — **low stock** (12 units ⚠️)\n🟡 Can 3L Family — **low stock** (30 units)\n\nI'd recommend acting quickly on the **750ml Premium** — it sells fast!";
 
-    if (/origin|sfax|tunisia|chemlali|meknessi|domain|history|family|century/.test(q))
-      return `**Domaine Fendri** — over a century of expertise.\n\n📍 Meknessi, Sfax, Tunisia\n🫒 Cultivar : **Chemlali de Sfax**\n❄️ Cold extraction < 27°C\n👨‍👩‍👧‍👦 Three generations of olive passion\n🌿 Zero pesticides — 100% natural\n\nOur groves have been certified since 2024.`;
+    if (isOrder)
+      return "Ordering is quick and easy 🛒\n\n1. Head to **Our Oils**\n2. Pick your product and quantity\n3. Click **Add to cart**\n4. Enter your delivery address\n5. Choose your payment method\n6. Confirm — done!\n\nNo account needed. Need help during checkout?";
 
-    if (/spec|acid|polyphenol|technical|oleic/.test(q))
-      return `Technical specifications :\n\n• **Bio Can 1L** : acidity ≤ 0.3% · polyphenols 350 mg/kg\n• **Bottle 500ml** : acidity ≤ 0.4% · polyphenols 280 mg/kg\n• **Bottle 750ml** : acidity ≤ 0.2% · polyphenols 420 mg/kg\n• **Can 3L** : acidity ≤ 0.5% · polyphenols 250 mg/kg\n\nHarvest : October–November 2024`;
+    if (isAccount)
+      return "You have two options 🔐\n\nOrder as a **guest** — no registration needed, quick and simple.\n\nOr **create an account** to track your orders, manage your wishlist, and reorder easily. The \"Sign up\" button is in the top right corner!";
 
-    if (/thank|perfect|great|awesome|nice|good|ok\b/.test(q))
-      return `You're welcome! 🫒\nFeel free to ask if you have more questions. Enjoy **Domaine Fendri**!`;
+    if (isOrigin)
+      return "**Domaine Fendri** is a story of passion spanning over a century 🫒\n\n📍 Meknessi, Sfax, Tunisia — heart of Tunisian olive culture\n🌿 Cultivar: **Chemlali de Sfax**, a truly exceptional variety\n❄️ Cold extraction (< 27°C) to preserve all aromas\n👨‍👩‍👧‍👦 Three generations of family expertise\n✅ Zero pesticides — certified since 2024\n\nEvery bottle carries the sunshine and soul of Sfax.";
 
-    if (/bye|goodbye|see you|ciao/.test(q))
-      return `Goodbye! 👋\nThank you for visiting **Domaine Fendri**. Have a great day!`;
+    if (isSpec)
+      return "All our oils are independently tested and certified 🔬\n\n• **Bio Can 1L** : acidity ≤ 0.3% · polyphenols 350 mg/kg\n• **Bottle 500ml** : acidity ≤ 0.4% · polyphenols 280 mg/kg\n• **Bottle 750ml Premium** : acidity ≤ 0.2% · polyphenols 420 mg/kg ⭐\n• **Can 3L** : acidity ≤ 0.5% · polyphenols 250 mg/kg\n\nHarvest: October–November 2024. Lower acidity + higher polyphenols = superior quality!";
 
-    return `I didn't quite understand your question 😊\n\nYou can ask me about :\n• Our **products** & **prices**\n• **Shipping**\n• The **configurator**\n• **Payment** methods\n• Our **certifications**\n• How to **contact** us`;
+    if (isThanks)
+      return "You're very welcome! 🫒\nFeel free to ask anything else — enjoy your Domaine Fendri experience!";
+
+    if (isBye)
+      return "Goodbye! 👋\nThank you for visiting **Domaine Fendri**. Have a wonderful day!";
+
+    return "I didn't quite catch that, but I'm here to help 😊\n\nFeel free to ask me about:\n• **Which oil to choose** for your needs\n• Our **prices** and **product range**\n• **Shipping** to your country\n• The **configurator** for custom bottles\n• Our **awards** and certifications\n• How to **contact** us\n\nWhat would you like to know?";
   }
 
-  // French (default)
-  if (/bonjour|salut|salam|hello|hi\b|bonsoir/.test(q))
-    return "Bienvenue chez **Domaine Fendri** 🫒\nJe suis votre assistant personnel. Comment puis-je vous aider aujourd'hui ?";
+  // Arabic
+  if (isGreeting)
+    return "أهلاً وسهلاً بك في **دومين فندري** 🫒\nيسعدني مساعدتك! هل تبحث عن منتج معين، معلومات عن التوصيل، أو شيء آخر؟";
 
-  if (/produit|huile|collection|gamme|bouteille|bidon/.test(q))
-    return `Notre collection comprend **4 références** :\n\n🟢 **Bidon vert 1L — Bio** · 28 TND\nCertifié agriculture biologique, zéro pesticide.\n\n✨ **Bouteille cylindrique 500ml** · 18 TND\nBest-seller — format quotidien raffiné.\n\n🏆 **Bouteille carrée 750ml Premium** · 42 TND\nTOP 100 EVOOLEUM — segment prestige.\n\n🥫 **Bidon métallique 3L Familial** · 68 TND\nProtection optimale, économique, longue durée.\n\nVisitez la page **Our Oils** pour les détails.`;
+  if (isAdvice || (isProduct && !isPrice && !isShipping)) {
+    if (isGift || isPremium)
+      return "للهدايا أو للتميز، أنصحك بـ **الزجاجة المربعة 750 مل بريميوم** بـ 42 دت 🏆\n\nهي أفضل زيوتنا — ضمن **TOP 100 EVOOLEUM** عالمياً، حموضة ≤ 0.2% وبوليفينول 420 ملغ/كغ. هدية لا تُنسى.\n\nتريد أن أشرح لك كيف تطلبها؟";
+    if (isFamily)
+      return "للاستخدام العائلي، **علبة 3 لتر المعدنية** بـ 68 دت هي الخيار الأمثل 🥫\n\nحماية ممتازة، حفظ طويل، وأفضل سعر لكل وحدة. عملية ومريحة للمنزل.\n\nهل لديك سؤال آخر؟";
+    if (isBio)
+      return "إذا كانت الصحة والطبيعة أولويتك، **علبة 1 لتر البيو** بـ 28 دت هي خيارك 🌿\n\nمعتمدة عضوياً من الاتحاد الأوروبي وتونس، بدون مبيدات، عصر بارد — زيت نقي 100%.\n\nهل تريد معلومات عن شهاداتنا العضوية؟";
+    if (isDailyUse)
+      return "للاستخدام اليومي في المطبخ، أقترح **الزجاجة الاسطوانية 500 مل** بـ 18 دت ✨\n\nهي الأكثر مبيعاً — سهلة الاستخدام، طعم متوازن رائع للسلطات والطبخ.\n\nهل تريد طلبها؟";
+    return "بكل سرور! إليك نظرة سريعة لمساعدتك على الاختيار 🫒\n\n✨ **500 مل** — للاستخدام اليومي، الأكثر مبيعاً (18 دت)\n🌿 **بيو 1 لتر** — للاهتمام بالصحة (28 دت)\n🏆 **750 مل بريميوم** — للهدايا والتميز (42 دت)\n🥫 **3 لتر عائلي** — اقتصادي وعملي (68 دت)\n\nأخبرني باستخدامك وسأرشدك بدقة أكثر!";
+  }
 
-  if (/prix|tarif|cout|combien|tnd|dinar/.test(q))
-    return `Voici nos prix :\n\n• Bidon vert 1L Bio → **28 TND**\n• Bouteille cylindrique 500ml → **18 TND**\n• Bouteille carrée 750ml Premium → **42 TND**\n• Bidon métallique 3L Familial → **68 TND**\n\nTous nos prix sont en dinars tunisiens (TND) et incluent la TVA.`;
+  if (isPrice)
+    return "أسعارنا بكل شفافية 🫒\n\n• **زجاجة 500 مل** ← 18 دت — الأكثر مبيعاً\n• **بيو 1 لتر** ← 28 دت — معتمد عضوياً\n• **750 مل بريميوم** ← 42 دت — للهدايا والفخامة\n• **3 لتر عائلي** ← 68 دت — اقتصادي\n\nجميع الأسعار بالدينار التونسي وتشمل الضريبة.";
 
-  if (/livraison|expedition|expedi|frais|zone|pays|transport|shipping/.test(q))
-    return `Frais de livraison selon votre pays :\n\n🇹🇳 **Tunisie** → 7 TND\n🌍 **Pays arabes** → 25 TND\n🇪🇺 **Europe** → 35 TND\n🌐 **International** → 50 TND\n\nLa livraison est assurée depuis Sfax, Tunisie.`;
+  if (isShipping)
+    return "التوصيل يتم من **صفاقس، تونس** 🚚\n\n🇹🇳 تونس ← **7 دت**\n🌍 الدول العربية ← **25 دت**\n🇪🇺 أوروبا ← **35 دت**\n🌐 دولي ← **50 دت**\n\nالطلبات تُعالج في غضون 24 إلى 48 ساعة عمل.";
 
-  if (/configur|devis|personnalis|etiquette|emballage|model|bouteille perso/.test(q))
-    return `Le **configurateur interactif** vous permet de créer une bouteille 100% personnalisée en 6 étapes :\n\n1️⃣ Choix du modèle\n2️⃣ Contenance\n3️⃣ Design de l'étiquette\n4️⃣ Type d'emballage\n5️⃣ Texte personnalisé\n6️⃣ Récapitulatif & devis\n\nAccédez-y via la section **Collection** du menu.`;
+  if (isConfig)
+    return "**المُهيِّئ التفاعلي** تجربة فريدة من نوعها 🎨\n\nفي 6 خطوات بسيطة، تصمم زجاجتك بالكامل: النموذج، الحجم، الملصق، التغليف، نص شخصي... ثم تتلقى عرض سعر مخصص.\n\nمثالي للهدايا والمناسبات. ادخل إليه عبر **Collection** في القائمة!";
 
-  if (/paiement|payer|carte|cod|stripe|konnect|paypal|click to pay|livraison paiement/.test(q))
-    return `Nous acceptons plusieurs modes de paiement :\n\n💵 **Paiement à la livraison** (COD)\n💳 **Carte bancaire** via Stripe\n🔵 **Konnect** (paiement TND en ligne)\n🅿️ **PayPal**\n📱 **Click to Pay** (SMT)\n\nTous les paiements sont sécurisés et cryptés.`;
+  if (isPayment)
+    return "نقبل عدة طرق دفع لراحتك 💳\n\n💵 **الدفع عند الاستلام** (COD)\n🔵 **Konnect** — دفع إلكتروني بالدينار\n🅿️ **PayPal** — سريع وآمن\n📱 **Click to Pay SMT** — الحل المصرفي التونسي\n\nجميع المدفوعات مشفرة وآمنة.";
 
-  if (/contact|message|email|telephone|nous joindre|whatsapp/.test(q))
-    return `Vous pouvez nous contacter via :\n\n📝 **Formulaire de contact** sur notre site (section Contact)\n📧 **yassminehsin040@gmail.com**\n📍 **Domaine Fendri**, Meknessi, Sfax, Tunisie\n\nNous répondons sous **24 à 48h**.`;
+  if (isContact)
+    return "فريقنا في خدمتك 📬\n\n📝 **نموذج التواصل** على موقعنا\n📧 **yassminehsin040@gmail.com**\n📍 دومين فندري، مكنين، صفاقس، تونس\n\nنرد في خلال **24 إلى 48 ساعة**.";
 
-  if (/certif|bio|biologique|label|recompense|prix intern|award|biol|evooleum|flos olei|siqev|solinas/.test(q))
-    return `Domaine Fendri est **récompensé internationalement** :\n\n🥇 Médaille d'Or — BIOL International (Italie, 2016)\n🏅 Finaliste IOC Mario Solinas 2018–2020\n📖 Flos Olei — 8 mentions consécutives\n🌍 TOP 100 EVOOLEUM Guide\n🥈 Gourmet d'Argent — AVPA Paris (2015)\n✅ Label SIQEV Madrid (2023)\n\nCertifiés **Agriculture Biologique EU & Tunisie**.`;
+  if (isCertif)
+    return "دومين فندري مرجع دولي معترف به 🏅\n\n🥇 ميدالية ذهبية — BIOL الدولي، إيطاليا (2016)\n🏅 نهائي IOC ماريو سولينا (2018–2020)\n📖 Flos Olei — 8 ذكر متتالي\n🌍 TOP 100 EVOOLEUM\n🥈 Gourmet d'Argent — AVPA باريس (2015)\n✅ SIQEV مدريد (2023)\n\nمعتمد **زراعة عضوية — EU وتونس** منذ 2024.";
 
-  if (/stock|disponible|dispo|rupture|epuise/.test(q))
-    return `État du stock actuel :\n\n🟢 Bidon vert 1L Bio — **En stock** (150 unités)\n🟢 Bouteille 500ml — **En stock** (300 unités)\n🟡 Bouteille 750ml Premium — **Stock limité** (12 unités)\n🟡 Bidon 3L Familial — **Stock limité** (30 unités)\n\nPassez votre commande rapidement pour le 750ml !`;
+  if (isStock)
+    return "حالة المخزون الحالية 📦\n\n🟢 بيو 1 لتر — **متوفر** (150 وحدة)\n🟢 500 مل — **متوفر** (300 وحدة)\n🟡 750 مل بريميوم — **كمية محدودة** (12 وحدة ⚠️)\n🟡 3 لتر عائلي — **كمية محدودة** (30 وحدة)\n\nأنصحك بعدم التأخر في طلب **750 مل** — الكمية محدودة!";
 
-  if (/commande|commander|achat|acheter|panier|cart/.test(q))
-    return `Pour passer une commande :\n\n1. Accédez à **Our Oils**\n2. Sélectionnez un produit\n3. Choisissez la quantité\n4. Cliquez **Ajouter au panier**\n5. Renseignez vos informations de livraison\n6. Choisissez votre mode de paiement\n\nVous pouvez commander **sans créer de compte** !`;
+  if (isOrder)
+    return "الطلب سهل وسريع 🛒\n\n1. اذهب إلى **Our Oils**\n2. اختر المنتج والكمية\n3. **أضف إلى السلة**\n4. أدخل عنوان التوصيل\n5. اختر طريقة الدفع\n6. أكد الطلب — تم!\n\nلا حاجة لإنشاء حساب. هل تحتاج مساعدة؟";
 
-  if (/compte|connexion|inscription|login|register|profil/.test(q))
-    return `Vous pouvez :\n\n👤 **Commander sans compte** en tant que visiteur\n📝 **Créer un compte** pour suivre vos commandes\n🔐 **Se connecter** via le bouton "Sign up" en haut à droite\n\nVotre compte vous donne accès à l'historique de vos commandes et votre liste de souhaits.`;
+  if (isAccount)
+    return "لديك خياران 🔐\n\nطلب **كزائر** — بدون تسجيل، سريع وبسيط.\n\nأو **إنشاء حساب** لمتابعة طلباتك وقائمة أمنياتك. زر \"Sign up\" في أعلى اليمين!";
 
-  if (/origine|sfax|tunisie|chemlali|meknessi|domaine|histoire|famille|ans/.test(q))
-    return `**Domaine Fendri** — plus d'un siècle de savoir-faire.\n\n📍 Meknessi, Sfax, Tunisie\n🫒 Cultivar : **Chemlali de Sfax**\n❄️ Extraction à froid < 27°C\n👨‍👩‍👧‍👦 Trois générations de passion olivière\n🌿 Zéro pesticide — 100% naturel\n\nNos oliveraies sont certifiées depuis 2024.`;
+  if (isOrigin)
+    return "**دومين فندري** — أكثر من قرن من الشغف 🫒\n\n📍 مكنين، صفاقس، تونس — قلب الزيتون التونسي\n🌿 الصنف: **شملالي صفاقسي**، متميز وفريد\n❄️ عصر بارد (< 27 درجة) للحفاظ على كل النكهات\n👨‍👩‍👧‍👦 ثلاثة أجيال من الخبرة العائلية\n✅ صفر مبيدات — معتمد منذ 2024\n\nكل زجاجة تحمل شمس وتراب صفاقس.";
 
-  if (/spec|acidite|polyphenol|acide|oleique|technique/.test(q))
-    return `Spécifications techniques de nos huiles :\n\n• **Bidon 1L Bio** : acidité ≤ 0.3% · polyphénols 350 mg/kg\n• **Bouteille 500ml** : acidité ≤ 0.4% · polyphénols 280 mg/kg\n• **Bouteille 750ml** : acidité ≤ 0.2% · polyphénols 420 mg/kg\n• **Bidon 3L** : acidité ≤ 0.5% · polyphénols 250 mg/kg\n\nRécolte : Octobre–Novembre 2024`;
+  if (isSpec)
+    return "زيوتنا محللة ومعتمدة — إليك البيانات التقنية 🔬\n\n• **بيو 1 لتر** : حموضة ≤ 0.3% · بوليفينول 350 ملغ/كغ\n• **500 مل** : حموضة ≤ 0.4% · بوليفينول 280 ملغ/كغ\n• **750 مل بريميوم** : حموضة ≤ 0.2% · بوليفينول 420 ملغ/كغ ⭐\n• **3 لتر** : حموضة ≤ 0.5% · بوليفينول 250 ملغ/كغ\n\nموسم الحصاد : أكتوبر – نوفمبر 2024. كلما قلت الحموضة وارتفع البوليفينول، كانت الجودة أعلى!";
 
-  if (/merci|parfait|super|nickel|tres bien|ok|bonne|bien/.test(q))
-    return `Avec plaisir ! 🫒\nN'hésitez pas si vous avez d'autres questions.`;
+  if (isThanks)
+    return "بكل سرور وامتنان! 🫒\nلا تتردد إذا كان لديك سؤال آخر. استمتع بمنتجات **دومين فندري**!";
 
-  if (/au revoir|bye|ciao|adieu|a bientot/.test(q))
-    return `À bientôt ! 👋\nMerci de votre visite chez **Domaine Fendri**. Bonne journée !`;
+  if (isBye)
+    return "إلى اللقاء! 👋\nشكراً لزيارتك **دومين فندري**. يوم موفق!";
 
-  return `Je n'ai pas bien compris votre question 😊\n\nVous pouvez me demander des informations sur :\n• Nos **produits** et **prix**\n• La **livraison**\n• Le **configurateur**\n• Les **paiements**\n• Nos **certifications**\n• Pour nous **contacter**`;
+  return "لم أفهم تماماً، لكنني هنا لمساعدتك 😊\n\nيمكنك سؤالي عن:\n• **أي منتج تختار** حسب احتياجاتك\n• **الأسعار** والـ**تشكيلة**\n• **التوصيل** إلى بلدك\n• **المُهيِّئ** لتخصيص زجاجتك\n• **جوائزنا** وشهاداتنا\n• كيفية **التواصل** معنا\n\nماذا يهمك؟";
 }
 
 function formatMessage(text: string) {
